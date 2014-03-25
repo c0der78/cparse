@@ -18,13 +18,18 @@ void die(const char *message)
 
 void read_test_config()
 {
-    FILE *file = fopen("./parse.test.json", "rb");
+    FILE *file = fopen(ROOT_PATH "/tests/parse.test.json", "rb");
     char *text;
     long fsize;
     CPARSE_JSON *config;
 
     if (!file)
-        die("parse.test.json not found");
+    {
+        file = fopen(ROOT_PATH "/parse.test.json", "rb");
+
+        if (!file)
+            die("parse.test.json not found");
+    }
 
     fseek(file, 0, SEEK_END);
     fsize = ftell(file);
