@@ -3,7 +3,6 @@
 #include "util.h"
 #include <cparse/user.h>
 #include "protocol.h"
-#include "log.h"
 #include "client.h"
 
 using namespace std;
@@ -213,27 +212,27 @@ namespace cparse
 
     int32_t Object::getInt(const string &key) const
     {
-        return get(key).toInt();
+        return get(key).to_int();
     }
 
     int64_t Object::getInt64(const string &key) const
     {
-        return get(key).toInt64();
+        return get(key).to_int64();
     }
 
     double Object::getDouble(const string &key) const
     {
-        return get(key).toDouble();
+        return get(key).to_double();
     }
 
     string Object::getString(const string &key) const
     {
-        return get(key).toString();
+        return get(key).to_string();
     }
 
     JSONArray Object::getArray(const string &key) const
     {
-        return get(key).toArray();
+        return get(key).to_array();
     }
 
     Object *Object::getObject(const string &key)
@@ -243,11 +242,10 @@ namespace cparse
 
         JSON val = get(key);
 
-        if (!val.contains(protocol::KEY_TYPE) || val.getString(protocol::KEY_TYPE) != protocol::TYPE_POINTER)
+        if (!val.contains(protocol::KEY_TYPE) || val.get_string(protocol::KEY_TYPE) != protocol::TYPE_POINTER)
             return NULL;
 
-        Log::trace("creating fetched object " + key);
-        fetched_[key] = Object::create(val.getString(protocol::KEY_CLASS_NAME), val);
+        fetched_[key] = Object::create(val.get_string(protocol::KEY_CLASS_NAME), val);
 
         return fetched_[key];
     }
@@ -264,45 +262,43 @@ namespace cparse
 
     void Object::setInt(const string &key, int32_t value)
     {
-        attributes_.setInt(key, value);
+        attributes_.set_int(key, value);
     }
 
     void Object::setInt64(const string &key, int64_t value)
     {
-        attributes_.setInt64(key, value);
+        attributes_.set_int64(key, value);
     }
 
     void Object::setDouble(const string &key, double value)
     {
-        attributes_.setDouble(key, value);
+        attributes_.set_double(key, value);
     }
 
     void Object::setString(const string &key, const string &value)
     {
-        attributes_.setString(key, value);
+        attributes_.set_string(key, value);
     }
 
     void Object::setArray(const string &key, const JSONArray &value)
     {
-        attributes_.setArray(key, value);
+        attributes_.set_array(key, value);
     }
 
     void Object::setObject(const string &key, const Object &obj)
     {
         // create the pointer for this object
         JSON value;
-        value.setString(protocol::KEY_TYPE, protocol::TYPE_POINTER);
-        value.setString(protocol::KEY_OBJECT_ID, obj.objectId_);
-        value.setString(protocol::KEY_CLASS_NAME, obj.className_);
+        value.set_string(protocol::KEY_TYPE, protocol::TYPE_POINTER);
+        value.set_string(protocol::KEY_OBJECT_ID, obj.objectId_);
+        value.set_string(protocol::KEY_CLASS_NAME, obj.className_);
         attributes_.set(key, value);
 
         // create the fetched object
         if (fetched_[key] != NULL)
         {
-            Log::trace("deleting fetched object " + key);
             delete fetched_[key];
         }
-        Log::trace("setting fetched object " + key);
         fetched_[key] = new Object(obj);
     }
     void Object::remove(const string &key)
@@ -323,32 +319,32 @@ namespace cparse
 
     void Object::addInt(const string &key, int32_t value, bool unique)
     {
-        if (!unique || !attributes_.contains(key) || attributes_.getInt(key) != value)
-            attributes_.addInt(key, value);
+        if (!unique || !attributes_.contains(key) || attributes_.get_int(key) != value)
+            attributes_.add_int(key, value);
     }
 
     void Object::addInt64(const string &key, int64_t value, bool unique)
     {
-        if (!unique || !attributes_.contains(key) || attributes_.getInt64(key) != value)
-            attributes_.addInt64(key, value);
+        if (!unique || !attributes_.contains(key) || attributes_.get_int64(key) != value)
+            attributes_.add_int64(key, value);
     }
 
     void Object::addDouble(const string &key, double value, bool unique)
     {
-        if (!unique || !attributes_.contains(key) || attributes_.getDouble(key) != value)
-            attributes_.addDouble(key, value);
+        if (!unique || !attributes_.contains(key) || attributes_.get_double(key) != value)
+            attributes_.add_double(key, value);
     }
 
     void Object::addString(const string &key, const string &value, bool unique)
     {
-        if (!unique || !attributes_.contains(key) || attributes_.getString(key) != value)
-            attributes_.addString(key, value);
+        if (!unique || !attributes_.contains(key) || attributes_.get_string(key) != value)
+            attributes_.add_string(key, value);
     }
 
     void Object::addArray(const string &key, const JSONArray &value, bool unique)
     {
-        if (!unique || !attributes_.contains(key) || attributes_.getArray(key) != value)
-            attributes_.addArray(key, value);
+        if (!unique || !attributes_.contains(key) || attributes_.get_array(key) != value)
+            attributes_.add_array(key, value);
     }
 
     string Object::className() const
@@ -362,7 +358,7 @@ namespace cparse
         Client client;
         char buf[BUFSIZ + 1] = {0};
 
-        client.setPayload(attributes_.toString());
+        client.setPayload(attributes_.to_string());
 
         try
         {
@@ -378,15 +374,10 @@ namespace cparse
                 client.put(buf);
             }
 
-            Log::trace("saving: " + client.getPayload());
-
             response = client.getJSONResponse();
-
-            Log::trace("saved: " + response.toString());
         }
         catch (const exception &e)
         {
-            Log::trace(e.what());
             return false;
         }
 
@@ -425,12 +416,9 @@ namespace cparse
             client.get(buf);
 
             response = client.getJSONResponse();
-
-            Log::trace("refresh: " + response.toString());
         }
         catch (const exception &e)
         {
-            Log::trace(e.what());
             return false;
         }
 
@@ -469,13 +457,10 @@ namespace cparse
             client.get(buf);
 
             response = client.getJSONResponse();
-
-            Log::trace("fetch: " + response.toString());
         }
         catch (const exception &e)
         {
 
-            Log::debug(e.what());
             return false;
         }
 
@@ -533,7 +518,6 @@ namespace cparse
         }
         catch (const exception &e)
         {
-            Log::trace(e.what());
             return false;
         }
 

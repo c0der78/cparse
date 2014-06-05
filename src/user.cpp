@@ -1,6 +1,5 @@
 #include <cparse/user.h>
 #include "client.h"
-#include "log.h"
 #include "protocol.h"
 
 namespace cparse
@@ -34,11 +33,11 @@ namespace cparse
 
         JSON body;
 
-        body.setString("username", username);
+        body.set_string("username", username);
 
-        body.setString("password", password);
+        body.set_string("password", password);
 
-        client.setPayload(body.toString());
+        client.setPayload(body.to_string());
 
         client.get("login");
 
@@ -50,7 +49,6 @@ namespace cparse
         }
         catch (const exception &e)
         {
-            Log::trace(e.what());
             return NULL;
         }
 

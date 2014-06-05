@@ -1,2 +1,7 @@
 build
 *.cmake
+CMakeFiles
+CMakeCache.txt
+Testing
+*.a
+test_cparse

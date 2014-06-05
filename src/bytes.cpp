@@ -1,5 +1,5 @@
 #include <cparse/type/bytes.h>
-#include "../protocol.h"
+#include "protocol.h"
 
 namespace cparse
 {
@@ -161,16 +161,16 @@ namespace cparse
         void Bytes::fromJSON(const JSON &attributes)
         {
             if (attributes.contains("base64"))
-                value_ = base64::decode(attributes.getString("base64"));
+                value_ = base64::decode(attributes.get_string("base64"));
         }
 
         JSON Bytes::toJSON() const
         {
             JSON value;
 
-            value.setString(protocol::KEY_TYPE, protocol::TYPE_BYTES);
+            value.set_string(protocol::KEY_TYPE, protocol::TYPE_BYTES);
 
-            value.setString("base64", base64::encode(value_));
+            value.set_string("base64", base64::encode(value_));
 
             return value;
         }

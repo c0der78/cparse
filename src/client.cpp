@@ -207,7 +207,7 @@ namespace cparse
 
         if (obj.contains("error"))
         {
-            throw Exception(obj.getString("error"));
+            throw Exception(obj.get_string("error"));
         }
 
         return obj;

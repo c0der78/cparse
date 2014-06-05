@@ -1,6 +1,6 @@
 #include <cparse/type/date.h>
 #include <cparse/exception.h>
-#include "../protocol.h"
+#include "protocol.h"
 
 namespace cparse
 {
@@ -65,16 +65,16 @@ namespace cparse
         void Date::fromJSON(const JSON &obj)
         {
             if (obj.contains("iso"))
-                fromString(obj.getString("iso"));
+                fromString(obj.get_string("iso"));
         }
 
         JSON Date::toJSON() const
         {
             JSON value;
 
-            value.setString(protocol::KEY_TYPE, protocol::TYPE_DATE);
+            value.set_string(protocol::KEY_TYPE, protocol::TYPE_DATE);
 
-            value.setString("iso", toString());
+            value.set_string("iso", toString());
 
             return value;
         }

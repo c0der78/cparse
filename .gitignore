@@ -3,3 +3,9 @@ bin
 obj
 .DS_Store
 Makefile
+CMakeCache.txt
+CMakeFiles
+*.cmake
+Testing
+test_cparse
+*.a

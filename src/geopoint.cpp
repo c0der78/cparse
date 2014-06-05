@@ -1,5 +1,5 @@
 #include <cparse/type/geopoint.h>
-#include "../protocol.h"
+#include "protocol.h"
 
 namespace cparse
 {
@@ -48,10 +48,10 @@ namespace cparse
         void GeoPoint::fromJSON(const JSON &obj)
         {
             if (obj.contains("latitude"))
-                latitude_ = obj.getDouble("latitude");
+                latitude_ = obj.get_double("latitude");
 
             if (obj.contains("longitude"))
-                longitude_ = obj.getDouble("longitude");
+                longitude_ = obj.get_double("longitude");
         }
 
         double GeoPoint::getLatitude() const
@@ -78,11 +78,11 @@ namespace cparse
         {
             JSON value;
 
-            value.setString(protocol::KEY_TYPE, protocol::TYPE_GEOPOINT);
+            value.set_string(protocol::KEY_TYPE, protocol::TYPE_GEOPOINT);
 
-            value.setDouble("latitude", latitude_);
+            value.set_double("latitude", latitude_);
 
-            value.setDouble("longitude", longitude_);
+            value.set_double("longitude", longitude_);
 
             return value;
         }

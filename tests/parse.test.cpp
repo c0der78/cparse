@@ -2,7 +2,6 @@
 #include <cparse/parse.h>
 #include <igloo/igloo.h>
 #include <fstream>
-#include "log.h"
 
 using namespace cparse;
 using namespace igloo;
@@ -24,23 +23,14 @@ int main(void)
     arg3::json::object config(file);
 
     if (config.contains("parseAppId"))
-        Parse::set_application_id(config.getString("parseAppId"));
+        Parse::set_application_id(config.get_string("parseAppId"));
     else
         die("No app id");
 
     if (config.contains("parseApiKey"))
-        Parse::set_api_key(config.getString("parseApiKey"));
+        Parse::set_api_key(config.get_string("parseApiKey"));
     else
         die("No api key");
-
-    if (config.contains("logLevel"))
-    {
-        Log::level lev = Log::lookupLogLevel(config.getString("logLevel"));
-        Log::info("Setting log level " + std::to_string(lev));
-        Log::setMinLogLevel(lev);
-    }
-    else
-        die("no log level");
 
     return TestRunner::RunAllTests();
 }

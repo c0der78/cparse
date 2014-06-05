@@ -1,6 +1,6 @@
 #include <cparse/type/pointer.h>
 #include <cparse/object.h>
-#include "../protocol.h"
+#include "protocol.h"
 
 namespace cparse
 {
@@ -55,21 +55,21 @@ namespace cparse
         void Pointer::fromJSON(const JSON &obj)
         {
             if (obj.contains(protocol::KEY_CLASS_NAME))
-                className_ = obj.getString(protocol::KEY_CLASS_NAME);
+                className_ = obj.get_string(protocol::KEY_CLASS_NAME);
 
             if (obj.contains(protocol::KEY_OBJECT_ID))
-                objectId_ = obj.getString(protocol::KEY_OBJECT_ID);
+                objectId_ = obj.get_string(protocol::KEY_OBJECT_ID);
         }
 
         JSON Pointer::toJSON() const
         {
             JSON value;
 
-            value.setString(protocol::KEY_TYPE, protocol::TYPE_POINTER);
+            value.set_string(protocol::KEY_TYPE, protocol::TYPE_POINTER);
 
-            value.setString(protocol::KEY_CLASS_NAME, className_);
+            value.set_string(protocol::KEY_CLASS_NAME, className_);
 
-            value.setString(protocol::KEY_OBJECT_ID, objectId_);
+            value.set_string(protocol::KEY_OBJECT_ID, objectId_);
 
             return value;
         }

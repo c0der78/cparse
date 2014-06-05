@@ -1,7 +1,6 @@
 #include <cparse/type/file.h>
-#include "../log.h"
-#include "../client.h"
-#include "../protocol.h"
+#include "client.h"
+#include "protocol.h"
 
 namespace cparse
 {
@@ -61,32 +60,32 @@ namespace cparse
         void File::fromJSON(const JSON &obj)
         {
             if (obj.contains("local_filename"))
-                localFileName_ = obj.getString("local_filename");
+                localFileName_ = obj.get_string("local_filename");
 
             if (obj.contains("name"))
-                parseFileName_ = obj.getString("name");
+                parseFileName_ = obj.get_string("name");
             else if (obj.contains("parse_filename"))
-                parseFileName_ = obj.getString("parse_filename");
+                parseFileName_ = obj.get_string("parse_filename");
 
             if (obj.contains("content_type"))
-                contentType_ = obj.getString("content_type");
+                contentType_ = obj.get_string("content_type");
 
             if (obj.contains("url"))
-                url_ = obj.getString("url");
+                url_ = obj.get_string("url");
 
             if (obj.contains("body"))
-                body_ = obj.getString("body");
+                body_ = obj.get_string("body");
         }
 
         JSON File::toJSON() const
         {
             JSON value;
 
-            value.setString(protocol::KEY_TYPE, protocol::TYPE_FILE);
+            value.set_string(protocol::KEY_TYPE, protocol::TYPE_FILE);
 
-            value.setString("name", parseFileName_);
+            value.set_string("name", parseFileName_);
 
-            value.setString("url", url_);
+            value.set_string("url", url_);
 
             return value;
         }
@@ -143,7 +142,6 @@ namespace cparse
             }
             catch (const exception &e)
             {
-                Log::trace(e.what());
                 return false;
             }
             fromJSON(response);

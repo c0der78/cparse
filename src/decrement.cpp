@@ -1,5 +1,5 @@
 #include <cparse/op/decrement.h>
-#include "../protocol.h"
+#include "protocol.h"
 
 namespace cparse
 {
@@ -52,9 +52,9 @@ namespace cparse
         {
             JSON value;
 
-            value.setString(protocol::KEY_OP, protocol::KEY_INCREMENT);
+            value.set_string(protocol::KEY_OP, protocol::KEY_INCREMENT);
 
-            value.setInt(protocol::KEY_AMOUNT, amount_);
+            value.set_int(protocol::KEY_AMOUNT, amount_);
 
             return value;
         }
