@@ -24,7 +24,7 @@ CPARSE_CLIENT_REQ *cparse_client_request_new()
 
     request->path = NULL;
     request->payload = NULL;
-    request->method = kHTTPRequestGet;
+    request->method = HTTPRequestMethodGet;
 
     return request;
 };
@@ -183,20 +183,20 @@ CPARSE_CLIENT_RESP *cparse_client_request_get_response(CPARSE_CLIENT_REQ *reques
 
     switch (request->method)
     {
-    case kHTTPRequestPost:
+    case HTTPRequestMethodPost:
         curl_easy_setopt(curl, CURLOPT_POST, 1L);
         curl_easy_setopt(curl, CURLOPT_POSTFIELDS, request->payload);
         curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE, strlen(request->payload));
         break;
-    case kHTTPRequestPut:
+    case HTTPRequestMethodPut:
         curl_easy_setopt(curl, CURLOPT_PUT, 1L);
         curl_easy_setopt(curl, CURLOPT_POSTFIELDS, request->payload);
         curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE, strlen(request->payload));
         break;
-    case kHTTPRequestDelete:
+    case HTTPRequestMethodDelete:
         curl_easy_setopt(curl, CURLOPT_CUSTOMREQUEST, "DELETE");
         break;
-    case kHTTPRequestGet:
+    case HTTPRequestMethodGet:
         curl_easy_setopt(curl, CURLOPT_HTTPGET, 1L);
 
     default:

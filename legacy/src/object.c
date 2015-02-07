@@ -9,13 +9,6 @@
 #include "protocol.h"
 #include <cparse/util.h>
 
-/*
- * this should be prime
- */
-#define ATTRIBUTE_STARTSIZE 1021
-
-#define ACTIVE 1
-
 /* internals */
 
 /* for background threads */
@@ -124,7 +117,7 @@ bool cparse_object_delete(CPARSE_OBJ *obj, CPARSE_ERROR **error)
 
     request->path = strdup(buf);
 
-    request->method = kHTTPRequestDelete;
+    request->method = HTTPRequestMethodDelete;
 
     cparse_client_request_perform(request, error);
 
@@ -150,7 +143,7 @@ bool cparse_object_fetch(CPARSE_OBJ *obj, CPARSE_ERROR **error)
     /* build the request */
     snprintf(buf, BUFSIZ, "classes/%s/%s", obj->className, obj->objectId);
 
-    request->method = kHTTPRequestGet;
+    request->method = HTTPRequestMethodGet;
 
     json_object_object_foreach(obj->attributes, key, val)
     {
@@ -222,7 +215,7 @@ bool cparse_object_refresh(CPARSE_OBJ *obj, CPARSE_ERROR **error)
 
     request->path = strdup(buf);
 
-    request->method = kHTTPRequestGet;
+    request->method = HTTPRequestMethodGet;
 
     /* do the deed */
     response = cparse_client_request_get_json(request, error);
@@ -270,7 +263,7 @@ bool cparse_object_save(CPARSE_OBJ *obj, CPARSE_ERROR **error)
 
         request->path = strdup(buf);
 
-        request->method = kHTTPRequestPost;
+        request->method = HTTPRequestMethodPost;
     }
     else
     {
@@ -278,7 +271,7 @@ bool cparse_object_save(CPARSE_OBJ *obj, CPARSE_ERROR **error)
 
         request->path = strdup(buf);
 
-        request->method = kHTTPRequestPut;
+        request->method = HTTPRequestMethodPut;
     }
 
     /* build the json payload */

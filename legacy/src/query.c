@@ -71,7 +71,7 @@ bool cparse_query_find_objects(CPARSE_QUERY *query, CPARSE_ERROR **error)
 
     request->path = strdup(buf);
 
-    request->method = kHTTPRequestGet;
+    request->method = HTTPRequestMethodGet;
 
     pos = 0;
 

@@ -6,10 +6,10 @@
 
 typedef enum
 {
-    kHTTPRequestGet,
-    kHTTPRequestPost,
-    kHTTPRequestPut,
-    kHTTPRequestDelete
+    HTTPRequestMethodGet,
+    HTTPRequestMethodPost,
+    HTTPRequestMethodPut,
+    HTTPRequestMethodDelete
 } HTTPRequestMethod;
 
 struct cparse_client_response
