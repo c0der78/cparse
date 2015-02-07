@@ -18,7 +18,7 @@ START_TEST(test_cparse_json_set_number)
 {
     cparse_json_set_number(cpv_test, "test", 1234);
 
-    fail_unless(cparse_json_get_number(cpv_test, "test") == 1234);
+    fail_unless(cparse_json_get_number(cpv_test, "test", 0) == 1234);
 }
 END_TEST
 
@@ -26,7 +26,7 @@ START_TEST(test_cparse_json_set_real)
 {
     cparse_json_set_real(cpv_test, "test", 1234.4321);
 
-    fail_unless(cparse_json_get_real(cpv_test, "test") == 1234.4321);
+    fail_unless(cparse_json_get_real(cpv_test, "test", 0) == 1234.4321);
 }
 END_TEST
 

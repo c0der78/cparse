@@ -8,7 +8,6 @@
 #include "client.h"
 #include "protocol.h"
 #include <cparse/util.h>
-#include <json/json_object_iterator.h>
 
 /*
  * this should be prime
@@ -376,14 +375,14 @@ CPARSE_JSON *cparse_object_get(CPARSE_OBJ *obj, const char *key)
     return cparse_json_get(obj->attributes, key);
 }
 
-long long cparse_object_get_number(CPARSE_OBJ *obj, const char *key)
+long long cparse_object_get_number(CPARSE_OBJ *obj, const char *key, long long def)
 {
-    return cparse_json_get_number(obj->attributes, key);
+    return cparse_json_get_number(obj->attributes, key, def);
 }
 
-long double cparse_object_get_real(CPARSE_OBJ *obj, const char *key)
+double cparse_object_get_real(CPARSE_OBJ *obj, const char *key, double def)
 {
-    return cparse_json_get_real(obj->attributes, key);
+    return cparse_json_get_real(obj->attributes, key, def);
 }
 
 bool cparse_object_get_bool(CPARSE_OBJ *obj, const char *key)

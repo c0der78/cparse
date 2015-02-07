@@ -3,8 +3,7 @@
 #include <cparse/json.h>
 #include <cparse/object.h>
 
-#include <json/json_object_private.h>
-#include <json/json_object_iterator.h>
+#include <json-c/json_object_private.h>
 
 #include <assert.h>
 
@@ -99,29 +98,59 @@ void cparse_json_set(CPARSE_JSON *obj, const char *key, CPARSE_JSON *value)
 
 CPARSE_JSON *cparse_json_get(CPARSE_JSON *obj, const char *key)
 {
-    return json_object_object_get(obj, key);
+    CPARSE_JSON *value = NULL;
+
+    if (json_object_object_get_ex(obj, key, &value))
+        return value;
+
+    return NULL;
 }
-long long cparse_json_get_number(CPARSE_JSON *obj, const char *key)
+
+long long cparse_json_get_number(CPARSE_JSON *obj, const char *key, long long def)
 {
-    return json_object_get_int64(json_object_object_get(obj, key));
+    CPARSE_JSON *value = NULL;
+
+    if (json_object_object_get_ex(obj, key, &value))
+        return json_object_get_int64(value);
+
+    return def;
 }
-double cparse_json_get_real(CPARSE_JSON *obj, const char *key)
+double cparse_json_get_real(CPARSE_JSON *obj, const char *key, double def)
 {
-    return json_object_get_double(json_object_object_get(obj, key));
+    CPARSE_JSON *value = NULL;
+
+    if (json_object_object_get_ex(obj, key, &value))
+        return json_object_get_double(value);
+
+    return def;
 }
 
 bool cparse_json_get_bool(CPARSE_JSON *obj, const char *key)
 {
-    return json_object_get_boolean(json_object_object_get(obj, key));
+    CPARSE_JSON *value = NULL;
+
+    if (json_object_object_get_ex(obj, key, &value))
+        return json_object_get_boolean(value);
+
+    return false;
 }
 const char *cparse_json_get_string(CPARSE_JSON *obj, const char *key)
 {
-    return json_object_get_string(json_object_object_get(obj, key));
+    CPARSE_JSON *value = NULL;
+
+    if (json_object_object_get_ex(obj, key, &value))
+        return json_object_get_string(value);
+
+    return NULL;
 }
 
 CPARSE_JSON_ARRAY *cparse_json_get_array(CPARSE_JSON *obj, const char *key)
 {
-    return json_object_get_array(json_object_object_get(obj, key));
+    CPARSE_JSON *value = NULL;
+    if (json_object_object_get_ex(obj, key, &value))
+        return json_object_get_array(value);
+
+    return NULL;
 }
 
 /* array setters */
@@ -204,9 +233,9 @@ int cparse_json_num_keys(CPARSE_JSON *obj)
 
 CPARSE_JSON *cparse_json_remove(CPARSE_JSON *obj, const char *key)
 {
-    CPARSE_JSON *orig = json_object_object_get(obj, key);
+    CPARSE_JSON *orig = NULL;
 
-    if (orig != NULL)
+    if (json_object_object_get_ex(obj, key, &orig))
     {
         orig = json_object_get(orig);
         json_object_object_del(obj, key);

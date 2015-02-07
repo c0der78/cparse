@@ -8,7 +8,7 @@
 
 #include <stdlib.h>
 #include <cparse/defines.h>
-#include <json/json.h>
+#include <json-c/json.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -39,8 +39,8 @@ void cparse_json_set_bool(CPARSE_JSON *obj, const char *key, bool value);
 
 /* object getters */
 CPARSE_JSON *cparse_json_get(CPARSE_JSON *obj, const char *key);
-long long cparse_json_get_number(CPARSE_JSON *obj, const char *key);
-double cparse_json_get_real(CPARSE_JSON *obj, const char *key);
+long long cparse_json_get_number(CPARSE_JSON *obj, const char *key, long long def);
+double cparse_json_get_real(CPARSE_JSON *obj, const char *key, double def);
 bool cparse_json_get_bool(CPARSE_JSON *obj, const char *key);
 const char *cparse_json_get_string(CPARSE_JSON *obj, const char *key);
 CPARSE_JSON_ARRAY *cparse_json_get_array(CPARSE_JSON *obj, const char *key);

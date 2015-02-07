@@ -106,7 +106,7 @@ START_TEST(test_cparse_object_set_value)
 
     fail_unless(cparse_object_attributes(cp_obj) == 1);
 
-    fail_unless(cparse_object_get_number(cp_obj, "id") == 1234);
+    fail_unless(cparse_object_get_number(cp_obj, "id", 0) == 1234);
 }
 END_TEST
 

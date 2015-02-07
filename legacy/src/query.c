@@ -116,7 +116,7 @@ bool cparse_query_find_objects(CPARSE_QUERY *query, CPARSE_ERROR **error)
 
     if (query->count)
     {
-        query->size = cparse_json_get_number(data, "count");
+        query->size = cparse_json_get_number(data, "count", 0);
     }
     else
     {

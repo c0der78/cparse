@@ -1,8 +1,8 @@
 #ifndef CPARSE_DEFINES_H_
 #define CPARSE_DEFINES_H_
 
-#include <json/json.h>
-#include <json/json_object_iterator.h>
+#include <json-c/json.h>
+#include <json-c/json_object_iterator.h>
 
 #ifdef __cplusplus
 extern "C" {
