@@ -1,3 +1,6 @@
+#ifndef ARG3_CPARSE_CLIENT_H
+#define ARG3_CPARSE_CLIENT_H
+
 #include <cparse/json.h>
 #include <cparse/clientinterface.h>
 #include <map>
@@ -44,3 +47,5 @@ namespace cparse
         int responseCode_;
     };
 }
+
+#endif

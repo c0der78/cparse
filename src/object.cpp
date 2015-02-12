@@ -98,7 +98,7 @@ namespace cparse
 
     Object::~Object()
     {
-        for (auto & e : fetched_)
+        for (auto &e : fetched_)
         {
             if (e.second)
             {
@@ -109,7 +109,7 @@ namespace cparse
 
     void Object::copy_fetched(const Object &obj)
     {
-        for (auto & e : obj.fetched_)
+        for (auto &e : obj.fetched_)
         {
             if (fetched_[e.first] != NULL)
             {
@@ -176,7 +176,7 @@ namespace cparse
             updatedAt_ = datetime(attributes.remove(protocol::KEY_UPDATED_AT));
         }
 
-        for (auto & a : attributes)
+        for (auto &a : attributes)
         {
             set(a.first, a.second);
         }
@@ -228,11 +228,6 @@ namespace cparse
     string Object::getString(const string &key) const
     {
         return get(key).to_string();
-    }
-
-    JSONArray Object::getArray(const string &key) const
-    {
-        return get(key).to_array();
     }
 
     Object *Object::getObject(const string &key)
@@ -309,42 +304,6 @@ namespace cparse
     bool Object::contains(const string &key) const
     {
         return attributes_.contains(key);
-    }
-
-    void Object::add(const string &key, const JSON &value, bool unique)
-    {
-        if (!unique || !attributes_.contains(key) || attributes_.get(key) != value)
-            attributes_.add(key, value);
-    }
-
-    void Object::addInt(const string &key, int32_t value, bool unique)
-    {
-        if (!unique || !attributes_.contains(key) || attributes_.get_int(key) != value)
-            attributes_.add_int(key, value);
-    }
-
-    void Object::addInt64(const string &key, int64_t value, bool unique)
-    {
-        if (!unique || !attributes_.contains(key) || attributes_.get_int64(key) != value)
-            attributes_.add_int64(key, value);
-    }
-
-    void Object::addDouble(const string &key, double value, bool unique)
-    {
-        if (!unique || !attributes_.contains(key) || attributes_.get_double(key) != value)
-            attributes_.add_double(key, value);
-    }
-
-    void Object::addString(const string &key, const string &value, bool unique)
-    {
-        if (!unique || !attributes_.contains(key) || attributes_.get_string(key) != value)
-            attributes_.add_string(key, value);
-    }
-
-    void Object::addArray(const string &key, const JSONArray &value, bool unique)
-    {
-        if (!unique || !attributes_.contains(key) || attributes_.get_array(key) != value)
-            attributes_.add_array(key, value);
     }
 
     string Object::className() const
@@ -483,7 +442,7 @@ namespace cparse
     {
         bool success = true;
 
-        for (auto & obj : objects)
+        for (auto &obj : objects)
         {
             success = success && obj.save();
         }

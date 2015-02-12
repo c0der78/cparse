@@ -9,3 +9,5 @@ CMakeFiles
 Testing
 test_cparse
 *.a
+*.cache
+*~
