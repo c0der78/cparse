@@ -1,4 +1,5 @@
-
+#ifndef ARG3_CPARSE_PROTOCOL_H
+#define ARG3_CPARSE_PROTOCOL_H
 
 namespace cparse
 {
@@ -126,3 +127,5 @@ namespace cparse
         extern const unsigned HTTP_OK;
     }
 }
+
+#endif

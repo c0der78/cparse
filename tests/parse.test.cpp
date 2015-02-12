@@ -16,10 +16,13 @@ void die(const char *message)
 int main(void)
 {
     ifstream file("./parse.test.json");
-
+	
     if (!file.is_open())
-        die("parse.test.json not found");
-
+    {
+	file.open("./tests/parse.test.json");
+	if(!file.is_open())
+           die("parse.test.json not found");
+    }
     arg3::json::object config(file);
 
     if (config.contains("parseAppId"))

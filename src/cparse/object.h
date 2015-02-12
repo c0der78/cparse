@@ -44,7 +44,6 @@ namespace cparse
         int32_t getInt(const std::string &key) const;
         int64_t getInt64(const std::string &key) const;
         double getDouble(const std::string &key) const;
-        JSONArray getArray(const std::string &key) const;
         string getString(const std::string &key) const;
         Object *getObject(const std::string &key);
         User *getUser(const std::string &key);
@@ -59,13 +58,6 @@ namespace cparse
 
         void remove(const std::string &key);
         bool contains(const std::string &key) const;
-
-        void add(const std::string &key, const JSON &value, bool unique = false);
-        void addInt(const std::string &key, int32_t value, bool unique = false);
-        void addInt64(const std::string &key, int64_t value, bool unique = false);
-        void addDouble(const std::string &key, double value, bool unique = false);
-        void addString(const std::string &key, const std::string &value, bool unique = false);
-        void addArray(const std::string &key, const JSONArray &value, bool unique = false);
 
         bool save();
         bool fetch();
