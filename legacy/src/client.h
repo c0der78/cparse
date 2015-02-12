@@ -1,5 +1,5 @@
-#ifndef CPARSE_IO_H_
-#define CPARSE_IO_H_
+#ifndef CPARSE_CLIENT_H_
+#define CPARSE_CLIENT_H_
 
 #include <stdlib.h>
 #include <cparse/defines.h>

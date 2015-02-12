@@ -109,7 +109,7 @@ void cparse_client_request_perform(CPARSE_CLIENT_REQ *request, CPARSE_ERROR **er
 
     cparse_client_response_free(response);
 
-    if (errorMessage != NULL)
+    if (errorMessage != NULL && error)
     {
         *error = cparse_error_new();
 
@@ -141,13 +141,12 @@ CPARSE_JSON *cparse_client_request_get_json(CPARSE_CLIENT_REQ *request, CPARSE_E
     {
         errorMessage = json_tokener_error_desc(parseError);
     }
-
     else
     {
         errorMessage = cparse_json_get_string(obj, "error");
     }
 
-    if (errorMessage != NULL)
+    if (errorMessage != NULL && error)
     {
         *error = cparse_error_new();
 
@@ -198,13 +197,20 @@ CPARSE_CLIENT_RESP *cparse_client_request_get_response(CPARSE_CLIENT_REQ *reques
         break;
     case HTTPRequestMethodGet:
         curl_easy_setopt(curl, CURLOPT_HTTPGET, 1L);
-
     default:
         break;
     }
 
-
-    cparse_client_set_request_url(curl, request->path);
+    if (request->method == HTTPRequestMethodGet && request->payload)
+    {
+        char buf[BUFSIZ + 1] = {0};
+        snprintf(buf, BUFSIZ, "%s?%s", request->path, request->payload);
+        cparse_client_set_request_url(curl, buf);
+    }
+    else
+    {
+        cparse_client_set_request_url(curl, request->path);
+    }
     cparse_client_set_headers(curl);
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, cparse_client_get_response);
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, response);

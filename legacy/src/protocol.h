@@ -1,4 +1,5 @@
-
+#ifndef CPARSE_PROTOCOL_H_
+#define CPARSE_PROTOCOL_H_
 
 #define HEADER_APP_ID    "X-Parse-Application-Id"
 
@@ -73,3 +74,6 @@ extern const char *const RESERVED_KEYS[];
 #define ERROR_EXCEEDED_BURST_LIMIT  155
 #define ERROR_OBJECT_NOT_FOUND_FOR_GET  101
 #define HTTP_OK  200
+
+#endif
+

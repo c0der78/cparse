@@ -109,7 +109,10 @@ bool cparse_object_delete(CPARSE_OBJ *obj, CPARSE_ERROR **error)
     char buf[BUFSIZ + 1];
 
     if (!obj->objectId || !*obj->objectId)
+    {
+        printf("no object id to delete\n");
         return false;
+    }
 
     request = cparse_client_request_new();
 
@@ -123,7 +126,11 @@ bool cparse_object_delete(CPARSE_OBJ *obj, CPARSE_ERROR **error)
 
     cparse_client_request_free(request);
 
-    return !error || !*error;
+    if (error && *error)
+    {
+        printf("delete error %s\n", (*error)->message);
+    }
+    return error == NULL || *error == NULL;
 }
 
 bool cparse_object_fetch(CPARSE_OBJ *obj, CPARSE_ERROR **error)
@@ -143,24 +150,30 @@ bool cparse_object_fetch(CPARSE_OBJ *obj, CPARSE_ERROR **error)
     /* build the request */
     snprintf(buf, BUFSIZ, "classes/%s/%s", obj->className, obj->objectId);
 
+    request->path = strdup(buf);
+
     request->method = HTTPRequestMethodGet;
+
+    buf[0] = 0;
 
     json_object_object_foreach(obj->attributes, key, val)
     {
-        if (!strcmp(cparse_json_get_string(val, KEY_TYPE), TYPE_POINTER))
+        const char *keyVal = cparse_json_get_string(val, KEY_TYPE);
+
+        if (keyVal && !strcmp(keyVal, TYPE_POINTER))
         {
-            strncat(params, "&include=", BUFSIZ);
+            strncat(params, ",", BUFSIZ);
             strncat(params, key, BUFSIZ);
         }
     }
 
     if (params[0] != 0)
     {
-        params[0] = '?';
-        strcat(buf, params);
+        params[0] = '=';
+        snprintf(buf, BUFSIZ, "include%s", params);
     }
 
-    request->path = strdup(buf);
+    request->payload = strdup(buf);
 
     /* do the deed */
     data = cparse_client_request_get_json(request, error);
@@ -276,7 +289,11 @@ bool cparse_object_save(CPARSE_OBJ *obj, CPARSE_ERROR **error)
 
     /* build the json payload */
 
-    request->payload = strdup(cparse_json_to_json_string(obj->attributes));
+    if (obj->attributes)
+    {
+        request->payload = strdup(cparse_json_to_json_string(obj->attributes));
+    }
+
 
     /* do the deed */
     response = cparse_client_request_get_json(request, error);
@@ -412,10 +429,12 @@ void cparse_object_set_reference(CPARSE_OBJ *obj, const char *key, CPARSE_OBJ *r
     cparse_json_set_string(data, KEY_TYPE, TYPE_POINTER);
 
     /* add class name */
-    cparse_json_set_string(data, KEY_CLASS_NAME, ref->className);
+    if (ref->className && *ref->className)
+        cparse_json_set_string(data, KEY_CLASS_NAME, ref->className);
 
     /* add object id */
-    cparse_json_set_string(data, KEY_OBJECT_ID, ref->objectId);
+    if (ref->objectId && *ref->objectId)
+        cparse_json_set_string(data, KEY_OBJECT_ID, ref->objectId);
 
     /* set key for the object */
     cparse_json_set(obj->attributes, key, data);

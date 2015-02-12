@@ -3,12 +3,14 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <cparse/json.h>
+#include <time.h>
 #include <cparse/parse.h>
 
 Suite *cparse_parse_suite();
 Suite *cparse_json_suite();
 Suite *cparse_object_suite();
 Suite *cparse_query_suite();
+extern int cparse_cleanup_test_objects();
 
 void die(const char *message)
 {
@@ -58,6 +60,8 @@ void read_test_config()
 }
 int main(void)
 {
+    srand(time(0));
+
     int number_failed;
     SRunner *sr = srunner_create(cparse_parse_suite());
 
@@ -69,5 +73,8 @@ int main(void)
     srunner_run_all (sr, CK_NORMAL);
     number_failed = srunner_ntests_failed (sr);
     srunner_free (sr);
+
+    cparse_cleanup_test_objects();
+
     return (number_failed == 0) ? EXIT_SUCCESS : EXIT_FAILURE;
 }

@@ -100,7 +100,10 @@ bool cparse_query_find_objects(CPARSE_QUERY *query, CPARSE_ERROR **error)
         pos = snprintf(&params[pos], BUFSIZ, "count=1\n");
     }
 
-    request->payload = strdup(params);
+    if (params[0])
+    {
+        request->payload = strdup(params);
+    }
 
     /* do the deed */
     data = cparse_client_request_get_json(request, error);

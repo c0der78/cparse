@@ -3,8 +3,8 @@
  * @header Structure, methods and constants related to variants
  * @ignore __VARIANT_H_
  */
-#ifndef CPARSE_VALUE_H_
-#define CPARSE_VALUE_H_
+#ifndef CPARSE_JSON_H_
+#define CPARSE_JSON_H_
 
 #include <stdlib.h>
 #include <cparse/defines.h>
