@@ -11,3 +11,4 @@ test_cparse
 *.a
 *.cache
 *~
+tests/parse.test.json
