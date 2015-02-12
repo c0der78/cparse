@@ -24,6 +24,8 @@ struct cparse_query
     char *keys;
 };
 
+typedef struct cparse_query_builder CPARSE_QUERY_BUILDER;
+
 /*void cparse_query_clear_all_caches();*/
 
 CPARSE_QUERY *cparse_query_with_class_name(const char *className);
@@ -38,17 +40,26 @@ int cparse_query_count_objects(CPARSE_QUERY *query, CPARSE_ERROR **error);
 
 bool cparse_query_find_objects(CPARSE_QUERY *query, CPARSE_ERROR **error);
 
-#define CPARSE_LESS_THAN "$lt"
-#define CPARSE_LESS_THAN_EQUAL "$lte"
-#define CPARSE_GREATER_THAN "$gt"
-#define CPARSE_GREATER_THAN_EQUAL "$gte"
-#define CPARSE_NOT_EQUAL "$ne"
-#define CPARSE_IN "$in"
-#define CPARSE_NOT_IN "$nin"
-#define CPARSE_EXISTS "$exists"
-#define CPARSE_SELECT "$select"
-#define CPARSE_DONT_SELECT "$dontSelect"
-#define CPARSE_ALL "$all"
+/* query builder interface */
+CPARSE_QUERY_BUILDER *cparse_query_builder_new(CPARSE_QUERY *query);
+
+void cparse_query_builder_free(CPARSE_QUERY_BUILDER *value);
+
+void cparse_query_builder_in_array(CPARSE_QUERY_BUILDER *builder, CPARSE_JSON *value);
+
+void cparse_query_where(CPARSE_QUERY *query, const char *key, CPARSE_QUERY_BUILDER *builder);
+
+#define CPARSE_QUERY_LESS_THAN "$lt"
+#define CPARSE_QUERY_LESS_THAN_EQUAL "$lte"
+#define CPARSE_QUERY_GREATER_THAN "$gt"
+#define CPARSE_QUERY_GREATER_THAN_EQUAL "$gte"
+#define CPARSE_QUERY_NOT_EQUAL "$ne"
+#define CPARSE_QUERY_IN "$in"
+#define CPARSE_QUERY_NOT_IN "$nin"
+#define CPARSE_QUERY_EXISTS "$exists"
+#define CPARSE_QUERY_SELECT "$select"
+#define CPARSE_QUERY_DONT_SELECT "$dontSelect"
+#define CPARSE_QUERY_ALL "$all"
 
 #define CPARSE_ARRAY_KEY "arrayKey"
 

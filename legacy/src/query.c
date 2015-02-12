@@ -5,6 +5,12 @@
 #include <cparse/json.h>
 #include "client.h"
 
+struct cparse_query_builder
+{
+    CPARSE_QUERY *query;
+    CPARSE_JSON *value;
+};
+
 void cparse_query_clear_all_caches()
 {
 
@@ -27,6 +33,16 @@ CPARSE_QUERY *cparse_query_new()
     return query;
 }
 
+CPARSE_QUERY_BUILDER *cparse_query_builder_new(CPARSE_QUERY *query)
+{
+    CPARSE_QUERY_BUILDER *builder = malloc(sizeof(CPARSE_QUERY_BUILDER));
+
+    builder->query = query;
+    builder->value = cparse_json_new();
+
+    return builder;
+}
+
 void cparse_query_free(CPARSE_QUERY *query)
 {
     if (query->className)
@@ -45,6 +61,16 @@ void cparse_query_free(CPARSE_QUERY *query)
         cparse_json_free(query->where);
 
     free(query);
+}
+
+void cparse_query_builder_free(CPARSE_QUERY_BUILDER *value)
+{
+    if (value)
+    {
+        cparse_json_free(value->value);
+
+        free(value);
+    }
 }
 
 CPARSE_QUERY *cparse_query_with_class_name(const char *className)
@@ -134,7 +160,7 @@ bool cparse_query_find_objects(CPARSE_QUERY *query, CPARSE_ERROR **error)
                 /* fine, go ahead and cleanup */
                 free(query->results);
             }
-            query->results = malloc(sizeof(CPARSE_OBJ) * query->size);
+            query->results = malloc(cparse_object_sizeof() * query->size);
 
             for (int i = 0; i < query->size; i++)
             {
@@ -161,4 +187,19 @@ void cparse_query_cancel(CPARSE_QUERY *query)
 int cparse_query_count_objects(CPARSE_QUERY *query, CPARSE_ERROR **error)
 {
     return 0;
+}
+
+void cparse_query_builder_in_array(CPARSE_QUERY_BUILDER *builder, CPARSE_JSON *value)
+{
+    cparse_json_set(builder->value, CPARSE_QUERY_IN, value);
+}
+
+void cparse_query_where(CPARSE_QUERY *query, const char *key, CPARSE_QUERY_BUILDER *builder)
+{
+    if (query->where)
+        cparse_json_free(query->where);
+
+    query->where = cparse_json_new();
+
+    cparse_json_set(query->where, key, builder->value);
 }

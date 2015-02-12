@@ -11,6 +11,16 @@
 
 /* internals */
 
+struct cparse_object
+{
+    CPARSE_JSON *attributes;
+    char *className;
+    time_t updatedAt;
+    time_t createdAt;
+    char *objectId;
+    CPARSE_ACL *acl;
+};
+
 /* for background threads */
 typedef struct cparse_object_background_arg
 {
@@ -99,6 +109,36 @@ void cparse_object_free(CPARSE_OBJ *obj)
     if (obj->objectId)
         free(obj->objectId);
     free(obj);
+}
+
+/* getters/setters */
+
+size_t cparse_object_sizeof()
+{
+    return sizeof(CPARSE_OBJ);
+}
+
+const char *cparse_object_id(CPARSE_OBJ *obj)
+{
+    return obj->objectId;
+}
+
+const char *cparse_object_class_name(CPARSE_OBJ *obj)
+{
+    return obj->className;
+}
+
+time_t cparse_object_created_at(CPARSE_OBJ *obj)
+{
+    return obj->createdAt;
+}
+time_t cparse_object_updated_at(CPARSE_OBJ *obj)
+{
+    return obj->updatedAt;
+}
+CPARSE_ACL *cparse_object_acl(CPARSE_OBJ *obj)
+{
+    return obj->acl;
 }
 
 /* client related functions */
@@ -410,7 +450,7 @@ CPARSE_JSON_ARRAY *cparse_object_get_array(CPARSE_OBJ *obj, const char *key)
     return cparse_json_get_array(obj->attributes, key);
 }
 
-size_t cparse_object_attributes(CPARSE_OBJ *obj)
+size_t cparse_object_attribute_size(CPARSE_OBJ *obj)
 {
     return cparse_json_num_keys(obj->attributes);
 }
@@ -477,3 +517,7 @@ CPARSE_OBJ *cparse_object_from_json(CPARSE_JSON *jobj)
     return obj;
 }
 
+const char *cparse_object_to_json_string(CPARSE_OBJ *obj)
+{
+    return cparse_json_to_json_string(obj->attributes);
+}

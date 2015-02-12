@@ -22,7 +22,7 @@ START_TEST(test_cparse_object_save)
 
     fail_unless(cparse_save_test_object(cp_obj));
 
-    fail_unless(cp_obj->objectId != NULL);
+    fail_unless(cparse_object_id(cp_obj) != NULL);
 }
 END_TEST
 
@@ -35,7 +35,7 @@ START_TEST(test_cparse_object_fetch)
 
     fail_unless(cparse_save_test_object(obj));
 
-    fail_unless(obj->objectId != NULL);
+    fail_unless(cparse_object_id(obj) != NULL);
 
     /* now set refrence on other object */
 
@@ -63,7 +63,7 @@ END_TEST
 
 void test_cparse_object_callback(CPARSE_OBJ *obj, CPARSE_ERROR *error)
 {
-    fail_unless(obj->objectId != NULL);
+    fail_unless(cparse_object_id(obj) != NULL);
 }
 
 START_TEST(test_cparse_object_save_in_background)
@@ -85,7 +85,7 @@ START_TEST(test_cparse_object_set_value)
 
     cparse_object_set_number(cp_obj, "score", 1234);
 
-    fail_unless(cparse_object_attributes(cp_obj) == 1);
+    fail_unless(cparse_object_attribute_size(cp_obj) == 1);
 
     fail_unless(cparse_object_get_number(cp_obj, "score", 0) == 1234);
 
@@ -101,7 +101,7 @@ START_TEST(test_cparse_object_count_attributes)
 
     cparse_object_set_real(cp_obj, "testreal", 1234.5678);
 
-    fail_unless(cparse_object_attributes(cp_obj) == 2);
+    fail_unless(cparse_object_attribute_size(cp_obj) == 2);
 
     cparse_object_free(cp_obj);
 }
@@ -115,13 +115,13 @@ START_TEST(test_cparse_object_remove_attribute)
 
     cparse_object_set(cp_obj, "main", value);
 
-    fail_unless(cparse_object_attributes(cp_obj) == 1);
+    fail_unless(cparse_object_attribute_size(cp_obj) == 1);
 
     CPARSE_JSON *removed = cparse_object_remove(cp_obj, "main");
 
     fail_unless(removed == value);
 
-    fail_unless(cparse_object_attributes(cp_obj) == 0);
+    fail_unless(cparse_object_attribute_size(cp_obj) == 0);
 
     cparse_object_free(cp_obj);
 }
@@ -134,13 +134,13 @@ START_TEST(test_cparse_object_to_json)
 
     cparse_object_set_string(cp_obj, "main", "Hello,World");
 
-    buf = cparse_json_to_json_string(cp_obj->attributes);
+    buf = cparse_object_to_json_string(cp_obj);
 
     fail_unless(!strcmp(buf, "{\"main\":\"Hello,World\"}"));
 
     cparse_object_set_number(cp_obj, "main", 1234);
 
-    buf = cparse_json_to_json_string(cp_obj->attributes);
+    buf = cparse_object_to_json_string(cp_obj);
 
     fail_unless(!strcmp(buf, "{\"main\":1234}"));
 

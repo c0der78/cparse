@@ -49,9 +49,7 @@ START_TEST(test_cparse_query_where)
 
     CPARSE_QUERY *query = cparse_query_with_class_name(TEST_CLASS);
 
-    query->where = cparse_json_new();
-
-    CPARSE_JSON *in = cparse_json_new();
+    CPARSE_QUERY_BUILDER *builder = cparse_query_builder_new(query);
 
     CPARSE_JSON *inArray = cparse_json_new_array();
 
@@ -63,9 +61,11 @@ START_TEST(test_cparse_query_where)
 
     cparse_json_array_add_number(inArray, 255550);
 
-    cparse_json_set(in, "$in", inArray);
+    cparse_query_builder_in_array(builder, inArray);
 
-    cparse_json_set(query->where, "score", in);
+    cparse_query_where(query, "score", builder);
+
+    cparse_query_builder_free(builder);
 
     fail_unless(cparse_query_find_objects(query, &error));
 
