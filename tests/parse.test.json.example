@@ -1,5 +1,5 @@
 {
-	"parseAppId" : "asdfasdfasdf",
-	"parseApiKey" : "asdfasdfasdf",
+	"parseAppId" : "XXXXXXXXX",
+	"parseApiKey" : "XXXXXXXX",
 	"logLevel" : "debug"
 }

@@ -1,79 +1,63 @@
 CParse
 ======
-A C++ library to use the REST API at [parse.com](http://parse.com).
+A C library to use the REST API at [parse.com](http://parse.com).
 
 
 Setup
 =====
-- The build system uses [Premake](http://industriousone.com/premake) for cross platform compiling (OSX: brew install premake)
-- run 'premake4 gmake' or 'premake4 vs2010' depending on your environment, which will build the makefile or project file
-- run 'make' to compile the library and run the unit tests
+- Not required but [Homebrew](http://mxcl.github.com/homebrew/) is pretty handy for install libs
+- The build system uses [Cmake](http://cmake.org) for cross platform compiling (OSX: brew install cmake)
+- run 'cmake . && make' to compile the library and run the unit tests
+
+Code style
+==========
+- function names: lower case underscored, prefixed with cparse namespace
+- typedefs and defines: upper case underscored, prefixed with CPARSE namespace
+- enums and variables: camel case
 
 Dependencies
 ============
 
-- libcurl for the default client interface
-- [libarg3](http://github.com/c0der78/arg3) for JSON
-- [igloo](http://igloo-testing.org) for unit testing
+- libcurl for HTTP requests (should be already installed on OSX, otherwise 'brew install curl')
+- libjson for JSON parsing ('brew install json')
+- libcheck for unit testing ('brew install check')
 
 Example
 =======
 ```
-Object obj("Example");
+CPARSE_OBJ *obj = cparse_object_with_class_name("Wizards");
 
-// add a string
-obj.setString("name", "Harry Potter");
+cparse_object_set_string(obj, "name", "Harry Potter");
 
-// add an int
-obj.setInt("age", 24);
+cparse_object_set_number(obj, "age", 24);
 
-// add a double
-obj.setDouble("money", 102.34);
+cparse_object_set_real(obj, "money", 102.34);
 
-if(obj.save())
-	cout << "Success!" << endl;
+cparse_object_save(obj);
 
-/* Voila, we have saved an Example object on Parse.com */
+cparse_object_free(obj);
 
-if(obj.de1ete())
-	cout <<  "Deleted!" << endl;
+/* Voila, we have saved a Wizard object */
 
 ```
 
-More Examples
-=============
+Background Operations
+=====================
+```
+void my_nifty_callback(CPARSE_OBJ *obj, CPARSE_ERROR *error)
+{
+	if(error) {
+		log(error);
+		return;
+	}
 
-```
-// setup your app info
-Parse::set_application_id("AuIDhfjSJdiIFIFKDSJSJSY6KDKD8838");
-Parse::set_api_key("LdfhJjdudJDjDJJMmUfkfjjhd7d7ld8484mJJJ");
-```
-
-```
-// save in background
-std::thread thread = someObj->saveInBackground([&](Object *obj) {
-	cout << "Object Saved was " << obj->id() << endl;
-});
-
-thread.join();
-```
-
-```
-// custom network api
-class IOSClientInterface : public ClientInterface {
-	....
-	int request(http::method method, const string &url, map<string,string> headers, const string &data, string &response);
+	do_some_other_action_with_object(obj);
 }
 
-Parse::set_client_interface(new IOSClientInterface());
-```
+CPARSE_OBJ *obj = cparse_object_with_class_name("Wizards");
+
+cparse_object_set_string(obj, "name", "Harry Potter");
+
+cparse_object_save_in_background(obj, my_nifty_callback);
 
 ```
-// references / pointers
-Object a("Outer"), b("Inner");
-
-a.setObject("inner", b);
-```
-
-
-

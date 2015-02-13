@@ -1,39 +1,38 @@
-#ifndef ARG3_CPARSE_PARSE_H
-#define ARG3_CPARSE_PARSE_H
+#ifndef CPARSE_PARSE_H_
+#define CPARSE_PARSE_H_
 
-#include <string>
+#include <cparse/defines.h>
+#include <time.h>
 
-namespace cparse
-{
-    class ClientInterface;
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-    class Parse
-    {
-    public:
-        static const char *const VERSION;
+void cparse_set_application_id(const char *appId);
 
-        static void set_client_interface(ClientInterface *interface);
+void cparse_set_api_key(const char *apiKey);
 
-        static void set_application_id(const std::string &appId);
+void cparse_set_facebook_application_id(const char *appId);
 
-        static void set_api_key(const std::string &apiKey);
+bool cparse_has_facebook_application_id();
 
-        static void set_facebook_application_id(const std::string &appId);
+void cparse_offline_messages_enabled(bool value);
 
-        static bool has_facebook_application_id();
+void cparse_error_messages_enabled(bool value);
 
-        static void offline_messages_enabled(bool value);
 
-        static void error_messages_enabled(bool value);
-    private:
-        Parse();
-        Parse(const Parse &other);
-        Parse(Parse &&other);
-        ~Parse();
-        Parse &operator=(const Parse &other);
-        Parse &operator=(Parse && other);
-    };
+/* some common object getters */
+const char *cparse_base_class_name(CPARSE_BASE_OBJ *obj);
 
+time_t cparse_base_updated_at(CPARSE_BASE_OBJ *obj);
+
+time_t cparse_base_created_at(CPARSE_BASE_OBJ *obj);
+
+const char *cparse_base_id(CPARSE_BASE_OBJ *obj);
+
+
+#ifdef __cplusplus
 }
+#endif
 
 #endif

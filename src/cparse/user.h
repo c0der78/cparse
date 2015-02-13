@@ -1,46 +1,44 @@
-#ifndef ARG3_CPARSE_USER_H
-#define ARG3_CPARSE_USER_H
+#ifndef CPARSE_USER_H_
+#define CPARSE_USER_H_
 
-#include <string>
-#include "object.h"
+#include <cparse/defines.h>
+#include <cparse/query.h>
+#include <cparse/acl.h>
 
-using namespace std;
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-namespace cparse
-{
-    class User : public Object
-    {
-    public:
-        static User *currentUser();
-        static void logout();
-        static void enableAutomaticUser();
-        static User *authenticate(const string &username, const string &password);
-        User();
-        User(const User &other);
-        User(User &&other);
-        virtual ~User();
-        User &operator=(const User &other);
-        User &operator=(User && other);
-        string getUsername() const;
-        void setUsername( const string &value);
-        string getEmail() const;
-        void setEmail(const string &value);
-        string sessionToken() const;
-        void setPassword(const string &value);
-        bool isNew() const;
-    protected:
-        virtual void merge(JSON value);
-    private:
-        static User *currentUser_;
+CPARSE_OBJ *cparse_current_user();
 
-        string username_;
-        string password_;
-        string email_;
-        string sessionToken_;
-        bool isNew_;
-        static bool automaticUser_;
+CPARSE_OBJ *cparse_user_new();
 
-    };
+void cparse_user_enable_automatic_user();
+
+CPARSE_OBJ *cparse_user_login(const char *username, const char *password, CPARSE_ERROR **error);
+
+void cparse_user_login_in_background(const char *username, const char *password, CPARSE_OBJ_CALLBACK callback);
+
+void cparse_user_logout();
+
+CPARSE_QUERY *cparse_user_query();
+
+bool cparse_user_sign_up(CPARSE_OBJ *user, const char *password, CPARSE_ERROR **error);
+
+/* getters/setters */
+
+const char *cparse_user_name(CPARSE_OBJ *user);
+
+void cparse_user_set_name(CPARSE_OBJ *user, char *value);
+
+const char *cparse_user_email(CPARSE_OBJ *user);
+
+const char *cparse_user_session_token(CPARSE_OBJ *user);
+
+bool cparse_user_is_new(CPARSE_OBJ *user);
+
+#ifdef __cplusplus
 }
+#endif
 
 #endif

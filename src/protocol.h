@@ -1,131 +1,79 @@
-#ifndef ARG3_CPARSE_PROTOCOL_H
-#define ARG3_CPARSE_PROTOCOL_H
+#ifndef CPARSE_PROTOCOL_H_
+#define CPARSE_PROTOCOL_H_
 
-namespace cparse
-{
-    namespace protocol
-    {
-        extern const char *const HOST;
+#define HEADER_APP_ID    "X-Parse-Application-Id"
 
-        extern const char *const VERSION;
+#define HEADER_API_KEY   "X-Parse-REST-API-Key"
 
-        extern const char *const HEADER_APP_ID;
+#define HEADER_MASTER_KEY   "X-Parse-Master-Key"
 
-        // The HTTP header used for passing your API key to the
-        // Parse API.
-        extern const char *const HEADER_API_KEY;
+#define HEADER_SESSION_TOKEN  "X-Parse-Session-Token"
 
-        // The HTTP header used for passing your API Master key to the
-        // Parse API.
-        extern const char *const HEADER_MASTER_KEY;
+#define KEY_CLASS_NAME   "className"
 
-        // The HTTP header used for passing your authenticated session
-        extern const char *const HEADER_SESSION_TOKEN;
+#define KEY_OBJECT_ID    "objectId"
 
-        // JSON Keys
-        // ----------------------------------------
+#define KEY_CREATED_AT   "createdAt"
 
-        // The JSON key used to store the class name of an object
-        // in a Pointer datatype.
-        extern const char *const KEY_CLASS_NAME;
+#define KEY_UPDATED_AT   "updatedAt"
 
-        // The JSON key used to store the ID of Parse objects
-        // in their JSON representation.
-        extern const char *const KEY_OBJECT_ID;
+#define KEY_USER_SESSION_TOKEN  "sessionToken"
 
-        // The JSON key used to store the creation timestamp of
-        // Parse objects in their JSON representation.
-        extern const char *const KEY_CREATED_AT;
+#define KEY_USER_EMAIL  "email"
 
-        // The JSON key used to store the last modified timestamp
-        // of Parse objects in their JSON representation.
-        extern const char *const KEY_UPDATED_AT;
+#define KEY_RESULTS  "results"
 
-        extern const char *const KEY_USER_SESSION_TOKEN;
+#define KEY_OP           "__op"
 
-        extern const char *const KEY_USER_EMAIL;
+#define KEY_INCREMENT    "Increment"
+#define KEY_DECREMENT    "Decrement"
+#define KEY_DELETE       "Delete"
 
-        // The JSON key used in the top-level response object
-        // to indicate that the response contains an array of objects.
-        extern const char *const RESPONSE_KEY_RESULTS;
+#define KEY_OBJECTS      "objects"
+#define KEY_ADD          "Add"
+#define KEY_ADD_RELATION  "AddRelation"
+#define KEY_ADD_UNIQUE   "AddUnique"
+#define KEY_REMOVE       "Remove"
 
-        extern const char *const KEY_RESULTS;
+#define KEY_TYPE         "__type"
 
-        // The JSON key used to identify an operator
-        extern const char *const KEY_OP;
+#define KEY_AMOUNT       "amount"
 
-        extern const char *const KEY_INCREMENT;
-        extern const char *const KEY_DECREMENT;
-        extern const char *const KEY_DELETE;
+extern const char *const RESERVED_KEYS[];
 
-        // array ops
-        extern const char *const KEY_OBJECTS;
-        extern const char *const KEY_ADD;
-        extern const char *const KEY_ADD_RELATION;
-        extern const char *const KEY_ADD_UNIQUE;
-        extern const char *const KEY_REMOVE;
+#define OP_INCREMENT     "Increment"
 
-        // The JSON key used to identify the datatype of a special value.
-        extern const char *const KEY_TYPE;
+#define OP_DECREMENT     "Decrement"
 
-        // The JSON key used to specify the numerical value in the
-        // increment/decrement API call.
-        extern const char *const KEY_AMOUNT;
+#define TYPE_OBJECT      "Object"
 
-        extern const char *const RESERVED_KEYS[];
+#define TYPE_POINTER     "Pointer"
 
-        // Other Constants
-        // ----------------------------------------
+#define TYPE_BYTES       "Bytes"
 
-        // Operation name for incrementing an objects field value remotely
-        extern const char *const OP_INCREMENT;
+#define TYPE_DATE        "Date"
 
-        // Operation name for decrementing an objects field value remotely
-        extern const char *const OP_DECREMENT;
+#define TYPE_GEOPOINT    "GeoPoint"
 
-        // The data type name for special JSON objects representing a full object
-        extern const char *const TYPE_OBJECT;
+#define TYPE_FILE        "File"
 
-        // The data type name for special JSON objects representing a reference
-        // to another Parse object.
-        extern const char *const TYPE_POINTER;
+#define TYPE_RELATION    "Relation"
 
-        // The data type name for special JSON objects containing an array of
-        // encoded bytes.
-        extern const char *const TYPE_BYTES;
+#define CLASS_USER       "_User"
 
-        // The data type name for special JSON objects representing a date/time.
-        extern const char *const TYPE_DATE;
+#define CLASS_INSTALLATION  "_Installation"
 
-        // The data type name for special JSON objects representing a
-        // location specified as a latitude/longitude pair.
-        extern const char *const TYPE_GEOPOINT;
+#define CLOUD_FUNCTIONS_PATH  "functions"
 
-        // The data type name for special JSON objects representing
-        // a file.
-        extern const char *const TYPE_FILE;
+#define OBJECTS_PATH  "classes"
 
-        // The data type name for special JSON objects representing
-        // a Relation.
-        extern const char *const TYPE_RELATION;
+#define BATCH_REQUEST_URI  "batch"
 
-        // The class name for User objects, when referenced by a Pointer.
-        extern const char *const CLASS_USER;
-
-        extern const char *const CLASS_INSTALLATION;
-
-        extern const char *const CLOUD_FUNCTIONS_PATH;
-
-        extern const char *const OBJECTS_PATH;
-
-        extern const char *const BATCH_REQUEST_URI;
-
-        extern const unsigned ERROR_INTERNAL;
-        extern const unsigned ERROR_TIMEOUT;
-        extern const unsigned ERROR_EXCEEDED_BURST_LIMIT;
-        extern const unsigned ERROR_OBJECT_NOT_FOUND_FOR_GET;
-        extern const unsigned HTTP_OK;
-    }
-}
+#define ERROR_INTERNAL  1
+#define ERROR_TIMEOUT  124
+#define ERROR_EXCEEDED_BURST_LIMIT  155
+#define ERROR_OBJECT_NOT_FOUND_FOR_GET  101
+#define HTTP_OK  200
 
 #endif
+

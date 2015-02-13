@@ -1,105 +1,77 @@
-#ifndef ARG3_CPARSE_OBJECT_H
-#define ARG3_CPARSE_OBJECT_H
+#ifndef CPARSE_OBJECT_H_
+#define CPARSE_OBJECT_H_
 
-#include <string>
-#include <map>
-#include <vector>
-#include <functional>
-#include "json.h"
-#include "type/pointer.h"
-#include <thread>
+#include <time.h>
+#include <cparse/defines.h>
+#include <cparse/acl.h>
+#include <json-c/json.h>
+#include <pthread.h>
 
-namespace cparse
-{
-    class Object;
-    class User;
-    class Pointer;
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-    class Object
-    {
-    public:
+/* initializers */
+CPARSE_OBJ *cparse_object_copy(CPARSE_OBJ *obj);
+CPARSE_OBJ *cparse_object_with_class_name(const char *className);
+CPARSE_OBJ *cparse_object_with_class_data(const char *className, CPARSE_JSON *data);
 
-        static Object *create(const std::string &className);
+/* cleanup */
+void cparse_object_free(CPARSE_OBJ *obj);
 
-        static Object *create(const std::string &className, const JSON &attributes);
+/* getters/setters */
+size_t cparse_object_sizeof();
+const char *cparse_object_id(CPARSE_OBJ *obj);
+const char *cparse_object_class_name(CPARSE_OBJ *obj);
+time_t cparse_object_created_at(CPARSE_OBJ *obj);
+time_t cparse_object_updated_at(CPARSE_OBJ *obj);
+CPARSE_ACL *cparse_object_acl(CPARSE_OBJ *obj);
 
-        static Object *createWithoutData(const std::string &className, const std::string &objectId);
+/* client/rest methods */
+bool cparse_object_save(CPARSE_OBJ *obj, CPARSE_ERROR **error);
+pthread_t cparse_object_save_in_background(CPARSE_OBJ *obj, CPARSE_OBJ_CALLBACK callback);
 
-        static bool saveAll(std::vector<Object> objects);
+bool cparse_object_delete(CPARSE_OBJ *, CPARSE_ERROR **error);
+pthread_t cparse_object_delete_in_background(CPARSE_OBJ *obj, CPARSE_OBJ_CALLBACK callback);
 
-        static std::thread saveAllInBackground(std::vector<Object> objects, std::function<void()> callback = nullptr);
+bool cparse_object_refresh(CPARSE_OBJ *, CPARSE_ERROR **error);
+pthread_t cparse_object_refresh_in_background(CPARSE_OBJ *obj, CPARSE_OBJ_CALLBACK callback);
 
-        Object(const std::string &className);
-        virtual ~Object();
-        Object(const Object &other);
-        Object(Object &&other);
-        Object &operator=(const Object &other);
-        Object &operator=(Object && other);
+bool cparse_object_fetch(CPARSE_OBJ *, CPARSE_ERROR **error);
+pthread_t cparse_object_fetch_in_background(CPARSE_OBJ *obj, CPARSE_OBJ_CALLBACK callback);
 
-        std::string keys() const;
+/* setters */
+void cparse_object_set_number(CPARSE_OBJ *obj, const char *key, long long value);
+void cparse_object_set_real(CPARSE_OBJ *obj, const char *key, double value);
+void cparse_object_set_bool(CPARSE_OBJ *obj, const char *key, bool value);
+void cparse_object_set_string(CPARSE_OBJ *obj, const char *key, const char *value);
+void cparse_object_set(CPARSE_OBJ *obj, const char *key, CPARSE_JSON *value);
 
-        bool is_valid() const;
+void cparse_object_set_reference(CPARSE_OBJ *obj, const char *key, CPARSE_OBJ *ref);
 
-        JSON get(const std::string &key) const;
-        int32_t getInt(const std::string &key) const;
-        int64_t getInt64(const std::string &key) const;
-        double getDouble(const std::string &key) const;
-        string getString(const std::string &key) const;
-        Object *getObject(const std::string &key);
-        User *getUser(const std::string &key);
+/* getters */
+CPARSE_JSON *cparse_object_get(CPARSE_OBJ *, const char *key);
+long long cparse_object_get_number(CPARSE_OBJ *, const char *key, long long def);
+double cparse_object_get_real(CPARSE_OBJ *, const char *key, double def);
+bool cparse_object_get_bool(CPARSE_OBJ *, const char *key);
+const char *cparse_object_get_string(CPARSE_OBJ *, const char *key);
 
-        void set(const std::string &key, const JSON &value);
-        void setInt(const std::string &key, int32_t value);
-        void setInt64(const std::string &key, int64_t value);
-        void setDouble(const std::string &key, double value);
-        void setString(const std::string &key, const std::string &value);
-        void setArray(const std::string &key, const JSONArray &value);
-        void setObject(const std::string &key, const Object &obj);
+CPARSE_JSON *cparse_object_remove(CPARSE_OBJ *, const char *key);
+bool cparse_object_contains(CPARSE_OBJ *obj, const char *key);
 
-        void remove(const std::string &key);
-        bool contains(const std::string &key) const;
+/* iterator interface */
+void cparse_object_foreach(CPARSE_OBJ *, void (*foreach) (CPARSE_JSON *));
 
-        bool save();
-        bool fetch();
-        bool de1ete();
-        bool refresh();
+size_t cparse_object_attribute_size(CPARSE_OBJ *);
 
-        std::thread saveInBackground(std::function<void(Object *)> callback = nullptr);
-        std::thread fetchInBackground(std::function<void(Object *)> callback = nullptr);
-        std::thread destroyInBackground(std::function<void(Object *)> callback = nullptr);
+void cparse_object_merge_json(CPARSE_OBJ *a, CPARSE_JSON *b);
 
-        std::string id() const;
+CPARSE_OBJ *cparse_object_from_json(CPARSE_JSON *json);
 
-        time_t createdAt() const;
+const char *cparse_object_to_json_string(CPARSE_OBJ *obj);
 
-        time_t updatedAt() const;
-
-        std::string className() const;
-
-        bool isDataAvailable() const;
-
-        bool isNew() const;
-
-        type::Pointer toPointer() const;
-
-        bool operator==(const Object &other) const;
-        bool operator!=(const Object &other) const;
-
-        bool operator==(const type::Pointer &other) const;
-        bool operator!=(const type::Pointer &other) const;
-
-    protected:
-        virtual void merge(JSON attributes);
-        virtual void copy_fetched(const Object &obj);
-    private:
-        std::string className_;
-        time_t createdAt_;
-        std::string objectId_;
-        time_t updatedAt_;
-        JSON attributes_;
-        bool dataAvailable_;
-        map<std::string, Object *> fetched_;
-    };
+#ifdef __cplusplus
 }
+#endif
 
 #endif

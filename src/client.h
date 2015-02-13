@@ -1,51 +1,45 @@
-#ifndef ARG3_CPARSE_CLIENT_H
-#define ARG3_CPARSE_CLIENT_H
+#ifndef CPARSE_CLIENT_H_
+#define CPARSE_CLIENT_H_
 
-#include <cparse/json.h>
-#include <cparse/clientinterface.h>
-#include <map>
+#include <stdlib.h>
+#include <cparse/defines.h>
 
-using namespace std;
-
-namespace cparse
+typedef enum
 {
-    class CURLClientInterface : public ClientInterface
-    {
-    public:
-        int request(http::method method, const string &url, map<string, string> headers, const string &data, string &response);
-    };
+    HTTPRequestMethodGet,
+    HTTPRequestMethodPost,
+    HTTPRequestMethodPut,
+    HTTPRequestMethodDelete
+} HTTPRequestMethod;
 
-    class Client
-    {
-    public:
-        Client();
-        Client(ClientInterface *iterface);
-        virtual ~Client();
-        Client(const Client &c);
-        Client(Client &&c);
-        Client &operator=(const Client &c);
-        Client &operator=(Client && c);
+struct cparse_client_response
+{
+    char *text;
+    size_t size;
+    int code;
+};
 
-        JSON getJSONResponse() const;
+struct cparse_client_request
+{
+    char *path;
+    char *payload;
+    HTTPRequestMethod method;
+};
 
-        void post(const string &path);
-        void put(const string &path);
-        void get(const string &path);
-        void de1ete(const string &path);
+typedef struct cparse_client_response CPARSE_CLIENT_RESP;
 
-        void addHeader(const string &name, const string &value);
+typedef struct cparse_client_request CPARSE_CLIENT_REQ;
 
-        void setPayload(const string &data);
-        string getPayload() const;
-    protected:
-        string buildUrl(const string &path);
-    private:
-        ClientInterface *interface_;
-        map<string, string> headers_;
-        string response_;
-        string payload_;
-        int responseCode_;
-    };
-}
+CPARSE_CLIENT_RESP *cparse_client_request_get_response(CPARSE_CLIENT_REQ *request);
+
+CPARSE_CLIENT_REQ *cparse_client_request_new();
+
+void cparse_client_request_free(CPARSE_CLIENT_REQ *request);
+
+void cparse_client_response_free(CPARSE_CLIENT_RESP *response);
+
+CPARSE_JSON *cparse_client_request_get_json(CPARSE_CLIENT_REQ *request, CPARSE_ERROR **error);
+
+void cparse_client_request_perform(CPARSE_CLIENT_REQ *request, CPARSE_ERROR **error);
 
 #endif
