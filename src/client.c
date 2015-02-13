@@ -25,17 +25,31 @@ CPARSE_CLIENT_REQ *cparse_client_request_new()
     request->path = NULL;
     request->payload = NULL;
     request->method = HTTPRequestMethodGet;
+    request->headers = NULL;
 
     return request;
 };
 
 void cparse_client_request_free(CPARSE_CLIENT_REQ *request)
 {
+    REQUEST_HEADER *header, *next_header;
+
     if (request->path)
         free(request->path);
     if (request->payload)
         free(request->payload);
 
+    for (header = request->headers; header; header = next_header)
+    {
+        next_header = header->next;
+
+        if (header->key)
+            free(header->key);
+        if (header->value)
+            free(header->value);
+
+        free(header);
+    }
     free(request);
 }
 
@@ -45,6 +59,17 @@ void cparse_client_response_free(CPARSE_CLIENT_RESP *response)
         free(response->text);
 
     free(response);
+}
+
+void cparse_client_request_add_header(CPARSE_CLIENT_REQ *request, const char *key, const char *value)
+{
+    REQUEST_HEADER *header = malloc(sizeof(REQUEST_HEADER));
+
+    header->next = request->headers;
+    request->headers = header;
+
+    header->key = strdup(key);
+    header->value = strdup(value);
 }
 
 static size_t cparse_client_get_response(void *ptr, size_t size, size_t nmemb, CPARSE_CLIENT_RESP *s)
@@ -74,11 +99,13 @@ static void cparse_client_set_request_url(CURL *curl, const char *path)
     curl_easy_setopt(curl, CURLOPT_URL, buf);
 }
 
-static void cparse_client_set_headers(CURL *curl)
+static void cparse_client_set_headers(CURL *curl, REQUEST_HEADER *requestHeaders)
 {
     assert(cparse_app_id != NULL);
 
     char buf[BUFSIZ + 1];
+
+    REQUEST_HEADER *header;
 
     struct curl_slist *headers = NULL;
 
@@ -96,6 +123,12 @@ static void cparse_client_set_headers(CURL *curl)
 
     headers = curl_slist_append(headers, buf);
 
+    for (header = requestHeaders; header; header = header->next)
+    {
+        snprintf(buf, BUFSIZ, "%s: %s", header->key, header->value);
+
+        headers = curl_slist_append(headers, buf);
+    }
     curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
 }
 
@@ -210,7 +243,9 @@ CPARSE_CLIENT_RESP *cparse_client_request_get_response(CPARSE_CLIENT_REQ *reques
     {
         cparse_client_set_request_url(curl, request->path);
     }
-    cparse_client_set_headers(curl);
+
+    cparse_client_set_headers(curl, request->headers);
+
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, cparse_client_get_response);
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, response);
     res = curl_easy_perform(curl);

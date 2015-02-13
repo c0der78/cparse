@@ -1,5 +1,4 @@
 {
 	"parseAppId" : "XXXXXXXXX",
-	"parseApiKey" : "XXXXXXXX",
-	"logLevel" : "debug"
+	"parseApiKey" : "XXXXXXXX"
 }

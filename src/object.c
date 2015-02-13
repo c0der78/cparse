@@ -54,7 +54,7 @@ void *cparse_object_background_action(void *argument)
     return NULL;
 }
 
-bool cparse_object_request(CPARSE_OBJ *obj, HTTPRequestMethod method, const char *path, CPARSE_ERROR **error)
+bool cparse_object_request_json(CPARSE_OBJ *obj, HTTPRequestMethod method, const char *path, CPARSE_ERROR **error)
 {
     CPARSE_JSON *response;
     CPARSE_CLIENT_REQ *request = cparse_client_request_new();
@@ -62,8 +62,6 @@ bool cparse_object_request(CPARSE_OBJ *obj, HTTPRequestMethod method, const char
     request->path = strdup(path);
 
     request->method = method;
-
-    /* build the json payload */
 
     if (obj->attributes)
     {
@@ -189,7 +187,6 @@ bool cparse_object_delete(CPARSE_OBJ *obj, CPARSE_ERROR **error)
 
     if (!obj->objectId || !*obj->objectId)
     {
-        printf("no object id to delete\n");
         return false;
     }
 
@@ -205,10 +202,6 @@ bool cparse_object_delete(CPARSE_OBJ *obj, CPARSE_ERROR **error)
 
     cparse_client_request_free(request);
 
-    if (error && *error)
-    {
-        printf("delete error %s\n", cparse_error_message(*error));
-    }
     return error == NULL || *error == NULL;
 }
 
@@ -224,10 +217,10 @@ bool cparse_object_fetch(CPARSE_OBJ *obj, CPARSE_ERROR **error)
         return false;
     }
 
-    request = cparse_client_request_new();
-
     /* build the request */
     snprintf(buf, BUFSIZ, "classes/%s/%s", obj->className, obj->objectId);
+
+    request = cparse_client_request_new();
 
     request->path = strdup(buf);
 
@@ -235,6 +228,7 @@ bool cparse_object_fetch(CPARSE_OBJ *obj, CPARSE_ERROR **error)
 
     buf[0] = 0;
 
+    /* parse some pointers to include */
     json_object_object_foreach(obj->attributes, key, val)
     {
         const char *keyVal = cparse_json_get_string(val, KEY_TYPE);
@@ -362,7 +356,7 @@ bool cparse_object_save(CPARSE_OBJ *obj, CPARSE_ERROR **error)
         method = HTTPRequestMethodPut;
     }
 
-    return cparse_object_request(obj, method, buf, error);
+    return cparse_object_request_json(obj, method, buf, error);
 }
 
 pthread_t cparse_object_save_in_background(CPARSE_OBJ *obj, CPARSE_OBJ_CALLBACK callback)

@@ -13,6 +13,8 @@ CPARSE_OBJ *cparse_current_user();
 
 CPARSE_OBJ *cparse_user_new();
 
+CPARSE_OBJ *cparse_user_with_name(const char *username);
+
 void cparse_user_enable_automatic_user();
 
 CPARSE_OBJ *cparse_user_login(const char *username, const char *password, CPARSE_ERROR **error);
@@ -20,6 +22,8 @@ CPARSE_OBJ *cparse_user_login(const char *username, const char *password, CPARSE
 void cparse_user_login_in_background(const char *username, const char *password, CPARSE_OBJ_CALLBACK callback);
 
 void cparse_user_logout();
+
+bool cparse_user_delete(CPARSE_OBJ *user, CPARSE_ERROR **error);
 
 CPARSE_QUERY *cparse_user_query();
 

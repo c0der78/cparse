@@ -41,9 +41,9 @@ START_TEST(test_cparse_object_fetch)
 
     cparse_object_set_reference(cp_obj, "partner", obj);
 
-    CPARSE_JSON *data = cparse_object_get(cp_obj, "partner");
-
     fail_unless(cparse_save_test_object(cp_obj));
+
+    CPARSE_JSON *data = cparse_object_get(cp_obj, "partner");
 
     fail_unless(cparse_json_num_keys(data) == 3);
 

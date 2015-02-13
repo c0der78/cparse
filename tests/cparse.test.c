@@ -64,11 +64,10 @@ int main(void)
 {
     srand(time(0));
 
-    int number_failed;
-    SRunner *sr = srunner_create(cparse_parse_suite());
-
     read_test_config();
 
+    int number_failed;
+    SRunner *sr = srunner_create(cparse_parse_suite());
     srunner_add_suite(sr, cparse_json_suite());
     srunner_add_suite(sr, cparse_object_suite());
     srunner_add_suite(sr, cparse_query_suite());
