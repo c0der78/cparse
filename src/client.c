@@ -183,12 +183,14 @@ CPARSE_JSON *cparse_client_request_perform_and_get_json(CPARSE_REQUEST *request,
         errorMessage = cparse_json_get_string(obj, "error");
     }
 
-    if (errorMessage != NULL && error)
+    if (errorMessage != NULL)
     {
-        *error = cparse_error_with_message(errorMessage);
+        if (error)
+        {
+            *error = cparse_error_with_message(errorMessage);
 
-        cparse_error_set_code(*error, cparse_json_get_number(obj, "code", 0));
-
+            cparse_error_set_code(*error, cparse_json_get_number(obj, "code", 0));
+        }
         cparse_json_free(obj);
 
         return NULL;
@@ -272,7 +274,8 @@ bool cparse_client_object_request(CPARSE_OBJ *obj, HTTPRequestMethod method, con
 
     if (!path || !*path)
     {
-        *error = cparse_error_with_message("Invalid path for request");
+        if (error)
+            *error = cparse_error_with_message("Invalid path for request");
         return false;
     }
 

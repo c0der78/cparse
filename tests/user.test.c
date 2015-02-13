@@ -64,7 +64,6 @@ START_TEST(test_cparse_user_login)
 
     fail_unless(cparse_user_session_token(user) != NULL);
 
-
     cparse_user_delete(user123, &error);
 
     if (error)

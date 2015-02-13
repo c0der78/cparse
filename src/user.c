@@ -100,14 +100,16 @@ CPARSE_OBJ *cparse_user_login(const char *username, const char *password, CPARSE
 
     if (!username || !*username)
     {
-        *error = cparse_error_with_message("No username, set with cparse_user_set_name()");
+        if (error)
+            *error = cparse_error_with_message("No username, set with cparse_user_set_name()");
 
         return false;
     }
 
     if (!password || !*password)
     {
-        *error = cparse_error_with_message("No password provided");
+        if (error)
+            *error = cparse_error_with_message("No password provided");
 
         return false;
 
@@ -154,13 +156,15 @@ bool cparse_user_delete(CPARSE_OBJ *obj, CPARSE_ERROR **error)
 
     if (!obj || !(userId = cparse_object_id(obj)) || !*userId)
     {
-        *error = cparse_error_with_message("User has no id");
+        if (error)
+            *error = cparse_error_with_message("User has no id");
         return false;
     }
 
     if (!(sessionToken = cparse_user_session_token(obj)) || !*sessionToken)
     {
-        *error = cparse_error_with_message("User has no session token");
+        if (error)
+            *error = cparse_error_with_message("User has no session token");
         return false;
     }
 
@@ -202,14 +206,16 @@ bool cparse_user_sign_up(CPARSE_OBJ *user, const char *password, CPARSE_ERROR **
 
     if (!username || !*username)
     {
-        *error = cparse_error_with_message("No username, set with cparse_user_set_name()");
+        if (error)
+            *error = cparse_error_with_message("No username, set with cparse_user_set_name()");
 
         return false;
     }
 
     if (!password || !*password)
     {
-        *error = cparse_error_with_message("No password provided");
+        if (error)
+            *error = cparse_error_with_message("No password provided");
 
         return false;
     }
@@ -242,7 +248,8 @@ bool cparse_user_fetch(CPARSE_OBJ *obj, CPARSE_ERROR **error)
 
     if (!obj || !(id = cparse_object_id(obj)) || !*id)
     {
-        *error = cparse_error_with_message("object has no id");
+        if (error)
+            *error = cparse_error_with_message("object has no id");
 
         return false;
     }
@@ -252,6 +259,23 @@ bool cparse_user_fetch(CPARSE_OBJ *obj, CPARSE_ERROR **error)
     cparse_object_includes_to_buffer(obj, includes, BUFSIZ);
 
     return cparse_client_object_request(obj, HTTPRequestMethodGet, buf, includes, error);
+}
+
+bool cparse_user_refresh(CPARSE_OBJ *obj, CPARSE_ERROR **error)
+{
+    const char *id;
+    char buf[BUFSIZ + 1] = {0};
+
+    if (!obj || !(id = cparse_object_id(obj)) || !*id)
+    {
+        if (error)
+            *error = cparse_error_with_message("user has no id");
+        return false;
+    }
+
+    snprintf(buf, BUFSIZ, "%s/%s", USER_CLASS_NAME, id);
+
+    return cparse_client_object_request(obj, HTTPRequestMethodGet, buf, NULL, error);
 }
 
 bool cparse_user_validate(CPARSE_OBJ *user, const char *sessionToken, CPARSE_ERROR **error)
@@ -280,6 +304,73 @@ bool cparse_user_validate(CPARSE_OBJ *user, const char *sessionToken, CPARSE_ERR
     cparse_object_merge_json(user, json);
 
     cparse_json_free(json);
+
+    return true;
+}
+
+bool cparse_user_validate_email(CPARSE_OBJ *user, CPARSE_ERROR **error)
+{
+    if (!user) return false;
+
+    if (!cparse_object_contains(user, "emailVerified"))
+    {
+        return false;
+    }
+
+    if (!cparse_object_get_bool(user, "emailVerified"))
+    {
+        if (!cparse_user_refresh(user, error))
+        {
+            return false;
+        }
+
+        return cparse_object_get_bool(user, "emailVerified");
+    }
+
+    return true;
+}
+
+bool cparse_user_reset_password(CPARSE_OBJ *user, CPARSE_ERROR **error)
+{
+    CPARSE_REQUEST *request;
+    CPARSE_JSON *json;
+
+    if (!user) return false;
+
+    if (!cparse_object_contains(user, USER_EMAIL))
+    {
+        if (error)
+            *error = cparse_error_with_message("User has no email");
+        return false;
+    }
+
+    if (!cparse_user_validate_email(user, error))
+    {
+        if (error)
+            *error = cparse_error_with_message("User has no valid email");
+        return false;
+    }
+
+    request = cparse_client_request_new();
+
+    request->method = HTTPRequestMethodPost;
+
+    request->path = strdup("requestPasswordReset");
+
+    json = cparse_json_new();
+
+    cparse_json_set_string(json, USER_EMAIL, cparse_object_get_string(user, USER_EMAIL));
+
+    request->payload = strdup(cparse_json_to_json_string(json));
+
+    cparse_json_free(json);
+
+    json = cparse_client_request_perform_and_get_json(request, error);
+
+    if (json == NULL)
+    {
+        return false;
+    }
 
     return true;
 }

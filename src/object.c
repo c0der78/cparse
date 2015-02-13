@@ -182,7 +182,8 @@ bool cparse_object_delete(CPARSE_OBJ *obj, CPARSE_ERROR **error)
 
     if (!obj->objectId || !*obj->objectId)
     {
-        *error = cparse_error_with_message("object has no id");
+        if (error)
+            *error = cparse_error_with_message("object has no id");
         return false;
     }
 
@@ -199,7 +200,8 @@ bool cparse_object_fetch(CPARSE_OBJ *obj, CPARSE_ERROR **error)
 
     if (!obj->objectId || !*obj->objectId)
     {
-        *error = cparse_error_with_message("Object has no id");
+        if (error)
+            *error = cparse_error_with_message("Object has no id");
         return false;
     }
 
@@ -232,7 +234,8 @@ bool cparse_object_refresh(CPARSE_OBJ *obj, CPARSE_ERROR **error)
 
     if (!obj->objectId || !*obj->objectId)
     {
-        *error = cparse_error_with_message("object has no id");
+        if (error)
+            *error = cparse_error_with_message("object has no id");
         return false;
     }
 
