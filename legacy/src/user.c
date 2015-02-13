@@ -25,6 +25,7 @@ CPARSE_OBJ *automatic_user;
 
 extern CPARSE_QUERY *cparse_query_new();
 
+extern bool cparse_object_request(CPARSE_OBJ *obj, HTTPRequestMethod method, const char *path, CPARSE_ERROR **error);
 
 CPARSE_OBJ *cparse_user_new()
 {
@@ -110,9 +111,6 @@ CPARSE_QUERY *cparse_user_query()
 
 bool cparse_user_sign_up(CPARSE_OBJ *user, const char *password, CPARSE_ERROR **error)
 {
-    CPARSE_JSON *response;
-    CPARSE_CLIENT_REQ *request;
-    char buf[BUFSIZ + 1];
     const char *username;
     bool rval;
 
@@ -140,7 +138,7 @@ bool cparse_user_sign_up(CPARSE_OBJ *user, const char *password, CPARSE_ERROR **
 
     cparse_object_set_string(user, "password", password);
 
-    rval = cparse_object_save(user, error);
+    rval = cparse_object_request(user, HTTPRequestMethodPost, USER_CLASS_NAME, error);
 
     cparse_object_remove(user, "password");
 

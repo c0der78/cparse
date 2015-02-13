@@ -24,6 +24,8 @@ START_TEST(test_cparse_user_sign_up)
     fail_unless(cparse_user_sign_up(user, "Passw0rd!", &error));
 
     fail_unless(error == NULL);
+
+    fail_unless(cparse_user_session_token(user) != NULL);
 }
 END_TEST
 

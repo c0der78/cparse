@@ -12,7 +12,6 @@
 
 /* internals */
 
-
 struct cparse_object
 {
     /* The following must match CPARSE_BASE_OBJ structure */
@@ -53,6 +52,40 @@ void *cparse_object_background_action(void *argument)
     free(arg);
 
     return NULL;
+}
+
+bool cparse_object_request(CPARSE_OBJ *obj, HTTPRequestMethod method, const char *path, CPARSE_ERROR **error)
+{
+    CPARSE_JSON *response;
+    CPARSE_CLIENT_REQ *request = cparse_client_request_new();
+
+    request->path = strdup(path);
+
+    request->method = method;
+
+    /* build the json payload */
+
+    if (obj->attributes)
+    {
+        request->payload = strdup(cparse_json_to_json_string(obj->attributes));
+    }
+
+    /* do the deed */
+    response = cparse_client_request_get_json(request, error);
+
+    cparse_client_request_free(request);
+
+    if (error != NULL && *error != NULL)
+    {
+        return false;
+    }
+
+    /* merge the result with the object */
+    cparse_object_merge_json(obj, response);
+
+    cparse_json_free(response);
+
+    return true;
 }
 
 /* initializers */
@@ -309,54 +342,27 @@ pthread_t cparse_object_refresh_in_background(CPARSE_OBJ *obj, CPARSE_OBJ_CALLBA
     return arg->thread;
 }
 
+
 bool cparse_object_save(CPARSE_OBJ *obj, CPARSE_ERROR **error)
 {
-    CPARSE_JSON *response;
-    CPARSE_CLIENT_REQ *request = cparse_client_request_new();
     char buf[BUFSIZ + 1];
+    HTTPRequestMethod method;
 
     /* build the request based on the id */
     if (!obj->objectId || !*obj->objectId)
     {
         snprintf(buf, BUFSIZ, "classes/%s", obj->className);
 
-        request->path = strdup(buf);
-
-        request->method = HTTPRequestMethodPost;
+        method = HTTPRequestMethodPost;
     }
     else
     {
         snprintf(buf, BUFSIZ, "classes/%s/%s", obj->className, obj->objectId);
 
-        request->path = strdup(buf);
-
-        request->method = HTTPRequestMethodPut;
+        method = HTTPRequestMethodPut;
     }
 
-    /* build the json payload */
-
-    if (obj->attributes)
-    {
-        request->payload = strdup(cparse_json_to_json_string(obj->attributes));
-    }
-
-
-    /* do the deed */
-    response = cparse_client_request_get_json(request, error);
-
-    cparse_client_request_free(request);
-
-    if (error != NULL && *error != NULL)
-    {
-        return false;
-    }
-
-    /* merge the result with the object */
-    cparse_object_merge_json(obj, response);
-
-    cparse_json_free(response);
-
-    return true;
+    return cparse_object_request(obj, method, buf, error);
 }
 
 pthread_t cparse_object_save_in_background(CPARSE_OBJ *obj, CPARSE_OBJ_CALLBACK callback)
