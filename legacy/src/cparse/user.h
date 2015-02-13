@@ -9,40 +9,33 @@
 extern "C" {
 #endif
 
-CPARSE_USER *cparse_current_user();
+CPARSE_OBJ *cparse_current_user();
+
+CPARSE_OBJ *cparse_user_new();
 
 void cparse_user_enable_automatic_user();
 
-CPARSE_USER *cparse_user_login(const char *username, const char *password, CPARSE_ERROR **error);
+CPARSE_OBJ *cparse_user_login(const char *username, const char *password, CPARSE_ERROR **error);
 
-void cparse_user_login_in_background(const char *username, const char *password, CPARSE_USER_CALLBACK callback);
+void cparse_user_login_in_background(const char *username, const char *password, CPARSE_OBJ_CALLBACK callback);
 
 void cparse_user_logout();
 
 CPARSE_QUERY *cparse_user_query();
 
+bool cparse_user_sign_up(CPARSE_OBJ *user, const char *password, CPARSE_ERROR **error);
+
 /* getters/setters */
 
-const char *cparse_user_class_name(CPARSE_USER *user);
+const char *cparse_user_name(CPARSE_OBJ *user);
 
-time_t cparse_user_updated_at(CPARSE_USER *user);
+void cparse_user_set_name(CPARSE_OBJ *user, char *value);
 
-time_t cparse_user_created_at(CPARSE_USER *user);
+const char *cparse_user_email(CPARSE_OBJ *user);
 
-const char *cparse_user_id(CPARSE_USER *user);
+const char *cparse_user_session_token(CPARSE_OBJ *user);
 
-CPARSE_ACL *cparse_user_acl(CPARSE_USER *user);
-
-const char *cparse_user_name(CPARSE_USER *user);
-
-const char *cparse_user_email(CPARSE_USER *user);
-
-void cparse_user_set_password(CPARSE_USER *user, char *value);
-
-const char *cparse_user_session_token(CPARSE_USER *user);
-
-bool cparse_user_is_new(CPARSE_USER *user);
-
+bool cparse_user_is_new(CPARSE_OBJ *user);
 
 #ifdef __cplusplus
 }

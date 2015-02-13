@@ -9,7 +9,7 @@ extern "C" {
 
 CPARSE_ACL *cparse_acl_new();
 
-CPARSE_ACL *cparse_acl_new_with_user(CPARSE_USER *user);
+CPARSE_ACL *cparse_acl_new_with_user(CPARSE_OBJ *user);
 
 CPARSE_ACL *cparse_acl_copy(CPARSE_ACL *other);
 

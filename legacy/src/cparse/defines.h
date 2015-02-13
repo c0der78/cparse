@@ -41,11 +41,7 @@ typedef struct cparse_object CPARSE_OBJ;
 
 typedef struct cparse_query CPARSE_QUERY;
 
-typedef struct cparse_user CPARSE_USER;
-
 /* callbacks */
-typedef void (*CPARSE_USER_CALLBACK)(CPARSE_USER *user, CPARSE_ERROR *error);
-
 typedef void (*CPARSE_OBJ_CALLBACK)(CPARSE_OBJ *obj, CPARSE_ERROR *error);
 
 /* JSON */

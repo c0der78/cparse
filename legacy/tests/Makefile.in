@@ -103,7 +103,8 @@ am_test_cparse_OBJECTS = test_cparse-cparse.test.$(OBJEXT) \
 	test_cparse-object.test.$(OBJEXT) \
 	test_cparse-parse.test.$(OBJEXT) \
 	test_cparse-query.test.$(OBJEXT) \
-	test_cparse-util.test.$(OBJEXT)
+	test_cparse-util.test.$(OBJEXT) \
+	test_cparse-user.test.$(OBJEXT)
 test_cparse_OBJECTS = $(am_test_cparse_OBJECTS)
 test_cparse_DEPENDENCIES = ../src/libcparse.la
 AM_V_lt = $(am__v_lt_@AM_V@)
@@ -290,7 +291,7 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-test_cparse_SOURCES = cparse.test.c json.test.c object.test.c parse.test.c query.test.c util.test.c
+test_cparse_SOURCES = cparse.test.c json.test.c object.test.c parse.test.c query.test.c util.test.c user.test.c
 test_cparse_CFLAGS = $(TEST_CPARSE_CFLAGS) -I ../src -DROOT_PATH="\".\""
 test_cparse_LDADD = ../src/libcparse.la -lcheck -ljson-c -lcurl
 all: all-am
@@ -351,6 +352,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_cparse-object.test.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_cparse-parse.test.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_cparse-query.test.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_cparse-user.test.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_cparse-util.test.Po@am__quote@
 
 .c.o:
@@ -457,6 +459,20 @@ test_cparse-util.test.obj: util.test.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='util.test.c' object='test_cparse-util.test.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_cparse_CFLAGS) $(CFLAGS) -c -o test_cparse-util.test.obj `if test -f 'util.test.c'; then $(CYGPATH_W) 'util.test.c'; else $(CYGPATH_W) '$(srcdir)/util.test.c'; fi`
+
+test_cparse-user.test.o: user.test.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_cparse_CFLAGS) $(CFLAGS) -MT test_cparse-user.test.o -MD -MP -MF $(DEPDIR)/test_cparse-user.test.Tpo -c -o test_cparse-user.test.o `test -f 'user.test.c' || echo '$(srcdir)/'`user.test.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/test_cparse-user.test.Tpo $(DEPDIR)/test_cparse-user.test.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='user.test.c' object='test_cparse-user.test.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_cparse_CFLAGS) $(CFLAGS) -c -o test_cparse-user.test.o `test -f 'user.test.c' || echo '$(srcdir)/'`user.test.c
+
+test_cparse-user.test.obj: user.test.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_cparse_CFLAGS) $(CFLAGS) -MT test_cparse-user.test.obj -MD -MP -MF $(DEPDIR)/test_cparse-user.test.Tpo -c -o test_cparse-user.test.obj `if test -f 'user.test.c'; then $(CYGPATH_W) 'user.test.c'; else $(CYGPATH_W) '$(srcdir)/user.test.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/test_cparse-user.test.Tpo $(DEPDIR)/test_cparse-user.test.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='user.test.c' object='test_cparse-user.test.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_cparse_CFLAGS) $(CFLAGS) -c -o test_cparse-user.test.obj `if test -f 'user.test.c'; then $(CYGPATH_W) 'user.test.c'; else $(CYGPATH_W) '$(srcdir)/user.test.c'; fi`
 
 mostlyclean-libtool:
 	-rm -f *.lo

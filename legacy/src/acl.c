@@ -26,7 +26,7 @@ CPARSE_ACL *cparse_acl_new()
     return acl;
 }
 
-CPARSE_ACL *cparse_acl_new_with_user(CPARSE_USER *user)
+CPARSE_ACL *cparse_acl_new_with_user(CPARSE_OBJ *user)
 {
     CPARSE_ACL *acl = cparse_acl_new();
 

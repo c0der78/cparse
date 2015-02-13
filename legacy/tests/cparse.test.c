@@ -10,6 +10,8 @@ Suite *cparse_parse_suite();
 Suite *cparse_json_suite();
 Suite *cparse_object_suite();
 Suite *cparse_query_suite();
+Suite *cparse_util_suite();
+Suite *cparse_user_suite ();
 extern int cparse_cleanup_test_objects();
 
 void die(const char *message)
@@ -70,6 +72,8 @@ int main(void)
     srunner_add_suite(sr, cparse_json_suite());
     srunner_add_suite(sr, cparse_object_suite());
     srunner_add_suite(sr, cparse_query_suite());
+    srunner_add_suite(sr, cparse_util_suite());
+    srunner_add_suite(sr, cparse_user_suite());
     srunner_run_all (sr, CK_NORMAL);
     number_failed = srunner_ntests_failed (sr);
     srunner_free (sr);
