@@ -91,7 +91,7 @@ void cparse_json_set_string(CPARSE_JSON *obj, const char *key, const char *value
 
 void cparse_json_set(CPARSE_JSON *obj, const char *key, CPARSE_JSON *value)
 {
-    json_object_object_add(obj, key, value);
+    json_object_object_add(obj, key, json_object_get(value));
 }
 
 /* getters */
@@ -144,15 +144,6 @@ const char *cparse_json_get_string(CPARSE_JSON *obj, const char *key)
     return NULL;
 }
 
-CPARSE_JSON_ARRAY *cparse_json_get_array(CPARSE_JSON *obj, const char *key)
-{
-    CPARSE_JSON *value = NULL;
-    if (json_object_object_get_ex(obj, key, &value))
-        return json_object_get_array(value);
-
-    return NULL;
-}
-
 /* array setters */
 void cparse_json_array_add_number(CPARSE_JSON *arr, long long value)
 {
@@ -169,16 +160,14 @@ void cparse_json_array_add_bool(CPARSE_JSON *arr, bool b)
     json_object_array_add(arr, json_object_new_boolean(b));
 }
 
-
 void cparse_json_array_add_string(CPARSE_JSON *arr, const char *value)
 {
     json_object_array_add(arr, json_object_new_string(value));
 }
 
-
 void cparse_json_array_add(CPARSE_JSON *arr, CPARSE_JSON *value)
 {
-    json_object_array_add(arr, value);
+    json_object_array_add(arr, json_object_get(value));
 }
 
 /* array getters */
@@ -214,13 +203,10 @@ CPARSE_JSON *cparse_json_array_get(CPARSE_JSON *arr, size_t index)
     return json_object_array_get_idx(arr, index);
 }
 
-CPARSE_JSON_ARRAY *cparse_json_array_get_array(CPARSE_JSON *arr, size_t index)
+bool cparse_json_is_arrau(CPARSE_JSON *obj)
 {
-    CPARSE_JSON *value = json_object_array_get_idx(arr, index);
-
-    return json_object_get_array(value);
+    return json_object_get_type(obj) == json_type_array;
 }
-
 size_t cparse_json_array_size(CPARSE_JSON *array)
 {
     return json_object_array_length(array);
@@ -275,11 +261,6 @@ json_type cparse_json_type(CPARSE_JSON *v)
 bool cparse_json_contains(CPARSE_JSON *obj, const char *key)
 {
     return json_object_object_get_ex(obj, key, NULL);
-}
-
-CPARSE_JSON_ARRAY *cparse_json_to_array(CPARSE_JSON *v)
-{
-    return json_object_get_array(v);
 }
 
 const char *cparse_json_to_json_string(CPARSE_JSON *obj)

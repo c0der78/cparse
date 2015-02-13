@@ -31,6 +31,12 @@ typedef struct cparse_acl CPARSE_ACL;
 
 typedef struct cparse_error CPARSE_ERROR;
 
+/*!
+ * a base structure that CPARSE_OBJ and CPARSE_USER can cast to.
+ * contains an id, created_at, updated_at and class_name
+ */
+typedef struct cparse_base_object CPARSE_BASE_OBJ;
+
 typedef struct cparse_object CPARSE_OBJ;
 
 typedef struct cparse_query CPARSE_QUERY;
@@ -53,8 +59,6 @@ typedef enum
     kCParseJSONArray = json_type_array,
     kCParseJSONNull = json_type_null
 } CParseJSONType;
-
-typedef array_list CPARSE_JSON_ARRAY;
 
 typedef json_object CPARSE_JSON;
 

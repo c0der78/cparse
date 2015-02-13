@@ -10,27 +10,21 @@
 extern "C" {
 #endif
 
-struct cparse_query
-{
-    /*CParseCachePolicy cachePolicy;*/
-    char *className;
-    int limit;
-    int skip;
-    bool trace;
-    bool count;
-    CPARSE_JSON *where;
-    CPARSE_OBJ **results;
-    size_t size;
-    char *keys;
-};
-
-typedef struct cparse_query_builder CPARSE_QUERY_BUILDER;
-
 /*void cparse_query_clear_all_caches();*/
 
 CPARSE_QUERY *cparse_query_with_class_name(const char *className);
 
 void cparse_query_free(CPARSE_QUERY *query);
+
+/* getters/setters */
+
+size_t cparse_query_size(CPARSE_QUERY *query);
+
+CPARSE_OBJ *cparse_query_result(CPARSE_QUERY *query, size_t index);
+
+void cparse_query_set_where(CPARSE_QUERY *query, CPARSE_JSON *where);
+
+/* functions */
 
 void cparse_query_cancel(CPARSE_QUERY *query);
 
@@ -39,15 +33,6 @@ void cparse_query_clear_cache(CPARSE_QUERY *query);
 int cparse_query_count_objects(CPARSE_QUERY *query, CPARSE_ERROR **error);
 
 bool cparse_query_find_objects(CPARSE_QUERY *query, CPARSE_ERROR **error);
-
-/* query builder interface */
-CPARSE_QUERY_BUILDER *cparse_query_builder_new(CPARSE_QUERY *query);
-
-void cparse_query_builder_free(CPARSE_QUERY_BUILDER *value);
-
-void cparse_query_builder_in_array(CPARSE_QUERY_BUILDER *builder, CPARSE_JSON *value);
-
-void cparse_query_where(CPARSE_QUERY *query, const char *key, CPARSE_QUERY_BUILDER *builder);
 
 #define CPARSE_QUERY_LESS_THAN "$lt"
 #define CPARSE_QUERY_LESS_THAN_EQUAL "$lte"

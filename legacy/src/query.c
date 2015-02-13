@@ -5,10 +5,19 @@
 #include <cparse/json.h>
 #include "client.h"
 
-struct cparse_query_builder
+
+struct cparse_query
 {
-    CPARSE_QUERY *query;
-    CPARSE_JSON *value;
+    /*CParseCachePolicy cachePolicy;*/
+    char *className;
+    int limit;
+    int skip;
+    bool trace;
+    bool count;
+    CPARSE_JSON *where;
+    CPARSE_OBJ **results;
+    size_t size;
+    char *keys;
 };
 
 void cparse_query_clear_all_caches()
@@ -33,16 +42,6 @@ CPARSE_QUERY *cparse_query_new()
     return query;
 }
 
-CPARSE_QUERY_BUILDER *cparse_query_builder_new(CPARSE_QUERY *query)
-{
-    CPARSE_QUERY_BUILDER *builder = malloc(sizeof(CPARSE_QUERY_BUILDER));
-
-    builder->query = query;
-    builder->value = cparse_json_new();
-
-    return builder;
-}
-
 void cparse_query_free(CPARSE_QUERY *query)
 {
     if (query->className)
@@ -63,16 +62,6 @@ void cparse_query_free(CPARSE_QUERY *query)
     free(query);
 }
 
-void cparse_query_builder_free(CPARSE_QUERY_BUILDER *value)
-{
-    if (value)
-    {
-        cparse_json_free(value->value);
-
-        free(value);
-    }
-}
-
 CPARSE_QUERY *cparse_query_with_class_name(const char *className)
 {
     CPARSE_QUERY *query = cparse_query_new();
@@ -80,6 +69,22 @@ CPARSE_QUERY *cparse_query_with_class_name(const char *className)
     query->className = strdup(className);
 
     return query;
+}
+
+
+/* getters/setters */
+
+size_t cparse_query_size(CPARSE_QUERY *query)
+{
+    return query->size;
+}
+
+CPARSE_OBJ *cparse_query_result(CPARSE_QUERY *query, size_t index)
+{
+    if (!query || !query->results || index > query->size)
+        return NULL;
+
+    return query->results[index];
 }
 
 bool cparse_query_find_objects(CPARSE_QUERY *query, CPARSE_ERROR **error)
@@ -189,17 +194,12 @@ int cparse_query_count_objects(CPARSE_QUERY *query, CPARSE_ERROR **error)
     return 0;
 }
 
-void cparse_query_builder_in_array(CPARSE_QUERY_BUILDER *builder, CPARSE_JSON *value)
-{
-    cparse_json_set(builder->value, CPARSE_QUERY_IN, value);
-}
-
-void cparse_query_where(CPARSE_QUERY *query, const char *key, CPARSE_QUERY_BUILDER *builder)
+void cparse_query_set_where(CPARSE_QUERY *query, CPARSE_JSON *value)
 {
     if (query->where)
         cparse_json_free(query->where);
 
-    query->where = cparse_json_new();
-
-    cparse_json_set(query->where, key, builder->value);
+    query->where = cparse_json_new_reference(value);
 }
+
+

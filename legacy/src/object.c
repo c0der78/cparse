@@ -8,16 +8,21 @@
 #include "client.h"
 #include "protocol.h"
 #include <cparse/util.h>
+#include <cparse/parse.h>
 
 /* internals */
 
+
 struct cparse_object
 {
-    CPARSE_JSON *attributes;
+    /* The following must match CPARSE_BASE_OBJ structure */
     char *className;
+    char *objectId;
     time_t updatedAt;
     time_t createdAt;
-    char *objectId;
+
+    /* rest of fields */
+    CPARSE_JSON *attributes;
     CPARSE_ACL *acl;
 };
 
@@ -120,22 +125,23 @@ size_t cparse_object_sizeof()
 
 const char *cparse_object_id(CPARSE_OBJ *obj)
 {
-    return obj->objectId;
+    return cparse_base_id((CPARSE_BASE_OBJ *) obj);
 }
 
 const char *cparse_object_class_name(CPARSE_OBJ *obj)
 {
-    return obj->className;
+    return cparse_base_class_name((CPARSE_BASE_OBJ *) obj);
 }
 
 time_t cparse_object_created_at(CPARSE_OBJ *obj)
 {
-    return obj->createdAt;
+    return cparse_base_created_at((CPARSE_BASE_OBJ *) obj);
 }
 time_t cparse_object_updated_at(CPARSE_OBJ *obj)
 {
-    return obj->updatedAt;
+    return cparse_base_updated_at((CPARSE_BASE_OBJ *) obj);
 }
+
 CPARSE_ACL *cparse_object_acl(CPARSE_OBJ *obj)
 {
     return obj->acl;
@@ -168,7 +174,7 @@ bool cparse_object_delete(CPARSE_OBJ *obj, CPARSE_ERROR **error)
 
     if (error && *error)
     {
-        printf("delete error %s\n", (*error)->message);
+        printf("delete error %s\n", cparse_error_message(*error));
     }
     return error == NULL || *error == NULL;
 }
@@ -443,11 +449,6 @@ bool cparse_object_get_bool(CPARSE_OBJ *obj, const char *key)
 const char *cparse_object_get_string(CPARSE_OBJ *obj, const char *key)
 {
     return cparse_json_get_string(obj->attributes, key);
-}
-
-CPARSE_JSON_ARRAY *cparse_object_get_array(CPARSE_OBJ *obj, const char *key)
-{
-    return cparse_json_get_array(obj->attributes, key);
 }
 
 size_t cparse_object_attribute_size(CPARSE_OBJ *obj)

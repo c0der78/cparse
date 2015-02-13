@@ -113,9 +113,9 @@ void cparse_client_request_perform(CPARSE_CLIENT_REQ *request, CPARSE_ERROR **er
     {
         *error = cparse_error_new();
 
-        (*error)->message = strdup(errorMessage);
+        cparse_error_set_message(*error, errorMessage);
 
-        (*error)->code = cparse_json_get_number(obj, "code", 0);
+        cparse_error_set_code(*error, cparse_json_get_number(obj, "code", 0));
     }
 
     cparse_json_free(obj);
@@ -150,9 +150,8 @@ CPARSE_JSON *cparse_client_request_get_json(CPARSE_CLIENT_REQ *request, CPARSE_E
     {
         *error = cparse_error_new();
 
-        (*error)->message = strdup(errorMessage);
-
-        (*error)->code = cparse_json_get_number(obj, "code", 0);
+        cparse_error_set_message(*error, errorMessage);
+        cparse_error_set_code(*error, cparse_json_get_number(obj, "code", 0));
 
         cparse_json_free(obj);
 

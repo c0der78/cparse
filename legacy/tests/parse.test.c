@@ -41,13 +41,6 @@ int cparse_cleanup_test_object(CPARSE_OBJ *obj)
     node->next = first_obj;
     first_obj = node;
 
-    int count = 0;
-
-    for (struct obj_list *node = first_obj; node; node = node->next)
-        count++;
-
-    printf("Adding object %d for cleanup...\n", count);
-
     return 1;
 }
 
@@ -61,8 +54,7 @@ int cparse_save_test_object(CPARSE_OBJ *obj)
     {
         if (error)
         {
-            if (error->message)
-                printf("%s\n", error->message);
+            printf("Save error: %s\n", cparse_error_message(error));
 
             cparse_error_free(error);
         }
@@ -82,8 +74,6 @@ int cparse_cleanup_test_objects()
     {
         next_node = node->next;
 
-        printf("cleaning up object %d...\n", count++);
-
         if (node->obj)
         {
             CPARSE_ERROR *error = NULL;
@@ -91,7 +81,7 @@ int cparse_cleanup_test_objects()
             if (!cparse_object_delete(node->obj, &error))
             {
                 if (error)
-                    printf("unable to delete object %s...\n", error->message);
+                    printf("delete error: %s\n", cparse_error_message(error));
             }
 
             cparse_object_free(node->obj);

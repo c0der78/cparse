@@ -55,7 +55,6 @@ long long cparse_object_get_number(CPARSE_OBJ *, const char *key, long long def)
 double cparse_object_get_real(CPARSE_OBJ *, const char *key, double def);
 bool cparse_object_get_bool(CPARSE_OBJ *, const char *key);
 const char *cparse_object_get_string(CPARSE_OBJ *, const char *key);
-CPARSE_JSON_ARRAY *cparse_object_get_array(CPARSE_OBJ *, const char *key);
 
 CPARSE_JSON *cparse_object_remove(CPARSE_OBJ *, const char *key);
 bool cparse_object_contains(CPARSE_OBJ *obj, const char *key);

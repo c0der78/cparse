@@ -7,14 +7,6 @@
 extern "C" {
 #endif
 
-struct cparse_acl
-{
-    CPARSE_ACL *next;
-    char *name;
-    bool read;
-    bool write;
-};
-
 CPARSE_ACL *cparse_acl_new();
 
 CPARSE_ACL *cparse_acl_new_with_user(CPARSE_USER *user);

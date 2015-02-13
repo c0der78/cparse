@@ -7,9 +7,9 @@
 extern "C" {
 #endif
 
-    time_t cparse_date_time(const char *str);
+time_t cparse_date_time(const char *str);
 
-    void replace_str(char **a, const char *b);
+void replace_str(char **a, const char *b);
 
 #ifdef __cplusplus
 }

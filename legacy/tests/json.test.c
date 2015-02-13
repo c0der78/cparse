@@ -58,7 +58,7 @@ START_TEST(test_cparse_json_set_array)
 
     cparse_json_set(cpv_test, "test", array);
 
-    fail_unless(cparse_json_get_array(cpv_test, "test") == cparse_json_to_array(array));
+    fail_unless(cparse_json_array_size(cparse_json_get(cpv_test, "test")) == cparse_json_array_size(array));
 }
 END_TEST
 

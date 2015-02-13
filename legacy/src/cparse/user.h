@@ -9,26 +9,6 @@
 extern "C" {
 #endif
 
-struct cparse_user
-{
-    /*
-     * the following fields MUST match the object structure
-     * in order to do casting and make use of the object functions
-     */
-    CPARSE_JSON *attributes;
-    char *className;
-    time_t updatedAt;
-    time_t createdAt;
-    char *objectId;
-    CPARSE_ACL *acl;
-
-    char *username;
-    char *email;
-    char *password;
-    char *sessionToken;
-    bool isNew;
-};
-
 CPARSE_USER *cparse_current_user();
 
 void cparse_user_enable_automatic_user();
@@ -40,6 +20,28 @@ void cparse_user_login_in_background(const char *username, const char *password,
 void cparse_user_logout();
 
 CPARSE_QUERY *cparse_user_query();
+
+/* getters/setters */
+
+const char *cparse_user_class_name(CPARSE_USER *user);
+
+time_t cparse_user_updated_at(CPARSE_USER *user);
+
+time_t cparse_user_created_at(CPARSE_USER *user);
+
+const char *cparse_user_id(CPARSE_USER *user);
+
+CPARSE_ACL *cparse_user_acl(CPARSE_USER *user);
+
+const char *cparse_user_name(CPARSE_USER *user);
+
+const char *cparse_user_email(CPARSE_USER *user);
+
+void cparse_user_set_password(CPARSE_USER *user, char *value);
+
+const char *cparse_user_session_token(CPARSE_USER *user);
+
+bool cparse_user_is_new(CPARSE_USER *user);
 
 
 #ifdef __cplusplus

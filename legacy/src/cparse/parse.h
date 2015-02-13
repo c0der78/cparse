@@ -2,6 +2,7 @@
 #define CPARSE_PARSE_H_
 
 #include <cparse/defines.h>
+#include <time.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -18,6 +19,17 @@ bool cparse_has_facebook_application_id();
 void cparse_offline_messages_enabled(bool value);
 
 void cparse_error_messages_enabled(bool value);
+
+
+/* some common object getters */
+const char *cparse_base_class_name(CPARSE_BASE_OBJ *obj);
+
+time_t cparse_base_updated_at(CPARSE_BASE_OBJ *obj);
+
+time_t cparse_base_created_at(CPARSE_BASE_OBJ *obj);
+
+const char *cparse_base_id(CPARSE_BASE_OBJ *obj);
+
 
 #ifdef __cplusplus
 }

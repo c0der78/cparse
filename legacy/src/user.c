@@ -1,6 +1,30 @@
 #include <stdlib.h>
 #include <string.h>
 #include <cparse/user.h>
+#include <cparse/parse.h>
+
+struct cparse_user
+{
+    /*
+     * the following fields MUST match the base object structure
+     * in order to do casting and make use of the object functions
+     */
+    char *className;
+    char *objectId;
+    time_t updatedAt;
+    time_t createdAt;
+
+    /* object fields */
+    CPARSE_JSON *attributes;
+    CPARSE_ACL *acl;
+
+    /* user fields */
+    char *username;
+    char *email;
+    char *password;
+    char *sessionToken;
+    bool isNew;
+};
 
 
 CPARSE_USER *current_user;
@@ -44,6 +68,62 @@ void cparse_user_delete(CPARSE_USER *user)
     free(user);
 }
 
+/* getters/setters */
+
+const char *cparse_user_class_name(CPARSE_USER *user)
+{
+    return cparse_base_class_name((CPARSE_BASE_OBJ *) user);
+}
+
+time_t cparse_user_updated_at(CPARSE_USER *user)
+{
+    return cparse_base_updated_at((CPARSE_BASE_OBJ *) user);
+}
+
+time_t cparse_user_created_at(CPARSE_USER *user)
+{
+    return cparse_base_created_at((CPARSE_BASE_OBJ *) user);
+}
+
+const char *cparse_user_id(CPARSE_USER *user)
+{
+    return cparse_base_id((CPARSE_BASE_OBJ *) user);
+}
+
+CPARSE_ACL *cparse_user_acl(CPARSE_USER *user)
+{
+    return !user ? NULL : user->acl;
+}
+
+const char *cparse_user_name(CPARSE_USER *user)
+{
+    return !user ? NULL : user->username;
+}
+
+const char *cparse_user_email(CPARSE_USER *user)
+{
+    return !user ? NULL : user->email;
+}
+
+void cparse_user_set_password(CPARSE_USER *user, char *value)
+{
+    if (user)
+    {
+        user->password = value;
+    }
+}
+
+const char *cparse_user_session_token(CPARSE_USER *user)
+{
+    return !user ? NULL : user->sessionToken;
+}
+
+bool cparse_user_is_new(CPARSE_USER *user)
+{
+    return !user ? false : user->isNew;
+}
+
+/* functions */
 void cparse_user_enable_automatic_user()
 {
     if (automatic_user == NULL)

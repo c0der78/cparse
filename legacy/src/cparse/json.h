@@ -43,8 +43,8 @@ long long cparse_json_get_number(CPARSE_JSON *obj, const char *key, long long de
 double cparse_json_get_real(CPARSE_JSON *obj, const char *key, double def);
 bool cparse_json_get_bool(CPARSE_JSON *obj, const char *key);
 const char *cparse_json_get_string(CPARSE_JSON *obj, const char *key);
-CPARSE_JSON_ARRAY *cparse_json_get_array(CPARSE_JSON *obj, const char *key);
 
+bool cparse_json_is_array(CPARSE_JSON *obj);
 json_type cparse_json_type(CPARSE_JSON *obj);
 int cparse_json_num_keys(CPARSE_JSON *obj);
 bool cparse_json_contains(CPARSE_JSON *obj, const char *key);
@@ -66,7 +66,6 @@ double cparse_json_array_get_real(CPARSE_JSON *array, size_t index);
 const char *cparse_json_array_get_string(CPARSE_JSON *array, size_t index);
 bool cparse_json_array_get_bool(CPARSE_JSON *array, size_t index);
 CPARSE_JSON *cparse_json_array_get(CPARSE_JSON *array, size_t index);
-CPARSE_JSON_ARRAY *cparse_json_array_get_array(CPARSE_JSON *array, size_t index);
 
 size_t cparse_json_array_size(CPARSE_JSON *value);
 
@@ -76,7 +75,6 @@ long long cparse_json_to_number(CPARSE_JSON *);
 double cparse_json_to_real(CPARSE_JSON *);
 bool cparse_json_to_bool(CPARSE_JSON *);
 const char *cparse_json_to_string(CPARSE_JSON *value);
-CPARSE_JSON_ARRAY *cparse_json_to_array(CPARSE_JSON *value);
 
 const char *cparse_json_to_json_string(CPARSE_JSON *value);
 

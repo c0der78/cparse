@@ -25,15 +25,19 @@ START_TEST(test_cparse_query_objects)
 
     CPARSE_QUERY *query = cparse_query_with_class_name(TEST_CLASS);
 
-    query->where = cparse_json_new();
+    CPARSE_JSON *where = cparse_json_new();
 
-    cparse_json_set_string(query->where, "playerName", "user1");
+    cparse_json_set_string(where, "playerName", "user1");
+
+    cparse_query_set_where(query, where);
+
+    cparse_json_free(where);
 
     fail_unless(cparse_query_find_objects(query, &error));
 
-    fail_unless(query->size > 0);
+    fail_unless(cparse_query_size(query) > 0);
 
-    CPARSE_OBJ *user1 = query->results[0];
+    CPARSE_OBJ *user1 = cparse_query_result(query, 0);
 
     fail_unless(!strcmp(cparse_object_get_string(user1, "playerName"), "user1"));
 }
@@ -49,8 +53,6 @@ START_TEST(test_cparse_query_where)
 
     CPARSE_QUERY *query = cparse_query_with_class_name(TEST_CLASS);
 
-    CPARSE_QUERY_BUILDER *builder = cparse_query_builder_new(query);
-
     CPARSE_JSON *inArray = cparse_json_new_array();
 
     cparse_json_array_add_number(inArray, 127978);
@@ -61,17 +63,31 @@ START_TEST(test_cparse_query_where)
 
     cparse_json_array_add_number(inArray, 255550);
 
-    cparse_query_builder_in_array(builder, inArray);
+    CPARSE_JSON *in = cparse_json_new();
 
-    cparse_query_where(query, "score", builder);
+    cparse_json_set(in, CPARSE_QUERY_IN, inArray);
 
-    cparse_query_builder_free(builder);
+    cparse_json_free(inArray);
+
+    CPARSE_JSON *score = cparse_json_new();
+
+    cparse_json_set(score, "score", in);
+
+    cparse_json_free(in);
+
+    cparse_query_set_where(query, score);
+
+    cparse_json_free(score);
 
     fail_unless(cparse_query_find_objects(query, &error));
 
-    fail_unless(query->size > 0);
+    fail_unless(cparse_query_size(query) > 0);
 
-    fail_unless(cparse_object_get_number(query->results[0], "score", 0) == randScore);
+    CPARSE_OBJ *result = cparse_query_result(query, 0);
+
+    fail_unless(cparse_object_get_number(result, "score", 0) == randScore);
+
+    cparse_query_free(query);
 }
 END_TEST
 

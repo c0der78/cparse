@@ -7,6 +7,14 @@ CPARSE_ACL *first_acl;
 
 CPARSE_ACL *default_acl = 0;
 
+struct cparse_acl
+{
+    CPARSE_ACL *next;
+    char *name;
+    bool read;
+    bool write;
+};
+
 
 CPARSE_ACL *cparse_acl_new()
 {
@@ -22,7 +30,7 @@ CPARSE_ACL *cparse_acl_new_with_user(CPARSE_USER *user)
 {
     CPARSE_ACL *acl = cparse_acl_new();
 
-    acl->name = strdup(user->username);
+    acl->name = strdup(cparse_user_name(user));
 
     return acl;
 }
