@@ -89,7 +89,7 @@ CPARSE_OBJ *cparse_query_result(CPARSE_QUERY *query, size_t index)
 
 bool cparse_query_find_objects(CPARSE_QUERY *query, CPARSE_ERROR **error)
 {
-    CPARSE_CLIENT_REQ *request;
+    CPARSE_REQUEST *request;
     CPARSE_JSON *data;
     char buf[BUFSIZ + 1];
     char params[BUFSIZ + 1] = {0};
@@ -137,7 +137,7 @@ bool cparse_query_find_objects(CPARSE_QUERY *query, CPARSE_ERROR **error)
     }
 
     /* do the deed */
-    data = cparse_client_request_get_json(request, error);
+    data = cparse_client_request_perform_and_get_json(request, error);
 
     cparse_client_request_free(request);
 

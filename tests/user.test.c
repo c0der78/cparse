@@ -42,15 +42,13 @@ START_TEST(test_cparse_user_login)
 {
     CPARSE_ERROR *error = NULL;
 
-    CPARSE_OBJ *user = cparse_user_new();
+    CPARSE_OBJ *user123 = cparse_user_new(), *user;
 
-    cparse_user_set_name(user, "user123");
+    cparse_user_set_name(user123, "user123");
 
-    cparse_object_set_string(user, "bio", "hello, world");
+    cparse_object_set_string(user123, "bio", "hello, world");
 
-    cparse_user_sign_up(user, "Passw0rd!", &error);
-
-    cparse_object_free(user);
+    cparse_user_sign_up(user123, "Passw0rd!", &error);
 
     if (error)
         printf("user signup error: %s\n", cparse_error_message(error));
@@ -65,6 +63,16 @@ START_TEST(test_cparse_user_login)
     fail_unless(!strcmp(cparse_user_name(user), "user123"));
 
     fail_unless(cparse_user_session_token(user) != NULL);
+
+
+    cparse_user_delete(user123, &error);
+
+    if (error)
+        printf("user delete error: %s\n", cparse_error_message(error));
+
+    cparse_object_free(user123);
+
+    cparse_object_free(user);
 }
 END_TEST
 

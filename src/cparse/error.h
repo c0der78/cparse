@@ -8,6 +8,7 @@ extern "C" {
 #endif
 
 CPARSE_ERROR *cparse_error_new();
+CPARSE_ERROR *cparse_error_with_message(const char *message);
 
 void cparse_error_free(CPARSE_ERROR *error);
 

@@ -18,9 +18,27 @@ extern const char *cparse_api_key;
 
 extern const char *cparse_app_id;
 
-CPARSE_CLIENT_REQ *cparse_client_request_new()
+
+struct cparse_client_response
 {
-    CPARSE_CLIENT_REQ *request = malloc(sizeof(CPARSE_CLIENT_REQ));
+    char *text;
+    size_t size;
+    int code;
+};
+
+struct cparse_request_header
+{
+    REQUEST_HEADER *next;
+    char *key;
+    char *value;
+};
+
+CPARSE_RESPONSE *cparse_client_request_perform_and_get_response(CPARSE_REQUEST *request);
+
+
+CPARSE_REQUEST *cparse_client_request_new()
+{
+    CPARSE_REQUEST *request = malloc(sizeof(CPARSE_REQUEST));
 
     request->path = NULL;
     request->payload = NULL;
@@ -30,7 +48,7 @@ CPARSE_CLIENT_REQ *cparse_client_request_new()
     return request;
 };
 
-void cparse_client_request_free(CPARSE_CLIENT_REQ *request)
+void cparse_client_request_free(CPARSE_REQUEST *request)
 {
     REQUEST_HEADER *header, *next_header;
 
@@ -53,7 +71,7 @@ void cparse_client_request_free(CPARSE_CLIENT_REQ *request)
     free(request);
 }
 
-void cparse_client_response_free(CPARSE_CLIENT_RESP *response)
+void cparse_client_response_free(CPARSE_RESPONSE *response)
 {
     if (response->size > 0 && response->text)
         free(response->text);
@@ -61,7 +79,7 @@ void cparse_client_response_free(CPARSE_CLIENT_RESP *response)
     free(response);
 }
 
-void cparse_client_request_add_header(CPARSE_CLIENT_REQ *request, const char *key, const char *value)
+void cparse_client_request_add_header(CPARSE_REQUEST *request, const char *key, const char *value)
 {
     REQUEST_HEADER *header = malloc(sizeof(REQUEST_HEADER));
 
@@ -72,7 +90,7 @@ void cparse_client_request_add_header(CPARSE_CLIENT_REQ *request, const char *ke
     header->value = strdup(value);
 }
 
-static size_t cparse_client_get_response(void *ptr, size_t size, size_t nmemb, CPARSE_CLIENT_RESP *s)
+static size_t cparse_client_get_response(void *ptr, size_t size, size_t nmemb, CPARSE_RESPONSE *s)
 {
     assert(s != NULL);
 
@@ -132,31 +150,17 @@ static void cparse_client_set_headers(CURL *curl, REQUEST_HEADER *requestHeaders
     curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
 }
 
-void cparse_client_request_perform(CPARSE_CLIENT_REQ *request, CPARSE_ERROR **error)
+void cparse_client_request_perform(CPARSE_REQUEST *request, CPARSE_ERROR **error)
 {
-    CPARSE_CLIENT_RESP *response = cparse_client_request_get_response(request);
+    CPARSE_JSON *obj = cparse_client_request_perform_and_get_json(request, error);
 
-    CPARSE_JSON *obj = json_tokener_parse(response->text);
-
-    const char *errorMessage = cparse_json_get_string(obj, "error");
-
-    cparse_client_response_free(response);
-
-    if (errorMessage != NULL && error)
-    {
-        *error = cparse_error_new();
-
-        cparse_error_set_message(*error, errorMessage);
-
-        cparse_error_set_code(*error, cparse_json_get_number(obj, "code", 0));
-    }
-
-    cparse_json_free(obj);
+    if (obj != NULL)
+        cparse_json_free(obj);
 }
 
-CPARSE_JSON *cparse_client_request_get_json(CPARSE_CLIENT_REQ *request, CPARSE_ERROR **error)
+CPARSE_JSON *cparse_client_request_perform_and_get_json(CPARSE_REQUEST *request, CPARSE_ERROR **error)
 {
-    CPARSE_CLIENT_RESP *response = cparse_client_request_get_response(request);
+    CPARSE_RESPONSE *response = cparse_client_request_perform_and_get_response(request);
 
     json_tokener *tok = json_tokener_new();
 
@@ -181,9 +185,8 @@ CPARSE_JSON *cparse_client_request_get_json(CPARSE_CLIENT_REQ *request, CPARSE_E
 
     if (errorMessage != NULL && error)
     {
-        *error = cparse_error_new();
+        *error = cparse_error_with_message(errorMessage);
 
-        cparse_error_set_message(*error, errorMessage);
         cparse_error_set_code(*error, cparse_json_get_number(obj, "code", 0));
 
         cparse_json_free(obj);
@@ -194,11 +197,11 @@ CPARSE_JSON *cparse_client_request_get_json(CPARSE_CLIENT_REQ *request, CPARSE_E
     return obj;
 }
 
-CPARSE_CLIENT_RESP *cparse_client_request_get_response(CPARSE_CLIENT_REQ *request)
+CPARSE_RESPONSE *cparse_client_request_perform_and_get_response(CPARSE_REQUEST *request)
 {
     CURL *curl;
     CURLcode res;
-    CPARSE_CLIENT_RESP *response;
+    CPARSE_RESPONSE *response;
 
     curl = curl_easy_init();
     if (curl == NULL)
@@ -207,7 +210,7 @@ CPARSE_CLIENT_RESP *cparse_client_request_get_response(CPARSE_CLIENT_REQ *reques
         return NULL;
     }
 
-    response = malloc(sizeof(CPARSE_CLIENT_RESP));
+    response = malloc(sizeof(CPARSE_RESPONSE));
     response->text = NULL;
     response->code = 0;
     response->size = 0;
@@ -259,5 +262,62 @@ CPARSE_CLIENT_RESP *cparse_client_request_get_response(CPARSE_CLIENT_REQ *reques
     curl_easy_cleanup(curl);
 
     return response;
+}
+
+
+bool cparse_client_object_request(CPARSE_OBJ *obj, HTTPRequestMethod method, const char *path, const char *payload, CPARSE_ERROR **error)
+{
+    CPARSE_JSON *response;
+    CPARSE_REQUEST *request = cparse_client_request_new();
+
+    if (!path || !*path)
+    {
+        *error = cparse_error_with_message("Invalid path for request");
+        return false;
+    }
+
+    request->path = strdup(path);
+
+    request->method = method;
+
+    if (payload)
+    {
+        request->payload = strdup(payload);
+    }
+
+    /* do the deed */
+    response = cparse_client_request_perform_and_get_json(request, error);
+
+    cparse_client_request_free(request);
+
+    if (error != NULL && *error != NULL)
+    {
+        cparse_json_free(response);
+
+        return false;
+    }
+
+    /* merge the result with the object */
+    cparse_object_merge_json(obj, response);
+
+    cparse_json_free(response);
+
+    return true;
+}
+
+
+bool cparse_client_request(HTTPRequestMethod method, const char *path, CPARSE_ERROR **error)
+{
+    CPARSE_REQUEST *request = cparse_client_request_new();
+
+    request->path = strdup(path);
+
+    request->method = method;
+
+    cparse_client_request_perform(request, error);
+
+    cparse_client_request_free(request);
+
+    return error == NULL || *error == NULL;
 }
 

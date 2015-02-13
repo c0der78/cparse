@@ -15,8 +15,6 @@ CPARSE_OBJ *cparse_user_new();
 
 CPARSE_OBJ *cparse_user_with_name(const char *username);
 
-void cparse_user_enable_automatic_user();
-
 CPARSE_OBJ *cparse_user_login(const char *username, const char *password, CPARSE_ERROR **error);
 
 void cparse_user_login_in_background(const char *username, const char *password, CPARSE_OBJ_CALLBACK callback);
@@ -40,6 +38,8 @@ const char *cparse_user_email(CPARSE_OBJ *user);
 const char *cparse_user_session_token(CPARSE_OBJ *user);
 
 bool cparse_user_is_new(CPARSE_OBJ *user);
+
+bool cparse_user_validate(CPARSE_OBJ *user, const char *sessionToken, CPARSE_ERROR **error);
 
 #ifdef __cplusplus
 }

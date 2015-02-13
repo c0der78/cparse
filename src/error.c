@@ -15,12 +15,22 @@ CPARSE_ERROR *cparse_error_new()
 
     if (e == NULL)
     {
-        fputs("Unable to allocate memory", stderr);
-        exit(EXIT_FAILURE);
+        return NULL;
     }
 
     e->code = 0;
     e->message = NULL;
+
+    return e;
+}
+
+CPARSE_ERROR *cparse_error_with_message(const char *message)
+{
+    CPARSE_ERROR *e = cparse_error_new();
+
+    if (e == NULL) return NULL;
+
+    e->message = strdup(message);
 
     return e;
 }

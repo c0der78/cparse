@@ -54,36 +54,32 @@ void *cparse_object_background_action(void *argument)
     return NULL;
 }
 
-bool cparse_object_request_json(CPARSE_OBJ *obj, HTTPRequestMethod method, const char *path, CPARSE_ERROR **error)
+
+void cparse_object_includes_to_buffer(CPARSE_OBJ *obj, char *buf, size_t bufSiz)
 {
-    CPARSE_JSON *response;
-    CPARSE_CLIENT_REQ *request = cparse_client_request_new();
+    char params[BUFSIZ + 1] = {0};
 
-    request->path = strdup(path);
-
-    request->method = method;
-
-    if (obj->attributes)
+    /* parse some pointers to include */
+    json_object_object_foreach(obj->attributes, key, val)
     {
-        request->payload = strdup(cparse_json_to_json_string(obj->attributes));
+        const char *keyVal = cparse_json_get_string(val, KEY_TYPE);
+
+        if (keyVal && !strcmp(keyVal, TYPE_POINTER))
+        {
+            strncat(params, ",", BUFSIZ);
+            strncat(params, key, BUFSIZ);
+        }
     }
 
-    /* do the deed */
-    response = cparse_client_request_get_json(request, error);
-
-    cparse_client_request_free(request);
-
-    if (error != NULL && *error != NULL)
+    if (params[0] != 0)
     {
-        return false;
+        params[0] = '=';
+        snprintf(buf, BUFSIZ, "include%s", params);
     }
-
-    /* merge the result with the object */
-    cparse_object_merge_json(obj, response);
-
-    cparse_json_free(response);
-
-    return true;
+    else if (bufSiz > 0)
+    {
+        buf[0] = 0;
+    }
 }
 
 /* initializers */
@@ -182,90 +178,37 @@ CPARSE_ACL *cparse_object_acl(CPARSE_OBJ *obj)
 
 bool cparse_object_delete(CPARSE_OBJ *obj, CPARSE_ERROR **error)
 {
-    CPARSE_CLIENT_REQ *request;
     char buf[BUFSIZ + 1];
 
     if (!obj->objectId || !*obj->objectId)
     {
+        *error = cparse_error_with_message("object has no id");
         return false;
     }
 
-    request = cparse_client_request_new();
-
     snprintf(buf, BUFSIZ, "classes/%s/%s", obj->className, obj->objectId);
 
-    request->path = strdup(buf);
-
-    request->method = HTTPRequestMethodDelete;
-
-    cparse_client_request_perform(request, error);
-
-    cparse_client_request_free(request);
-
-    return error == NULL || *error == NULL;
+    return cparse_client_request(HTTPRequestMethodDelete, buf, error);
 }
 
 bool cparse_object_fetch(CPARSE_OBJ *obj, CPARSE_ERROR **error)
 {
-    CPARSE_CLIENT_REQ *request;
     CPARSE_JSON *data;
     char buf[BUFSIZ + 1];
-    char params[BUFSIZ + 1] = {0};
+    char includes[BUFSIZ + 1] = {0};
 
     if (!obj->objectId || !*obj->objectId)
     {
+        *error = cparse_error_with_message("Object has no id");
         return false;
     }
 
     /* build the request */
     snprintf(buf, BUFSIZ, "classes/%s/%s", obj->className, obj->objectId);
 
-    request = cparse_client_request_new();
+    cparse_object_includes_to_buffer(obj, includes, BUFSIZ);
 
-    request->path = strdup(buf);
-
-    request->method = HTTPRequestMethodGet;
-
-    buf[0] = 0;
-
-    /* parse some pointers to include */
-    json_object_object_foreach(obj->attributes, key, val)
-    {
-        const char *keyVal = cparse_json_get_string(val, KEY_TYPE);
-
-        if (keyVal && !strcmp(keyVal, TYPE_POINTER))
-        {
-            strncat(params, ",", BUFSIZ);
-            strncat(params, key, BUFSIZ);
-        }
-    }
-
-    if (params[0] != 0)
-    {
-        params[0] = '=';
-        snprintf(buf, BUFSIZ, "include%s", params);
-    }
-
-    request->payload = strdup(buf);
-
-    /* do the deed */
-    data = cparse_client_request_get_json(request, error);
-
-    cparse_client_request_free(request);
-
-    if (error != NULL && *error != NULL)
-    {
-        cparse_json_free(data);
-
-        return false;
-    }
-
-    /* merge the response with the object */
-    cparse_object_merge_json(obj, data);
-
-    cparse_json_free(data);
-
-    return true;
+    return cparse_client_object_request(obj, HTTPRequestMethodGet, buf, includes, error);
 }
 
 pthread_t cparse_object_fetch_in_background(CPARSE_OBJ *obj, CPARSE_OBJ_CALLBACK callback)
@@ -285,40 +228,18 @@ pthread_t cparse_object_fetch_in_background(CPARSE_OBJ *obj, CPARSE_OBJ_CALLBACK
 
 bool cparse_object_refresh(CPARSE_OBJ *obj, CPARSE_ERROR **error)
 {
-    CPARSE_CLIENT_REQ *request;
-    CPARSE_JSON *response;
     char buf[BUFSIZ + 1];
 
     if (!obj->objectId || !*obj->objectId)
     {
+        *error = cparse_error_with_message("object has no id");
         return false;
     }
-
-    request = cparse_client_request_new();
 
     /* build the request */
     snprintf(buf, BUFSIZ, "classes/%s/%s", obj->className, obj->objectId);
 
-    request->path = strdup(buf);
-
-    request->method = HTTPRequestMethodGet;
-
-    /* do the deed */
-    response = cparse_client_request_get_json(request, error);
-
-    cparse_client_request_free(request);
-
-    if (error != NULL && *error != NULL)
-    {
-        return false;
-    }
-
-    /* merge the response with the object */
-    cparse_object_merge_json(obj, response);
-
-    cparse_json_free(response);
-
-    return true;
+    return cparse_client_object_request(obj, HTTPRequestMethodGet, buf, NULL, error);
 }
 
 pthread_t cparse_object_refresh_in_background(CPARSE_OBJ *obj, CPARSE_OBJ_CALLBACK callback)
@@ -356,7 +277,7 @@ bool cparse_object_save(CPARSE_OBJ *obj, CPARSE_ERROR **error)
         method = HTTPRequestMethodPut;
     }
 
-    return cparse_object_request_json(obj, method, buf, error);
+    return cparse_client_object_request(obj, method, buf, cparse_json_to_json_string(obj->attributes), error);
 }
 
 pthread_t cparse_object_save_in_background(CPARSE_OBJ *obj, CPARSE_OBJ_CALLBACK callback)
