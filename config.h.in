@@ -24,6 +24,18 @@
 /* Define to 1 if you have the <json/json.h> header file. */
 #undef HAVE_JSON_JSON_H
 
+/* function for json error handling */
+#undef HAVE_JSON_TOKENER_ERROR_DESC
+
+/* Define to 1 if you have the `curl' library (-lcurl). */
+#undef HAVE_LIBCURL
+
+/* Define to 1 if you have the `json' library (-ljson). */
+#undef HAVE_LIBJSON
+
+/* Define to 1 if you have the `json-c' library (-ljson-c). */
+#undef HAVE_LIBJSON_C
+
 /* Define to 1 if your system has a GNU libc compatible `malloc' function, and
    to 0 otherwise. */
 #undef HAVE_MALLOC

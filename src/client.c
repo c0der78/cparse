@@ -1,3 +1,4 @@
+#include "config.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -177,7 +178,11 @@ CPARSE_JSON *cparse_client_response_parse_json(CPARSE_RESPONSE *response, CPARSE
 
     if (parseError != json_tokener_success)
     {
+#ifdef HAVE_JSON_TOKENER_ERROR_DESC
         errorMessage = json_tokener_error_desc(parseError);
+#else
+        errorMessage = json_tokener_errors[parseError];
+#endif
     }
     else
     {
