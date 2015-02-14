@@ -19,6 +19,8 @@
 
 #define KEY_USER_SESSION_TOKEN  "sessionToken"
 
+#define KEY_USER_NAME   "username"
+
 #define KEY_USER_EMAIL  "email"
 
 #define KEY_RESULTS  "results"

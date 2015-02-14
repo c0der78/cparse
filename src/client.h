@@ -4,6 +4,10 @@
 #include <stdlib.h>
 #include <cparse/defines.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 typedef struct cparse_client_response CPARSE_RESPONSE;
 
 typedef struct cparse_client_request CPARSE_REQUEST;
@@ -28,16 +32,20 @@ struct cparse_client_request
 
 CPARSE_REQUEST *cparse_client_request_new();
 
+CPARSE_JSON *cparse_client_request_get_json(CPARSE_REQUEST *request, CPARSE_ERROR **error);
+
 void cparse_client_request_add_header(CPARSE_REQUEST *request, const char *key, const char *value);
 
 void cparse_client_request_free(CPARSE_REQUEST *request);
 
-void cparse_client_request_perform(CPARSE_REQUEST *request, CPARSE_ERROR **error);
+bool cparse_client_request_perform(CPARSE_REQUEST *request, CPARSE_ERROR **error);
 
-CPARSE_JSON *cparse_client_request_perform_and_get_json(CPARSE_REQUEST *request, CPARSE_ERROR **error);
-
-bool cparse_client_object_request(CPARSE_OBJ *obj, HTTPRequestMethod method, const char *path, const char *payload, CPARSE_ERROR **error);
+bool cparse_client_object_request(CPARSE_OBJ *obj, HTTPRequestMethod method, const char *payload, CPARSE_ERROR **error);
 
 bool cparse_client_request(HTTPRequestMethod method, const char *path, CPARSE_ERROR **error);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

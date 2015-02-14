@@ -47,6 +47,8 @@ void cparse_object_set_bool(CPARSE_OBJ *obj, const char *key, bool value);
 void cparse_object_set_string(CPARSE_OBJ *obj, const char *key, const char *value);
 void cparse_object_set(CPARSE_OBJ *obj, const char *key, CPARSE_JSON *value);
 
+bool cparse_object_is_user(CPARSE_OBJ *obj);
+
 void cparse_object_set_reference(CPARSE_OBJ *obj, const char *key, CPARSE_OBJ *ref);
 
 /* getters */

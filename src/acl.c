@@ -3,17 +3,11 @@
 #include <cparse/acl.h>
 #include <cparse/user.h>
 
+#include "private.h"
+
 CPARSE_ACL *first_acl;
 
 CPARSE_ACL *default_acl = 0;
-
-struct cparse_acl
-{
-    CPARSE_ACL *next;
-    char *name;
-    bool read;
-    bool write;
-};
 
 
 CPARSE_ACL *cparse_acl_new()

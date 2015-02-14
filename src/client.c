@@ -8,6 +8,7 @@
 #include <cparse/error.h>
 #include "client.h"
 #include "protocol.h"
+#include "private.h"
 
 const char *const cparse_domain = "https://api.parse.com";
 const char *const cparse_api_version = "1";
@@ -17,7 +18,6 @@ extern const char *const cparse_lib_version;
 extern const char *cparse_api_key;
 
 extern const char *cparse_app_id;
-
 
 struct cparse_client_response
 {
@@ -33,8 +33,7 @@ struct cparse_request_header
     char *value;
 };
 
-CPARSE_RESPONSE *cparse_client_request_perform_and_get_response(CPARSE_REQUEST *request);
-
+CPARSE_RESPONSE *cparse_client_request_get_response(CPARSE_REQUEST *request);
 
 CPARSE_REQUEST *cparse_client_request_new()
 {
@@ -150,23 +149,25 @@ static void cparse_client_set_headers(CURL *curl, REQUEST_HEADER *requestHeaders
     curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
 }
 
-void cparse_client_request_perform(CPARSE_REQUEST *request, CPARSE_ERROR **error)
+bool cparse_client_request_perform(CPARSE_REQUEST *request, CPARSE_ERROR **error)
 {
-    CPARSE_JSON *obj = cparse_client_request_perform_and_get_json(request, error);
+    CPARSE_RESPONSE *response = cparse_client_request_get_response(request);
 
-    if (obj != NULL)
-        cparse_json_free(obj);
+    if (response != NULL)
+    {
+        cparse_client_response_free(response);
+
+        return true;
+    }
+
+    return false;
 }
 
-CPARSE_JSON *cparse_client_request_perform_and_get_json(CPARSE_REQUEST *request, CPARSE_ERROR **error)
+CPARSE_JSON *cparse_client_response_parse_json(CPARSE_RESPONSE *response, CPARSE_ERROR **error)
 {
-    CPARSE_RESPONSE *response = cparse_client_request_perform_and_get_response(request);
-
     json_tokener *tok = json_tokener_new();
 
     CPARSE_JSON *obj = json_tokener_parse_ex(tok, response->text, response->size);
-
-    cparse_client_response_free(response);
 
     const char *errorMessage = NULL;
 
@@ -191,7 +192,6 @@ CPARSE_JSON *cparse_client_request_perform_and_get_json(CPARSE_REQUEST *request,
 
             cparse_error_set_code(*error, cparse_json_get_number(obj, "code", 0));
         }
-        cparse_json_free(obj);
 
         return NULL;
     }
@@ -199,7 +199,23 @@ CPARSE_JSON *cparse_client_request_perform_and_get_json(CPARSE_REQUEST *request,
     return obj;
 }
 
-CPARSE_RESPONSE *cparse_client_request_perform_and_get_response(CPARSE_REQUEST *request)
+CPARSE_JSON *cparse_client_request_get_json(CPARSE_REQUEST *request, CPARSE_ERROR **error)
+{
+    CPARSE_RESPONSE *response = cparse_client_request_get_response(request);
+
+    if (response != NULL)
+    {
+        CPARSE_JSON *json = cparse_client_response_parse_json(response, error);
+
+        cparse_client_response_free(response);
+
+        return json;
+    }
+
+    return NULL;
+}
+
+CPARSE_RESPONSE *cparse_client_request_get_response(CPARSE_REQUEST *request)
 {
     CURL *curl;
     CURLcode res;
@@ -266,22 +282,75 @@ CPARSE_RESPONSE *cparse_client_request_perform_and_get_response(CPARSE_REQUEST *
     return response;
 }
 
-
-bool cparse_client_object_request(CPARSE_OBJ *obj, HTTPRequestMethod method, const char *path, const char *payload, CPARSE_ERROR **error)
+bool cparse_client_object_request(CPARSE_OBJ *obj, HTTPRequestMethod method, const char *payload, CPARSE_ERROR **error)
 {
-    CPARSE_JSON *response;
-    CPARSE_REQUEST *request = cparse_client_request_new();
+    char buf[BUFSIZ + 1] = {0};
+    CPARSE_JSON *json;
+    CPARSE_RESPONSE *response;
 
-    if (!path || !*path)
+    CPARSE_REQUEST *request;
+
+    if (!obj)
     {
-        if (error)
-            *error = cparse_error_with_message("Invalid path for request");
         return false;
     }
 
-    request->path = strdup(path);
+    if (cparse_object_is_user(obj))
+    {
+        switch (method)
+        {
+        default:
+
+            if (!obj->objectId || !*obj->objectId)
+            {
+                if (error)
+                    *error = cparse_error_with_message("Object has no id");
+                return false;
+            }
+
+            snprintf(buf, BUFSIZ, "%s/%s", obj->className, obj->objectId);
+            break;
+        case HTTPRequestMethodPost:
+            snprintf(buf, BUFSIZ, "%s", obj->className);
+            break;
+        }
+    }
+    else
+    {
+        switch (method)
+        {
+        default:
+
+            if (!obj->objectId || !*obj->objectId)
+            {
+                if (error)
+                    *error = cparse_error_with_message("Object has no id");
+                return false;
+            }
+
+            snprintf(buf, BUFSIZ, "classes/%s/%s", obj->className, obj->objectId);
+            break;
+        case HTTPRequestMethodPost:
+            snprintf(buf, BUFSIZ, "classes/%s", obj->className);
+            break;
+        }
+    }
+
+    request = cparse_client_request_new();
+
+    request->path = strdup(buf);
 
     request->method = method;
+
+    if (cparse_object_contains(obj, KEY_USER_SESSION_TOKEN))
+    {
+        const char *token = cparse_object_get_string(obj, KEY_USER_SESSION_TOKEN);
+
+        if (token)
+        {
+            cparse_client_request_add_header(request, HEADER_SESSION_TOKEN, token);
+        }
+    }
 
     if (payload)
     {
@@ -289,21 +358,23 @@ bool cparse_client_object_request(CPARSE_OBJ *obj, HTTPRequestMethod method, con
     }
 
     /* do the deed */
-    response = cparse_client_request_perform_and_get_json(request, error);
+    response = cparse_client_request_get_response(request);
 
     cparse_client_request_free(request);
 
-    if (error != NULL && *error != NULL)
-    {
-        cparse_json_free(response);
+    /* TODO: check HTTP code */
 
+    json = cparse_client_response_parse_json(response, error);
+
+    if (json == NULL)
+    {
         return false;
     }
 
     /* merge the result with the object */
-    cparse_object_merge_json(obj, response);
+    cparse_object_merge_json(obj, json);
 
-    cparse_json_free(response);
+    cparse_json_free(json);
 
     return true;
 }
@@ -311,16 +382,27 @@ bool cparse_client_object_request(CPARSE_OBJ *obj, HTTPRequestMethod method, con
 
 bool cparse_client_request(HTTPRequestMethod method, const char *path, CPARSE_ERROR **error)
 {
+    CPARSE_JSON *json;
+
     CPARSE_REQUEST *request = cparse_client_request_new();
 
     request->path = strdup(path);
 
     request->method = method;
 
-    cparse_client_request_perform(request, error);
+    json = cparse_client_request_get_json(request, error);
 
     cparse_client_request_free(request);
 
-    return error == NULL || *error == NULL;
+    if (json == NULL)
+    {
+        return false;
+    }
+    else
+    {
+        cparse_json_free(json);
+
+        return true;
+    }
 }
 

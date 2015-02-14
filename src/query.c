@@ -4,21 +4,7 @@
 #include <cparse/query.h>
 #include <cparse/json.h>
 #include "client.h"
-
-
-struct cparse_query
-{
-    /*CParseCachePolicy cachePolicy;*/
-    char *className;
-    int limit;
-    int skip;
-    bool trace;
-    bool count;
-    CPARSE_JSON *where;
-    CPARSE_OBJ **results;
-    size_t size;
-    char *keys;
-};
+#include "private.h"
 
 void cparse_query_clear_all_caches()
 {
@@ -137,14 +123,12 @@ bool cparse_query_find_objects(CPARSE_QUERY *query, CPARSE_ERROR **error)
     }
 
     /* do the deed */
-    data = cparse_client_request_perform_and_get_json(request, error);
+    data = cparse_client_request_get_json(request, error);
 
     cparse_client_request_free(request);
 
-    if (error != NULL && *error != NULL)
+    if (data == NULL)
     {
-        cparse_json_free(data);
-
         return false;
     }
 

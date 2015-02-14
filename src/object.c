@@ -9,21 +9,9 @@
 #include "protocol.h"
 #include <cparse/util.h>
 #include <cparse/parse.h>
+#include "private.h"
 
 /* internals */
-
-struct cparse_object
-{
-    /* The following must match CPARSE_BASE_OBJ structure */
-    char *className;
-    char *objectId;
-    time_t updatedAt;
-    time_t createdAt;
-
-    /* rest of fields */
-    CPARSE_JSON *attributes;
-    CPARSE_ACL *acl;
-};
 
 /* for background threads */
 typedef struct cparse_object_background_arg
@@ -33,20 +21,24 @@ typedef struct cparse_object_background_arg
     bool (*action)(CPARSE_OBJ *obj, CPARSE_ERROR **error); /* the method to call in thread */
     pthread_t thread;
 
-} CPARSE_OBJ_BACKGROUND_ARG;
+} CPARSE_OBJ_CALLBACK_ARG;
 
 /* this is a background thread. The argument controlls functionality*/
 void *cparse_object_background_action(void *argument)
 {
     CPARSE_ERROR *error = NULL;
-    CPARSE_OBJ_BACKGROUND_ARG *arg = (CPARSE_OBJ_BACKGROUND_ARG *) argument;
+    CPARSE_OBJ_CALLBACK_ARG *arg = (CPARSE_OBJ_CALLBACK_ARG *) argument;
 
     /* cparse_object_save or cparse_object_refresh */
-    (*arg->action)(arg->obj, &error);
+    bool rval = (*arg->action)(arg->obj, &error);
 
     if (arg->callback)
     {
         (*arg->callback)(arg->obj, error);
+    }
+    else if (error)
+    {
+        cparse_error_free(error);
     }
 
     free(arg);
@@ -178,45 +170,23 @@ CPARSE_ACL *cparse_object_acl(CPARSE_OBJ *obj)
 
 bool cparse_object_delete(CPARSE_OBJ *obj, CPARSE_ERROR **error)
 {
-    char buf[BUFSIZ + 1];
 
-    if (!obj->objectId || !*obj->objectId)
-    {
-        if (error)
-            *error = cparse_error_with_message("object has no id");
-        return false;
-    }
-
-    snprintf(buf, BUFSIZ, "classes/%s/%s", obj->className, obj->objectId);
-
-    return cparse_client_request(HTTPRequestMethodDelete, buf, error);
+    return cparse_client_object_request(obj, HTTPRequestMethodDelete, NULL, error);
 }
 
 bool cparse_object_fetch(CPARSE_OBJ *obj, CPARSE_ERROR **error)
 {
-    CPARSE_JSON *data;
-    char buf[BUFSIZ + 1];
     char includes[BUFSIZ + 1] = {0};
-
-    if (!obj->objectId || !*obj->objectId)
-    {
-        if (error)
-            *error = cparse_error_with_message("Object has no id");
-        return false;
-    }
-
-    /* build the request */
-    snprintf(buf, BUFSIZ, "classes/%s/%s", obj->className, obj->objectId);
 
     cparse_object_includes_to_buffer(obj, includes, BUFSIZ);
 
-    return cparse_client_object_request(obj, HTTPRequestMethodGet, buf, includes, error);
+    return cparse_client_object_request(obj, HTTPRequestMethodGet, includes, error);
 }
 
 pthread_t cparse_object_fetch_in_background(CPARSE_OBJ *obj, CPARSE_OBJ_CALLBACK callback)
 {
     assert(obj != NULL);
-    CPARSE_OBJ_BACKGROUND_ARG *arg = malloc(sizeof(CPARSE_OBJ_BACKGROUND_ARG));
+    CPARSE_OBJ_CALLBACK_ARG *arg = malloc(sizeof(CPARSE_OBJ_CALLBACK_ARG));
 
     arg->action = cparse_object_fetch;
     arg->obj = obj;
@@ -230,25 +200,13 @@ pthread_t cparse_object_fetch_in_background(CPARSE_OBJ *obj, CPARSE_OBJ_CALLBACK
 
 bool cparse_object_refresh(CPARSE_OBJ *obj, CPARSE_ERROR **error)
 {
-    char buf[BUFSIZ + 1];
-
-    if (!obj->objectId || !*obj->objectId)
-    {
-        if (error)
-            *error = cparse_error_with_message("object has no id");
-        return false;
-    }
-
-    /* build the request */
-    snprintf(buf, BUFSIZ, "classes/%s/%s", obj->className, obj->objectId);
-
-    return cparse_client_object_request(obj, HTTPRequestMethodGet, buf, NULL, error);
+    return cparse_client_object_request(obj, HTTPRequestMethodGet, NULL, error);
 }
 
 pthread_t cparse_object_refresh_in_background(CPARSE_OBJ *obj, CPARSE_OBJ_CALLBACK callback)
 {
     assert(obj != NULL);
-    CPARSE_OBJ_BACKGROUND_ARG *arg = malloc(sizeof(CPARSE_OBJ_BACKGROUND_ARG));
+    CPARSE_OBJ_CALLBACK_ARG *arg = malloc(sizeof(CPARSE_OBJ_CALLBACK_ARG));
 
     arg->action = cparse_object_refresh;
     arg->obj = obj;
@@ -263,30 +221,27 @@ pthread_t cparse_object_refresh_in_background(CPARSE_OBJ *obj, CPARSE_OBJ_CALLBA
 
 bool cparse_object_save(CPARSE_OBJ *obj, CPARSE_ERROR **error)
 {
-    char buf[BUFSIZ + 1];
     HTTPRequestMethod method;
+
+    if (!obj) return false;
 
     /* build the request based on the id */
     if (!obj->objectId || !*obj->objectId)
     {
-        snprintf(buf, BUFSIZ, "classes/%s", obj->className);
-
         method = HTTPRequestMethodPost;
     }
     else
     {
-        snprintf(buf, BUFSIZ, "classes/%s/%s", obj->className, obj->objectId);
-
         method = HTTPRequestMethodPut;
     }
 
-    return cparse_client_object_request(obj, method, buf, cparse_json_to_json_string(obj->attributes), error);
+    return cparse_client_object_request(obj, method, cparse_json_to_json_string(obj->attributes), error);
 }
 
 pthread_t cparse_object_save_in_background(CPARSE_OBJ *obj, CPARSE_OBJ_CALLBACK callback)
 {
     assert(obj != NULL);
-    CPARSE_OBJ_BACKGROUND_ARG *arg = malloc(sizeof(CPARSE_OBJ_BACKGROUND_ARG));
+    CPARSE_OBJ_CALLBACK_ARG *arg = malloc(sizeof(CPARSE_OBJ_CALLBACK_ARG));
 
     arg->action = cparse_object_save;
     arg->obj = obj;

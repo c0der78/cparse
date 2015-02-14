@@ -8,16 +8,7 @@
 
 #include "protocol.h"
 #include "client.h"
-
-#define USER_CLASS_NAME "users"
-
-#define USER_USERNAME "username"
-
-#define USER_EMAIL "email"
-
-#define USER_IS_NEW "isNew"
-
-#define USER_SESSION_TOKEN "sessionToken"
+#include "private.h"
 
 char current_user_token[BUFSIZ + 1] = {0};
 
@@ -27,14 +18,14 @@ extern void cparse_object_includes_to_buffer(CPARSE_OBJ *obj, char *buf, size_t 
 
 CPARSE_OBJ *cparse_user_new()
 {
-    return cparse_object_with_class_name(USER_CLASS_NAME);
+    return cparse_object_with_class_name(CPARSE_USER_CLASS_NAME);
 }
 
 CPARSE_OBJ *cparse_user_with_name(const char *username)
 {
-    CPARSE_OBJ *obj = cparse_object_with_class_name(USER_CLASS_NAME);
+    CPARSE_OBJ *obj = cparse_object_with_class_name(CPARSE_USER_CLASS_NAME);
 
-    cparse_object_set_string(obj, USER_USERNAME, username);
+    cparse_object_set_string(obj, KEY_USER_NAME, username);
 
     return obj;
 }
@@ -46,7 +37,7 @@ CPARSE_OBJ *cparse_current_user(CPARSE_ERROR **error)
     if (!*current_user_token)
         return NULL;
 
-    user = cparse_object_with_class_name(USER_CLASS_NAME);
+    user = cparse_object_with_class_name(CPARSE_USER_CLASS_NAME);
 
     if (!cparse_user_validate(user, current_user_token, error))
     {
@@ -60,36 +51,40 @@ CPARSE_OBJ *cparse_current_user(CPARSE_ERROR **error)
 
 /* getters/setters */
 
+bool cparse_object_is_user(CPARSE_OBJ *obj)
+{
+    const char *className = cparse_object_class_name(obj);
+
+    if (!className || !*className)
+        return false;
+
+    return !strcmp(className, CPARSE_USER_CLASS_NAME);
+}
+
 const char *cparse_user_name(CPARSE_OBJ *user)
 {
     if (!user) return NULL;
 
-    return cparse_object_get_string(user, USER_USERNAME);
+    return cparse_object_get_string(user, KEY_USER_NAME);
 }
 
 void cparse_user_set_name(CPARSE_OBJ *user, char *name)
 {
     if (user)
     {
-        cparse_object_set_string(user, USER_USERNAME, name);
+        cparse_object_set_string(user, KEY_USER_NAME, name);
     }
 }
 
 const char *cparse_user_email(CPARSE_OBJ *user)
 {
-    return cparse_object_get_string(user, USER_EMAIL);
+    return cparse_object_get_string(user, KEY_USER_EMAIL);
 }
 
 const char *cparse_user_session_token(CPARSE_OBJ *user)
 {
-    return cparse_object_get_string(user, USER_SESSION_TOKEN);
+    return cparse_object_get_string(user, KEY_USER_SESSION_TOKEN);
 }
-
-bool cparse_user_is_new(CPARSE_OBJ *user)
-{
-    return cparse_object_get_bool(user, USER_IS_NEW);
-}
-
 /* functions */
 
 CPARSE_OBJ *cparse_user_login(const char *username, const char *password, CPARSE_ERROR **error)
@@ -97,6 +92,7 @@ CPARSE_OBJ *cparse_user_login(const char *username, const char *password, CPARSE
     char buf[BUFSIZ + 1];
     CPARSE_OBJ *user;
     CPARSE_JSON *data;
+    CPARSE_REQUEST *request;
 
     if (!username || !*username)
     {
@@ -114,20 +110,33 @@ CPARSE_OBJ *cparse_user_login(const char *username, const char *password, CPARSE
         return false;
 
     }
-    user = cparse_object_with_class_name(USER_CLASS_NAME);
+    user = cparse_object_with_class_name(CPARSE_USER_CLASS_NAME);
 
     snprintf(buf, BUFSIZ, "username=%s&password=%s", username, password);
 
-    if (!cparse_client_object_request(user, HTTPRequestMethodGet, "login", buf, error))
-    {
+    request = cparse_client_request_new();
 
+    request->path = strdup("login");
+
+    request->method = HTTPRequestMethodGet;
+    request->payload = strdup(buf);
+
+    /* do the deed */
+    data = cparse_client_request_get_json(request, error);
+
+    if (data == NULL)
+    {
         cparse_object_free(user);
         return NULL;
     }
 
-    if (cparse_object_contains(user, USER_SESSION_TOKEN))
+    cparse_object_merge_json(user, data);
+
+    cparse_json_free(data);
+
+    if (cparse_object_contains(user, KEY_USER_SESSION_TOKEN))
     {
-        const char *sessionToken = cparse_object_get_string(user, USER_SESSION_TOKEN);
+        const char *sessionToken = cparse_object_get_string(user, KEY_USER_SESSION_TOKEN);
 
         if (sessionToken)
         {
@@ -170,7 +179,7 @@ bool cparse_user_delete(CPARSE_OBJ *obj, CPARSE_ERROR **error)
 
     request = cparse_client_request_new();
 
-    snprintf(buf, BUFSIZ, "%s/%s", USER_CLASS_NAME, userId);
+    snprintf(buf, BUFSIZ, "%s/%s", CPARSE_USER_CLASS_NAME, userId);
 
     request->path = strdup(buf);
 
@@ -202,7 +211,7 @@ bool cparse_user_sign_up(CPARSE_OBJ *user, const char *password, CPARSE_ERROR **
 
     if (!user) return false;
 
-    username = cparse_object_get_string(user, USER_USERNAME);
+    username = cparse_object_get_string(user, KEY_USER_NAME);
 
     if (!username || !*username)
     {
@@ -226,11 +235,11 @@ bool cparse_user_sign_up(CPARSE_OBJ *user, const char *password, CPARSE_ERROR **
 
     cparse_object_remove(user, "password");
 
-    if (cparse_client_object_request(user, HTTPRequestMethodPost, USER_CLASS_NAME, attributes, error))
+    if (cparse_client_object_request(user, HTTPRequestMethodPost, attributes, error))
     {
-        if (cparse_object_contains(user, USER_SESSION_TOKEN))
+        if (cparse_object_contains(user, KEY_USER_SESSION_TOKEN))
         {
-            const char *sessionToken = cparse_object_get_string(user, USER_SESSION_TOKEN);
+            const char *sessionToken = cparse_object_get_string(user, KEY_USER_SESSION_TOKEN);
 
             strncpy(current_user_token, sessionToken, BUFSIZ);
         }
@@ -242,40 +251,22 @@ bool cparse_user_sign_up(CPARSE_OBJ *user, const char *password, CPARSE_ERROR **
 
 bool cparse_user_fetch(CPARSE_OBJ *obj, CPARSE_ERROR **error)
 {
-    const char *id;
-    char buf[BUFSIZ + 1] = {0};
     char includes[BUFSIZ + 1] = {0};
 
-    if (!obj || !(id = cparse_object_id(obj)) || !*id)
+    if (!obj)
     {
-        if (error)
-            *error = cparse_error_with_message("object has no id");
-
         return false;
     }
 
-    snprintf(buf, BUFSIZ, "%s/%s", USER_CLASS_NAME, id);
-
     cparse_object_includes_to_buffer(obj, includes, BUFSIZ);
 
-    return cparse_client_object_request(obj, HTTPRequestMethodGet, buf, includes, error);
+    return cparse_client_object_request(obj, HTTPRequestMethodGet, includes, error);
 }
 
 bool cparse_user_refresh(CPARSE_OBJ *obj, CPARSE_ERROR **error)
 {
-    const char *id;
-    char buf[BUFSIZ + 1] = {0};
 
-    if (!obj || !(id = cparse_object_id(obj)) || !*id)
-    {
-        if (error)
-            *error = cparse_error_with_message("user has no id");
-        return false;
-    }
-
-    snprintf(buf, BUFSIZ, "%s/%s", USER_CLASS_NAME, id);
-
-    return cparse_client_object_request(obj, HTTPRequestMethodGet, buf, NULL, error);
+    return cparse_client_object_request(obj, HTTPRequestMethodGet, NULL, error);
 }
 
 bool cparse_user_validate(CPARSE_OBJ *user, const char *sessionToken, CPARSE_ERROR **error)
@@ -292,7 +283,7 @@ bool cparse_user_validate(CPARSE_OBJ *user, const char *sessionToken, CPARSE_ERR
 
     cparse_client_request_add_header(request, HEADER_SESSION_TOKEN, sessionToken);
 
-    json = cparse_client_request_perform_and_get_json(request, error);
+    json = cparse_client_request_get_json(request, error);
 
     cparse_client_request_free(request);
 
@@ -337,7 +328,7 @@ bool cparse_user_reset_password(CPARSE_OBJ *user, CPARSE_ERROR **error)
 
     if (!user) return false;
 
-    if (!cparse_object_contains(user, USER_EMAIL))
+    if (!cparse_object_contains(user, KEY_USER_EMAIL))
     {
         if (error)
             *error = cparse_error_with_message("User has no email");
@@ -359,18 +350,20 @@ bool cparse_user_reset_password(CPARSE_OBJ *user, CPARSE_ERROR **error)
 
     json = cparse_json_new();
 
-    cparse_json_set_string(json, USER_EMAIL, cparse_object_get_string(user, USER_EMAIL));
+    cparse_json_set_string(json, KEY_USER_EMAIL, cparse_object_get_string(user, KEY_USER_EMAIL));
 
     request->payload = strdup(cparse_json_to_json_string(json));
 
     cparse_json_free(json);
 
-    json = cparse_client_request_perform_and_get_json(request, error);
+    json = cparse_client_request_get_json(request, error);
 
     if (json == NULL)
     {
         return false;
     }
+
+    cparse_json_free(json);
 
     return true;
 }

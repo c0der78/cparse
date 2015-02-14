@@ -37,8 +37,6 @@ const char *cparse_user_email(CPARSE_OBJ *user);
 
 const char *cparse_user_session_token(CPARSE_OBJ *user);
 
-bool cparse_user_is_new(CPARSE_OBJ *user);
-
 bool cparse_user_validate(CPARSE_OBJ *user, const char *sessionToken, CPARSE_ERROR **error);
 
 bool cparse_user_validate_email(CPARSE_OBJ *user, CPARSE_ERROR **error);
@@ -49,6 +47,7 @@ bool cparse_user_fetch(CPARSE_OBJ *obj, CPARSE_ERROR **error);
 
 bool cparse_user_reset_password(CPARSE_OBJ *user, CPARSE_ERROR **error);
 
+bool cparse_user_delete(CPARSE_OBJ *obj, CPARSE_ERROR **error);
 
 #ifdef __cplusplus
 }
