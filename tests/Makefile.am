@@ -9,4 +9,3 @@ test_cparse_LDADD = ../src/libcparse.la -lcheck -ljson-c -lcurl
 
 check: test_cparse
 	./test_cparse
-

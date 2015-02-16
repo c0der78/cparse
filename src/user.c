@@ -14,7 +14,35 @@ char current_user_token[BUFSIZ + 1] = {0};
 
 extern CPARSE_QUERY *cparse_query_new();
 
-extern void cparse_object_includes_to_buffer(CPARSE_OBJ *obj, char *buf, size_t bufSiz);
+extern void cparse_object_set_request_includes(CPARSE_OBJ *obj, CPARSE_REQUEST *request);
+
+/* Private */
+
+CPARSE_REQUEST *cparse_user_create_request(CPARSE_OBJ *obj, HTTPRequestMethod method)
+{
+    char buf[BUFSIZ + 1] = {0};
+    CPARSE_REQUEST *request;
+
+    if (!obj) return NULL;
+
+    request = cparse_client_request_new();
+
+    if (method != HTTPRequestMethodPost && obj->objectId && *obj->objectId)
+    {
+        snprintf(buf, BUFSIZ, "%s/%s", CPARSE_USER_CLASS_NAME, obj->objectId);
+    }
+    else
+    {
+        snprintf(buf, BUFSIZ, "%s", CPARSE_USER_CLASS_NAME);
+    }
+
+    request->path = strdup(buf);
+    request->method = method;
+
+    return request;
+}
+
+/* initializers */
 
 CPARSE_OBJ *cparse_user_new()
 {
@@ -112,17 +140,19 @@ CPARSE_OBJ *cparse_user_login(const char *username, const char *password, CPARSE
     }
     user = cparse_object_with_class_name(CPARSE_USER_CLASS_NAME);
 
-    snprintf(buf, BUFSIZ, "username=%s&password=%s", username, password);
-
     request = cparse_client_request_new();
 
     request->path = strdup("login");
 
     request->method = HTTPRequestMethodGet;
+
+    snprintf(buf, BUFSIZ, "username=%s&password=%s", username, password);
     request->payload = strdup(buf);
 
     /* do the deed */
     data = cparse_client_request_get_json(request, error);
+
+    cparse_client_request_free(request);
 
     if (data == NULL)
     {
@@ -160,10 +190,12 @@ bool cparse_user_delete(CPARSE_OBJ *obj, CPARSE_ERROR **error)
 {
     CPARSE_REQUEST *request;
     char buf[BUFSIZ + 1];
-    const char *userId;
     const char *sessionToken;
+    bool rval;
 
-    if (!obj || !(userId = cparse_object_id(obj)) || !*userId)
+    if (!obj) return false;
+
+    if (!cparse_object_exists(obj))
     {
         if (error)
             *error = cparse_error_with_message("User has no id");
@@ -177,21 +209,15 @@ bool cparse_user_delete(CPARSE_OBJ *obj, CPARSE_ERROR **error)
         return false;
     }
 
-    request = cparse_client_request_new();
-
-    snprintf(buf, BUFSIZ, "%s/%s", CPARSE_USER_CLASS_NAME, userId);
-
-    request->path = strdup(buf);
-
-    request->method = HTTPRequestMethodDelete;
+    request = cparse_user_create_request(obj, HTTPRequestMethodDelete);
 
     cparse_client_request_add_header(request, HEADER_SESSION_TOKEN, sessionToken);
 
-    cparse_client_request_perform(request, error);
+    rval = cparse_client_request_perform(request, error);
 
     cparse_client_request_free(request);
 
-    return error == NULL || *error == NULL;
+    return rval;
 }
 
 
@@ -205,8 +231,8 @@ CPARSE_QUERY *cparse_user_query()
 bool cparse_user_sign_up(CPARSE_OBJ *user, const char *password, CPARSE_ERROR **error)
 {
     const char *username;
-    const char *attributes;
-
+    CPARSE_REQUEST *request;
+    CPARSE_JSON *json;
     bool rval;
 
     if (!user) return false;
@@ -216,7 +242,7 @@ bool cparse_user_sign_up(CPARSE_OBJ *user, const char *password, CPARSE_ERROR **
     if (!username || !*username)
     {
         if (error)
-            *error = cparse_error_with_message("No username, set with cparse_user_set_name()");
+            *error = cparse_error_with_message("User has no username");
 
         return false;
     }
@@ -229,14 +255,26 @@ bool cparse_user_sign_up(CPARSE_OBJ *user, const char *password, CPARSE_ERROR **
         return false;
     }
 
+    request = cparse_user_create_request(user, HTTPRequestMethodPost);
+
+    /* temporarily set the password on the user for the request json */
     cparse_object_set_string(user, "password", password);
 
-    attributes = cparse_object_to_json_string(user);
+    request->payload = strdup(cparse_object_to_json_string(user));
 
+    /* remove the passwrod from the user attributes for security */
     cparse_object_remove(user, "password");
 
-    if (cparse_client_object_request(user, HTTPRequestMethodPost, attributes, error))
+    json = cparse_client_request_get_json(request, error);
+
+    cparse_client_request_free(request);
+
+    if (json != NULL)
     {
+        cparse_object_merge_json(user, json);
+
+        cparse_json_free(json);
+
         if (cparse_object_contains(user, KEY_USER_SESSION_TOKEN))
         {
             const char *sessionToken = cparse_object_get_string(user, KEY_USER_SESSION_TOKEN);
@@ -251,22 +289,70 @@ bool cparse_user_sign_up(CPARSE_OBJ *user, const char *password, CPARSE_ERROR **
 
 bool cparse_user_fetch(CPARSE_OBJ *obj, CPARSE_ERROR **error)
 {
-    char includes[BUFSIZ + 1] = {0};
+    CPARSE_REQUEST *request;
+    CPARSE_JSON *json;
 
     if (!obj)
     {
         return false;
     }
 
-    cparse_object_includes_to_buffer(obj, includes, BUFSIZ);
+    if (!cparse_object_exists(obj))
+    {
+        if (error)
+            *error = cparse_error_with_message("User has no id");
 
-    return cparse_client_object_request(obj, HTTPRequestMethodGet, includes, error);
+        return false;
+    }
+
+    request = cparse_user_create_request(obj, HTTPRequestMethodGet);
+
+    cparse_object_set_request_includes(obj, request);
+
+    json = cparse_client_request_get_json(request, error);
+
+    cparse_client_request_free(request);
+
+    if (json)
+    {
+        cparse_object_merge_json(obj, json);
+
+        cparse_json_free(json);
+
+        return true;
+    }
+    return false;
 }
 
 bool cparse_user_refresh(CPARSE_OBJ *obj, CPARSE_ERROR **error)
 {
+    CPARSE_REQUEST *request;
+    CPARSE_JSON *json;
 
-    return cparse_client_object_request(obj, HTTPRequestMethodGet, NULL, error);
+    if (!cparse_object_exists(obj))
+    {
+        if (error)
+            *error = cparse_error_with_message("User has no id");
+
+        return false;
+    }
+
+    request = cparse_user_create_request(obj, HTTPRequestMethodGet);
+
+    json = cparse_client_request_get_json(request, error);
+
+    cparse_client_request_free(request);
+
+    if (json)
+    {
+        cparse_object_merge_json(obj, json);
+
+        cparse_json_free(json);
+
+        return true;
+    }
+
+    return false;
 }
 
 bool cparse_user_validate(CPARSE_OBJ *user, const char *sessionToken, CPARSE_ERROR **error)
@@ -357,6 +443,8 @@ bool cparse_user_reset_password(CPARSE_OBJ *user, CPARSE_ERROR **error)
     cparse_json_free(json);
 
     json = cparse_client_request_get_json(request, error);
+
+    cparse_client_request_free(request);
 
     if (json == NULL)
     {

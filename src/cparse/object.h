@@ -41,6 +41,7 @@ bool cparse_object_fetch(CPARSE_OBJ *, CPARSE_ERROR **error);
 pthread_t cparse_object_fetch_in_background(CPARSE_OBJ *obj, CPARSE_OBJ_CALLBACK callback);
 
 /* setters */
+bool cparse_object_exists(CPARSE_OBJ *obj);
 void cparse_object_set_number(CPARSE_OBJ *obj, const char *key, long long value);
 void cparse_object_set_real(CPARSE_OBJ *obj, const char *key, double value);
 void cparse_object_set_bool(CPARSE_OBJ *obj, const char *key, bool value);
