@@ -50,6 +50,9 @@
    and to 0 otherwise. */
 #undef HAVE_REALLOC
 
+/* Define to 1 if you have the <stdbool.h> header file. */
+#undef HAVE_STDBOOL_H
+
 /* Define to 1 if you have the <stdint.h> header file. */
 #undef HAVE_STDINT_H
 
@@ -76,9 +79,6 @@
 
 /* Define to 1 if you have the <unistd.h> header file. */
 #undef HAVE_UNISTD_H
-
-/* Define to 1 if the system has the type `_Bool'. */
-#undef HAVE__BOOL
 
 /* Define to the sub-directory where libtool stores uninstalled libraries. */
 #undef LT_OBJDIR

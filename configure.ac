@@ -21,7 +21,7 @@ AC_CHECK_LIB([json-c], [json_tokener_error_desc], [],
 
 AC_CHECK_LIB([curl], [curl_easy_init], [], AC_MSG_ERROR([libcurl library is required!]))
 
-if test x"$ac_cv_lib_json_c_json_tokener_error_desc" = x"yes" || x"$ac_cv_lib_json_json_tokener_error_desc" = x"yes"; then
+if test x"$ac_cv_lib_json_c_json_tokener_error_desc" = x"yes" || test x"$ac_cv_lib_json_json_tokener_error_desc" = x"yes"; then
 	AC_DEFINE(HAVE_JSON_TOKENER_ERROR_DESC, 1, [function for json error handling])
 fi
 
