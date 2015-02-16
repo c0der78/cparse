@@ -10,6 +10,8 @@ AM_INIT_AUTOMAKE
 
 LT_INIT
 
+AC_CONFIG_MACRO_DIR([m4])
+
 # Checks for programs.
 AC_PROG_CC
 
@@ -27,6 +29,14 @@ fi
 
 # Checks for header files.
 AC_CHECK_HEADERS([stdbool.h stdlib.h string.h json-c/json.h json/json.h json.h curl/curl.h curl.h])
+
+#coverage
+
+m4_include([m4/gcov.m4])
+AC_TDD_GCOV
+AC_SUBST(COVERAGE_CFLAGS)
+AC_SUBST(COVERAGE_CXXFLAGS)
+AC_SUBST(COVERAGE_LDFLAGS)
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_TYPE_SIZE_T

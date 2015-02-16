@@ -1,5 +1,8 @@
 CParse
 ======
+
+[![Build Status](https://travis-ci.org/c0der78/arg3json.svg?branch=master)](https://travis-ci.org/c0der78/arg3json)
+
 A C library to use the REST API at [parse.com](http://parse.com).
 
 

@@ -1,3 +1,4 @@
+#include "config.h"
 #include <stdlib.h>
 #include <cparse/parse.h>
 #include "protocol.h"
@@ -55,26 +56,5 @@ void cparse_offline_messages_enabled(bool value)
 void cparse_error_messages_enabled(bool value)
 {
     cparse_error_messages = value;
-}
-
-
-const char *cparse_base_class_name(CPARSE_BASE_OBJ *obj)
-{
-    return !obj ? NULL : obj->className;
-}
-
-time_t cparse_base_updated_at(CPARSE_BASE_OBJ *obj)
-{
-    return !obj ? 0 : obj->updatedAt;
-}
-
-time_t cparse_base_created_at(CPARSE_BASE_OBJ *obj)
-{
-    return !obj ? 0 : obj->createdAt;
-}
-
-const char *cparse_base_id(CPARSE_BASE_OBJ *obj)
-{
-    return !obj ? NULL : obj->objectId;
 }
 

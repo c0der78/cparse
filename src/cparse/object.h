@@ -4,7 +4,6 @@
 #include <time.h>
 #include <cparse/defines.h>
 #include <cparse/acl.h>
-#include <json-c/json.h>
 #include <pthread.h>
 
 #ifdef __cplusplus

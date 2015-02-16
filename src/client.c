@@ -4,6 +4,7 @@
 #include <string.h>
 #include <assert.h>
 #include <curl/curl.h>
+#include "json_private.h"
 #include <cparse/json.h>
 #include <cparse/object.h>
 #include <cparse/error.h>

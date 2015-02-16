@@ -1,11 +1,10 @@
+#include "config.h"
 #include <string.h>
 #include <stdio.h>
 #include <cparse/json.h>
 #include <cparse/object.h>
-
-#include <json-c/json_object_private.h>
-
 #include <assert.h>
+#include "json_private.h"
 
 /*initializers */
 CPARSE_JSON *cparse_json_new()
@@ -253,9 +252,18 @@ const char *cparse_json_to_string(CPARSE_JSON *v)
     return json_object_get_string(v);
 }
 
-json_type cparse_json_type(CPARSE_JSON *v)
+CParseJSONType cparse_json_type(CPARSE_JSON *v)
 {
-    return json_object_get_type(v);
+    switch ( json_object_get_type(v) )
+    {
+    case json_type_int: return kCParseJSONNumber;
+    case json_type_double: return kCParseJSONReal;
+    case json_type_string: return kCParseJSONString;
+    case json_type_boolean: return kCParseJSONBoolean;
+    case json_type_object: return  kCParseJSONObject;
+    case json_type_array: return kCParseJSONArray;
+    case json_type_null: return kCParseJSONNull;
+    }
 }
 
 bool cparse_json_contains(CPARSE_JSON *obj, const char *key)

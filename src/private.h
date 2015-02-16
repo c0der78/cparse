@@ -43,8 +43,6 @@ struct cparse_acl
 
 #define CPARSE_USER_CLASS_NAME "users"
 
-
-
 #ifdef __cplusplus
 }
 #endif

@@ -1,3 +1,4 @@
+#include "config.h"
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
@@ -10,6 +11,7 @@
 #include <cparse/util.h>
 #include <cparse/parse.h>
 #include "private.h"
+#include "json_private.h"
 
 /* internals */
 
@@ -169,21 +171,21 @@ size_t cparse_object_sizeof()
 
 const char *cparse_object_id(CPARSE_OBJ *obj)
 {
-    return cparse_base_id((CPARSE_BASE_OBJ *) obj);
+    return !obj ? NULL : obj->objectId;
 }
 
 const char *cparse_object_class_name(CPARSE_OBJ *obj)
 {
-    return cparse_base_class_name((CPARSE_BASE_OBJ *) obj);
+    return !obj ? NULL : obj->className;
 }
 
 time_t cparse_object_created_at(CPARSE_OBJ *obj)
 {
-    return cparse_base_created_at((CPARSE_BASE_OBJ *) obj);
+    return !obj ? 0 : obj->createdAt;
 }
 time_t cparse_object_updated_at(CPARSE_OBJ *obj)
 {
-    return cparse_base_updated_at((CPARSE_BASE_OBJ *) obj);
+    return !obj ? 0 : obj->updatedAt;
 }
 
 CPARSE_ACL *cparse_object_acl(CPARSE_OBJ *obj)

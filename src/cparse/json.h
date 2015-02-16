@@ -7,12 +7,24 @@
 #define CPARSE_JSON_H_
 
 #include <stdlib.h>
-#include <cparse/defines.h>
-#include <json-c/json.h>
 
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+#include <cparse/defines.h>
+
+/* JSON */
+typedef enum
+{
+    kCParseJSONNumber,
+    kCParseJSONReal,
+    kCParseJSONString,
+    kCParseJSONBoolean,
+    kCParseJSONObject,
+    kCParseJSONArray,
+    kCParseJSONNull
+} CParseJSONType;
 
 /* value initializers */
 CPARSE_JSON *cparse_json_new();
@@ -45,7 +57,7 @@ bool cparse_json_get_bool(CPARSE_JSON *obj, const char *key);
 const char *cparse_json_get_string(CPARSE_JSON *obj, const char *key);
 
 bool cparse_json_is_array(CPARSE_JSON *obj);
-json_type cparse_json_type(CPARSE_JSON *obj);
+CParseJSONType cparse_json_type(CPARSE_JSON *obj);
 int cparse_json_num_keys(CPARSE_JSON *obj);
 bool cparse_json_contains(CPARSE_JSON *obj, const char *key);
 
