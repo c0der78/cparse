@@ -13,6 +13,34 @@ Suite *cparse_query_suite();
 Suite *cparse_util_suite();
 Suite *cparse_user_suite ();
 extern int cparse_cleanup_test_objects();
+void read_env_config();
+void read_test_config();
+void die(const char *message);
+
+int main(void)
+{
+    srand(time(0));
+
+    read_test_config();
+
+    read_env_config();
+
+    int number_failed;
+    SRunner *sr = srunner_create(cparse_parse_suite());
+    srunner_add_suite(sr, cparse_json_suite());
+    srunner_add_suite(sr, cparse_object_suite());
+    srunner_add_suite(sr, cparse_query_suite());
+    srunner_add_suite(sr, cparse_util_suite());
+    srunner_add_suite(sr, cparse_user_suite());
+    srunner_run_all (sr, CK_NORMAL);
+    number_failed = srunner_ntests_failed (sr);
+    srunner_free (sr);
+
+    cparse_cleanup_test_objects();
+
+    return (number_failed == 0) ? EXIT_SUCCESS : EXIT_FAILURE;
+}
+
 
 void die(const char *message)
 {
@@ -60,24 +88,16 @@ void read_test_config()
         die("No api key");
 
 }
-int main(void)
+
+void read_env_config()
 {
-    srand(time(0));
+    const char *val = getenv("PARSE_APP_ID");
 
-    read_test_config();
+    if (val != NULL)
+        cparse_set_application_id(val);
 
-    int number_failed;
-    SRunner *sr = srunner_create(cparse_parse_suite());
-    srunner_add_suite(sr, cparse_json_suite());
-    srunner_add_suite(sr, cparse_object_suite());
-    srunner_add_suite(sr, cparse_query_suite());
-    srunner_add_suite(sr, cparse_util_suite());
-    srunner_add_suite(sr, cparse_user_suite());
-    srunner_run_all (sr, CK_NORMAL);
-    number_failed = srunner_ntests_failed (sr);
-    srunner_free (sr);
+    val = getenv("PARSE_API_KEY");
 
-    cparse_cleanup_test_objects();
-
-    return (number_failed == 0) ? EXIT_SUCCESS : EXIT_FAILURE;
+    if (val != NULL)
+        cparse_set_api_key(val);
 }
