@@ -14,7 +14,7 @@
 /* internals */
 
 /* for background threads */
-typedef struct cparse_object_background_arg
+typedef struct
 {
     CPARSE_OBJ *obj;
     CPARSE_OBJ_CALLBACK callback; /* the callback passed by user */
