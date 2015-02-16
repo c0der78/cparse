@@ -273,6 +273,10 @@ bool cparse_json_contains(CPARSE_JSON *obj, const char *key)
 
 const char *cparse_json_to_json_string(CPARSE_JSON *obj)
 {
+#ifdef HAVE_LIBJSON64
     return json_object_to_json_string_ext(obj, JSON_C_TO_STRING_PLAIN);
+#else
+    return json_object_to_json_string(obj);
+#endif
 }
 
