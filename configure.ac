@@ -26,10 +26,9 @@ if test x"$ac_cv_lib_json_c_json_tokener_error_desc" = x"yes" || x"$ac_cv_lib_js
 fi
 
 # Checks for header files.
-AC_CHECK_HEADERS([stdlib.h string.h json-c/json.h json/json.h json.h curl/curl.h curl.h])
+AC_CHECK_HEADERS([stdbool.h stdlib.h string.h json-c/json.h json/json.h json.h curl/curl.h curl.h])
 
 # Checks for typedefs, structures, and compiler characteristics.
-AC_CHECK_HEADER_STDBOOL
 AC_TYPE_SIZE_T
 
 # Checks for library functions.
