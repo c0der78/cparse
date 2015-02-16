@@ -6,7 +6,7 @@
 #elif defined(HAVE_JSON_JSON_H)
 #include <json/json.h>
 #else
-#error "json.h header not found, be sure to include "config.h"
+#error "json.h header not found, be sure to include config.h"
 #endif
 
 #endif
