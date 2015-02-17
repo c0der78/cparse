@@ -10,4 +10,4 @@ include $(top_srcdir)/Makefile.am.coverage
 test: check
 
 memcheck: tests/test_cparse
-	libtool --mode=execute CK_FORK=no valgrind tests/test_cparse
+	CK_FORK=no libtool --mode=execute valgrind tests/test_cparse

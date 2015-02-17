@@ -49,13 +49,15 @@ START_TEST(test_cparse_user_login)
 
     cparse_object_set_string(user123, "bio", "hello, world");
 
-    cparse_user_sign_up(user123, "Passw0rd!", &error);
+    user = cparse_user_sign_up(user123, "Passw0rd!", &error);
 
     if (error)
         printf("user signup error: %s\n", cparse_error_message(error));
 
     fail_unless(error == NULL);
 
+    cparse_object_free(user);
+    
     user = cparse_user_login("user123", "Passw0rd!", &error);
 
     if (error)

@@ -154,7 +154,6 @@ LIBTOOL = @LIBTOOL@
 LIPO = @LIPO@
 LN_S = @LN_S@
 LTLIBOBJS = @LTLIBOBJS@
-LT_SYS_LIBRARY_PATH = @LT_SYS_LIBRARY_PATH@
 MAKEINFO = @MAKEINFO@
 MANIFEST_TOOL = @MANIFEST_TOOL@
 MKDIR_P = @MKDIR_P@
@@ -775,7 +774,7 @@ uninstall-am:
 test: check
 
 memcheck: tests/test_cparse
-	libtool --mode=execute CK_FORK=no valgrind tests/test_cparse
+	CK_FORK=no libtool --mode=execute valgrind tests/test_cparse
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

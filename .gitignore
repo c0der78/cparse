@@ -14,3 +14,5 @@ libtool
 stamp-h1
 parse.test.json
 Makefile
+*.gcno
+coverage.info
