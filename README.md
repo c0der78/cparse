@@ -8,9 +8,7 @@ A C library to use the REST API at [parse.com](http://parse.com).
 
 Setup
 =====
-- Not required but [Homebrew](http://mxcl.github.com/homebrew/) is pretty handy for install libs
-- The build system uses [Cmake](http://cmake.org) for cross platform compiling (OSX: brew install cmake)
-- run 'cmake . && make' to compile the library and run the unit tests
+- run 'configure && make' to compile the library
 
 Code style
 ==========
@@ -32,9 +30,7 @@ CPARSE_OBJ *obj = cparse_object_with_class_name("Wizards");
 
 cparse_object_set_string(obj, "name", "Harry Potter");
 
-cparse_object_set_number(obj, "age", 24);
-
-cparse_object_set_real(obj, "money", 102.34);
+cparse_object_set_number(obj, "score", 24);
 
 cparse_object_save(obj);
 
@@ -47,9 +43,9 @@ cparse_object_free(obj);
 Background Operations
 =====================
 ```
-void my_nifty_callback(CPARSE_OBJ *obj, CPARSE_ERROR *error)
+void my_nifty_callback(CPARSE_OBJ *obj, bool success, CPARSE_ERROR *error)
 {
-	if(error) {
+	if(!success) {
 		log(error);
 		return;
 	}
