@@ -94,3 +94,4 @@ Suite *cparse_json_suite (void)
 
     return s;
 }
+

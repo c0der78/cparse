@@ -68,7 +68,7 @@ END_TEST
 void test_cparse_object_callback(CPARSE_OBJ *obj, bool success, CPARSE_ERROR *error)
 {
     fail_unless(success);
-    
+
     fail_unless(cparse_object_id(obj) != NULL);
 }
 
@@ -174,3 +174,4 @@ Suite *cparse_object_suite (void)
 
     return s;
 }
+
