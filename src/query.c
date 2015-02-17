@@ -78,48 +78,38 @@ bool cparse_query_find_objects(CPARSE_QUERY *query, CPARSE_ERROR **error)
     CPARSE_REQUEST *request;
     CPARSE_JSON *data;
     char buf[BUFSIZ + 1];
-    char params[BUFSIZ + 1] = {0};
-    int pos;
-
-    request = cparse_client_request_new();
 
     /* build the request */
     snprintf(buf, BUFSIZ, "classes/%s", query->className);
 
-    request->path = strdup(buf);
-
-    request->method = HTTPRequestMethodGet;
-
-    pos = 0;
+    request = cparse_client_request_with_method_and_path(HTTPRequestMethodGet, buf);
 
     if (query->where)
     {
-        pos = snprintf(&params[pos], BUFSIZ, "where=%s\n", cparse_json_to_json_string(query->where));
+        cparse_client_request_add_data(request, "where", cparse_json_to_json_string(query->where));
     }
 
     if (query->limit > 0)
     {
-        pos = snprintf(&params[pos], BUFSIZ, "limit=%d\n", query->limit);
+        snprintf(buf, BUFSIZ, "%d", query->limit);
+        cparse_client_request_add_data(request, "limit", buf);
     }
 
     if (query->skip > 0)
     {
-        pos = snprintf(&params[pos], BUFSIZ, "skip=%d\n", query->skip);
+        snprintf(buf, BUFSIZ, "%d", query->skip);
+        cparse_client_request_add_data(request, "skip", buf);
     }
 
     if (query->keys)
     {
-        pos = snprintf(&params[pos], BUFSIZ, "keys=%s\n", query->keys);
+        cparse_client_request_add_data(request, "keys", query->keys);
     }
 
     if (query->count)
     {
-        pos = snprintf(&params[pos], BUFSIZ, "count=1\n");
-    }
-
-    if (params[0])
-    {
-        request->payload = strdup(params);
+        snprintf(buf, BUFSIZ, "%d", query->count);
+        cparse_client_request_add_data(request, "count", buf);
     }
 
     /* do the deed */

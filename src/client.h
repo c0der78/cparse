@@ -12,7 +12,9 @@ typedef struct cparse_client_response CPARSE_RESPONSE;
 
 typedef struct cparse_client_request CPARSE_REQUEST;
 
-typedef struct cparse_request_header REQUEST_HEADER;
+typedef struct cparse_kv_list CPARSE_REQUEST_HEADER;
+
+typedef struct cparse_kv_list CPARSE_REQUEST_DATA;
 
 typedef enum
 {
@@ -22,19 +24,15 @@ typedef enum
     HTTPRequestMethodDelete
 } HTTPRequestMethod;
 
-struct cparse_client_request
-{
-    char *path;
-    char *payload;
-    HTTPRequestMethod method;
-    REQUEST_HEADER *headers;
-};
-
-CPARSE_REQUEST *cparse_client_request_new();
+CPARSE_REQUEST *cparse_client_request_with_method_and_path(HTTPRequestMethod method, const char *path);
 
 CPARSE_JSON *cparse_client_request_get_json(CPARSE_REQUEST *request, CPARSE_ERROR **error);
 
 void cparse_client_request_add_header(CPARSE_REQUEST *request, const char *key, const char *value);
+
+void cparse_client_request_set_payload(CPARSE_REQUEST *request, const char *payload);
+
+void cparse_client_request_add_data(CPARSE_REQUEST *request, const char *key, const char *value);
 
 void cparse_client_request_free(CPARSE_REQUEST *request);
 

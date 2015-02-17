@@ -50,42 +50,36 @@ void *cparse_object_background_action(void *argument)
 
 void cparse_object_set_request_includes(CPARSE_OBJ *obj, CPARSE_REQUEST *request)
 {
-    char params[BUFSIZ + 1] = {0};
-    char buf[BUFSIZ + 1] = {0};
+    char types[BUFSIZ + 1] = {0};
 
     /* parse some pointers to include */
     cparse_json_object_foreach_start(obj->attributes, key, val)
     {
-        const char *keyVal = cparse_json_get_string(val, KEY_TYPE);
+        const char *typeVal;
 
-        if (keyVal && !strcmp(keyVal, TYPE_POINTER))
+        if(cparse_json_type(val) != kCParseJSONObject) continue;
+
+        typeVal = cparse_json_get_string(val, KEY_TYPE);
+
+        if (typeVal && !strcmp(typeVal, TYPE_POINTER))
         {
-            strncat(params, ",", BUFSIZ);
-            strncat(params, key, BUFSIZ);
+            strncat(types, ",", BUFSIZ);
+            strncat(types, key, BUFSIZ);
         }
     }
     cparse_json_object_foreach_end
 
-    if (params[0] != 0)
+    if (types[0] != 0)
     {
-        params[0] = '=';
-        snprintf(buf, BUFSIZ, "include%s", params);
-    }
-
-    if (buf[0])
-    {
-        request->payload = strdup(buf);
+        cparse_client_request_add_data(request, "include", &types[1]);
     }
 }
 
 CPARSE_REQUEST *cparse_object_create_request(CPARSE_OBJ *obj, HTTPRequestMethod method)
 {
     char buf[BUFSIZ + 1] = {0};
-    CPARSE_REQUEST *request;
 
     if (!obj) return NULL;
-
-    request = cparse_client_request_new();
 
     if (method != HTTPRequestMethodPost && obj->objectId && *obj->objectId)
     {
@@ -96,10 +90,7 @@ CPARSE_REQUEST *cparse_object_create_request(CPARSE_OBJ *obj, HTTPRequestMethod 
         snprintf(buf, BUFSIZ, "classes/%s", obj->className);
     }
 
-    request->path = strdup(buf);
-    request->method = method;
-
-    return request;
+    return cparse_client_request_with_method_and_path(method, buf);
 }
 
 /* initializers */
@@ -291,12 +282,9 @@ bool cparse_object_refresh(CPARSE_OBJ *obj, CPARSE_ERROR **error)
         return false;
     }
 
-    request = cparse_client_request_new();
-
-    request->method = HTTPRequestMethodGet;
-
     snprintf(buf, BUFSIZ, "classes/%s/%s", obj->className, obj->objectId);
-    request->path = strdup(buf);
+
+    request = cparse_client_request_with_method_and_path(HTTPRequestMethodGet, buf);
 
     json = cparse_client_request_get_json(request, error);
 
@@ -341,23 +329,20 @@ bool cparse_object_save(CPARSE_OBJ *obj, CPARSE_ERROR **error)
 
     if (!obj) return false;
 
-    request = cparse_client_request_new();
-
     /* build the request based on the id */
     if (!obj->objectId || !*obj->objectId)
     {
-        request->method = HTTPRequestMethodPost;
         snprintf(buf, BUFSIZ, "classes/%s", obj->className);
+        request = cparse_client_request_with_method_and_path(HTTPRequestMethodPost, buf);
+
     }
     else
     {
-        request->method = HTTPRequestMethodPut;
         snprintf(buf, BUFSIZ, "classes/%s/%s", obj->className, obj->objectId);
+        request = cparse_client_request_with_method_and_path(HTTPRequestMethodPut, buf);
     }
 
-    request->path = strdup(buf);
-
-    request->payload = strdup(cparse_json_to_json_string(obj->attributes));
+    cparse_client_request_set_payload(request, cparse_json_to_json_string(obj->attributes));
 
     json = cparse_client_request_get_json(request, error);
 

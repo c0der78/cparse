@@ -21,11 +21,8 @@ extern void cparse_object_set_request_includes(CPARSE_OBJ *obj, CPARSE_REQUEST *
 CPARSE_REQUEST *cparse_user_create_request(CPARSE_OBJ *obj, HTTPRequestMethod method)
 {
     char buf[BUFSIZ + 1] = {0};
-    CPARSE_REQUEST *request;
 
     if (!obj) return NULL;
-
-    request = cparse_client_request_new();
 
     if (method != HTTPRequestMethodPost && obj->objectId && *obj->objectId)
     {
@@ -36,10 +33,7 @@ CPARSE_REQUEST *cparse_user_create_request(CPARSE_OBJ *obj, HTTPRequestMethod me
         snprintf(buf, BUFSIZ, "%s", CPARSE_USER_CLASS_NAME);
     }
 
-    request->path = strdup(buf);
-    request->method = method;
-
-    return request;
+    return cparse_client_request_with_method_and_path(method, buf);
 }
 
 /* initializers */
@@ -117,7 +111,6 @@ const char *cparse_user_session_token(CPARSE_OBJ *user)
 
 CPARSE_OBJ *cparse_user_login(const char *username, const char *password, CPARSE_ERROR **error)
 {
-    char buf[BUFSIZ + 1];
     CPARSE_OBJ *user;
     CPARSE_JSON *data;
     CPARSE_REQUEST *request;
@@ -125,7 +118,7 @@ CPARSE_OBJ *cparse_user_login(const char *username, const char *password, CPARSE
     if (!username || !*username)
     {
         if (error)
-            *error = cparse_error_with_message("No username, set with cparse_user_set_name()");
+            *error = cparse_error_with_message("No username provided");
 
         return false;
     }
@@ -140,14 +133,10 @@ CPARSE_OBJ *cparse_user_login(const char *username, const char *password, CPARSE
     }
     user = cparse_object_with_class_name(CPARSE_USER_CLASS_NAME);
 
-    request = cparse_client_request_new();
+    request = cparse_client_request_with_method_and_path(HTTPRequestMethodGet, "login");
 
-    request->path = strdup("login");
-
-    request->method = HTTPRequestMethodGet;
-
-    snprintf(buf, BUFSIZ, "username=%s&password=%s", username, password);
-    request->payload = strdup(buf);
+    cparse_client_request_add_data(request, "username", username);
+    cparse_client_request_add_data(request, "password", password);
 
     /* do the deed */
     data = cparse_client_request_get_json(request, error);
@@ -258,7 +247,7 @@ bool cparse_user_sign_up(CPARSE_OBJ *user, const char *password, CPARSE_ERROR **
     /* temporarily set the password on the user for the request json */
     cparse_object_set_string(user, "password", password);
 
-    request->payload = strdup(cparse_object_to_json_string(user));
+    cparse_client_request_set_payload(request, cparse_object_to_json_string(user));
 
     /* remove the passwrod from the user attributes for security */
     cparse_object_remove(user, "password");
@@ -359,11 +348,7 @@ bool cparse_user_validate(CPARSE_OBJ *user, const char *sessionToken, CPARSE_ERR
 
     CPARSE_JSON *json;
 
-    request = cparse_client_request_new();
-
-    request->method = HTTPRequestMethodGet;
-
-    request->path = strdup("me");
+    request = cparse_client_request_with_method_and_path(HTTPRequestMethodGet, "me");
 
     cparse_client_request_add_header(request, HEADER_SESSION_TOKEN, sessionToken);
 
@@ -426,17 +411,13 @@ bool cparse_user_reset_password(CPARSE_OBJ *user, CPARSE_ERROR **error)
         return false;
     }
 
-    request = cparse_client_request_new();
-
-    request->method = HTTPRequestMethodPost;
-
-    request->path = strdup("requestPasswordReset");
+    request = cparse_client_request_with_method_and_path(HTTPRequestMethodPost, "requestPasswordReset");
 
     json = cparse_json_new();
 
     cparse_json_set_string(json, KEY_USER_EMAIL, cparse_object_get_string(user, KEY_USER_EMAIL));
 
-    request->payload = strdup(cparse_json_to_json_string(json));
+    cparse_client_request_set_payload(request, cparse_json_to_json_string(json));
 
     cparse_json_free(json);
 

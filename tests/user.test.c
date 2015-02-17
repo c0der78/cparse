@@ -54,11 +54,15 @@ START_TEST(test_cparse_user_login)
     if (error)
         printf("user signup error: %s\n", cparse_error_message(error));
 
+    fail_unless(error == NULL);
+
     user = cparse_user_login("user123", "Passw0rd!", &error);
 
     if (error)
         printf("user login error: %s\n", cparse_error_message(error));
 
+    fail_unless(error == NULL);
+    
     fail_unless(user != NULL);
 
     fail_unless(!strcmp(cparse_user_name(user), "user123"));

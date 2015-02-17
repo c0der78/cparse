@@ -23,6 +23,7 @@ time_t cparse_date_time(const char *str)
     time.tm_hour = h;        /* 0-23 */
     time.tm_min = m;         /* 0-59 */
     time.tm_sec = (int) s;    /* 0-61 */
+    time.tm_isdst = -1;     /* auto check daylight savings time */
 
     return mktime(&time);
 }
