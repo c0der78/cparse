@@ -36,7 +36,7 @@ void *cparse_object_background_action(void *argument)
 
     if (arg->callback)
     {
-        (*arg->callback)(arg->obj, error);
+        (*arg->callback)(arg->obj, rval, error);
     }
     else if (error)
     {
@@ -54,7 +54,7 @@ void cparse_object_set_request_includes(CPARSE_OBJ *obj, CPARSE_REQUEST *request
     char buf[BUFSIZ + 1] = {0};
 
     /* parse some pointers to include */
-    json_object_object_foreach(obj->attributes, key, val)
+    cparse_json_object_foreach_start(obj->attributes, key, val)
     {
         const char *keyVal = cparse_json_get_string(val, KEY_TYPE);
 
@@ -64,6 +64,7 @@ void cparse_object_set_request_includes(CPARSE_OBJ *obj, CPARSE_REQUEST *request
             strncat(params, key, BUFSIZ);
         }
     }
+    cparse_json_object_foreach_end
 
     if (params[0] != 0)
     {
@@ -202,7 +203,6 @@ bool cparse_object_exists(CPARSE_OBJ *obj)
 
 bool cparse_object_delete(CPARSE_OBJ *obj, CPARSE_ERROR **error)
 {
-    char buf[BUFSIZ + 1] = {0};
     CPARSE_REQUEST *request;
     bool rval;
 
@@ -226,7 +226,6 @@ bool cparse_object_delete(CPARSE_OBJ *obj, CPARSE_ERROR **error)
 
 bool cparse_object_fetch(CPARSE_OBJ *obj, CPARSE_ERROR **error)
 {
-    char buf[BUFSIZ + 1] = {0};
     CPARSE_REQUEST *request;
     CPARSE_JSON *json;
 
@@ -261,14 +260,17 @@ bool cparse_object_fetch(CPARSE_OBJ *obj, CPARSE_ERROR **error)
 
 pthread_t cparse_object_fetch_in_background(CPARSE_OBJ *obj, CPARSE_OBJ_CALLBACK callback)
 {
-    assert(obj != NULL);
-    CPARSE_OBJ_CALLBACK_ARG *arg = malloc(sizeof(CPARSE_OBJ_CALLBACK_ARG));
+    CPARSE_OBJ_CALLBACK_ARG *arg;
+    int rc;
 
+    assert(obj != NULL);
+
+    arg = malloc(sizeof(CPARSE_OBJ_CALLBACK_ARG));
     arg->action = cparse_object_fetch;
     arg->obj = obj;
     arg->callback = callback;
 
-    int rc = pthread_create(&arg->thread, NULL, cparse_object_background_action, arg);
+    rc = pthread_create(&arg->thread, NULL, cparse_object_background_action, arg);
     assert(rc == 0);
 
     return arg->thread;
@@ -314,14 +316,17 @@ bool cparse_object_refresh(CPARSE_OBJ *obj, CPARSE_ERROR **error)
 
 pthread_t cparse_object_refresh_in_background(CPARSE_OBJ *obj, CPARSE_OBJ_CALLBACK callback)
 {
-    assert(obj != NULL);
-    CPARSE_OBJ_CALLBACK_ARG *arg = malloc(sizeof(CPARSE_OBJ_CALLBACK_ARG));
+    CPARSE_OBJ_CALLBACK_ARG *arg;
+    int rc;
 
+    assert(obj != NULL);
+
+    arg = malloc(sizeof(CPARSE_OBJ_CALLBACK_ARG));
     arg->action = cparse_object_refresh;
     arg->obj = obj;
     arg->callback = callback;
 
-    int rc = pthread_create(&arg->thread, NULL, cparse_object_background_action, arg);
+    rc = pthread_create(&arg->thread, NULL, cparse_object_background_action, arg);
     assert(rc == 0);
 
     return arg->thread;
@@ -332,6 +337,7 @@ bool cparse_object_save(CPARSE_OBJ *obj, CPARSE_ERROR **error)
 {
     CPARSE_REQUEST *request;
     char buf[BUFSIZ + 1] = {0};
+    CPARSE_JSON *json;
 
     if (!obj) return false;
 
@@ -353,7 +359,7 @@ bool cparse_object_save(CPARSE_OBJ *obj, CPARSE_ERROR **error)
 
     request->payload = strdup(cparse_json_to_json_string(obj->attributes));
 
-    CPARSE_JSON *json = cparse_client_request_get_json(request, error);
+    json = cparse_client_request_get_json(request, error);
 
     cparse_client_request_free(request);
 
@@ -371,14 +377,17 @@ bool cparse_object_save(CPARSE_OBJ *obj, CPARSE_ERROR **error)
 
 pthread_t cparse_object_save_in_background(CPARSE_OBJ *obj, CPARSE_OBJ_CALLBACK callback)
 {
-    assert(obj != NULL);
-    CPARSE_OBJ_CALLBACK_ARG *arg = malloc(sizeof(CPARSE_OBJ_CALLBACK_ARG));
+    CPARSE_OBJ_CALLBACK_ARG *arg;
+    int rc;
 
+    assert(obj != NULL);
+
+    arg = malloc(sizeof(CPARSE_OBJ_CALLBACK_ARG));
     arg->action = cparse_object_save;
     arg->obj = obj;
     arg->callback = callback;
 
-    int rc = pthread_create(&arg->thread, NULL, cparse_object_background_action, arg);
+    rc = pthread_create(&arg->thread, NULL, cparse_object_background_action, arg);
     assert(rc == 0);
 
     return arg->thread;
@@ -386,7 +395,7 @@ pthread_t cparse_object_save_in_background(CPARSE_OBJ *obj, CPARSE_OBJ_CALLBACK 
 
 /* setters */
 
-void cparse_object_set_number(CPARSE_OBJ *obj, const char *key, long long value)
+void cparse_object_set_number(CPARSE_OBJ *obj, const char *key, cparse_number value)
 {
     assert(obj != NULL);
 
@@ -423,10 +432,11 @@ void cparse_object_set(CPARSE_OBJ *obj, const char *key, CPARSE_JSON *value)
 
 void cparse_object_foreach_attribute(CPARSE_OBJ *obj, void (*foreach) (CPARSE_JSON *data))
 {
-    json_object_object_foreach(obj->attributes, key, val)
+    cparse_json_object_foreach_start(obj->attributes, key, val)
     {
         foreach(val);
     }
+    cparse_json_object_foreach_end
 }
 
 CPARSE_JSON *cparse_object_remove(CPARSE_OBJ *obj, const char *key)
@@ -441,7 +451,7 @@ CPARSE_JSON *cparse_object_get(CPARSE_OBJ *obj, const char *key)
     return cparse_json_get(obj->attributes, key);
 }
 
-long long cparse_object_get_number(CPARSE_OBJ *obj, const char *key, long long def)
+cparse_number cparse_object_get_number(CPARSE_OBJ *obj, const char *key, cparse_number def)
 {
     return cparse_json_get_number(obj->attributes, key, def);
 }

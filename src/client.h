@@ -40,8 +40,6 @@ void cparse_client_request_free(CPARSE_REQUEST *request);
 
 bool cparse_client_request_perform(CPARSE_REQUEST *request, CPARSE_ERROR **error);
 
-//bool cparse_client_request(HTTPRequestMethod method, const char *path, CPARSE_ERROR **error);
-
 #ifdef __cplusplus
 }
 #endif

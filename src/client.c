@@ -47,7 +47,7 @@ CPARSE_REQUEST *cparse_client_request_new()
     request->headers = NULL;
 
     return request;
-};
+}
 
 void cparse_client_request_free(CPARSE_REQUEST *request)
 {
@@ -91,11 +91,17 @@ void cparse_client_request_add_header(CPARSE_REQUEST *request, const char *key, 
     header->value = strdup(value);
 }
 
-static size_t cparse_client_get_response(void *ptr, size_t size, size_t nmemb, CPARSE_RESPONSE *s)
+static size_t cparse_client_get_response(void *ptr, size_t size, size_t nmemb, void *data)
 {
-    assert(s != NULL);
+    CPARSE_RESPONSE *s;
+    size_t new_len;
 
-    size_t new_len = s->size + size * nmemb;
+    assert(data != NULL);
+
+    s = (CPARSE_RESPONSE*) data;
+    
+    new_len = s->size + size * nmemb;
+
     s->text = realloc(s->text, new_len + 1);
     if (s->text == NULL)
     {
@@ -120,13 +126,13 @@ static void cparse_client_set_request_url(CURL *curl, const char *path)
 
 static void cparse_client_set_headers(CURL *curl, REQUEST_HEADER *requestHeaders)
 {
-    assert(cparse_app_id != NULL);
-
     char buf[BUFSIZ + 1];
 
     REQUEST_HEADER *header;
 
     struct curl_slist *headers = NULL;
+
+    assert(cparse_app_id != NULL);
 
     snprintf(buf, BUFSIZ, "%s: %s", HEADER_APP_ID, cparse_app_id);
 
@@ -173,22 +179,25 @@ CPARSE_JSON *cparse_client_response_parse_json(CPARSE_RESPONSE *response, CPARSE
 
     const char *errorMessage = NULL;
 
+#ifdef HAVE_JSON_TOKENER_GET_ERROR
     enum json_tokener_error parseError = json_tokener_get_error(tok);
-
-    json_tokener_free(tok);
 
     if (parseError != json_tokener_success)
     {
-#ifdef HAVE_JSON_TOKENER_ERROR_DESC
         errorMessage = json_tokener_error_desc(parseError);
-#else
-        errorMessage = json_tokener_errors[parseError];
-#endif
     }
+#else
+    if(obj == NULL)
+    {
+        errorMessage = "Unable to parse json";
+    }
+#endif    
     else
     {
         errorMessage = cparse_json_get_string(obj, "error");
     }
+
+    json_tokener_free(tok);
 
     if (errorMessage != NULL)
     {
@@ -280,7 +289,7 @@ CPARSE_RESPONSE *cparse_client_request_get_response(CPARSE_REQUEST *request)
     if (res != CURLE_OK)
         fputs("problem requesting with curl", stderr);
 
-    curl_easy_getinfo (curl, CURLINFO_RESPONSE_CODE, &response->code);
+    curl_easy_getinfo (curl, CURLINFO_RESPONSE_CODE, (long*) &response->code);
 
     /* always cleanup */
     curl_easy_cleanup(curl);

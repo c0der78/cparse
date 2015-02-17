@@ -18,6 +18,12 @@ typedef unsigned char bool;
 #include <stdbool.h>
 #endif
 
+#ifdef HAVE_JSON_INT64
+typedef long long cparse_number;
+#else
+typedef int cparse_number;
+#endif
+
 /*typedef enum
 {
     kCParseCachePolicyIgnoreCache = 0,
@@ -37,7 +43,7 @@ typedef struct cparse_object CPARSE_OBJ;
 typedef struct cparse_query CPARSE_QUERY;
 
 /* callbacks */
-typedef void (*CPARSE_OBJ_CALLBACK)(CPARSE_OBJ *obj, CPARSE_ERROR *error);
+typedef void (*CPARSE_OBJ_CALLBACK)(CPARSE_OBJ *obj, bool success, CPARSE_ERROR *error);
 
 typedef struct json_object CPARSE_JSON;
 

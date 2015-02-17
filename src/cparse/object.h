@@ -41,7 +41,7 @@ pthread_t cparse_object_fetch_in_background(CPARSE_OBJ *obj, CPARSE_OBJ_CALLBACK
 
 /* setters */
 bool cparse_object_exists(CPARSE_OBJ *obj);
-void cparse_object_set_number(CPARSE_OBJ *obj, const char *key, long long value);
+void cparse_object_set_number(CPARSE_OBJ *obj, const char *key, cparse_number value);
 void cparse_object_set_real(CPARSE_OBJ *obj, const char *key, double value);
 void cparse_object_set_bool(CPARSE_OBJ *obj, const char *key, bool value);
 void cparse_object_set_string(CPARSE_OBJ *obj, const char *key, const char *value);
@@ -53,7 +53,7 @@ void cparse_object_set_reference(CPARSE_OBJ *obj, const char *key, CPARSE_OBJ *r
 
 /* getters */
 CPARSE_JSON *cparse_object_get(CPARSE_OBJ *, const char *key);
-long long cparse_object_get_number(CPARSE_OBJ *, const char *key, long long def);
+cparse_number cparse_object_get_number(CPARSE_OBJ *, const char *key, cparse_number def);
 double cparse_object_get_real(CPARSE_OBJ *, const char *key, double def);
 bool cparse_object_get_bool(CPARSE_OBJ *, const char *key);
 const char *cparse_object_get_string(CPARSE_OBJ *, const char *key);

@@ -15,20 +15,31 @@ AC_CONFIG_MACRO_DIR([m4])
 # Checks for programs.
 AC_PROG_CC
 
+AC_SUBST(X_CFLAGS, "-pedantic -Wall -Werror")
+
 # Checks for libraries.
 AC_CHECK_LIB([json-c], [json_object_get], [], AC_CHECK_LIB(json, [json_object_get], [], AC_MSG_ERROR([json library is required!])))
 
-AC_CHECK_LIB([json-c], [json_tokener_error_desc], [], 
-	AC_CHECK_LIB([json], [json_tokener_error_desc]))
+AC_CHECK_LIB([json-c], [json_tokener_get_error], [], 
+	AC_CHECK_LIB([json], [json_tokener_get_error]))
+
+AC_CHECK_LIB([json-c], [json_object_new_int64], [], 
+	AC_CHECK_LIB([json], [json_object_new_int64]))
 
 AC_CHECK_LIB([curl], [curl_easy_init], [], AC_MSG_ERROR([libcurl library is required!]))
 
-if test x"$ac_cv_lib_json_c_json_tokener_error_desc" = x"yes" || test x"$ac_cv_lib_json_json_tokener_error_desc" = x"yes"; then
-	AC_DEFINE(HAVE_JSON_TOKENER_ERROR_DESC, 1, [function for json error handling])
+if test x"$ac_cv_lib_json_c_json_tokener_get_error" = x"yes" || test x"$ac_cv_lib_json_json_tokener_get_error" = x"yes"; then
+	AC_DEFINE(HAVE_JSON_TOKENER_GET_ERROR, 1, [function for json error handling])
+fi
+
+if test x"$ac_cv_lib_json_c_json_object_new_int64" = x"yes" || test x"$ac_cv_lib_json_json_object_new_int64" = x"yes"; then
+	AC_DEFINE(HAVE_JSON_INT64, 1, [json library supports int64])
 fi
 
 # Checks for header files.
 AC_CHECK_HEADERS([stdbool.h stdlib.h string.h json-c/json.h json/json.h json.h curl/curl.h curl.h])
+
+AC_CHECK_FUNC(strptime, AC_DEFINE(HAVE_STRPTIME, 1, [a posix time function]), [])
 
 #coverage
 

@@ -144,6 +144,8 @@ bool cparse_query_find_objects(CPARSE_QUERY *query, CPARSE_ERROR **error)
 
         if (query->size > 0)
         {
+            int i;
+            
             if (query->results)
             {
                 /* fine, go ahead and cleanup */
@@ -151,7 +153,7 @@ bool cparse_query_find_objects(CPARSE_QUERY *query, CPARSE_ERROR **error)
             }
             query->results = malloc(cparse_object_sizeof() * query->size);
 
-            for (int i = 0; i < query->size; i++)
+            for (i = 0; i < query->size; i++)
             {
                 query->results[i] = cparse_object_with_class_data(query->className, cparse_json_array_get(results, i));
             }

@@ -189,7 +189,6 @@ void cparse_user_logout()
 bool cparse_user_delete(CPARSE_OBJ *obj, CPARSE_ERROR **error)
 {
     CPARSE_REQUEST *request;
-    char buf[BUFSIZ + 1];
     const char *sessionToken;
     bool rval;
 
@@ -233,7 +232,6 @@ bool cparse_user_sign_up(CPARSE_OBJ *user, const char *password, CPARSE_ERROR **
     const char *username;
     CPARSE_REQUEST *request;
     CPARSE_JSON *json;
-    bool rval;
 
     if (!user) return false;
 

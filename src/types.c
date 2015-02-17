@@ -38,12 +38,18 @@ struct cparse_type_pointer
 
 CPARSE_PTR *cparse_pointer_from_json(CPARSE_JSON *data)
 {
-    const char *type = cparse_json_get_string(data, KEY_TYPE);
+    CPARSE_PTR *p;
+
+    const char *type;
+
+    if(data == NULL) return NULL;
+    
+    type = cparse_json_get_string(data, KEY_TYPE);
 
     if (strcmp(type, TYPE_POINTER))
         return NULL;
 
-    CPARSE_PTR *p = malloc(sizeof(CPARSE_PTR));
+    p = malloc(sizeof(CPARSE_PTR));
 
     p->className = strdup(cparse_json_get_string(data, KEY_CLASS_NAME));
 
