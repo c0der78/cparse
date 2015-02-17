@@ -18,8 +18,6 @@ START_TEST(test_cparse_date_time)
 
     time_t value = cparse_date_time(testStr);
 
-    printf("%ld\n", value);
-
     fail_unless(value == 1313806017);
 }
 END_TEST
