@@ -1,3 +1,4 @@
+/*! \file types.h */
 #ifndef CPARSE_TYPES_H_
 #define CPARSE_TYPES_H_
 

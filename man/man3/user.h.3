@@ -1,0 +1,76 @@
+.TH "src/cparse/user.h" 3 "Tue Feb 17 2015" "Version 0.1" "cParse" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+src/cparse/user.h \- 
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <cparse/defines\&.h>\fP
+.br
+\fC#include <cparse/query\&.h>\fP
+.br
+\fC#include <cparse/acl\&.h>\fP
+.br
+
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBCPARSE_OBJ\fP * \fBcparse_current_user\fP ()"
+.br
+.ti -1c
+.RI "\fBCPARSE_OBJ\fP * \fBcparse_user_new\fP ()"
+.br
+.ti -1c
+.RI "\fBCPARSE_OBJ\fP * \fBcparse_user_with_name\fP (const char *username)"
+.br
+.ti -1c
+.RI "\fBCPARSE_OBJ\fP * \fBcparse_user_login\fP (const char *username, const char *password, \fBCPARSE_ERROR\fP **error)"
+.br
+.ti -1c
+.RI "void \fBcparse_user_login_in_background\fP (const char *username, const char *password, \fBCPARSE_OBJ_CALLBACK\fP callback)"
+.br
+.ti -1c
+.RI "void \fBcparse_user_logout\fP ()"
+.br
+.ti -1c
+.RI "bool \fBcparse_user_delete\fP (\fBCPARSE_OBJ\fP *user, \fBCPARSE_ERROR\fP **error)"
+.br
+.ti -1c
+.RI "\fBCPARSE_QUERY\fP * \fBcparse_user_query\fP ()"
+.br
+.ti -1c
+.RI "bool \fBcparse_user_sign_up\fP (\fBCPARSE_OBJ\fP *user, const char *password, \fBCPARSE_ERROR\fP **error)"
+.br
+.ti -1c
+.RI "const char * \fBcparse_user_name\fP (\fBCPARSE_OBJ\fP *user)"
+.br
+.ti -1c
+.RI "void \fBcparse_user_set_name\fP (\fBCPARSE_OBJ\fP *user, char *value)"
+.br
+.ti -1c
+.RI "const char * \fBcparse_user_email\fP (\fBCPARSE_OBJ\fP *user)"
+.br
+.ti -1c
+.RI "const char * \fBcparse_user_session_token\fP (\fBCPARSE_OBJ\fP *user)"
+.br
+.ti -1c
+.RI "bool \fBcparse_user_validate\fP (\fBCPARSE_OBJ\fP *user, const char *sessionToken, \fBCPARSE_ERROR\fP **error)"
+.br
+.ti -1c
+.RI "bool \fBcparse_user_validate_email\fP (\fBCPARSE_OBJ\fP *user, \fBCPARSE_ERROR\fP **error)"
+.br
+.ti -1c
+.RI "bool \fBcparse_user_refresh\fP (\fBCPARSE_OBJ\fP *obj, \fBCPARSE_ERROR\fP **error)"
+.br
+.ti -1c
+.RI "bool \fBcparse_user_fetch\fP (\fBCPARSE_OBJ\fP *obj, \fBCPARSE_ERROR\fP **error)"
+.br
+.ti -1c
+.RI "bool \fBcparse_user_reset_password\fP (\fBCPARSE_OBJ\fP *user, \fBCPARSE_ERROR\fP **error)"
+.br
+.in -1c
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for cParse from the source code\&.

@@ -1,0 +1,118 @@
+.TH "src/cparse/error.h" 3 "Tue Feb 17 2015" "Version 0.1" "cParse" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+src/cparse/error.h \- 
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <cparse/defines\&.h>\fP
+.br
+
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBCPARSE_ERROR\fP * \fBcparse_error_new\fP ()"
+.br
+.ti -1c
+.RI "\fBCPARSE_ERROR\fP * \fBcparse_error_with_message\fP (const char *message)"
+.br
+.ti -1c
+.RI "void \fBcparse_error_free\fP (\fBCPARSE_ERROR\fP *error)"
+.br
+.ti -1c
+.RI "const char * \fBcparse_error_message\fP (\fBCPARSE_ERROR\fP *error)"
+.br
+.ti -1c
+.RI "void \fBcparse_error_set_message\fP (\fBCPARSE_ERROR\fP *error, const char *message)"
+.br
+.ti -1c
+.RI "int \fBcparse_error_code\fP (\fBCPARSE_ERROR\fP *error)"
+.br
+.ti -1c
+.RI "void \fBcparse_error_set_code\fP (\fBCPARSE_ERROR\fP *error, int code)"
+.br
+.in -1c
+.SH "Function Documentation"
+.PP 
+.SS "int cparse_error_code (\fBCPARSE_ERROR\fP * error)"
+gets the code for an error 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIerror\fP the error instance 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+the error code or zero 
+.RE
+.PP
+
+.SS "void cparse_error_free (\fBCPARSE_ERROR\fP * error)"
+deallocates an error 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIerror\fP the error instance to deallocate 
+.RE
+.PP
+
+.SS "const char* cparse_error_message (\fBCPARSE_ERROR\fP * error)"
+gets the message for an error 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIerror\fP the error instance 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+the error message or NULL 
+.RE
+.PP
+
+.SS "\fBCPARSE_ERROR\fP* cparse_error_new ()"
+allocates a new empty error 
+.PP
+\fBReturns:\fP
+.RS 4
+an allocated error 
+.RE
+.PP
+
+.SS "void cparse_error_set_code (\fBCPARSE_ERROR\fP * error, int code)"
+sets the code for an error 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIerror\fP the error instance 
+.br
+\fIcode\fP the code to set 
+.RE
+.PP
+
+.SS "void cparse_error_set_message (\fBCPARSE_ERROR\fP * error, const char * message)"
+sets the message for an error 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIerror\fP the error instance 
+.br
+\fImessage\fP the message to set 
+.RE
+.PP
+
+.SS "\fBCPARSE_ERROR\fP* cparse_error_with_message (const char * message)"
+allocates an error with a message 
+.PP
+\fBReturns:\fP
+.RS 4
+the allocated error 
+.RE
+.PP
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for cParse from the source code\&.

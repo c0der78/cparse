@@ -67,7 +67,7 @@ void cparse_object_set_request_includes(CPARSE_OBJ *obj, CPARSE_REQUEST *request
             strncat(types, key, BUFSIZ);
         }
     }
-    cparse_json_object_foreach_end
+    cparse_json_object_foreach_end;
 
     if (types[0] != 0)
     {
@@ -421,7 +421,7 @@ void cparse_object_foreach_attribute(CPARSE_OBJ *obj, void (*foreach) (CPARSE_JS
     {
         foreach(val);
     }
-    cparse_json_object_foreach_end
+    cparse_json_object_foreach_end;
 }
 
 CPARSE_JSON *cparse_object_remove(CPARSE_OBJ *obj, const char *key)

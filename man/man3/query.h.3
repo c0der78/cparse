@@ -1,0 +1,168 @@
+.TH "src/cparse/query.h" 3 "Tue Feb 17 2015" "Version 0.1" "cParse" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+src/cparse/query.h \- 
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <cparse/defines\&.h>\fP
+.br
+\fC#include <cparse/error\&.h>\fP
+.br
+\fC#include <cparse/object\&.h>\fP
+.br
+
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBCPARSE_QUERY_LESS_THAN\fP   '$lt'"
+.br
+.ti -1c
+.RI "#define \fBCPARSE_QUERY_LESS_THAN_EQUAL\fP   '$lte'"
+.br
+.ti -1c
+.RI "#define \fBCPARSE_QUERY_GREATER_THAN\fP   '$gt'"
+.br
+.ti -1c
+.RI "#define \fBCPARSE_QUERY_GREATER_THAN_EQUAL\fP   '$gte'"
+.br
+.ti -1c
+.RI "#define \fBCPARSE_QUERY_NOT_EQUAL\fP   '$ne'"
+.br
+.ti -1c
+.RI "#define \fBCPARSE_QUERY_IN\fP   '$in'"
+.br
+.ti -1c
+.RI "#define \fBCPARSE_QUERY_NOT_IN\fP   '$nin'"
+.br
+.ti -1c
+.RI "#define \fBCPARSE_QUERY_EXISTS\fP   '$exists'"
+.br
+.ti -1c
+.RI "#define \fBCPARSE_QUERY_SELECT\fP   '$select'"
+.br
+.ti -1c
+.RI "#define \fBCPARSE_QUERY_DONT_SELECT\fP   '$dontSelect'"
+.br
+.ti -1c
+.RI "#define \fBCPARSE_QUERY_ALL\fP   '$all'"
+.br
+.ti -1c
+.RI "#define \fBCPARSE_ARRAY_KEY\fP   'arrayKey'"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBCPARSE_QUERY\fP * \fBcparse_query_with_class_name\fP (const char *className)"
+.br
+.ti -1c
+.RI "void \fBcparse_query_free\fP (\fBCPARSE_QUERY\fP *query)"
+.br
+.ti -1c
+.RI "size_t \fBcparse_query_size\fP (\fBCPARSE_QUERY\fP *query)"
+.br
+.ti -1c
+.RI "\fBCPARSE_OBJ\fP * \fBcparse_query_result\fP (\fBCPARSE_QUERY\fP *query, size_t index)"
+.br
+.ti -1c
+.RI "void \fBcparse_query_set_where\fP (\fBCPARSE_QUERY\fP *query, \fBCPARSE_JSON\fP *where)"
+.br
+.ti -1c
+.RI "void \fBcparse_query_cancel\fP (\fBCPARSE_QUERY\fP *query)"
+.br
+.ti -1c
+.RI "int \fBcparse_query_count_objects\fP (\fBCPARSE_QUERY\fP *query, \fBCPARSE_ERROR\fP **error)"
+.br
+.ti -1c
+.RI "bool \fBcparse_query_find_objects\fP (\fBCPARSE_QUERY\fP *query, \fBCPARSE_ERROR\fP **error)"
+.br
+.in -1c
+.SH "Function Documentation"
+.PP 
+.SS "bool cparse_query_find_objects (\fBCPARSE_QUERY\fP * query, \fBCPARSE_ERROR\fP ** error)"
+find objects from a query 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIquery\fP the query instance 
+.br
+\fIerror\fP a pointer to an error object that gets allocated if not successful 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+true if successful 
+.RE
+.PP
+
+.SS "void cparse_query_free (\fBCPARSE_QUERY\fP * query)"
+deallocates a query 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIquery\fP the query instance 
+.RE
+.PP
+
+.SS "\fBCPARSE_OBJ\fP* cparse_query_result (\fBCPARSE_QUERY\fP * query, size_t index)"
+gets a result in the query 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIquery\fP the query instance 
+.br
+\fIindex\fP the index of the result 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+the query result object or NULL 
+.RE
+.PP
+
+.SS "void cparse_query_set_where (\fBCPARSE_QUERY\fP * query, \fBCPARSE_JSON\fP * where)"
+sets the where clause of a query 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIquery\fP the query instance 
+.br
+\fIwhere\fP a json object describing the where clause (see https://parse.com/docs/rest#queries) 
+.RE
+.PP
+
+.SS "size_t cparse_query_size (\fBCPARSE_QUERY\fP * query)"
+gets the size of the results in the query 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIquery\fP the query instance 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+the number of results in the query 
+.RE
+.PP
+
+.SS "\fBCPARSE_QUERY\fP* cparse_query_with_class_name (const char * className)"
+creates a new query for an object type 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIclassName\fP the type of object 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+the allocated query 
+.RE
+.PP
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for cParse from the source code\&.

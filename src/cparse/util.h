@@ -1,3 +1,4 @@
+/*! \file util.h */
 #ifndef CPARSE_UTIL_H_
 #define CPARSE_UTIL_H_
 

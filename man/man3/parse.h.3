@@ -1,0 +1,85 @@
+.TH "src/cparse/parse.h" 3 "Tue Feb 17 2015" "Version 0.1" "cParse" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+src/cparse/parse.h \- 
+.SH SYNOPSIS
+.br
+.PP
+.SS "Enumerations"
+
+.in +1c
+.ti -1c
+.RI "enum \fBcParseLogLevel\fP { \fBcParseLogNone\fP = 0, \fBcParseLogError\fP = 1, \fBcParseLogWarn\fP = 2, \fBcParseLogInfo\fP = 3, \fBcParseLogDebug\fP = 4, \fBcParseLogTrace\fP = 5 }"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBcparse_set_application_id\fP (const char *appId)"
+.br
+.ti -1c
+.RI "void \fBcparse_set_api_key\fP (const char *apiKey)"
+.br
+.ti -1c
+.RI "void \fBcparse_set_log_level\fP (\fBcParseLogLevel\fP level)"
+.br
+.in -1c
+.SH "Enumeration Type Documentation"
+.PP 
+.SS "enum \fBcParseLogLevel\fP"
+levels of logging 
+.PP
+\fBEnumerator\fP
+.in +1c
+.TP
+\fB\fIcParseLogNone \fP\fP
+logging is disabled 
+.TP
+\fB\fIcParseLogError \fP\fP
+only error messages will be logged 
+.TP
+\fB\fIcParseLogWarn \fP\fP
+warnings and errors will be logged 
+.TP
+\fB\fIcParseLogInfo \fP\fP
+info, warning, and error messages will be logged 
+.TP
+\fB\fIcParseLogDebug \fP\fP
+debug, info, warning and error messages will be logged 
+.TP
+\fB\fIcParseLogTrace \fP\fP
+trace, debug, info, warning and error messages will be logged 
+.SH "Function Documentation"
+.PP 
+.SS "void cparse_set_api_key (const char * apiKey)"
+sets the parse api key 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIapiKey\fP the REST api key 
+.RE
+.PP
+
+.SS "void cparse_set_application_id (const char * appId)"
+sets the parse api application id 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIappId\fP the application id 
+.RE
+.PP
+
+.SS "void cparse_set_log_level (\fBcParseLogLevel\fP level)"
+sets the logging level 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIlevel\fP the logging level to set 
+.RE
+.PP
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for cParse from the source code\&.

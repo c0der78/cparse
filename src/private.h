@@ -21,7 +21,6 @@ struct cparse_object
 
 struct cparse_query
 {
-    /*CParseCachePolicy cachePolicy;*/
     char *className;
     int limit;
     int skip;

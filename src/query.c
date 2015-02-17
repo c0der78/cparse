@@ -135,7 +135,7 @@ bool cparse_query_find_objects(CPARSE_QUERY *query, CPARSE_ERROR **error)
         if (query->size > 0)
         {
             int i;
-            
+
             if (query->results)
             {
                 /* fine, go ahead and cleanup */
@@ -159,11 +159,6 @@ void cparse_query_cancel(CPARSE_QUERY *query)
 {
 
 }
-
-/*void cparse_query_clear_cache(CPARSE_QUERY *query)
-{
-
-}*/
 
 int cparse_query_count_objects(CPARSE_QUERY *query, CPARSE_ERROR **error)
 {

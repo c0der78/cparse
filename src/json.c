@@ -19,7 +19,7 @@ CPARSE_JSON *cparse_json_new_reference(CPARSE_JSON *orig)
 
 CPARSE_JSON *cparse_json_new_number(cparse_number value)
 {
-#ifdef HAVE_JSON_INT64
+#ifdef HAVE_JSON_EXTENDED
     return json_object_new_int64(value);
 #else
     return json_object_new_int(value);
@@ -51,7 +51,7 @@ void cparse_json_copy(CPARSE_JSON *orig, CPARSE_JSON *other, bool replaceOnConfl
     cparse_json_object_foreach_start(other, key, val)
     {
         if (replaceOnConflict &&
-#ifdef HAVE_JSON_INT64
+#ifdef HAVE_JSON_EXTENDED
                 json_object_object_get_ex(orig, key, NULL)
 #else
                 json_object_object_get(orig, key) != NULL
@@ -63,7 +63,7 @@ void cparse_json_copy(CPARSE_JSON *orig, CPARSE_JSON *other, bool replaceOnConfl
 
         json_object_object_add(orig, key, json_object_get(val));
     }
-    cparse_json_object_foreach_end
+    cparse_json_object_foreach_end;
 }
 
 CPARSE_JSON *cparse_json_new_array()
@@ -82,7 +82,7 @@ void cparse_json_free(CPARSE_JSON *value)
 void cparse_json_set_number(CPARSE_JSON *obj, const char *key, cparse_number value)
 {
     json_object_object_add(obj, key,
-#ifdef HAVE_JSON_INT64
+#ifdef HAVE_JSON_EXTENDED
                            json_object_new_int64(value)
 #else
                            json_object_new_int(value)
@@ -116,7 +116,7 @@ CPARSE_JSON *cparse_json_get(CPARSE_JSON *obj, const char *key)
 {
     CPARSE_JSON *value = NULL;
 
-#ifdef HAVE_JSON_INT64
+#ifdef HAVE_JSON_EXTENDED
     if (json_object_object_get_ex(obj, key, &value))
 #else
     if ((value = json_object_object_get(obj, key)) != NULL)
@@ -130,7 +130,7 @@ cparse_number cparse_json_get_number(CPARSE_JSON *obj, const char *key, cparse_n
 {
     CPARSE_JSON *value = NULL;
 
-#ifdef HAVE_JSON_INT64
+#ifdef HAVE_JSON_EXTENDED
     if (json_object_object_get_ex(obj, key, &value))
         return json_object_get_int64(value);
 #else
@@ -144,7 +144,7 @@ double cparse_json_get_real(CPARSE_JSON *obj, const char *key, double def)
 {
     CPARSE_JSON *value = NULL;
 
-#ifdef HAVE_JSON_INT64
+#ifdef HAVE_JSON_EXTENDED
     if (json_object_object_get_ex(obj, key, &value))
 #else
     if ((value = json_object_object_get(obj, key)) != NULL)
@@ -158,7 +158,7 @@ bool cparse_json_get_bool(CPARSE_JSON *obj, const char *key)
 {
     CPARSE_JSON *value = NULL;
 
-#ifdef HAVE_JSON_INT64
+#ifdef HAVE_JSON_EXTENDED
     if (json_object_object_get_ex(obj, key, &value))
 #else
     if ((value = json_object_object_get(obj, key)) != NULL)
@@ -171,7 +171,7 @@ const char *cparse_json_get_string(CPARSE_JSON *obj, const char *key)
 {
     CPARSE_JSON *value = NULL;
 
-#ifdef HAVE_JSON_INT64
+#ifdef HAVE_JSON_EXTENDED
     if (json_object_object_get_ex(obj, key, &value))
 #else
     if ((value = json_object_object_get(obj, key)) != NULL)
@@ -185,7 +185,7 @@ const char *cparse_json_get_string(CPARSE_JSON *obj, const char *key)
 void cparse_json_array_add_number(CPARSE_JSON *arr, cparse_number value)
 {
     json_object_array_add(arr,
-#ifdef HAVE_JSON_INT64
+#ifdef HAVE_JSON_EXTENDED
                           json_object_new_int64(value)
 #else
                           json_object_new_int(value)
@@ -217,7 +217,7 @@ void cparse_json_array_add(CPARSE_JSON *arr, CPARSE_JSON *value)
 cparse_number cparse_json_array_get_number(CPARSE_JSON *arr, size_t index)
 {
     CPARSE_JSON *value = json_object_array_get_idx(arr, index);
-#ifdef HAVE_JSON_INT64
+#ifdef HAVE_JSON_EXTENDED
     return json_object_get_int64(value);
 #else
     return json_object_get_int(value);
@@ -267,7 +267,7 @@ CPARSE_JSON *cparse_json_remove(CPARSE_JSON *obj, const char *key)
 {
     CPARSE_JSON *orig = NULL;
 
-#ifdef HAVE_JSON_INT64
+#ifdef HAVE_JSON_EXTENDED
     if (json_object_object_get_ex(obj, key, &orig))
 #else
     if ((orig = json_object_object_get(obj, key)) != NULL)
@@ -285,7 +285,7 @@ CPARSE_JSON *cparse_json_remove(CPARSE_JSON *obj, const char *key)
 
 cparse_number cparse_json_to_number(CPARSE_JSON *v)
 {
-#ifdef HAVE_JSON_INT64
+#ifdef HAVE_JSON_EXTENDED
     return json_object_get_int64(v);
 #else
     return json_object_get_int(v);
@@ -324,7 +324,7 @@ cParseJSONType cparse_json_type(CPARSE_JSON *v)
 
 bool cparse_json_contains(CPARSE_JSON *obj, const char *key)
 {
-#ifdef HAVE_JSON_INT64
+#ifdef HAVE_JSON_EXTENDED
     return json_object_object_get_ex(obj, key, NULL);
 #else
     return json_object_object_get(obj, key) != NULL;
@@ -333,7 +333,7 @@ bool cparse_json_contains(CPARSE_JSON *obj, const char *key)
 
 const char *cparse_json_to_json_string(CPARSE_JSON *obj)
 {
-#ifdef HAVE_JSON_INT64
+#ifdef HAVE_JSON_EXTENDED
     return json_object_to_json_string_ext(obj, JSON_C_TO_STRING_PLAIN);
 #else
     return json_object_to_json_string(obj);

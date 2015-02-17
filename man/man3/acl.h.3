@@ -1,0 +1,33 @@
+.TH "src/cparse/acl.h" 3 "Tue Feb 17 2015" "Version 0.1" "cParse" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+src/cparse/acl.h \- 
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <cparse/defines\&.h>\fP
+.br
+
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBCPARSE_ACL\fP * \fBcparse_acl_new\fP ()"
+.br
+.ti -1c
+.RI "\fBCPARSE_ACL\fP * \fBcparse_acl_new_with_user\fP (\fBCPARSE_OBJ\fP *user)"
+.br
+.ti -1c
+.RI "\fBCPARSE_ACL\fP * \fBcparse_acl_copy\fP (\fBCPARSE_ACL\fP *other)"
+.br
+.ti -1c
+.RI "void \fBcparse_set_default_acl\fP (\fBCPARSE_ACL\fP *acl, bool currentUserAccess)"
+.br
+.ti -1c
+.RI "void \fBcparse_acl_free\fP (\fBCPARSE_ACL\fP *acl)"
+.br
+.in -1c
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for cParse from the source code\&.

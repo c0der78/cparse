@@ -145,7 +145,7 @@ START_TEST(test_cparse_object_to_json)
 
     buf = cparse_object_to_json_string(cp_obj);
 
-#ifdef HAVE_JSON_INT64
+#ifdef HAVE_JSON_EXTENDED
     fail_unless(!strcmp(buf, "{\"main\":\"Hello,World\"}"));
 #else
     fail_unless(!strcmp(buf, "{ \"main\": \"Hello,World\" }"));
@@ -154,7 +154,7 @@ START_TEST(test_cparse_object_to_json)
 
     buf = cparse_object_to_json_string(cp_obj);
 
-#ifdef HAVE_JSON_INT64
+#ifdef HAVE_JSON_EXTENDED
     fail_unless(!strcmp(buf, "{\"main\":1234}"));
 #else
     fail_unless(!strcmp(buf, "{ \"main\": 1234 }"));

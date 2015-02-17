@@ -7,6 +7,7 @@ A C library to use the REST API at [parse.com](http://parse.com).
 
 [View Testing Code Coverage](http://htmlpreview.github.com/?https://github.com/c0der78/cparse/blob/master/coverage/index.html)
 
+[View Documentation](http://htmlpreview.github.com/?https://github.com/c0der78/cparse/blob/master/html/index.html)
 
 Setup
 =====

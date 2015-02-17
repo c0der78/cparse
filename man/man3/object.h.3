@@ -1,0 +1,657 @@
+.TH "src/cparse/object.h" 3 "Tue Feb 17 2015" "Version 0.1" "cParse" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+src/cparse/object.h \- 
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <time\&.h>\fP
+.br
+\fC#include <cparse/defines\&.h>\fP
+.br
+\fC#include <cparse/acl\&.h>\fP
+.br
+\fC#include <pthread\&.h>\fP
+.br
+
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBCPARSE_OBJ\fP * \fBcparse_object_copy\fP (\fBCPARSE_OBJ\fP *obj)"
+.br
+.ti -1c
+.RI "\fBCPARSE_OBJ\fP * \fBcparse_object_with_class_name\fP (const char *className)"
+.br
+.ti -1c
+.RI "\fBCPARSE_OBJ\fP * \fBcparse_object_with_class_data\fP (const char *className, \fBCPARSE_JSON\fP *data)"
+.br
+.ti -1c
+.RI "void \fBcparse_object_free\fP (\fBCPARSE_OBJ\fP *obj)"
+.br
+.ti -1c
+.RI "size_t \fBcparse_object_sizeof\fP ()"
+.br
+.ti -1c
+.RI "const char * \fBcparse_object_id\fP (\fBCPARSE_OBJ\fP *obj)"
+.br
+.ti -1c
+.RI "const char * \fBcparse_object_class_name\fP (\fBCPARSE_OBJ\fP *obj)"
+.br
+.ti -1c
+.RI "time_t \fBcparse_object_created_at\fP (\fBCPARSE_OBJ\fP *obj)"
+.br
+.ti -1c
+.RI "time_t \fBcparse_object_updated_at\fP (\fBCPARSE_OBJ\fP *obj)"
+.br
+.ti -1c
+.RI "\fBCPARSE_ACL\fP * \fBcparse_object_acl\fP (\fBCPARSE_OBJ\fP *obj)"
+.br
+.ti -1c
+.RI "bool \fBcparse_object_save\fP (\fBCPARSE_OBJ\fP *obj, \fBCPARSE_ERROR\fP **error)"
+.br
+.ti -1c
+.RI "pthread_t \fBcparse_object_save_in_background\fP (\fBCPARSE_OBJ\fP *obj, \fBCPARSE_OBJ_CALLBACK\fP callback)"
+.br
+.ti -1c
+.RI "bool \fBcparse_object_delete\fP (\fBCPARSE_OBJ\fP *, \fBCPARSE_ERROR\fP **error)"
+.br
+.ti -1c
+.RI "pthread_t \fBcparse_object_delete_in_background\fP (\fBCPARSE_OBJ\fP *obj, \fBCPARSE_OBJ_CALLBACK\fP callback)"
+.br
+.ti -1c
+.RI "bool \fBcparse_object_refresh\fP (\fBCPARSE_OBJ\fP *, \fBCPARSE_ERROR\fP **error)"
+.br
+.ti -1c
+.RI "pthread_t \fBcparse_object_refresh_in_background\fP (\fBCPARSE_OBJ\fP *obj, \fBCPARSE_OBJ_CALLBACK\fP callback)"
+.br
+.ti -1c
+.RI "bool \fBcparse_object_fetch\fP (\fBCPARSE_OBJ\fP *, \fBCPARSE_ERROR\fP **error)"
+.br
+.ti -1c
+.RI "pthread_t \fBcparse_object_fetch_in_background\fP (\fBCPARSE_OBJ\fP *obj, \fBCPARSE_OBJ_CALLBACK\fP callback)"
+.br
+.ti -1c
+.RI "bool \fBcparse_object_exists\fP (\fBCPARSE_OBJ\fP *obj)"
+.br
+.ti -1c
+.RI "void \fBcparse_object_set_number\fP (\fBCPARSE_OBJ\fP *obj, const char *key, \fBcparse_number\fP value)"
+.br
+.ti -1c
+.RI "void \fBcparse_object_set_real\fP (\fBCPARSE_OBJ\fP *obj, const char *key, double value)"
+.br
+.ti -1c
+.RI "void \fBcparse_object_set_bool\fP (\fBCPARSE_OBJ\fP *obj, const char *key, bool value)"
+.br
+.ti -1c
+.RI "void \fBcparse_object_set_string\fP (\fBCPARSE_OBJ\fP *obj, const char *key, const char *value)"
+.br
+.ti -1c
+.RI "void \fBcparse_object_set\fP (\fBCPARSE_OBJ\fP *obj, const char *key, \fBCPARSE_JSON\fP *value)"
+.br
+.ti -1c
+.RI "bool \fBcparse_object_is_user\fP (\fBCPARSE_OBJ\fP *obj)"
+.br
+.ti -1c
+.RI "void \fBcparse_object_set_reference\fP (\fBCPARSE_OBJ\fP *obj, const char *key, \fBCPARSE_OBJ\fP *ref)"
+.br
+.ti -1c
+.RI "\fBCPARSE_JSON\fP * \fBcparse_object_get\fP (\fBCPARSE_OBJ\fP *, const char *key)"
+.br
+.ti -1c
+.RI "\fBcparse_number\fP \fBcparse_object_get_number\fP (\fBCPARSE_OBJ\fP *, const char *key, \fBcparse_number\fP def)"
+.br
+.ti -1c
+.RI "double \fBcparse_object_get_real\fP (\fBCPARSE_OBJ\fP *, const char *key, double def)"
+.br
+.ti -1c
+.RI "bool \fBcparse_object_get_bool\fP (\fBCPARSE_OBJ\fP *, const char *key)"
+.br
+.ti -1c
+.RI "const char * \fBcparse_object_get_string\fP (\fBCPARSE_OBJ\fP *, const char *key)"
+.br
+.ti -1c
+.RI "\fBCPARSE_JSON\fP * \fBcparse_object_remove\fP (\fBCPARSE_OBJ\fP *, const char *key)"
+.br
+.ti -1c
+.RI "bool \fBcparse_object_contains\fP (\fBCPARSE_OBJ\fP *obj, const char *key)"
+.br
+.ti -1c
+.RI "void \fBcparse_object_foreach\fP (\fBCPARSE_OBJ\fP *obj, void(*foreach)(\fBCPARSE_OBJ\fP *o, \fBCPARSE_JSON\fP *attribute))"
+.br
+.ti -1c
+.RI "size_t \fBcparse_object_attribute_size\fP (\fBCPARSE_OBJ\fP *)"
+.br
+.ti -1c
+.RI "void \fBcparse_object_merge_json\fP (\fBCPARSE_OBJ\fP *obj, \fBCPARSE_JSON\fP *json)"
+.br
+.ti -1c
+.RI "\fBCPARSE_OBJ\fP * \fBcparse_object_from_json\fP (\fBCPARSE_JSON\fP *json)"
+.br
+.ti -1c
+.RI "const char * \fBcparse_object_to_json_string\fP (\fBCPARSE_OBJ\fP *obj)"
+.br
+.in -1c
+.SH "Function Documentation"
+.PP 
+.SS "\fBCPARSE_ACL\fP* cparse_object_acl (\fBCPARSE_OBJ\fP * obj)"
+gets the access control list for an object 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIobj\fP the object instance 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+the access control list 
+.RE
+.PP
+
+.SS "size_t cparse_object_attribute_size (\fBCPARSE_OBJ\fP *)"
+gets the number of attributes in an object\&. this does not include the common attributes - id, type, create at, or updated at\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIobj\fP the object instance 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+the number of attributes 
+.RE
+.PP
+
+.SS "const char* cparse_object_class_name (\fBCPARSE_OBJ\fP * obj)"
+gets the type of parse object 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIobj\fP the object instance 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+the object type 
+.RE
+.PP
+
+.SS "bool cparse_object_contains (\fBCPARSE_OBJ\fP * obj, const char * key)"
+tests if an object has an attribute 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIobj\fP the object instance 
+.br
+\fIkey\fP the key to identify the value to test 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+true if the object contains the attribute 
+.RE
+.PP
+
+.SS "\fBCPARSE_OBJ\fP* cparse_object_copy (\fBCPARSE_OBJ\fP * obj)"
+makes a copy of a parse object 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIobj\fP the object instance 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+a copy of the object 
+.RE
+.PP
+
+.SS "time_t cparse_object_created_at (\fBCPARSE_OBJ\fP * obj)"
+gets the time when the object was created 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIobj\fP the object instance 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+the time the object was created or zero if the object has not been saved 
+.RE
+.PP
+
+.SS "bool cparse_object_delete (\fBCPARSE_OBJ\fP *, \fBCPARSE_ERROR\fP ** error)"
+deletes and object 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIobj\fP the object instance 
+.br
+\fIerror\fP a pointer to an error that gets allocated if not successful\&. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+true if successful 
+.RE
+.PP
+
+.SS "pthread_t cparse_object_delete_in_background (\fBCPARSE_OBJ\fP * obj, \fBCPARSE_OBJ_CALLBACK\fP callback)"
+deletes an object in the background 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIobj\fP the object instance 
+.br
+\fIcallback\fP a callback issues after the object is deleted 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+the background thread identifier 
+.RE
+.PP
+
+.SS "bool cparse_object_exists (\fBCPARSE_OBJ\fP * obj)"
+tests if the object exists (was saved) 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIobj\fP the object instance 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+true if the object exists 
+.RE
+.PP
+
+.SS "bool cparse_object_fetch (\fBCPARSE_OBJ\fP *, \fBCPARSE_ERROR\fP ** error)"
+refreshes an object's attributes, including refereces to other objects\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIobj\fP the object instance 
+.br
+\fIerror\fP a pointer to an error that gets allocated if not successful 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+true if successful 
+.RE
+.PP
+
+.SS "pthread_t cparse_object_fetch_in_background (\fBCPARSE_OBJ\fP * obj, \fBCPARSE_OBJ_CALLBACK\fP callback)"
+refreshes an object's attributes in the background, including references to other objects 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIobj\fP the object instance 
+.br
+\fIcallback\fP the callback issues after the fetch 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+a background thread identifier 
+.RE
+.PP
+
+.SS "void cparse_object_foreach (\fBCPARSE_OBJ\fP * obj, void(*)(\fBCPARSE_OBJ\fP *o, \fBCPARSE_JSON\fP *attribute) foreach)"
+iterates and objects attributes 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIobj\fP the object instance 
+.br
+\fIforeach\fP the callback for each object attribute 
+.RE
+.PP
+
+.SS "void cparse_object_free (\fBCPARSE_OBJ\fP * obj)"
+deallocates a parse object 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIobj\fP the object instance 
+.RE
+.PP
+
+.SS "\fBCPARSE_OBJ\fP* cparse_object_from_json (\fBCPARSE_JSON\fP * json)"
+creates a parse object from a json object as attributes 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIjson\fP the json object to create from 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+the allocated object 
+.RE
+.PP
+
+.SS "\fBCPARSE_JSON\fP* cparse_object_get (\fBCPARSE_OBJ\fP *, const char * key)"
+get a json attribute for an object 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIobj\fP the object instance 
+.br
+\fIkey\fP the key to identify the attribute value 
+.RE
+.PP
+
+.SS "bool cparse_object_get_bool (\fBCPARSE_OBJ\fP *, const char * key)"
+get a bool attribute for an object 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIobj\fP the object instance 
+.br
+\fIkey\fP the key to identify the attribute value 
+.RE
+.PP
+
+.SS "\fBcparse_number\fP cparse_object_get_number (\fBCPARSE_OBJ\fP *, const char * key, \fBcparse_number\fP def)"
+get a number attribute for an object\&. strings will be parsed, if no conversion exists error number is set to EINVAL 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIobj\fP the object instance 
+.br
+\fIkey\fP the key to identify the attribute value 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+the number or zero if not found 
+.RE
+.PP
+
+.SS "double cparse_object_get_real (\fBCPARSE_OBJ\fP *, const char * key, double def)"
+get a double attribute for an object\&. strings will be parsed if no conversion exists error number is set to EINVAL 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIobj\fP the object instance 
+.br
+\fIkey\fP the key to identify the attribute value 
+.RE
+.PP
+
+.SS "const char* cparse_object_get_string (\fBCPARSE_OBJ\fP *, const char * key)"
+get a string attribute for an object 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIobj\fP the object instance 
+.br
+\fIkey\fP the key to identify the attribute value 
+.RE
+.PP
+
+.SS "const char* cparse_object_id (\fBCPARSE_OBJ\fP * obj)"
+gets the parse object id 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIobj\fP the object instance 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+the id or NULL of not set 
+.RE
+.PP
+
+.SS "bool cparse_object_is_user (\fBCPARSE_OBJ\fP * obj)"
+tests if an object is a user object 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIobj\fP the object instance 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+true if the object is a user object 
+.RE
+.PP
+
+.SS "void cparse_object_merge_json (\fBCPARSE_OBJ\fP * obj, \fBCPARSE_JSON\fP * json)"
+merges an object's attributes with a json object, duplicate values will be overwritten with the json object\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIobj\fP the object instance 
+.br
+\fIjson\fP the json to merge with the object\&. 
+.RE
+.PP
+
+.SS "bool cparse_object_refresh (\fBCPARSE_OBJ\fP *, \fBCPARSE_ERROR\fP ** error)"
+refreshes an object' attributes\&. This does not include other object refereces\&. (see fetch) 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIobj\fP the object instance 
+.br
+\fIerror\fP a pointer to an error that will get allocated if not successful 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+true if successful 
+.RE
+.PP
+
+.SS "pthread_t cparse_object_refresh_in_background (\fBCPARSE_OBJ\fP * obj, \fBCPARSE_OBJ_CALLBACK\fP callback)"
+refreshes an object's attributes in the background\&. Does not refresh other object refereces\&. (see fetch) 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIobj\fP the object instance 
+.br
+\fIcallback\fP the callback issued after the refresh 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+the background thread identifier 
+.RE
+.PP
+
+.SS "\fBCPARSE_JSON\fP* cparse_object_remove (\fBCPARSE_OBJ\fP *, const char * key)"
+removes an attribute from an object 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIobj\fP the object instance 
+.br
+\fIkey\fP the key to identify the value to remove 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+the removed attribute or NULL if not found 
+.RE
+.PP
+
+.SS "bool cparse_object_save (\fBCPARSE_OBJ\fP * obj, \fBCPARSE_ERROR\fP ** error)"
+saves a parse object 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIobj\fP the object instance 
+.br
+\fIerror\fP a pointer to an error that gets allocated if not successful\&. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+true if successful 
+.RE
+.PP
+
+.SS "pthread_t cparse_object_save_in_background (\fBCPARSE_OBJ\fP * obj, \fBCPARSE_OBJ_CALLBACK\fP callback)"
+saves a parse object in the background 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIobj\fP the object instance 
+.br
+\fIcallback\fP a callback issued after the object is saved 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+the background thread identifier 
+.RE
+.PP
+
+.SS "void cparse_object_set (\fBCPARSE_OBJ\fP * obj, const char * key, \fBCPARSE_JSON\fP * value)"
+sets a json object attribute on an object 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIobj\fP the object instance 
+.br
+\fIkey\fP the key to identify the value 
+.br
+\fIvalue\fP the attribute value to set 
+.RE
+.PP
+
+.SS "void cparse_object_set_bool (\fBCPARSE_OBJ\fP * obj, const char * key, bool value)"
+sets a bool attribute on an object 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIobj\fP the object instance 
+.br
+\fIkey\fP the key to identify the value 
+.br
+\fIvalue\fP the attribute value to set 
+.RE
+.PP
+
+.SS "void cparse_object_set_number (\fBCPARSE_OBJ\fP * obj, const char * key, \fBcparse_number\fP value)"
+sets a number attribute on an object 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIobj\fP the object instance 
+.br
+\fIkey\fP the key to identify the value 
+.br
+\fIvalue\fP the number attribute to set 
+.RE
+.PP
+
+.SS "void cparse_object_set_real (\fBCPARSE_OBJ\fP * obj, const char * key, double value)"
+sets a real (float) attribute on an object 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIobj\fP the object instance 
+.br
+\fIkey\fP the key to identify the value 
+.br
+\fIvalue\fP the attribute value to set 
+.RE
+.PP
+
+.SS "void cparse_object_set_reference (\fBCPARSE_OBJ\fP * obj, const char * key, \fBCPARSE_OBJ\fP * ref)"
+sets a reference attribute to another object 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIobj\fP the object instance 
+.br
+\fIkey\fP the key to identify the reference 
+.br
+\fIref\fP the object to reference 
+.RE
+.PP
+
+.SS "void cparse_object_set_string (\fBCPARSE_OBJ\fP * obj, const char * key, const char * value)"
+sets a string attribute on an object 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIobj\fP the object instance 
+.br
+\fIkey\fP the key to identify the value 
+.br
+\fIvalue\fP the attribute value to set 
+.RE
+.PP
+
+.SS "size_t cparse_object_sizeof ()"
+gets the memory size of an object 
+.PP
+\fBReturns:\fP
+.RS 4
+the size in bytes 
+.RE
+.PP
+
+.SS "const char* cparse_object_to_json_string (\fBCPARSE_OBJ\fP * obj)"
+formats an object into a json string 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIobj\fP the object instance 
+.RE
+.PP
+
+.SS "time_t cparse_object_updated_at (\fBCPARSE_OBJ\fP * obj)"
+gets the time when the object was updated 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIobj\fP the object instance 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+the time the object was updated or zero if the object has not been updated 
+.RE
+.PP
+
+.SS "\fBCPARSE_OBJ\fP* cparse_object_with_class_data (const char * className, \fBCPARSE_JSON\fP * data)"
+allocates a parse object with json data 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIclassName\fP the type of object to create 
+.br
+\fIdata\fP the data to copy from 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+the allocated object 
+.RE
+.PP
+
+.SS "\fBCPARSE_OBJ\fP* cparse_object_with_class_name (const char * className)"
+allocates a parse object with a class name\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIclassName\fP the type of object to create 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+the allocated object 
+.RE
+.PP
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for cParse from the source code\&.

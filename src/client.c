@@ -13,7 +13,10 @@
 #include "private.h"
 #include "log.h"
 
+/*! the base domain for Parse requests */
 const char *const cparse_domain = "https://api.parse.com";
+
+/*! the Parse api version */
 const char *const cparse_api_version = "1";
 
 extern const char *const cparse_lib_version;
@@ -22,6 +25,7 @@ extern const char *cparse_api_key;
 
 extern const char *cparse_app_id;
 
+/*! a parse request */
 struct cparse_client_request
 {
     char *path;
@@ -32,6 +36,7 @@ struct cparse_client_request
     CPARSE_REQUEST_HEADER *headers;
 };
 
+/*! a parse response */
 struct cparse_client_response
 {
     char *text;
@@ -39,6 +44,7 @@ struct cparse_client_response
     int code;
 };
 
+/*! a simple key value linked list */
 struct cparse_kv_list
 {
     struct cparse_kv_list *next;
@@ -46,6 +52,7 @@ struct cparse_kv_list
     char *value;
 };
 
+/*! allocates a new key value list */
 struct cparse_kv_list *cparse_kv_list_new()
 {
     struct cparse_kv_list *list = malloc(sizeof(struct cparse_kv_list));
@@ -56,6 +63,7 @@ struct cparse_kv_list *cparse_kv_list_new()
     return list;
 }
 
+/*! deallocates a key value list */
 void cparse_kv_list_free(struct cparse_kv_list *list)
 {
     if (!list) return;
@@ -69,6 +77,10 @@ void cparse_kv_list_free(struct cparse_kv_list *list)
 
 CPARSE_RESPONSE *cparse_client_request_get_response(CPARSE_REQUEST *request);
 
+/*! allocates a new client request
+ * \param method the http method to use
+ * \param path the path/endpoint to request
+ */
 CPARSE_REQUEST *cparse_client_request_with_method_and_path(HTTPRequestMethod method, const char *path)
 {
     CPARSE_REQUEST *request = malloc(sizeof(CPARSE_REQUEST));
@@ -83,6 +95,7 @@ CPARSE_REQUEST *cparse_client_request_with_method_and_path(HTTPRequestMethod met
     return request;
 }
 
+/*! deallocates a client request */
 void cparse_client_request_free(CPARSE_REQUEST *request)
 {
     CPARSE_REQUEST_HEADER *header, *next_header;
@@ -109,6 +122,7 @@ void cparse_client_request_free(CPARSE_REQUEST *request)
     free(request);
 }
 
+/*! deallocates a response */
 void cparse_client_response_free(CPARSE_RESPONSE *response)
 {
     if (response->size > 0 && response->text)
@@ -136,7 +150,8 @@ void cparse_client_request_set_payload(CPARSE_REQUEST *request, const char *payl
     {
         next_data = data->next;
 
-        cparse_kv_list_free(data);
+        if (data->key)
+            cparse_kv_list_free(data);
     }
 
     request->data = NULL;
@@ -146,6 +161,7 @@ void cparse_client_request_set_payload(CPARSE_REQUEST *request, const char *payl
     data->next = request->data;
     request->data = data;
 
+    data->key = NULL;
     data->value = strdup(payload);
 }
 

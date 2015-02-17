@@ -1,3 +1,4 @@
+/*! \file user.h */
 #ifndef CPARSE_USER_H_
 #define CPARSE_USER_H_
 
