@@ -1,4 +1,4 @@
-CParse
+cParse
 ======
 
 [![Build Status](https://travis-ci.org/c0der78/arg3json.svg?branch=master)](https://travis-ci.org/c0der78/arg3json)
@@ -27,7 +27,7 @@ Dependencies
 Configuration
 =============
 
-Its up to the developer to set the parse application and api keys with `cparse_set_app_id()` and `cparse_set_api_key()`
+Its up to the developer to set the parse application and api keys with `cparse_set_application_id()` and `cparse_set_api_key()`
 
 Example
 =======

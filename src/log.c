@@ -16,7 +16,7 @@ static void log_vargs(cParseLogLevel level, const char *const format, va_list ar
     char buf[BUFSIZ + 1] = {0};
 
     time_t t = time(0);
-    strftime(buf, BUFSIZ, "%F %T", localtime(&t));
+    strftime(buf, BUFSIZ, "%Y-%m-%d %H:%M:%S", localtime(&t));
     fprintf(stdout, "%s %s: ", buf, cParseLogLevelNames[level]);
     vfprintf(stdout, format, args);
     fputs("\n", stdout);
