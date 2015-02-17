@@ -38,7 +38,9 @@ int main(void)
     if (cparse_api_key == NULL)
         die("api key not set");
 
+#ifdef DEBUG
     cparse_set_log_level(cParseLogTrace);
+#endif
 
     sr = srunner_create(cparse_parse_suite());
     srunner_add_suite(sr, cparse_json_suite());

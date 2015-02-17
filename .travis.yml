@@ -7,3 +7,7 @@ env:
   global:
      - secure: "p6dR4odXk44yXToKg7gcWUVZL8/thgacKWlyPCbyU9p78xiZgQOE8xW3STYtEHpjQGSTFY3VNYaOYT3uY1xFBmhaz6VeuzKSBf+U2B6jHfB6btYSW/KJA6Xs2PlwgnpkfbH0femcN4gSPuPtcnXMoQrRbYxWd8bWTEHTTyhZMmY="
      - secure: "QZG6c6vDpvc+ivx69kD6/RCNGyVwHhRkjOxsQYClPb5iYfmjLwjeT4e+YDStZIAvC8KZtZ5lNJaL9MYAr/2uiZW4KdoWBniG5PjxX4Bdd0T/RiW3oKKJVPXI6uJQUjPRypK2FBJ0D0Y+0dYNHLwZ69ouW62ZQQ0fddCvACnU6h8="
+script:
+  - ./configure
+  - make test
+  - valgrind --leak-check=full --error-exitcode=5 ./tests/test_cparse
