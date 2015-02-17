@@ -50,13 +50,13 @@ void cparse_json_copy(CPARSE_JSON *orig, CPARSE_JSON *other, bool replaceOnConfl
 {
     cparse_json_object_foreach_start(other, key, val)
     {
-        if (replaceOnConflict && 
+        if (replaceOnConflict &&
 #ifdef HAVE_JSON_INT64
-            json_object_object_get_ex(orig, key, NULL)
+                json_object_object_get_ex(orig, key, NULL)
 #else
-            json_object_object_get(orig, key) != NULL
-#endif            
-            )
+                json_object_object_get(orig, key) != NULL
+#endif
+           )
         {
             json_object_object_del(orig, key);
         }
@@ -81,13 +81,13 @@ void cparse_json_free(CPARSE_JSON *value)
 
 void cparse_json_set_number(CPARSE_JSON *obj, const char *key, cparse_number value)
 {
-    json_object_object_add(obj, key, 
-#ifdef HAVE_JSON_INT64    
-        json_object_new_int64(value)
+    json_object_object_add(obj, key,
+#ifdef HAVE_JSON_INT64
+                           json_object_new_int64(value)
 #else
-        json_object_new_int(value)
+                           json_object_new_int(value)
 #endif
-    );
+                          );
 }
 
 void cparse_json_set_real(CPARSE_JSON *obj, const char *key, double value)
@@ -130,7 +130,7 @@ cparse_number cparse_json_get_number(CPARSE_JSON *obj, const char *key, cparse_n
 {
     CPARSE_JSON *value = NULL;
 
-#ifdef HAVE_JSON_INT64  
+#ifdef HAVE_JSON_INT64
     if (json_object_object_get_ex(obj, key, &value))
         return json_object_get_int64(value);
 #else
@@ -184,13 +184,13 @@ const char *cparse_json_get_string(CPARSE_JSON *obj, const char *key)
 /* array setters */
 void cparse_json_array_add_number(CPARSE_JSON *arr, cparse_number value)
 {
-    json_object_array_add(arr, 
+    json_object_array_add(arr,
 #ifdef HAVE_JSON_INT64
-        json_object_new_int64(value)
+                          json_object_new_int64(value)
 #else
-        json_object_new_int(value)
+                          json_object_new_int(value)
 #endif
-    );
+                         );
 }
 
 void cparse_json_array_add_real(CPARSE_JSON *arr, double real)
@@ -285,9 +285,9 @@ CPARSE_JSON *cparse_json_remove(CPARSE_JSON *obj, const char *key)
 
 cparse_number cparse_json_to_number(CPARSE_JSON *v)
 {
-#ifdef HAVE_JSON_INT64 
+#ifdef HAVE_JSON_INT64
     return json_object_get_int64(v);
-#else   
+#else
     return json_object_get_int(v);
 #endif
 }
@@ -307,24 +307,24 @@ const char *cparse_json_to_string(CPARSE_JSON *v)
     return json_object_get_string(v);
 }
 
-CParseJSONType cparse_json_type(CPARSE_JSON *v)
+cParseJSONType cparse_json_type(CPARSE_JSON *v)
 {
     switch ( json_object_get_type(v) )
     {
-    case json_type_int: return kCParseJSONNumber;
-    case json_type_double: return kCParseJSONReal;
-    case json_type_string: return kCParseJSONString;
-    case json_type_boolean: return kCParseJSONBoolean;
-    case json_type_object: return  kCParseJSONObject;
-    case json_type_array: return kCParseJSONArray;
+    case json_type_int: return cParseJSONNumber;
+    case json_type_double: return cParseJSONReal;
+    case json_type_string: return cParseJSONString;
+    case json_type_boolean: return cParseJSONBoolean;
+    case json_type_object: return  cParseJSONObject;
+    case json_type_array: return cParseJSONArray;
     default:
-    case json_type_null: return kCParseJSONNull;
+    case json_type_null: return cParseJSONNull;
     }
 }
 
 bool cparse_json_contains(CPARSE_JSON *obj, const char *key)
 {
-#ifdef HAVE_JSON_INT64    
+#ifdef HAVE_JSON_INT64
     return json_object_object_get_ex(obj, key, NULL);
 #else
     return json_object_object_get(obj, key) != NULL;

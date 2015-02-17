@@ -32,11 +32,13 @@ int main(void)
 
     read_env_config();
 
-    if(cparse_app_id == NULL)
+    if (cparse_app_id == NULL)
         die("application id not set");
 
-    if(cparse_api_key == NULL)
+    if (cparse_api_key == NULL)
         die("api key not set");
+
+    cparse_set_log_level(cParseLogTrace);
 
     sr = srunner_create(cparse_parse_suite());
     srunner_add_suite(sr, cparse_json_suite());
@@ -88,7 +90,7 @@ void read_test_config()
 
     memset(text, 0, sizeof(char) * fsize + 1);
 
-    if(!fread(text, sizeof(char), fsize, file))
+    if (!fread(text, sizeof(char), fsize, file))
     {
         die("error reading file");
     }

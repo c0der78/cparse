@@ -17,14 +17,14 @@ extern "C" {
 /* JSON */
 typedef enum
 {
-    kCParseJSONNumber,
-    kCParseJSONReal,
-    kCParseJSONString,
-    kCParseJSONBoolean,
-    kCParseJSONObject,
-    kCParseJSONArray,
-    kCParseJSONNull
-} CParseJSONType;
+    cParseJSONNumber,
+    cParseJSONReal,
+    cParseJSONString,
+    cParseJSONBoolean,
+    cParseJSONObject,
+    cParseJSONArray,
+    cParseJSONNull
+} cParseJSONType;
 
 /* value initializers */
 CPARSE_JSON *cparse_json_new();
@@ -57,7 +57,7 @@ bool cparse_json_get_bool(CPARSE_JSON *obj, const char *key);
 const char *cparse_json_get_string(CPARSE_JSON *obj, const char *key);
 
 bool cparse_json_is_array(CPARSE_JSON *obj);
-CParseJSONType cparse_json_type(CPARSE_JSON *obj);
+cParseJSONType cparse_json_type(CPARSE_JSON *obj);
 int cparse_json_num_keys(CPARSE_JSON *obj);
 bool cparse_json_contains(CPARSE_JSON *obj, const char *key);
 
@@ -91,8 +91,8 @@ const char *cparse_json_to_string(CPARSE_JSON *value);
 const char *cparse_json_to_json_string(CPARSE_JSON *value);
 
 #define cparse_json_object_foreach_start(obj, key, val) do { \
-char *key; struct json_object *val; struct lh_entry *entry;\
-for(entry = json_object_get_object(obj)->head; entry && ( ( (key = (char*)entry->k)  || entry) && ( (val = (struct json_object*)entry->v)  || entry)); entry = entry->next )
+        char *key; struct json_object *val; struct lh_entry *entry;\
+        for(entry = json_object_get_object(obj)->head; entry && ( ( (key = (char*)entry->k)  || entry) && ( (val = (struct json_object*)entry->v)  || entry)); entry = entry->next )
 
 #define cparse_json_object_foreach_end  } while(0);
 

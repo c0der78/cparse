@@ -11,6 +11,7 @@
 #include "client.h"
 #include "protocol.h"
 #include "private.h"
+#include "log.h"
 
 const char *const cparse_domain = "https://api.parse.com";
 const char *const cparse_api_version = "1";
@@ -26,7 +27,7 @@ struct cparse_client_request
     char *path;
     CPARSE_REQUEST_DATA *data;
     char *payload;
-    size_t payloadSize; 
+    size_t payloadSize;
     HTTPRequestMethod method;
     CPARSE_REQUEST_HEADER *headers;
 };
@@ -57,11 +58,11 @@ struct cparse_kv_list *cparse_kv_list_new()
 
 void cparse_kv_list_free(struct cparse_kv_list *list)
 {
-    if(!list) return;
+    if (!list) return;
 
-    if(list->key)
+    if (list->key)
         free(list->key);
-    if(list->value)
+    if (list->value)
         free(list->value);
     free(list);
 }
@@ -166,14 +167,14 @@ static size_t cparse_client_get_response(void *ptr, size_t size, size_t nmemb, v
 
     assert(data != NULL);
 
-    s = (CPARSE_RESPONSE*) data;
-    
+    s = (CPARSE_RESPONSE *) data;
+
     new_len = s->size + size * nmemb;
 
     s->text = realloc(s->text, new_len + 1);
     if (s->text == NULL)
     {
-        fputs("realloc() failed", stderr);
+        log_error("realloc() failed");
         exit(EXIT_FAILURE);
     }
     memcpy(s->text + s->size, ptr, size * nmemb);
@@ -188,6 +189,8 @@ static void cparse_client_set_request_url(CURL *curl, const char *path)
     char buf[BUFSIZ + 1];
 
     snprintf(buf, BUFSIZ, "%s/%s/%s", cparse_domain, cparse_api_version, path);
+
+    log_debug("cparse request %s", buf);
 
     curl_easy_setopt(curl, CURLOPT_URL, buf);
 }
@@ -225,22 +228,22 @@ static void cparse_client_set_headers(CURL *curl, CPARSE_REQUEST_HEADER *request
     curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
 }
 
-static void cparse_client_set_payload_from_data(CURL *curl, CPARSE_REQUEST * request, bool encode)
+static void cparse_client_set_payload_from_data(CURL *curl, CPARSE_REQUEST *request, bool encode)
 {
     char buf[BUFSIZ + 1] = {0};
     CPARSE_REQUEST_DATA *data;
 
-    for(data = request->data; data; data = data->next)
-    {   
+    for (data = request->data; data; data = data->next)
+    {
         size_t bufLen;
 
-        if(data->key)
-            bufLen = snprintf(buf, BUFSIZ, "%s%s=%s", request->payload ? "&" : "", data->key, 
-                                encode ? curl_easy_escape(curl, data->value, 0) : data->value);
+        if (data->key)
+            bufLen = snprintf(buf, BUFSIZ, "%s%s=%s", request->payload ? "&" : "", data->key,
+                              encode ? curl_easy_escape(curl, data->value, 0) : data->value);
         else
             bufLen = snprintf(buf, BUFSIZ, "%s", encode ? curl_easy_escape(curl, data->value, 0) : data->value);
 
-        if(request->payload == NULL)
+        if (request->payload == NULL)
         {
             request->payload = strdup(buf);
         }
@@ -283,11 +286,11 @@ CPARSE_JSON *cparse_client_response_parse_json(CPARSE_RESPONSE *response, CPARSE
         errorMessage = json_tokener_error_desc(parseError);
     }
 #else
-    if(obj == NULL)
+    if (obj == NULL)
     {
         errorMessage = "Unable to parse json";
     }
-#endif    
+#endif
     else
     {
         errorMessage = cparse_json_get_string(obj, "error");
@@ -335,7 +338,7 @@ CPARSE_RESPONSE *cparse_client_request_get_response(CPARSE_REQUEST *request)
     curl = curl_easy_init();
     if (curl == NULL)
     {
-        fputs("unable to init curl", stderr);
+        log_error("unable to init curl");
         return NULL;
     }
 
@@ -361,7 +364,7 @@ CPARSE_RESPONSE *cparse_client_request_get_response(CPARSE_REQUEST *request)
         break;
     }
 
-    if(request->data)
+    if (request->data)
     {
         if (request->method == HTTPRequestMethodGet)
         {
@@ -382,6 +385,8 @@ CPARSE_RESPONSE *cparse_client_request_get_response(CPARSE_REQUEST *request)
 
             cparse_client_set_request_url(curl, request->path);
         }
+
+        log_trace("cparse request payload: %s", request->payload);
     }
     else
     {
@@ -395,9 +400,11 @@ CPARSE_RESPONSE *cparse_client_request_get_response(CPARSE_REQUEST *request)
     res = curl_easy_perform(curl);
 
     if (res != CURLE_OK)
-        fprintf(stderr, "problem requesting %s with curl %s\n", request->path, curl_easy_strerror(res));
+        log_error("problem with cparse request %s", curl_easy_strerror(res));
 
-    curl_easy_getinfo (curl, CURLINFO_RESPONSE_CODE, (long*) &response->code);
+    log_trace("cparse response: %s", response->text);
+
+    curl_easy_getinfo (curl, CURLINFO_RESPONSE_CODE, (long *) &response->code);
 
     /* always cleanup */
     curl_easy_cleanup(curl);

@@ -57,7 +57,7 @@ void cparse_object_set_request_includes(CPARSE_OBJ *obj, CPARSE_REQUEST *request
     {
         const char *typeVal;
 
-        if(cparse_json_type(val) != kCParseJSONObject) continue;
+        if (cparse_json_type(val) != cParseJSONObject) continue;
 
         typeVal = cparse_json_get_string(val, KEY_TYPE);
 

@@ -19,9 +19,15 @@ Code style
 Dependencies
 ============
 
-- libcurl for HTTP requests (should be already installed on OSX, otherwise 'brew install curl')
-- libjson for JSON parsing ('brew install json')
-- libcheck for unit testing ('brew install check')
+- libcurl for HTTP requests
+- libjson (json-c) for JSON parsing
+- check for unit testing
+
+
+Configuration
+=============
+
+Its up to the developer to set the parse application and api keys with `cparse_set_app_id()` and `cparse_set_api_key()`
 
 Example
 =======
