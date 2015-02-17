@@ -17,12 +17,12 @@ time_t cparse_date_time(const char *str)
         sscanf(str, "%d-%d-%dT%d:%d:%fZ", &y, &M, &d, &h, &m, &s);
     }
 
-    time.tm_year = y - 1900; // Year since 1900
-    time.tm_mon = M - 1;     // 0-11
-    time.tm_mday = d;        // 1-31
-    time.tm_hour = h;        // 0-23
-    time.tm_min = m;         // 0-59
-    time.tm_sec = (int) s;    // 0-61 (0-60 in C++11)
+    time.tm_year = y - 1900; /* Year since 1900 */
+    time.tm_mon = M - 1;     /* 0-11 */
+    time.tm_mday = d;        /* 1-31 */
+    time.tm_hour = h;        /* 0-23 */
+    time.tm_min = m;         /* 0-59 */
+    time.tm_sec = (int) s;    /* 0-61 */
 
     return mktime(&time);
 }
