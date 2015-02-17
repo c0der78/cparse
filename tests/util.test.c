@@ -1,4 +1,5 @@
 #include <check.h>
+#include <stdio.h>
 #include <cparse/util.h>
 
 static void cparse_test_setup()
@@ -17,6 +18,8 @@ START_TEST(test_cparse_date_time)
 
     time_t value = cparse_date_time(testStr);
 
+    printf("%ld\n", value);
+
     fail_unless(value == 1313806017);
 }
 END_TEST
@@ -33,3 +36,4 @@ Suite *cparse_util_suite (void)
 
     return s;
 }
+
