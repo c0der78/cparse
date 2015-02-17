@@ -19,13 +19,16 @@ static void cparse_test_teardown()
 
 START_TEST(test_cparse_query_objects)
 {
+    CPARSE_QUERY *query;
+    CPARSE_JSON *where;
+    CPARSE_OBJ *user1;
     CPARSE_ERROR *error = NULL;
 
     fail_unless(cparse_create_and_save_test_object("user1", 1500));
 
-    CPARSE_QUERY *query = cparse_query_with_class_name(TEST_CLASS);
+    query = cparse_query_with_class_name(TEST_CLASS);
 
-    CPARSE_JSON *where = cparse_json_new();
+    where = cparse_json_new();
 
     cparse_json_set_string(where, "playerName", "user1");
 
@@ -37,7 +40,7 @@ START_TEST(test_cparse_query_objects)
 
     fail_unless(cparse_query_size(query) > 0);
 
-    CPARSE_OBJ *user1 = cparse_query_result(query, 0);
+    user1 = cparse_query_result(query, 0);
 
     fail_unless(!strcmp(cparse_object_get_string(user1, "playerName"), "user1"));
 }
@@ -46,14 +49,17 @@ END_TEST
 START_TEST(test_cparse_query_where)
 {
     CPARSE_ERROR *error = NULL;
-
+    CPARSE_QUERY *query;
+    CPARSE_JSON *inArray, *in, *score;
+    CPARSE_OBJ *result;
+    
     int randScore  = rand() % 100000 + 1;
 
     fail_unless(cparse_create_and_save_test_object("user1", randScore));
 
-    CPARSE_QUERY *query = cparse_query_with_class_name(TEST_CLASS);
+    query = cparse_query_with_class_name(TEST_CLASS);
 
-    CPARSE_JSON *inArray = cparse_json_new_array();
+    inArray = cparse_json_new_array();
 
     cparse_json_array_add_number(inArray, 127978);
 
@@ -63,13 +69,13 @@ START_TEST(test_cparse_query_where)
 
     cparse_json_array_add_number(inArray, 255550);
 
-    CPARSE_JSON *in = cparse_json_new();
+    in = cparse_json_new();
 
     cparse_json_set(in, CPARSE_QUERY_IN, inArray);
 
     cparse_json_free(inArray);
 
-    CPARSE_JSON *score = cparse_json_new();
+    score = cparse_json_new();
 
     cparse_json_set(score, "score", in);
 
@@ -83,7 +89,7 @@ START_TEST(test_cparse_query_where)
 
     fail_unless(cparse_query_size(query) > 0);
 
-    CPARSE_OBJ *result = cparse_query_result(query, 0);
+    result = cparse_query_result(query, 0);
 
     fail_unless(cparse_object_get_number(result, "score", 0) == randScore);
 

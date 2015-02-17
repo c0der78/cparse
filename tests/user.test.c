@@ -14,13 +14,14 @@ static void cparse_test_teardown()
 
 START_TEST(test_cparse_user_sign_up)
 {
+    CPARSE_ERROR *error = NULL;
     CPARSE_OBJ *user = cparse_user_new();
 
     cparse_user_set_name(user, "user123");
 
     cparse_object_set_string(user, "bio", "hello, world");
 
-    CPARSE_ERROR *error = NULL;
+    error = NULL;
 
     cparse_user_sign_up(user, "Passw0rd!", &error);
 

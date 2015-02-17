@@ -1,5 +1,6 @@
 #include <check.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <cparse/error.h>
 #include <cparse/parse.h>
 #include <cparse/object.h>
@@ -67,8 +68,6 @@ int cparse_save_test_object(CPARSE_OBJ *obj)
 int cparse_cleanup_test_objects()
 {
     struct obj_list *node, *next_node;
-
-    int count = 1;
 
     for (node = first_obj; node != NULL; node = next_node)
     {

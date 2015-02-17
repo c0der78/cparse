@@ -33,6 +33,10 @@ START_TEST(test_cparse_object_fetch)
     /* first create reference object */
     CPARSE_OBJ *obj = cparse_new_test_object("user2", 1444);
 
+    CPARSE_JSON *data;
+
+    CPARSE_ERROR *error;
+
     fail_unless(cparse_save_test_object(obj));
 
     fail_unless(cparse_object_id(obj) != NULL);
@@ -43,13 +47,13 @@ START_TEST(test_cparse_object_fetch)
 
     fail_unless(cparse_save_test_object(cp_obj));
 
-    CPARSE_JSON *data = cparse_object_get(cp_obj, "partner");
+    data = cparse_object_get(cp_obj, "partner");
 
     fail_unless(cparse_json_num_keys(data) == 3);
 
     /* now fetch the reference */
 
-    CPARSE_ERROR *error = NULL;
+    error = NULL;
 
     fail_unless(cparse_object_fetch(cp_obj, &error));
 
@@ -61,8 +65,10 @@ START_TEST(test_cparse_object_fetch)
 }
 END_TEST
 
-void test_cparse_object_callback(CPARSE_OBJ *obj, CPARSE_ERROR *error)
+void test_cparse_object_callback(CPARSE_OBJ *obj, bool success, CPARSE_ERROR *error)
 {
+    fail_unless(success);
+    
     fail_unless(cparse_object_id(obj) != NULL);
 }
 
@@ -109,6 +115,8 @@ END_TEST
 
 START_TEST(test_cparse_object_remove_attribute)
 {
+    CPARSE_JSON *removed;
+
     CPARSE_OBJ *cp_obj = cparse_object_with_class_name(TEST_CLASS);
 
     CPARSE_JSON *value = cparse_json_new_string("1234");
@@ -117,7 +125,7 @@ START_TEST(test_cparse_object_remove_attribute)
 
     fail_unless(cparse_object_attribute_size(cp_obj) == 1);
 
-    CPARSE_JSON *removed = cparse_object_remove(cp_obj, "main");
+    removed = cparse_object_remove(cp_obj, "main");
 
     fail_unless(removed == value);
 

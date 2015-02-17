@@ -13,20 +13,32 @@ Suite *cparse_query_suite();
 Suite *cparse_util_suite();
 Suite *cparse_user_suite ();
 extern int cparse_cleanup_test_objects();
+extern const char *cparse_app_id;
+
+extern const char *cparse_api_key;
+
 void read_env_config();
 void read_test_config();
 void die(const char *message);
 
 int main(void)
 {
+    int number_failed;
+    SRunner *sr;
+
     srand(time(0));
 
     read_test_config();
 
     read_env_config();
 
-    int number_failed;
-    SRunner *sr = srunner_create(cparse_parse_suite());
+    if(cparse_app_id == NULL)
+        die("application id not set");
+
+    if(cparse_api_key == NULL)
+        die("api key not set");
+
+    sr = srunner_create(cparse_parse_suite());
     srunner_add_suite(sr, cparse_json_suite());
     srunner_add_suite(sr, cparse_object_suite());
     srunner_add_suite(sr, cparse_query_suite());
@@ -50,17 +62,22 @@ void die(const char *message)
 
 void read_test_config()
 {
-    FILE *file = fopen(ROOT_PATH "/tests/parse.test.json", "rb");
+    FILE *file;
     char *text;
     long fsize;
     CPARSE_JSON *config;
+
+    file = fopen(ROOT_PATH "/tests/parse.test.json", "rb");
 
     if (!file)
     {
         file = fopen(ROOT_PATH "/parse.test.json", "rb");
 
         if (!file)
-            die("parse.test.json not found");
+        {
+            puts("parse.test.json not found");
+            return;
+        }
     }
 
     fseek(file, 0, SEEK_END);
@@ -71,7 +88,10 @@ void read_test_config()
 
     memset(text, 0, sizeof(char) * fsize + 1);
 
-    fread(text, sizeof(char), fsize, file);
+    if(!fread(text, sizeof(char), fsize, file))
+    {
+        die("error reading file");
+    }
 
     fclose(file);
 
