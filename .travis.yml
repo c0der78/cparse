@@ -1,6 +1,6 @@
 language: c
 before_install: 
-  - sudo apt-get install libjson0 libjson0-dev check
+  - sudo apt-get install libjson0 libjson0-dev check valgrind
 before_script: 
   - autoreconf --recursive -if
 env:
