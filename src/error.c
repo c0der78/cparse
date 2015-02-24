@@ -9,9 +9,9 @@ struct cparse_error
     char *message;
 };
 
-CPARSE_ERROR *cparse_error_new()
+cParseError *cparse_error_new()
 {
-    CPARSE_ERROR *e = malloc(sizeof(CPARSE_ERROR));
+    cParseError *e = malloc(sizeof(cParseError));
 
     if (e == NULL)
     {
@@ -24,9 +24,9 @@ CPARSE_ERROR *cparse_error_new()
     return e;
 }
 
-CPARSE_ERROR *cparse_error_with_message(const char *message)
+cParseError *cparse_error_with_message(const char *message)
 {
-    CPARSE_ERROR *e = cparse_error_new();
+    cParseError *e = cparse_error_new();
 
     if (e == NULL) return NULL;
 
@@ -35,7 +35,7 @@ CPARSE_ERROR *cparse_error_with_message(const char *message)
     return e;
 }
 
-void cparse_error_free(CPARSE_ERROR *e)
+void cparse_error_free(cParseError *e)
 {
     if (e->message)
         free(e->message);
@@ -43,12 +43,12 @@ void cparse_error_free(CPARSE_ERROR *e)
     free(e);
 }
 
-const char *cparse_error_message(CPARSE_ERROR *error)
+const char *cparse_error_message(cParseError *error)
 {
     return !error ? NULL : error->message;
 }
 
-void cparse_error_set_message(CPARSE_ERROR *error, const char *message)
+void cparse_error_set_message(cParseError *error, const char *message)
 {
     if (error)
     {
@@ -56,12 +56,12 @@ void cparse_error_set_message(CPARSE_ERROR *error, const char *message)
     }
 }
 
-int cparse_error_code(CPARSE_ERROR *error)
+int cparse_error_code(cParseError *error)
 {
     return !error ? -1 : error->code;
 }
 
-void cparse_error_set_code(CPARSE_ERROR *error, int code)
+void cparse_error_set_code(cParseError *error, int code)
 {
     if (error)
     {

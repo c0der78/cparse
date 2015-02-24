@@ -9,19 +9,19 @@
 extern "C" {
 #endif
 
-CPARSE_PTR *cparse_pointer_from_json(CPARSE_JSON *data);
+cParsePointer *cparse_pointer_from_json(cParseJson *data);
 
-CPARSE_JSON *cparse_pointer_to_json(CPARSE_PTR *p);
+cParseJson *cparse_pointer_to_json(cParsePointer *p);
 
-void cparse_pointer_free(CPARSE_PTR *pointer);
+void cparse_pointer_free(cParsePointer *pointer);
 
-CPARSE_BYTES *cparse_bytes_from_json(CPARSE_JSON *data);
+cParseBytes *cparse_bytes_from_json(cParseJson *data);
 
-void cparse_bytes_free(CPARSE_BYTES *bytes);
+void cparse_bytes_free(cParseBytes *bytes);
 
-CPARSE_FILE *cparse_file_from_json(CPARSE_JSON *data);
+cParseFile *cparse_file_from_json(cParseJson *data);
 
-void cparse_file_free(CPARSE_FILE *file);
+void cparse_file_free(cParseFile *file);
 
 
 #ifdef __cplusplus

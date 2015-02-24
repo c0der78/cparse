@@ -13,18 +13,18 @@ extern "C" {
 /*! gets the currently logged in user
  * \returns the current logged in user instance or NULL
  */
-CPARSE_OBJ *cparse_current_user();
+cParseObject *cparse_current_user();
 
 /*! allocates a new user object
  * \returns the allocated user instance
  */
-CPARSE_OBJ *cparse_user_new();
+cParseObject *cparse_user_new();
 
 /*! allocates a new user with a user name
  * \param username the username for the user
  * \returns the allocated user instance
  */
-CPARSE_OBJ *cparse_user_with_name(const char *username);
+cParseObject *cparse_user_with_name(const char *username);
 
 /*! logs in as a user
  * \param username the username of the user
@@ -32,7 +32,7 @@ CPARSE_OBJ *cparse_user_with_name(const char *username);
  * \param error a pointer to an error that gets allocated if unsuccessful. can be NULL
  * \returns the user object if successful, NULL otherwise
  */
-CPARSE_OBJ *cparse_user_login(const char *username, const char *password, CPARSE_ERROR **error);
+cParseObject *cparse_user_login(const char *username, const char *password, cParseError **error);
 
 /*! logs in as a user in the background
  * \param username the username of the user
@@ -40,7 +40,7 @@ CPARSE_OBJ *cparse_user_login(const char *username, const char *password, CPARSE
  * \param callback the callback issued if successful
  * \returns an identifier for the background thread
  */
-pthread_t cparse_user_login_in_background(const char *username, const char *password, CPARSE_OBJ_CALLBACK callback);
+pthread_t cparse_user_login_in_background(const char *username, const char *password, cParseObjectCallback callback);
 
 /*! logs out the current user */
 void cparse_user_logout();
@@ -50,12 +50,12 @@ void cparse_user_logout();
  * \param error a pointer to an error that gets allocated if not successful. can be NULL
  * \returns true if successful
  */
-bool cparse_user_delete(CPARSE_OBJ *user, CPARSE_ERROR **error);
+bool cparse_user_delete(cParseObject *user, cParseError **error);
 
 /*! creates a new query for a user object
  * \returns the query instance
  */
-CPARSE_QUERY *cparse_user_query();
+cParseQuery *cparse_user_query_new();
 
 /*! Creates a new user on the backend
  * \param user the user instance
@@ -63,7 +63,15 @@ CPARSE_QUERY *cparse_user_query();
  * \param error a pointer to an error that will get allocated if unsuccessful. Can be NULL.
  * \returns true if successful.
  */
-bool cparse_user_sign_up(CPARSE_OBJ *user, const char *password, CPARSE_ERROR **error);
+bool cparse_user_sign_up(cParseObject *user, const char *password, cParseError **error);
+
+/*! Creates a new user in the background
+ * \param user the user instance
+ * \param password the user's password
+ * \param callback the callback issued after signing up
+ * \returns an identifier for the background thread
+ */
+pthread_t cparse_user_sign_up_in_background(cParseObject *user, const char *password, cParseObjectCallback callback);
 
 /* getters/setters */
 
@@ -71,25 +79,25 @@ bool cparse_user_sign_up(CPARSE_OBJ *user, const char *password, CPARSE_ERROR **
  * \params user the user instance
  * \returns the name as a string or NULL
  */
-const char *cparse_user_name(CPARSE_OBJ *user);
+const char *cparse_user_name(cParseObject *user);
 
 /*! sets a user's name
  * \param user the user instance
  * \param value the string value
  */
-void cparse_user_set_name(CPARSE_OBJ *user, char *value);
+void cparse_user_set_name(cParseObject *user, char *value);
 
 /*! gets a user's email
  * \param user the user instance
  * \returns the email as a string or NULL
  */
-const char *cparse_user_email(CPARSE_OBJ *user);
+const char *cparse_user_email(cParseObject *user);
 
 /*! gets a user's session token
  * \param the user instance
  * \returns the session token as a string or NULL
  */
-const char *cparse_user_session_token(CPARSE_OBJ *user);
+const char *cparse_user_session_token(cParseObject *user);
 
 /*! validates a session token against the backend
  * \param user the user to store the data in
@@ -97,7 +105,7 @@ const char *cparse_user_session_token(CPARSE_OBJ *user);
  * \param error a pointer to an error that will get allocated if unsuccessful. Can be NULL.
  * \returns true if successful
  */
-bool cparse_user_validate(CPARSE_OBJ *user, const char *sessionToken, CPARSE_ERROR **error);
+bool cparse_user_validate(cParseObject *user, const char *sessionToken, cParseError **error);
 
 /*! tests if the user has an 'emailVerified' parameter and its true. If the parameter
  * does not exists a refresh from the server will be attempted.
@@ -105,15 +113,24 @@ bool cparse_user_validate(CPARSE_OBJ *user, const char *sessionToken, CPARSE_ERR
  * \param error a pointer to an error that will get allocated if unsuccessful. Can be NULL.
  * \returns true if successful
  */
-bool cparse_user_validate_email(CPARSE_OBJ *user, CPARSE_ERROR **error);
+bool cparse_user_validate_email(cParseObject *user, cParseError **error);
 
-bool cparse_user_refresh(CPARSE_OBJ *obj, CPARSE_ERROR **error);
+bool cparse_user_refresh(cParseObject *obj, cParseError **error);
 
-bool cparse_user_fetch(CPARSE_OBJ *obj, CPARSE_ERROR **error);
+pthread_t cparse_user_refresh_in_background(cParseObject *obj, cParseObjectCallback callback);
 
-bool cparse_user_reset_password(CPARSE_OBJ *user, CPARSE_ERROR **error);
+bool cparse_user_fetch(cParseObject *obj, cParseError **error);
 
-bool cparse_user_delete(CPARSE_OBJ *obj, CPARSE_ERROR **error);
+pthread_t cparse_user_fetch_in_background(cParseObject *user, cParseObjectCallback callback);
+
+bool cparse_user_reset_password(cParseObject *user, cParseError **error);
+
+pthread_t cparse_user_reset_password_in_background(cParseObject *user, cParseObjectCallback callback);
+
+bool cparse_user_delete(cParseObject *obj, cParseError **error);
+
+pthread_t cparse_user_delete_in_background(cParseObject *obj, cParseObjectCallback callback);
+
 
 #ifdef __cplusplus
 }

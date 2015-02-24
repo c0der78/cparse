@@ -16,8 +16,10 @@ Setup
 Code style
 ==========
 - function names: lower case underscored, prefixed with cparse namespace
-- typedefs and defines: upper case underscored, prefixed with CPARSE namespace
+- typedefs and defines: camel case prefix with cParse namespace
 - enums and variables: camel case
+- global variables: lower case underscored, prefixed with cparse namespace
+- structs are private unless absolutely necessary, prefer methods
 
 Dependencies
 ============

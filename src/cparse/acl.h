@@ -8,15 +8,15 @@
 extern "C" {
 #endif
 
-CPARSE_ACL *cparse_acl_new();
+cParseACL *cparse_acl_new();
 
-CPARSE_ACL *cparse_acl_new_with_user(CPARSE_OBJ *user);
+cParseACL *cparse_acl_new_with_user(cParseObject *user);
 
-CPARSE_ACL *cparse_acl_copy(CPARSE_ACL *other);
+cParseACL *cparse_acl_copy(cParseACL *other);
 
-void cparse_set_default_acl(CPARSE_ACL *acl, bool currentUserAccess);
+void cparse_set_default_acl(cParseACL *acl, bool currentUserAccess);
 
-void cparse_acl_free(CPARSE_ACL *acl);
+void cparse_acl_free(cParseACL *acl);
 
 
 #ifdef __cplusplus

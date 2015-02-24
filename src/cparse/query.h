@@ -15,12 +15,12 @@ extern "C" {
  * \param className the type of object
  * \returns the allocated query
  */
-CPARSE_QUERY *cparse_query_with_class_name(const char *className);
+cParseQuery *cparse_query_with_class_name(const char *className);
 
 /*! deallocates a query
  * \param query the query instance
  */
-void cparse_query_free(CPARSE_QUERY *query);
+void cparse_query_free(cParseQuery *query);
 
 /* getters/setters */
 
@@ -28,49 +28,67 @@ void cparse_query_free(CPARSE_QUERY *query);
  * \param query the query instance
  * \returns the number of results in the query
  */
-size_t cparse_query_size(CPARSE_QUERY *query);
+size_t cparse_query_size(cParseQuery *query);
 
 /*! gets a result in the query
  * \param query the query instance
  * \param index the index of the result
  * \returns the query result object or NULL
  */
-CPARSE_OBJ *cparse_query_result(CPARSE_QUERY *query, size_t index);
+cParseObject *cparse_query_result(cParseQuery *query, size_t index);
 
 /*! sets the where clause of a query
  * \param query the query instance
  * \param where a json object describing the where clause (see https://parse.com/docs/rest#queries)
  */
-void cparse_query_set_where(CPARSE_QUERY *query, CPARSE_JSON *where);
+void cparse_query_set_where(cParseQuery *query, cParseJson *where);
+
+void cparse_query_build_where(cParseQuery *query, cParseQueryBuilder *builder);
 
 /* functions */
 
-void cparse_query_cancel(CPARSE_QUERY *query);
+void cparse_query_cancel(cParseQuery *query);
 
-int cparse_query_count_objects(CPARSE_QUERY *query, CPARSE_ERROR **error);
+int cparse_query_count_objects(cParseQuery *query, cParseError **error);
 
 /*! find objects from a query
  * \param query the query instance
  * \param error a pointer to an error object that gets allocated if not successful
  * \returns true if successful
  */
-bool cparse_query_find_objects(CPARSE_QUERY *query, CPARSE_ERROR **error);
+bool cparse_query_find_objects(cParseQuery *query, cParseError **error);
 
-/* defines for building where clauses */
+void cparse_query_where_in(cParseQuery *query, const char *key, cParseJson *inArray);
+void cparse_query_where_lte(cParseQuery *query, const char *key, cParseJson *value);
+void cparse_query_where_lt(cParseQuery *query, const char *key, cParseJson *value);
+void cparse_query_where_gte(cParseQuery *query, const char *key, cParseJson *value);
+void cparse_query_where_gt(cParseQuery *query, const char *key, cParseJson *value);
+void cparse_query_where_ne(cParseQuery *query, const char *key, cParseJson *value);
+void cparse_query_where_nin(cParseQuery *query, const char *key, cParseJson *inArray);
+void cparse_query_where_exists(cParseQuery *query, const char *key, cParseJson *value);
+void cparse_query_where_select(cParseQuery *query, const char *key, cParseJson *value);
+void cparse_query_where_nselect(cParseQuery *query, const char *key, cParseJson *value);
+void cparse_query_where_all(cParseQuery *query, const char *key, cParseJson *value);
 
-#define CPARSE_QUERY_LESS_THAN "$lt"
-#define CPARSE_QUERY_LESS_THAN_EQUAL "$lte"
-#define CPARSE_QUERY_GREATER_THAN "$gt"
-#define CPARSE_QUERY_GREATER_THAN_EQUAL "$gte"
-#define CPARSE_QUERY_NOT_EQUAL "$ne"
-#define CPARSE_QUERY_IN "$in"
-#define CPARSE_QUERY_NOT_IN "$nin"
-#define CPARSE_QUERY_EXISTS "$exists"
-#define CPARSE_QUERY_SELECT "$select"
-#define CPARSE_QUERY_DONT_SELECT "$dontSelect"
-#define CPARSE_QUERY_ALL "$all"
+/* for building where clauses */
 
-#define CPARSE_ARRAY_KEY "arrayKey"
+cParseQueryBuilder *cparse_query_build_new();
+
+cParseQueryBuilder *cparse_query_build_in(cParseQueryBuilder *query, const char *key, cParseJson *inArray);
+cParseQueryBuilder *cparse_query_build_lte(cParseQueryBuilder *query, const char *key, cParseJson *value);
+cParseQueryBuilder *cparse_query_build_lt(cParseQueryBuilder *query, const char *key, cParseJson *value);
+cParseQueryBuilder *cparse_query_build_gte(cParseQueryBuilder *query, const char *key, cParseJson *value);
+cParseQueryBuilder *cparse_query_build_gt(cParseQueryBuilder *query, const char *key, cParseJson *value);
+cParseQueryBuilder *cparse_query_build_ne(cParseQueryBuilder *query, const char *key, cParseJson *value);
+cParseQueryBuilder *cparse_query_build_nin(cParseQueryBuilder *query, const char *key, cParseJson *inArray);
+cParseQueryBuilder *cparse_query_build_exists(cParseQueryBuilder *query, const char *key, cParseJson *value);
+cParseQueryBuilder *cparse_query_build_select(cParseQueryBuilder *query, const char *key, cParseJson *value);
+cParseQueryBuilder *cparse_query_build_nselect(cParseQueryBuilder *query, const char *key, cParseJson *value);
+cParseQueryBuilder *cparse_query_build_all(cParseQueryBuilder *query, const char *key, cParseJson *value);
+
+cParseJson *cparse_query_build_json(cParseQueryBuilder *query);
+
+void cparse_query_build_free(cParseQueryBuilder *query);
 
 #ifdef __cplusplus
 }

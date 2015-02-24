@@ -69,7 +69,7 @@ void read_test_config()
     FILE *file;
     char *text;
     long fsize;
-    CPARSE_JSON *config;
+    cParseJson *config;
 
     file = fopen(ROOT_PATH "/tests/parse.test.json", "rb");
 

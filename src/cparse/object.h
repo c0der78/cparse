@@ -17,25 +17,25 @@ extern "C" {
  * \param obj the object instance
  * \param other the object to copy from
  */
-void cparse_object_copy(CPARSE_OBJ *obj, CPARSE_OBJ *other);
+void cparse_object_copy(cParseObject *obj, cParseObject *other);
 
 /*! allocates a parse object with a class name.
  * \param className the type of object to create
  * \returns the allocated object
  */
-CPARSE_OBJ *cparse_object_with_class_name(const char *className);
+cParseObject *cparse_object_with_class_name(const char *className);
 
 /*! allocates a parse object with json data
  * \param className the type of object to create
  * \param data the data to copy from
  * \returns the allocated object
  */
-CPARSE_OBJ *cparse_object_with_class_data(const char *className, CPARSE_JSON *data);
+cParseObject *cparse_object_with_class_data(const char *className, cParseJson *data);
 
 /*! deallocates a parse object
  * \param obj the object instance
  */
-void cparse_object_free(CPARSE_OBJ *obj);
+void cparse_object_free(cParseObject *obj);
 
 /* getters/setters */
 
@@ -48,31 +48,31 @@ size_t cparse_object_sizeof();
  * \param obj the object instance
  * \returns the id or NULL of not set
  */
-const char *cparse_object_id(CPARSE_OBJ *obj);
+const char *cparse_object_id(cParseObject *obj);
 
 /*! gets the type of parse object
  * \param obj the object instance
  * \returns the object type
  */
-const char *cparse_object_class_name(CPARSE_OBJ *obj);
+const char *cparse_object_class_name(cParseObject *obj);
 
 /*! gets the time when the object was created
  * \param obj the object instance
  * \returns the time the object was created or zero if the object has not been saved
  */
-time_t cparse_object_created_at(CPARSE_OBJ *obj);
+time_t cparse_object_created_at(cParseObject *obj);
 
 /*! gets the time when the object was updated
  * \param obj the object instance
  * \returns the time the object was updated or zero if the object has not been updated
  */
-time_t cparse_object_updated_at(CPARSE_OBJ *obj);
+time_t cparse_object_updated_at(cParseObject *obj);
 
 /*! gets the access control list for an object
  * \param obj the object instance
  * \returns the access control list
  */
-CPARSE_ACL *cparse_object_acl(CPARSE_OBJ *obj);
+cParseACL *cparse_object_acl(cParseObject *obj);
 
 /* client/rest methods */
 
@@ -81,56 +81,56 @@ CPARSE_ACL *cparse_object_acl(CPARSE_OBJ *obj);
  * \param error a pointer to an error that gets allocated if not successful.
  * \returns true if successful
  */
-bool cparse_object_save(CPARSE_OBJ *obj, CPARSE_ERROR **error);
+bool cparse_object_save(cParseObject *obj, cParseError **error);
 
 /*! saves a parse object in the background
  * \param obj the object instance
  * \param callback a callback issued after the object is saved
  * \returns the background thread identifier
  */
-pthread_t cparse_object_save_in_background(CPARSE_OBJ *obj, CPARSE_OBJ_CALLBACK callback);
+pthread_t cparse_object_save_in_background(cParseObject *obj, cParseObjectCallback callback);
 
 /*! deletes and object
  * \param obj the object instance
  * \param error a pointer to an error that gets allocated if not successful.
  * \returns true if successful
  */
-bool cparse_object_delete(CPARSE_OBJ *, CPARSE_ERROR **error);
+bool cparse_object_delete(cParseObject *, cParseError **error);
 
 /*! deletes an object in the background
  * \param obj the object instance
  * \param callback a callback issues after the object is deleted
  * \returns the background thread identifier
  */
-pthread_t cparse_object_delete_in_background(CPARSE_OBJ *obj, CPARSE_OBJ_CALLBACK callback);
+pthread_t cparse_object_delete_in_background(cParseObject *obj, cParseObjectCallback callback);
 
 /*! refreshes an object' attributes. This does not include other object refereces. (see fetch)
  * \param obj the object instance
  * \param error a pointer to an error that will get allocated if not successful
  * \returns true if successful
  */
-bool cparse_object_refresh(CPARSE_OBJ *, CPARSE_ERROR **error);
+bool cparse_object_refresh(cParseObject *, cParseError **error);
 
 /*! refreshes an object's attributes in the background. Does not refresh other object refereces. (see fetch)
  * \param obj the object instance
  * \param callback the callback issued after the refresh
  * \returns the background thread identifier
  */
-pthread_t cparse_object_refresh_in_background(CPARSE_OBJ *obj, CPARSE_OBJ_CALLBACK callback);
+pthread_t cparse_object_refresh_in_background(cParseObject *obj, cParseObjectCallback callback);
 
 /*! refreshes an object's attributes, including refereces to other objects.
  * \param obj the object instance
  * \param error a pointer to an error that gets allocated if not successful
  * \returns true if successful
  */
-bool cparse_object_fetch(CPARSE_OBJ *, CPARSE_ERROR **error);
+bool cparse_object_fetch(cParseObject *, cParseError **error);
 
 /*! refreshes an object's attributes in the background, including references to other objects
  * \param obj the object instance
  * \param callback the callback issues after the fetch
  * \returns a background thread identifier
  */
-pthread_t cparse_object_fetch_in_background(CPARSE_OBJ *obj, CPARSE_OBJ_CALLBACK callback);
+pthread_t cparse_object_fetch_in_background(cParseObject *obj, cParseObjectCallback callback);
 
 /* setters */
 
@@ -138,55 +138,55 @@ pthread_t cparse_object_fetch_in_background(CPARSE_OBJ *obj, CPARSE_OBJ_CALLBACK
  * \param obj the object instance
  * \returns true if the object exists
  */
-bool cparse_object_exists(CPARSE_OBJ *obj);
+bool cparse_object_exists(cParseObject *obj);
 
 /*! sets a number attribute on an object
  * \param obj the object instance
  * \param key the key to identify the value
  * \param value the number attribute to set
  */
-void cparse_object_set_number(CPARSE_OBJ *obj, const char *key, cparse_number value);
+void cparse_object_set_number(cParseObject *obj, const char *key, cParseNumber value);
 
 /*! sets a real (float) attribute on an object
  * \param obj the object instance
  * \param key the key to identify the value
  * \param value the attribute value to set
  */
-void cparse_object_set_real(CPARSE_OBJ *obj, const char *key, double value);
+void cparse_object_set_real(cParseObject *obj, const char *key, double value);
 
 /*! sets a bool attribute on an object
  * \param obj the object instance
  * \param key the key to identify the value
  * \param value the attribute value to set
  */
-void cparse_object_set_bool(CPARSE_OBJ *obj, const char *key, bool value);
+void cparse_object_set_bool(cParseObject *obj, const char *key, bool value);
 
 /*! sets a string attribute on an object
  * \param obj the object instance
  * \param key the key to identify the value
  * \param value the attribute value to set
  */
-void cparse_object_set_string(CPARSE_OBJ *obj, const char *key, const char *value);
+void cparse_object_set_string(cParseObject *obj, const char *key, const char *value);
 
 /*! sets a json object attribute on an object
  * \param obj the object instance
  * \param key the key to identify the value
  * \param value the attribute value to set
  */
-void cparse_object_set(CPARSE_OBJ *obj, const char *key, CPARSE_JSON *value);
+void cparse_object_set(cParseObject *obj, const char *key, cParseJson *value);
 
 /*! tests if an object is a user object
  * \param obj the object instance
  * \returns true if the object is a user object
  */
-bool cparse_object_is_user(CPARSE_OBJ *obj);
+bool cparse_object_is_user(cParseObject *obj);
 
 /*! sets a reference attribute to another object
  * \param obj the object instance
  * \param key the key to identify the reference
  * \param ref the object to reference
  */
-void cparse_object_set_reference(CPARSE_OBJ *obj, const char *key, CPARSE_OBJ *ref);
+void cparse_object_set_reference(cParseObject *obj, const char *key, cParseObject *ref);
 
 /* getters */
 
@@ -194,46 +194,46 @@ void cparse_object_set_reference(CPARSE_OBJ *obj, const char *key, CPARSE_OBJ *r
  * \param obj the object instance
  * \param key the key to identify the attribute value
  */
-CPARSE_JSON *cparse_object_get(CPARSE_OBJ *, const char *key);
+cParseJson *cparse_object_get(cParseObject *, const char *key);
 
 /*! get a number attribute for an object. strings will be parsed, if no conversion exists error number is set to EINVAL
  * \param obj the object instance
  * \param key the key to identify the attribute value
  * \returns the number or zero if not found
  */
-cparse_number cparse_object_get_number(CPARSE_OBJ *, const char *key, cparse_number def);
+cParseNumber cparse_object_get_number(cParseObject *, const char *key, cParseNumber def);
 
 /*! get a double attribute for an object.  strings will be parsed if no conversion exists error number is set to EINVAL
  * \param obj the object instance
  * \param key the key to identify the attribute value
  */
-double cparse_object_get_real(CPARSE_OBJ *, const char *key, double def);
+double cparse_object_get_real(cParseObject *, const char *key, double def);
 
 /*! get a bool attribute for an object
  * \param obj the object instance
  * \param key the key to identify the attribute value
  */
-bool cparse_object_get_bool(CPARSE_OBJ *, const char *key);
+bool cparse_object_get_bool(cParseObject *, const char *key);
 
 /*! get a string attribute for an object
  * \param obj the object instance
  * \param key the key to identify the attribute value
  */
-const char *cparse_object_get_string(CPARSE_OBJ *, const char *key);
+const char *cparse_object_get_string(cParseObject *, const char *key);
 
 /*! removes an attribute from an object
  * \param obj the object instance
  * \param key the key to identify the value to remove
  * \returns the removed attribute or NULL if not found
  */
-CPARSE_JSON *cparse_object_remove(CPARSE_OBJ *, const char *key);
+cParseJson *cparse_object_remove(cParseObject *, const char *key);
 
 /*! tests if an object has an attribute
  * \param obj the object instance
  * \param key the key to identify the value to test
  * \returns true if the object contains the attribute
  */
-bool cparse_object_contains(CPARSE_OBJ *obj, const char *key);
+bool cparse_object_contains(cParseObject *obj, const char *key);
 
 /* iterator interface */
 
@@ -241,30 +241,32 @@ bool cparse_object_contains(CPARSE_OBJ *obj, const char *key);
  * \param obj the object instance
  * \param foreach the callback for each object attribute
  */
-void cparse_object_foreach(CPARSE_OBJ *obj, void (*foreach) (CPARSE_OBJ *o, CPARSE_JSON *attribute));
+void cparse_object_foreach(cParseObject *obj, void (*foreach) (cParseObject *o, cParseJson *attribute));
 
 /*! gets the number of attributes in an object.  this does not include the common attributes - id, type, create at, or updated at.
  * \param obj the object instance
  * \returns the number of attributes
  */
-size_t cparse_object_attribute_size(CPARSE_OBJ *);
+size_t cparse_object_attribute_size(cParseObject *);
 
 /*! merges an object's attributes with a json object, duplicate values will be overwritten with the json object.
  * \param obj the object instance
  * \param json the json to merge with the object.
  */
-void cparse_object_merge_json(CPARSE_OBJ *obj, CPARSE_JSON *json);
+void cparse_object_merge_json(cParseObject *obj, cParseJson *json);
 
 /*! creates a parse object from a json object as attributes
  * \param json the json object to create from
  * \returns the allocated object
  */
-CPARSE_OBJ *cparse_object_from_json(CPARSE_JSON *json);
+cParseObject *cparse_object_from_json(cParseJson *json);
 
 /*! formats an object into a json string
  * \param obj the object instance
  */
-const char *cparse_object_to_json_string(CPARSE_OBJ *obj);
+const char *cparse_object_to_json_string(cParseObject *obj);
+
+bool cparse_object_is_object(cParseObject *obj);
 
 #ifdef __cplusplus
 }

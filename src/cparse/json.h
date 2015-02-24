@@ -1,6 +1,6 @@
 /*! \file json.h */
-#ifndef CPARSE_JSON_H_
-#define CPARSE_JSON_H_
+#ifndef cParseJson_H_
+#define cParseJson_H_
 
 #include <stdlib.h>
 
@@ -13,56 +13,56 @@ extern "C" {
 /* JSON types */
 typedef enum
 {
-    cParseJSONNumber,
-    cParseJSONReal,
-    cParseJSONString,
-    cParseJSONBoolean,
-    cParseJSONObject,
-    cParseJSONArray,
-    cParseJSONNull
-} cParseJSONType;
+    cParseJsonNumber,
+    cParseJsonReal,
+    cParseJsonString,
+    cParseJsonBoolean,
+    cParseJsonObject,
+    cParseJsonArray,
+    cParseJsonNull
+} cParseJsonType;
 
 /* value initializers */
 
 /*! allocates a new json object
  * \returns the allocated json object
  */
-CPARSE_JSON *cparse_json_new();
+cParseJson *cparse_json_new();
 
 /*! increments the reference count on a json object so it is safe to use after deallocation
  * \param orig the original object
  * \returns the object with an incremented reference count
  */
-CPARSE_JSON *cparse_json_new_reference(CPARSE_JSON *orig);
+cParseJson *cparse_json_new_reference(cParseJson *orig);
 
 /*! creates a number as a json object
  * \param number the number
  * \returns the number as a json object
  */
-CPARSE_JSON *cparse_json_new_number(cparse_number);
+cParseJson *cparse_json_new_number(cParseNumber);
 
 /*! creates a floating point number as a json object
  * \param number the floating point number
  * \returns the floating point number as a json object
  */
-CPARSE_JSON *cparse_json_new_real(double);
+cParseJson *cparse_json_new_real(double);
 
 /*! creates a bool as a json object
  * \param value the boolean value
  * \returns the value as a json object
  */
-CPARSE_JSON *cparse_json_new_bool(bool value);
+cParseJson *cparse_json_new_bool(bool value);
 
 /*! creates a string as a json object
  * \param value the string value
  * \returns the string as a json object
  */
-CPARSE_JSON *cparse_json_new_string(const char *str);
+cParseJson *cparse_json_new_string(const char *str);
 
 /*! creates an array json object
  * \returns the array json object
  */
-CPARSE_JSON *cparse_json_new_array();
+cParseJson *cparse_json_new_array();
 
 /* copy method */
 
@@ -71,14 +71,14 @@ CPARSE_JSON *cparse_json_new_array();
  * \param other the second json object
  * \param replaceOnConflict a flag indicating if duplicate values should be replaced with the second object
  */
-void cparse_json_copy(CPARSE_JSON *orig, CPARSE_JSON *other, bool replaceOnConflict);
+void cparse_json_copy(cParseJson *orig, cParseJson *other, bool replaceOnConflict);
 
 /* value cleanup */
 
 /*! deallocates a json object
  * \param value the json object to deallocate
  */
-void cparse_json_free(CPARSE_JSON *value);
+void cparse_json_free(cParseJson *value);
 
 /* value setters */
 
@@ -87,35 +87,35 @@ void cparse_json_free(CPARSE_JSON *value);
  * \param key the key identifying the value
  * \param value the json object attribute
  */
-void cparse_json_set(CPARSE_JSON *obj, const char *key, CPARSE_JSON *value);
+void cparse_json_set(cParseJson *obj, const char *key, cParseJson *value);
 
 /*! sets a number attribute
  * \param obj the json instance
  * \param key the key identifying the value
  * \param value the number attribute
  */
-void cparse_json_set_number(CPARSE_JSON *obj, const char *key, cparse_number value);
+void cparse_json_set_number(cParseJson *obj, const char *key, cParseNumber value);
 
 /*! sets a floating point attribute
  * \param obj the json instance
  * \param key the key identifying the value
  * \param value the floating point attribute
  */
-void cparse_json_set_real(CPARSE_JSON *obj, const char *key, double value);
+void cparse_json_set_real(cParseJson *obj, const char *key, double value);
 
 /*! sets a string attribute
  * \param obj the json instance
  * \param key the key identifying the value
  * \param value the string attribute
  */
-void cparse_json_set_string(CPARSE_JSON *obj, const char *key, const char *value);
+void cparse_json_set_string(cParseJson *obj, const char *key, const char *value);
 
 /*! sets a boolean attribute
  * \param obj the json instance
  * \param key the key identifying the value
  * \param value the boolean attribute
  */
-void cparse_json_set_bool(CPARSE_JSON *obj, const char *key, bool value);
+void cparse_json_set_bool(cParseJson *obj, const char *key, bool value);
 
 /* object getters */
 
@@ -123,71 +123,71 @@ void cparse_json_set_bool(CPARSE_JSON *obj, const char *key, bool value);
  * \param obj the json object instance
  * \param key the key identifying the attribute
  */
-CPARSE_JSON *cparse_json_get(CPARSE_JSON *obj, const char *key);
+cParseJson *cparse_json_get(cParseJson *obj, const char *key);
 
 /*! gets a number attribute.  if no conversion is possible errno is set to EINVAL.
  * \param obj the json object instance
  * \param key the key identifying the attribute
  * \returns the number of zero if no conversion
  */
-cparse_number cparse_json_get_number(CPARSE_JSON *obj, const char *key, cparse_number def);
+cParseNumber cparse_json_get_number(cParseJson *obj, const char *key, cParseNumber def);
 
 /*! gets a floating point attribute.  if no conversion is possible errno is set to EINVAL.
  * \param obj the json object instance
  * \param key the key identifying the attribute
  * \returns the floating point or 0.0
  */
-double cparse_json_get_real(CPARSE_JSON *obj, const char *key, double def);
+double cparse_json_get_real(cParseJson *obj, const char *key, double def);
 
 /*! gets a boolean attribute
  * \param obj the json object instance
  * \param key the key identifying the attribute
  */
-bool cparse_json_get_bool(CPARSE_JSON *obj, const char *key);
+bool cparse_json_get_bool(cParseJson *obj, const char *key);
 
 /*! gets a string attribute
  * \param obj the json object instance
  * \param key the key identifying the attribute
  */
-const char *cparse_json_get_string(CPARSE_JSON *obj, const char *key);
+const char *cparse_json_get_string(cParseJson *obj, const char *key);
 
 /*! tests if a json object is an array object
  * \param obj the json object instance
  * \returns true if the object is an array
  */
-bool cparse_json_is_array(CPARSE_JSON *obj);
+bool cparse_json_is_array(cParseJson *obj);
 
 /*! gets the type of json object
  * \param obj the object instance
  * \returns a json type of #cParseJSONType
  */
-cParseJSONType cparse_json_type(CPARSE_JSON *obj);
+cParseJsonType cparse_json_type(cParseJson *obj);
 
 /*! gets the number of keys in a json object
  * \param obj the json object instance
  * \returns the number of keys in the object
  */
-int cparse_json_num_keys(CPARSE_JSON *obj);
+int cparse_json_num_keys(cParseJson *obj);
 
 /*! tests if a json object contains a key
  * \param obj the json object instance
  * \param key the key identifying the attribute
  * \returns true if the object contains the key
  */
-bool cparse_json_contains(CPARSE_JSON *obj, const char *key);
+bool cparse_json_contains(cParseJson *obj, const char *key);
 
 /*! removes an attribute from a json object
  * \param obj the json object instance
  * \param key the key identifying the attribute
  * \returns the removed attribute
  */
-CPARSE_JSON *cparse_json_remove(CPARSE_JSON *obj, const char *key);
+cParseJson *cparse_json_remove(cParseJson *obj, const char *key);
 
 /*! creates a json object from a string
  * \param str the json string
  * \returns a json object or NULL if str was not valid json
  */
-CPARSE_JSON *cparse_json_tokenize(const char *str);
+cParseJson *cparse_json_tokenize(const char *str);
 
 /* array setters */
 
@@ -195,31 +195,31 @@ CPARSE_JSON *cparse_json_tokenize(const char *str);
  * \param array the array instance
  * \param value the number value to add
  */
-void cparse_json_array_add_number(CPARSE_JSON *array, cparse_number value);
+void cparse_json_array_add_number(cParseJson *array, cParseNumber value);
 
 /*! adds a floating point to an array json object
  * \param array the array instance
  * \param value the floating point value to add
  */
-void cparse_json_array_add_real(CPARSE_JSON *array, double value);
+void cparse_json_array_add_real(cParseJson *array, double value);
 
 /*! adds a boolean to an array json object
  * \param array the array instance
  * \param value the boolean value to add
  */
-void cparse_json_array_add_bool(CPARSE_JSON *array, bool value);
+void cparse_json_array_add_bool(cParseJson *array, bool value);
 
 /*! adds a string to an array json object
  * \param array the array instance
  * \param value the string value to add
  */
-void cparse_json_array_add_string(CPARSE_JSON *array, const char *value);
+void cparse_json_array_add_string(cParseJson *array, const char *value);
 
 /*! adds a json object to an array json object
  * \param array the array instance
  * \param value the json object value to add
  */
-void cparse_json_array_add(CPARSE_JSON *array, CPARSE_JSON *obj);
+void cparse_json_array_add(cParseJson *array, cParseJson *obj);
 
 /* array getters */
 
@@ -228,37 +228,37 @@ void cparse_json_array_add(CPARSE_JSON *array, CPARSE_JSON *obj);
  * \param index the position in the array
  * \returns the number value or zero if no conversion
  */
-cparse_number cparse_json_array_get_number(CPARSE_JSON *array, size_t index);
+cParseNumber cparse_json_array_get_number(cParseJson *array, size_t index);
 
 /*! gets a floating point from a position in a json array.  if no conversion is possible errno is set to EINVAL.
  * \param array the array instance
  * \param index the position in the array
  * \returns the floating point value or zero if no conversion
  */
-double cparse_json_array_get_real(CPARSE_JSON *array, size_t index);
+double cparse_json_array_get_real(cParseJson *array, size_t index);
 
 /*! gets a string from a position in a json array.
  * \param array the array instance
  * \param index the position in the array
  * \returns the string value or zero if no conversion
  */
-const char *cparse_json_array_get_string(CPARSE_JSON *array, size_t index);
+const char *cparse_json_array_get_string(cParseJson *array, size_t index);
 
 /*! gets a boolean from a position in a json array.
  * \param array the array instance
  * \param index the position in the array
  * \returns the boolean value or NULL
  */
-bool cparse_json_array_get_bool(CPARSE_JSON *array, size_t index);
+bool cparse_json_array_get_bool(cParseJson *array, size_t index);
 
 /*! gets a json object from a position in a json array.
  * \param array the array instance
  * \param index the position in the array
  * \returns the object value or NULL if not found
  */
-CPARSE_JSON *cparse_json_array_get(CPARSE_JSON *array, size_t index);
+cParseJson *cparse_json_array_get(cParseJson *array, size_t index);
 
-size_t cparse_json_array_size(CPARSE_JSON *value);
+size_t cparse_json_array_size(cParseJson *value);
 
 /* converters */
 
@@ -266,31 +266,31 @@ size_t cparse_json_array_size(CPARSE_JSON *value);
  * \param obj the json object instance
  * \returns the number value or zero
  */
-cparse_number cparse_json_to_number(CPARSE_JSON *);
+cParseNumber cparse_json_to_number(cParseJson *);
 
 /*! gets the floating point value of an object. if no conversion possible errno is set to EINVAL
  * \param obj the json object instance
  * \returns the floating point value or zero
  */
-double cparse_json_to_real(CPARSE_JSON *);
+double cparse_json_to_real(cParseJson *);
 
 /*! gets the boolean value of an object.
  * \param obj the json object instance
  * \returns the boolean value or zero
  */
-bool cparse_json_to_bool(CPARSE_JSON *);
+bool cparse_json_to_bool(cParseJson *);
 
 /*! gets the string value of an object.
  * \param obj the json object instance
  * \returns the string value or zero
  */
-const char *cparse_json_to_string(CPARSE_JSON *value);
+const char *cparse_json_to_string(cParseJson *value);
 
 /*! converts a json object to a formated json string
  * \param value the json object instance
  * \returns the json string
  */
-const char *cparse_json_to_json_string(CPARSE_JSON *value);
+const char *cparse_json_to_json_string(cParseJson *value);
 
 /*! a start block for a json object iterator
  * _example_:

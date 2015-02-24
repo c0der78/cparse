@@ -12,19 +12,17 @@
 
 char current_user_token[BUFSIZ + 1] = {0};
 
-extern CPARSE_QUERY *cparse_query_new();
-
-extern void cparse_object_set_request_includes(CPARSE_OBJ *obj, CPARSE_REQUEST *request);
+extern void cparse_object_set_request_includes(cParseObject *obj, cParseRequest *request);
 
 /* Private */
 
-static CPARSE_REQUEST *cparse_user_create_request(CPARSE_OBJ *obj, HTTPRequestMethod method)
+static cParseRequest *cparse_user_create_request(cParseObject *obj, HttpRequestMethod method)
 {
     char buf[BUFSIZ + 1] = {0};
 
     if (!obj) return NULL;
 
-    if (method != HTTPRequestMethodPost && obj->objectId && *obj->objectId)
+    if (method != HttpRequestMethodPost && obj->objectId && *obj->objectId)
     {
         snprintf(buf, BUFSIZ, "%s/%s", CPARSE_USER_CLASS_NAME, obj->objectId);
     }
@@ -38,23 +36,23 @@ static CPARSE_REQUEST *cparse_user_create_request(CPARSE_OBJ *obj, HTTPRequestMe
 
 /* initializers */
 
-CPARSE_OBJ *cparse_user_new()
+cParseObject *cparse_user_new()
 {
     return cparse_object_with_class_name(CPARSE_USER_CLASS_NAME);
 }
 
-CPARSE_OBJ *cparse_user_with_name(const char *username)
+cParseObject *cparse_user_with_name(const char *username)
 {
-    CPARSE_OBJ *obj = cparse_object_with_class_name(CPARSE_USER_CLASS_NAME);
+    cParseObject *obj = cparse_object_with_class_name(CPARSE_USER_CLASS_NAME);
 
     cparse_object_set_string(obj, KEY_USER_NAME, username);
 
     return obj;
 }
 
-CPARSE_OBJ *cparse_current_user(CPARSE_ERROR **error)
+cParseObject *cparse_current_user(cParseError **error)
 {
-    CPARSE_OBJ *user;
+    cParseObject *user;
 
     if (!*current_user_token)
         return NULL;
@@ -73,24 +71,29 @@ CPARSE_OBJ *cparse_current_user(CPARSE_ERROR **error)
 
 /* getters/setters */
 
-bool cparse_object_is_user(CPARSE_OBJ *obj)
+bool cparse_object_is_user(cParseObject *obj)
 {
-    const char *className = cparse_object_class_name(obj);
+    if (!obj) return false;
 
+    return cparse_class_name_is_user(obj->className);
+}
+
+bool cparse_class_name_is_user(const char *className)
+{
     if (!className || !*className)
         return false;
 
     return !strcmp(className, CPARSE_USER_CLASS_NAME);
 }
 
-const char *cparse_user_name(CPARSE_OBJ *user)
+const char *cparse_user_name(cParseObject *user)
 {
     if (!user) return NULL;
 
     return cparse_object_get_string(user, KEY_USER_NAME);
 }
 
-void cparse_user_set_name(CPARSE_OBJ *user, char *name)
+void cparse_user_set_name(cParseObject *user, char *name)
 {
     if (user)
     {
@@ -98,21 +101,21 @@ void cparse_user_set_name(CPARSE_OBJ *user, char *name)
     }
 }
 
-const char *cparse_user_email(CPARSE_OBJ *user)
+const char *cparse_user_email(cParseObject *user)
 {
     return cparse_object_get_string(user, KEY_USER_EMAIL);
 }
 
-const char *cparse_user_session_token(CPARSE_OBJ *user)
+const char *cparse_user_session_token(cParseObject *user)
 {
     return cparse_object_get_string(user, KEY_USER_SESSION_TOKEN);
 }
 /* functions */
 
-bool cparse_user_login_user(CPARSE_OBJ *user, CPARSE_ERROR **error)
+bool cparse_user_login_user(cParseObject *user, cParseError **error)
 {
-    CPARSE_JSON *data;
-    CPARSE_REQUEST *request;
+    cParseJson *data;
+    cParseRequest *request;
     const char *username, *password;
 
     if (!user) return false;
@@ -137,7 +140,7 @@ bool cparse_user_login_user(CPARSE_OBJ *user, CPARSE_ERROR **error)
 
     }
 
-    request = cparse_client_request_with_method_and_path(HTTPRequestMethodGet, "login");
+    request = cparse_client_request_with_method_and_path(HttpRequestMethodGet, "login");
 
     cparse_client_request_add_data(request, "username", username);
     cparse_client_request_add_data(request, "password", password);
@@ -168,9 +171,9 @@ bool cparse_user_login_user(CPARSE_OBJ *user, CPARSE_ERROR **error)
     return true;
 }
 
-CPARSE_OBJ *cparse_user_login(const char *username, const char *password, CPARSE_ERROR **error)
+cParseObject *cparse_user_login(const char *username, const char *password, cParseError **error)
 {
-    CPARSE_OBJ *user;
+    cParseObject *user;
 
     user = cparse_user_with_name(username);
 
@@ -185,9 +188,9 @@ CPARSE_OBJ *cparse_user_login(const char *username, const char *password, CPARSE
     return user;
 }
 
-pthread_t cparse_user_login_in_background(const char *username, const char *password, CPARSE_OBJ_CALLBACK callback)
+pthread_t cparse_user_login_in_background(const char *username, const char *password, cParseObjectCallback callback)
 {
-    CPARSE_OBJ *obj = cparse_user_with_name(username);
+    cParseObject *obj = cparse_user_with_name(username);
 
     cparse_object_set_string(obj, KEY_USER_PASSWORD, password);
 
@@ -200,9 +203,9 @@ void cparse_user_logout()
 }
 
 
-bool cparse_user_delete(CPARSE_OBJ *obj, CPARSE_ERROR **error)
+bool cparse_user_delete(cParseObject *obj, cParseError **error)
 {
-    CPARSE_REQUEST *request;
+    cParseRequest *request;
     const char *sessionToken;
     bool rval;
 
@@ -222,7 +225,7 @@ bool cparse_user_delete(CPARSE_OBJ *obj, CPARSE_ERROR **error)
         return false;
     }
 
-    request = cparse_user_create_request(obj, HTTPRequestMethodDelete);
+    request = cparse_user_create_request(obj, HttpRequestMethodDelete);
 
     cparse_client_request_add_header(request, HEADER_SESSION_TOKEN, sessionToken);
 
@@ -233,23 +236,30 @@ bool cparse_user_delete(CPARSE_OBJ *obj, CPARSE_ERROR **error)
     return rval;
 }
 
-
-CPARSE_QUERY *cparse_user_query()
+pthread_t cparse_user_delete_in_background(cParseObject *obj, cParseObjectCallback callback)
 {
-    CPARSE_QUERY *query = cparse_query_new();
+    return cparse_object_run_in_background(obj, cparse_user_delete, callback, NULL);
+}
+
+
+cParseQuery *cparse_user_query_new()
+{
+    cParseQuery *query = cparse_query_with_class_name(CPARSE_USER_CLASS_NAME);
 
     return query;
 }
 
-bool cparse_user_sign_up(CPARSE_OBJ *user, const char *password, CPARSE_ERROR **error)
+static bool cparse_user_sign_up_user(cParseObject *user, cParseError **error)
 {
     const char *username;
-    CPARSE_REQUEST *request;
-    CPARSE_JSON *json;
+    const char *password;
+    cParseRequest *request;
+    cParseJson *json;
 
     if (!user) return false;
 
     username = cparse_object_get_string(user, KEY_USER_NAME);
+    password = cparse_object_get_string(user, KEY_USER_PASSWORD);
 
     if (!username || !*username)
     {
@@ -267,15 +277,9 @@ bool cparse_user_sign_up(CPARSE_OBJ *user, const char *password, CPARSE_ERROR **
         return false;
     }
 
-    request = cparse_user_create_request(user, HTTPRequestMethodPost);
-
-    /* temporarily set the password on the user for the request json */
-    cparse_object_set_string(user, "password", password);
+    request = cparse_user_create_request(user, HttpRequestMethodPost);
 
     cparse_client_request_set_payload(request, cparse_object_to_json_string(user));
-
-    /* remove the passwrod from the user attributes for security */
-    cparse_object_remove(user, "password");
 
     json = cparse_client_request_get_json(request, error);
 
@@ -287,6 +291,9 @@ bool cparse_user_sign_up(CPARSE_OBJ *user, const char *password, CPARSE_ERROR **
 
         cparse_json_free(json);
 
+        /* remove the passwrod from the user attributes for security */
+        cparse_object_remove(user, "password");
+
         if (cparse_object_contains(user, KEY_USER_SESSION_TOKEN))
         {
             const char *sessionToken = cparse_object_get_string(user, KEY_USER_SESSION_TOKEN);
@@ -296,13 +303,29 @@ bool cparse_user_sign_up(CPARSE_OBJ *user, const char *password, CPARSE_ERROR **
         return true;
     }
 
+    /* remove the passwrod from the user attributes for security */
+    cparse_object_remove(user, "password");
+
     return false;
 }
 
-bool cparse_user_fetch(CPARSE_OBJ *obj, CPARSE_ERROR **error)
+bool cparse_user_sign_up(cParseObject *user, const char *password, cParseError **error)
 {
-    CPARSE_REQUEST *request;
-    CPARSE_JSON *json;
+    if (password && *password)
+        cparse_object_set_string(user, KEY_USER_PASSWORD, password);
+
+    return cparse_user_sign_up_user(user, error);
+}
+
+pthread_t cparse_user_sign_up_in_background(cParseObject *user, const char *password, cParseObjectCallback callback)
+{
+    return cparse_object_run_in_background(user, cparse_user_sign_up_user, callback, NULL);
+}
+
+bool cparse_user_fetch(cParseObject *obj, cParseError **error)
+{
+    cParseRequest *request;
+    cParseJson *json;
 
     if (!obj)
     {
@@ -317,7 +340,7 @@ bool cparse_user_fetch(CPARSE_OBJ *obj, CPARSE_ERROR **error)
         return false;
     }
 
-    request = cparse_user_create_request(obj, HTTPRequestMethodGet);
+    request = cparse_user_create_request(obj, HttpRequestMethodGet);
 
     cparse_object_set_request_includes(obj, request);
 
@@ -336,10 +359,15 @@ bool cparse_user_fetch(CPARSE_OBJ *obj, CPARSE_ERROR **error)
     return false;
 }
 
-bool cparse_user_refresh(CPARSE_OBJ *obj, CPARSE_ERROR **error)
+pthread_t cparse_user_fetch_in_background(cParseObject *obj, cParseObjectCallback callback)
 {
-    CPARSE_REQUEST *request;
-    CPARSE_JSON *json;
+    return cparse_object_run_in_background(obj, cparse_user_fetch, callback, NULL);
+}
+
+bool cparse_user_refresh(cParseObject *obj, cParseError **error)
+{
+    cParseRequest *request;
+    cParseJson *json;
 
     if (!cparse_object_exists(obj))
     {
@@ -349,7 +377,7 @@ bool cparse_user_refresh(CPARSE_OBJ *obj, CPARSE_ERROR **error)
         return false;
     }
 
-    request = cparse_user_create_request(obj, HTTPRequestMethodGet);
+    request = cparse_user_create_request(obj, HttpRequestMethodGet);
 
     json = cparse_client_request_get_json(request, error);
 
@@ -367,13 +395,18 @@ bool cparse_user_refresh(CPARSE_OBJ *obj, CPARSE_ERROR **error)
     return false;
 }
 
-bool cparse_user_validate(CPARSE_OBJ *user, const char *sessionToken, CPARSE_ERROR **error)
+pthread_t cparse_user_refresh_in_background(cParseObject *user, cParseObjectCallback callback)
 {
-    CPARSE_REQUEST *request;
+    return cparse_object_run_in_background(user, cparse_user_refresh, callback, NULL);
+}
 
-    CPARSE_JSON *json;
+bool cparse_user_validate(cParseObject *user, const char *sessionToken, cParseError **error)
+{
+    cParseRequest *request;
 
-    request = cparse_client_request_with_method_and_path(HTTPRequestMethodGet, "me");
+    cParseJson *json;
+
+    request = cparse_client_request_with_method_and_path(HttpRequestMethodGet, "me");
 
     cparse_client_request_add_header(request, HEADER_SESSION_TOKEN, sessionToken);
 
@@ -393,7 +426,7 @@ bool cparse_user_validate(CPARSE_OBJ *user, const char *sessionToken, CPARSE_ERR
     return true;
 }
 
-bool cparse_user_validate_email(CPARSE_OBJ *user, CPARSE_ERROR **error)
+bool cparse_user_validate_email(cParseObject *user, cParseError **error)
 {
     if (!user) return false;
 
@@ -415,10 +448,10 @@ bool cparse_user_validate_email(CPARSE_OBJ *user, CPARSE_ERROR **error)
     return true;
 }
 
-bool cparse_user_reset_password(CPARSE_OBJ *user, CPARSE_ERROR **error)
+bool cparse_user_reset_password(cParseObject *user, cParseError **error)
 {
-    CPARSE_REQUEST *request;
-    CPARSE_JSON *json;
+    cParseRequest *request;
+    cParseJson *json;
 
     if (!user) return false;
 
@@ -436,7 +469,7 @@ bool cparse_user_reset_password(CPARSE_OBJ *user, CPARSE_ERROR **error)
         return false;
     }
 
-    request = cparse_client_request_with_method_and_path(HTTPRequestMethodPost, "requestPasswordReset");
+    request = cparse_client_request_with_method_and_path(HttpRequestMethodPost, "requestPasswordReset");
 
     json = cparse_json_new();
 
@@ -458,5 +491,10 @@ bool cparse_user_reset_password(CPARSE_OBJ *user, CPARSE_ERROR **error)
     cparse_json_free(json);
 
     return true;
+}
+
+pthread_t cparse_user_reset_password_in_background(cParseObject *user, cParseObjectCallback callback)
+{
+    return cparse_object_run_in_background(user, cparse_user_reset_password, callback, NULL);
 }
 

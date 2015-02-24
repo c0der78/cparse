@@ -2,7 +2,7 @@
 #include <cparse/object.h>
 #include <check.h>
 
-static CPARSE_JSON *cpv_test;
+static cParseJson *cpv_test;
 
 static void cparse_test_setup()
 {
@@ -40,7 +40,7 @@ END_TEST
 
 START_TEST(test_cparse_json_set_object)
 {
-    CPARSE_JSON *obj = cparse_json_new_string("here");
+    cParseJson *obj = cparse_json_new_string("here");
 
     cparse_json_set(cpv_test, "test", obj);
 
@@ -52,7 +52,7 @@ END_TEST
 
 START_TEST(test_cparse_json_set_array)
 {
-    CPARSE_JSON *array = cparse_json_new_array();
+    cParseJson *array = cparse_json_new_array();
 
     cparse_json_array_add_number(array, 1234);
 
@@ -64,7 +64,7 @@ END_TEST
 
 START_TEST(test_cparse_array_add)
 {
-    CPARSE_JSON *array = cparse_json_new_array();
+    cParseJson *array = cparse_json_new_array();
 
     cparse_json_array_add_number(array, 1234);
 
@@ -85,6 +85,7 @@ Suite *cparse_json_suite (void)
     tcase_add_test(tc, test_cparse_json_set_string);
     tcase_add_test(tc, test_cparse_json_set_object);
     tcase_add_test(tc, test_cparse_json_set_array);
+
     suite_add_tcase(s, tc);
 
     tc = tcase_create("Array");

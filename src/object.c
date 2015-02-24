@@ -18,8 +18,8 @@
 /* this is a background thread. The argument controlls functionality*/
 static void *cparse_object_background_action(void *argument)
 {
-    CPARSE_ERROR *error = NULL;
-    CPARSE_OBJ_THREAD *arg = (CPARSE_OBJ_THREAD *) argument;
+    cParseError *error = NULL;
+    cParseObjectThread *arg = (cParseObjectThread *) argument;
 
     /* cparse_object_save or cparse_object_refresh */
     bool rval = (*arg->action)(arg->obj, &error);
@@ -44,14 +44,14 @@ static void *cparse_object_background_action(void *argument)
     return NULL;
 }
 
-pthread_t cparse_object_run_in_background(CPARSE_OBJ *obj, CPARSE_OBJ_ACTION action, CPARSE_OBJ_CALLBACK callback, void (*cleanup)(CPARSE_OBJ *obj))
+pthread_t cparse_object_run_in_background(cParseObject *obj, cParseObjectAction action, cParseObjectCallback callback, void (*cleanup)(cParseObject *obj))
 {
-    CPARSE_OBJ_THREAD *arg;
+    cParseObjectThread *arg;
     int rc;
 
     assert(obj != NULL);
 
-    arg = malloc(sizeof(CPARSE_OBJ_THREAD));
+    arg = malloc(sizeof(cParseObjectThread));
     arg->action = action;
     arg->obj = obj;
     arg->cleanup = cleanup;
@@ -64,7 +64,7 @@ pthread_t cparse_object_run_in_background(CPARSE_OBJ *obj, CPARSE_OBJ_ACTION act
     return arg->thread;
 }
 
-void cparse_object_set_request_includes(CPARSE_OBJ *obj, CPARSE_REQUEST *request)
+void cparse_object_set_request_includes(cParseObject *obj, cParseRequest *request)
 {
     char types[BUFSIZ + 1] = {0};
 
@@ -73,7 +73,7 @@ void cparse_object_set_request_includes(CPARSE_OBJ *obj, CPARSE_REQUEST *request
     {
         const char *typeVal;
 
-        if (cparse_json_type(val) != cParseJSONObject) continue;
+        if (cparse_json_type(val) != cParseJsonObject) continue;
 
         typeVal = cparse_json_get_string(val, KEY_TYPE);
 
@@ -91,13 +91,22 @@ void cparse_object_set_request_includes(CPARSE_OBJ *obj, CPARSE_REQUEST *request
     }
 }
 
-static CPARSE_REQUEST *cparse_object_create_request(CPARSE_OBJ *obj, HTTPRequestMethod method)
+static cParseRequest *cparse_object_create_request(cParseObject *obj, HttpRequestMethod method, cParseError **error)
 {
     char buf[BUFSIZ + 1] = {0};
 
     if (!obj) return NULL;
 
-    if (method != HTTPRequestMethodPost && obj->objectId && *obj->objectId)
+
+    if (cparse_object_is_user(obj))
+    {
+        if (error)
+            *error = cparse_error_with_message("Cannot create an object request for a user object");
+
+        return NULL;
+    }
+
+    if (method != HttpRequestMethodPost && obj->objectId && *obj->objectId)
     {
         snprintf(buf, BUFSIZ, "classes/%s/%s", obj->className, obj->objectId);
     }
@@ -110,9 +119,9 @@ static CPARSE_REQUEST *cparse_object_create_request(CPARSE_OBJ *obj, HTTPRequest
 }
 
 /* initializers */
-static CPARSE_OBJ *cparse_object_new()
+static cParseObject *cparse_object_new()
 {
-    CPARSE_OBJ *obj = malloc(sizeof(CPARSE_OBJ));
+    cParseObject *obj = malloc(sizeof(cParseObject));
 
     obj->className = NULL;
     obj->objectId = NULL;
@@ -124,7 +133,7 @@ static CPARSE_OBJ *cparse_object_new()
     return obj;
 }
 
-void cparse_object_copy(CPARSE_OBJ *obj, CPARSE_OBJ *other)
+void cparse_object_copy(cParseObject *obj, cParseObject *other)
 {
     obj->className = strdup(other->className);
     obj->objectId = strdup(other->objectId);
@@ -135,18 +144,18 @@ void cparse_object_copy(CPARSE_OBJ *obj, CPARSE_OBJ *other)
     cparse_object_merge_json(obj, other->attributes);
 }
 
-CPARSE_OBJ *cparse_object_with_class_name(const char *className)
+cParseObject *cparse_object_with_class_name(const char *className)
 {
-    CPARSE_OBJ *obj = cparse_object_new();
+    cParseObject *obj = cparse_object_new();
 
     obj->className = strdup(className);
 
     return obj;
 }
 
-CPARSE_OBJ *cparse_object_with_class_data(const char *className, CPARSE_JSON *attributes)
+cParseObject *cparse_object_with_class_data(const char *className, cParseJson *attributes)
 {
-    CPARSE_OBJ *obj = cparse_object_with_class_name(className);
+    cParseObject *obj = cparse_object_with_class_name(className);
 
     cparse_object_merge_json(obj, attributes);
 
@@ -154,7 +163,7 @@ CPARSE_OBJ *cparse_object_with_class_data(const char *className, CPARSE_JSON *at
 }
 
 /* cleanup */
-void cparse_object_free(CPARSE_OBJ *obj)
+void cparse_object_free(cParseObject *obj)
 {
 
     cparse_json_free(obj->attributes);
@@ -170,43 +179,43 @@ void cparse_object_free(CPARSE_OBJ *obj)
 
 size_t cparse_object_sizeof()
 {
-    return sizeof(CPARSE_OBJ);
+    return sizeof(cParseObject);
 }
 
-const char *cparse_object_id(CPARSE_OBJ *obj)
+const char *cparse_object_id(cParseObject *obj)
 {
     return !obj ? NULL : obj->objectId;
 }
 
-const char *cparse_object_class_name(CPARSE_OBJ *obj)
+const char *cparse_object_class_name(cParseObject *obj)
 {
     return !obj ? NULL : obj->className;
 }
 
-time_t cparse_object_created_at(CPARSE_OBJ *obj)
+time_t cparse_object_created_at(cParseObject *obj)
 {
     return !obj ? 0 : obj->createdAt;
 }
-time_t cparse_object_updated_at(CPARSE_OBJ *obj)
+time_t cparse_object_updated_at(cParseObject *obj)
 {
     return !obj ? 0 : obj->updatedAt;
 }
 
-CPARSE_ACL *cparse_object_acl(CPARSE_OBJ *obj)
+cParseACL *cparse_object_acl(cParseObject *obj)
 {
     return obj->acl;
 }
 
-bool cparse_object_exists(CPARSE_OBJ *obj)
+bool cparse_object_exists(cParseObject *obj)
 {
     return obj && obj->objectId && *obj->objectId;
 }
 
 /* client related functions */
 
-bool cparse_object_delete(CPARSE_OBJ *obj, CPARSE_ERROR **error)
+bool cparse_object_delete(cParseObject *obj, cParseError **error)
 {
-    CPARSE_REQUEST *request;
+    cParseRequest *request;
     bool rval;
 
     if (!obj) return false;
@@ -218,7 +227,12 @@ bool cparse_object_delete(CPARSE_OBJ *obj, CPARSE_ERROR **error)
         return false;
     }
 
-    request = cparse_object_create_request(obj, HTTPRequestMethodDelete);
+    request = cparse_object_create_request(obj, HttpRequestMethodDelete, error);
+
+    if (!request)
+    {
+        return false;
+    }
 
     rval = cparse_client_request_perform(request, error);
 
@@ -227,10 +241,10 @@ bool cparse_object_delete(CPARSE_OBJ *obj, CPARSE_ERROR **error)
     return rval;
 }
 
-bool cparse_object_fetch(CPARSE_OBJ *obj, CPARSE_ERROR **error)
+bool cparse_object_fetch(cParseObject *obj, cParseError **error)
 {
-    CPARSE_REQUEST *request;
-    CPARSE_JSON *json;
+    cParseRequest *request;
+    cParseJson *json;
 
     if (!obj) return false;
 
@@ -241,7 +255,12 @@ bool cparse_object_fetch(CPARSE_OBJ *obj, CPARSE_ERROR **error)
         return false;
     }
 
-    request = cparse_object_create_request(obj, HTTPRequestMethodGet);
+    request = cparse_object_create_request(obj, HttpRequestMethodGet, error);
+
+    if (!request)
+    {
+        return false;
+    }
 
     cparse_object_set_request_includes(obj, request);
 
@@ -261,16 +280,15 @@ bool cparse_object_fetch(CPARSE_OBJ *obj, CPARSE_ERROR **error)
     return false;
 }
 
-pthread_t cparse_object_fetch_in_background(CPARSE_OBJ *obj, CPARSE_OBJ_CALLBACK callback)
+pthread_t cparse_object_fetch_in_background(cParseObject *obj, cParseObjectCallback callback)
 {
     return cparse_object_run_in_background(obj, cparse_object_fetch, callback, NULL);
 }
 
-bool cparse_object_refresh(CPARSE_OBJ *obj, CPARSE_ERROR **error)
+bool cparse_object_refresh(cParseObject *obj, cParseError **error)
 {
-    CPARSE_REQUEST *request;
-    CPARSE_JSON *json;
-    char buf[BUFSIZ + 1] = {0};
+    cParseRequest *request;
+    cParseJson *json;
 
     if (!obj) return false;
 
@@ -281,9 +299,12 @@ bool cparse_object_refresh(CPARSE_OBJ *obj, CPARSE_ERROR **error)
         return false;
     }
 
-    snprintf(buf, BUFSIZ, "classes/%s/%s", obj->className, obj->objectId);
+    request = cparse_object_create_request(obj, HttpRequestMethodGet, error);
 
-    request = cparse_client_request_with_method_and_path(HTTPRequestMethodGet, buf);
+    if (!request)
+    {
+        return false;
+    }
 
     json = cparse_client_request_get_json(request, error);
 
@@ -301,31 +322,50 @@ bool cparse_object_refresh(CPARSE_OBJ *obj, CPARSE_ERROR **error)
     return false;
 }
 
-pthread_t cparse_object_refresh_in_background(CPARSE_OBJ *obj, CPARSE_OBJ_CALLBACK callback)
+pthread_t cparse_object_refresh_in_background(cParseObject *obj, cParseObjectCallback callback)
 {
     return cparse_object_run_in_background(obj, cparse_object_refresh, callback, NULL);
 }
 
-
-bool cparse_object_save(CPARSE_OBJ *obj, CPARSE_ERROR **error)
+bool cparse_class_name_is_object(const char *className)
 {
-    CPARSE_REQUEST *request;
+    if (!className || !*className) return false;
+
+    return strcmp(className, CPARSE_USER_CLASS_NAME);
+}
+
+bool cparse_object_is_object(cParseObject *obj)
+{
+    return cparse_class_name_is_object(obj->className);
+}
+
+bool cparse_object_save(cParseObject *obj, cParseError **error)
+{
+    cParseRequest *request;
     char buf[BUFSIZ + 1] = {0};
-    CPARSE_JSON *json;
+    cParseJson *json;
 
     if (!obj) return false;
+
+    if (cparse_object_is_user(obj))
+    {
+        if (error)
+            *error = cparse_error_with_message("cannot request an object with a user object");
+
+        return false;
+    }
 
     /* build the request based on the id */
     if (!obj->objectId || !*obj->objectId)
     {
         snprintf(buf, BUFSIZ, "classes/%s", obj->className);
-        request = cparse_client_request_with_method_and_path(HTTPRequestMethodPost, buf);
+        request = cparse_client_request_with_method_and_path(HttpRequestMethodPost, buf);
 
     }
     else
     {
         snprintf(buf, BUFSIZ, "classes/%s/%s", obj->className, obj->objectId);
-        request = cparse_client_request_with_method_and_path(HTTPRequestMethodPut, buf);
+        request = cparse_client_request_with_method_and_path(HttpRequestMethodPut, buf);
     }
 
     cparse_client_request_set_payload(request, cparse_json_to_json_string(obj->attributes));
@@ -346,41 +386,41 @@ bool cparse_object_save(CPARSE_OBJ *obj, CPARSE_ERROR **error)
     return false;
 }
 
-pthread_t cparse_object_save_in_background(CPARSE_OBJ *obj, CPARSE_OBJ_CALLBACK callback)
+pthread_t cparse_object_save_in_background(cParseObject *obj, cParseObjectCallback callback)
 {
     return cparse_object_run_in_background(obj, cparse_object_save, callback, NULL);
 }
 
 /* setters */
 
-void cparse_object_set_number(CPARSE_OBJ *obj, const char *key, cparse_number value)
+void cparse_object_set_number(cParseObject *obj, const char *key, cParseNumber value)
 {
     assert(obj != NULL);
 
     cparse_object_set(obj, key, cparse_json_new_number(value));
 }
 
-void cparse_object_set_real(CPARSE_OBJ *obj, const char *key, double value)
+void cparse_object_set_real(cParseObject *obj, const char *key, double value)
 {
     assert(obj != NULL);
 
     cparse_object_set(obj, key, cparse_json_new_real(value));
 }
-void cparse_object_set_bool(CPARSE_OBJ *obj, const char *key, bool value)
+void cparse_object_set_bool(cParseObject *obj, const char *key, bool value)
 {
     assert(obj != NULL);
 
     cparse_object_set(obj, key, cparse_json_new_bool(value));
 }
 
-void cparse_object_set_string(CPARSE_OBJ *obj, const char *key, const char *value)
+void cparse_object_set_string(cParseObject *obj, const char *key, const char *value)
 {
     assert(obj != NULL);
 
     cparse_object_set(obj, key, cparse_json_new_string(value));
 }
 
-void cparse_object_set(CPARSE_OBJ *obj, const char *key, CPARSE_JSON *value)
+void cparse_object_set(cParseObject *obj, const char *key, cParseJson *value)
 {
     assert(obj != NULL);
 
@@ -388,7 +428,7 @@ void cparse_object_set(CPARSE_OBJ *obj, const char *key, CPARSE_JSON *value)
 }
 
 
-void cparse_object_foreach_attribute(CPARSE_OBJ *obj, void (*foreach) (CPARSE_JSON *data))
+void cparse_object_foreach_attribute(cParseObject *obj, void (*foreach) (cParseJson *data))
 {
     cparse_json_object_foreach_start(obj->attributes, key, val)
     {
@@ -397,52 +437,52 @@ void cparse_object_foreach_attribute(CPARSE_OBJ *obj, void (*foreach) (CPARSE_JS
     cparse_json_object_foreach_end;
 }
 
-CPARSE_JSON *cparse_object_remove(CPARSE_OBJ *obj, const char *key)
+cParseJson *cparse_object_remove(cParseObject *obj, const char *key)
 {
     return cparse_json_remove(obj->attributes, key);
 }
 
 /* getters */
 
-CPARSE_JSON *cparse_object_get(CPARSE_OBJ *obj, const char *key)
+cParseJson *cparse_object_get(cParseObject *obj, const char *key)
 {
     return cparse_json_get(obj->attributes, key);
 }
 
-cparse_number cparse_object_get_number(CPARSE_OBJ *obj, const char *key, cparse_number def)
+cParseNumber cparse_object_get_number(cParseObject *obj, const char *key, cParseNumber def)
 {
     return cparse_json_get_number(obj->attributes, key, def);
 }
 
-double cparse_object_get_real(CPARSE_OBJ *obj, const char *key, double def)
+double cparse_object_get_real(cParseObject *obj, const char *key, double def)
 {
     return cparse_json_get_real(obj->attributes, key, def);
 }
 
-bool cparse_object_get_bool(CPARSE_OBJ *obj, const char *key)
+bool cparse_object_get_bool(cParseObject *obj, const char *key)
 {
     return cparse_json_get_bool(obj->attributes, key);
 }
 
-const char *cparse_object_get_string(CPARSE_OBJ *obj, const char *key)
+const char *cparse_object_get_string(cParseObject *obj, const char *key)
 {
     return cparse_json_get_string(obj->attributes, key);
 }
 
-size_t cparse_object_attribute_size(CPARSE_OBJ *obj)
+size_t cparse_object_attribute_size(cParseObject *obj)
 {
     return cparse_json_num_keys(obj->attributes);
 }
 
-bool cparse_object_contains(CPARSE_OBJ *obj, const char *key)
+bool cparse_object_contains(cParseObject *obj, const char *key)
 {
     return cparse_json_contains(obj->attributes, key);
 }
 
-void cparse_object_set_reference(CPARSE_OBJ *obj, const char *key, CPARSE_OBJ *ref)
+void cparse_object_set_reference(cParseObject *obj, const char *key, cParseObject *ref)
 {
     /* create a data object representing a pointer */
-    CPARSE_JSON *data = cparse_json_new();
+    cParseJson *data = cparse_json_new();
 
     /* set type to pointer */
     cparse_json_set_string(data, KEY_TYPE, TYPE_POINTER);
@@ -459,13 +499,13 @@ void cparse_object_set_reference(CPARSE_OBJ *obj, const char *key, CPARSE_OBJ *r
     cparse_json_set(obj->attributes, key, data);
 }
 
-void cparse_object_merge_json(CPARSE_OBJ *a, CPARSE_JSON *b)
+void cparse_object_merge_json(cParseObject *a, cParseJson *b)
 {
 
     /* objectId, createdAt, and updatedAt are special attributes
      * we're remove them from the b if they exist and add them to a
      */
-    CPARSE_JSON *id = cparse_json_remove(b, KEY_OBJECT_ID);
+    cParseJson *id = cparse_json_remove(b, KEY_OBJECT_ID);
 
     if (id != NULL)
     {
@@ -487,16 +527,16 @@ void cparse_object_merge_json(CPARSE_OBJ *a, CPARSE_JSON *b)
     cparse_json_copy(a->attributes, b, true);
 }
 
-CPARSE_OBJ *cparse_object_from_json(CPARSE_JSON *jobj)
+cParseObject *cparse_object_from_json(cParseJson *jobj)
 {
-    CPARSE_OBJ *obj = cparse_object_new();
+    cParseObject *obj = cparse_object_new();
 
     cparse_json_copy(obj->attributes, jobj, false);
 
     return obj;
 }
 
-const char *cparse_object_to_json_string(CPARSE_OBJ *obj)
+const char *cparse_object_to_json_string(cParseObject *obj)
 {
     return cparse_json_to_json_string(obj->attributes);
 }

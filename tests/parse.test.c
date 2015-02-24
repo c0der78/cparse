@@ -18,14 +18,14 @@ extern bool cparse_error_messages;
 struct obj_list
 {
     struct obj_list *next;
-    CPARSE_OBJ *obj;
+    cParseObject *obj;
 };
 
 struct obj_list *first_obj = NULL;
 
-CPARSE_OBJ *cparse_new_test_object(const char *name, int score)
+cParseObject *cparse_new_test_object(const char *name, int score)
 {
-    CPARSE_OBJ *obj = cparse_object_with_class_name(TEST_CLASS);
+    cParseObject *obj = cparse_object_with_class_name(TEST_CLASS);
 
     cparse_object_set_string(obj, "playerName", name);
     cparse_object_set_number(obj, "score", score);
@@ -33,7 +33,7 @@ CPARSE_OBJ *cparse_new_test_object(const char *name, int score)
     return obj;
 }
 
-int cparse_cleanup_test_object(CPARSE_OBJ *obj)
+int cparse_cleanup_test_object(cParseObject *obj)
 {
     struct obj_list *node = malloc(sizeof(struct obj_list));
 
@@ -45,9 +45,9 @@ int cparse_cleanup_test_object(CPARSE_OBJ *obj)
     return 1;
 }
 
-int cparse_save_test_object(CPARSE_OBJ *obj)
+int cparse_save_test_object(cParseObject *obj)
 {
-    CPARSE_ERROR *error = NULL;
+    cParseError *error = NULL;
 
     int rval = cparse_object_save(obj, &error);
 
@@ -75,7 +75,7 @@ int cparse_cleanup_test_objects()
 
         if (node->obj)
         {
-            CPARSE_ERROR *error = NULL;
+            cParseError *error = NULL;
 
             if (!cparse_object_delete(node->obj, &error))
             {
@@ -100,7 +100,7 @@ int cparse_cleanup_test_objects()
 
 int cparse_create_and_save_test_object(const char *name, int score)
 {
-    CPARSE_OBJ *obj = cparse_new_test_object(name, score);
+    cParseObject *obj = cparse_new_test_object(name, score);
 
     return cparse_save_test_object(obj);
 }

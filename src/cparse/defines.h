@@ -21,56 +21,58 @@ typedef unsigned char bool;
 
 /*! a type representing an integral number */
 #ifdef HAVE_JSON_EXTENDED
-typedef long long cparse_number;
+typedef long long cParseNumber;
 #else
-typedef int cparse_number;
+typedef int cParseNumber;
 #endif
 
 /*! A parse Access Control List structure */
-typedef struct cparse_acl CPARSE_ACL;
+typedef struct cparse_acl cParseACL;
 
 /*! An error structure */
-typedef struct cparse_error CPARSE_ERROR;
+typedef struct cparse_error cParseError;
 
 /*! A parse object structure */
-typedef struct cparse_object CPARSE_OBJ;
+typedef struct cparse_object cParseObject;
 
 /*! A parse query structure */
-typedef struct cparse_query CPARSE_QUERY;
+typedef struct cparse_query cParseQuery;
+
+typedef struct cparse_query_builder cParseQueryBuilder;
 
 /*! An object callback function */
-typedef void (*CPARSE_OBJ_CALLBACK)(CPARSE_OBJ *obj, bool success, CPARSE_ERROR *error);
+typedef void (*cParseObjectCallback)(cParseObject *obj, bool success, cParseError *error);
 
 /*! a json structure */
-typedef struct json_object CPARSE_JSON;
+typedef struct json_object cParseJson;
 
 /* types */
 
 /*! a parse bytes structure */
-typedef struct cparse_type_bytes CPARSE_BYTES;
+typedef struct cparse_type_bytes cParseBytes;
 
 /*! a parse data structure */
-typedef struct cparse_type_data CPARSE_DATA;
+typedef struct cparse_type_data cParseData;
 
 /*! a parse file structure */
-typedef struct cparse_type_file CPARSE_FILE;
+typedef struct cparse_type_file cParseFile;
 
 /*! a parse geo point structure */
-typedef struct cparse_type_geopoint CPARSE_GEO_POINT;
+typedef struct cparse_type_geopoint cParseGeoPoint;
 
 /*! a parse pointer structure */
-typedef struct cparse_type_pointer CPARSE_PTR;
+typedef struct cparse_type_pointer cParsePointer;
 
 /* operators */
 
 /*! an array operator */
-typedef struct cparse_op_array CPARSE_OP_ARRAY;
+typedef struct cparse_op_array cParseOperatorArray;
 
 /*! a decrement operator */
-typedef struct cparse_op_decrement CPARSE_OP_DEC;
+typedef struct cparse_op_decrement cParseOperatorDecrement;
 
 /*! a increment operator */
-typedef struct cparse_op_increment CPARSE_OP_INC;
+typedef struct cparse_op_increment cParseOperatorIncrement;
 
 #ifdef __cplusplus
 }

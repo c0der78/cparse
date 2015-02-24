@@ -19,10 +19,10 @@ static void cparse_test_teardown()
 
 START_TEST(test_cparse_query_objects)
 {
-    CPARSE_QUERY *query;
-    CPARSE_JSON *where;
-    CPARSE_OBJ *user1;
-    CPARSE_ERROR *error = NULL;
+    cParseQuery *query;
+    cParseJson *where;
+    cParseObject *user1;
+    cParseError *error = NULL;
 
     fail_unless(cparse_create_and_save_test_object("user1", 1500));
 
@@ -48,17 +48,20 @@ END_TEST
 
 START_TEST(test_cparse_query_where)
 {
-    CPARSE_ERROR *error = NULL;
-    CPARSE_QUERY *query;
-    CPARSE_JSON *inArray, *in, *score;
-    CPARSE_OBJ *result;
-    
+    cParseError *error = NULL;
+    cParseQuery *query;
+    cParseJson *inArray;
+    cParseObject *result;
+
+    // create a user with a score
     int randScore  = rand() % 100000 + 1;
 
     fail_unless(cparse_create_and_save_test_object("user1", randScore));
 
+    // create a new test query
     query = cparse_query_with_class_name(TEST_CLASS);
 
+    // build an array of scores to find
     inArray = cparse_json_new_array();
 
     cparse_json_array_add_number(inArray, 127978);
@@ -69,22 +72,12 @@ START_TEST(test_cparse_query_where)
 
     cparse_json_array_add_number(inArray, 255550);
 
-    in = cparse_json_new();
-
-    cparse_json_set(in, CPARSE_QUERY_IN, inArray);
+    // set the query where clause to the score
+    cparse_query_where_in(query, "score", inArray);
 
     cparse_json_free(inArray);
 
-    score = cparse_json_new();
-
-    cparse_json_set(score, "score", in);
-
-    cparse_json_free(in);
-
-    cparse_query_set_where(query, score);
-
-    cparse_json_free(score);
-
+    // find the objects
     fail_unless(cparse_query_find_objects(query, &error));
 
     fail_unless(cparse_query_size(query) > 0);
@@ -106,6 +99,9 @@ Suite *cparse_query_suite (void)
     tcase_add_checked_fixture(tc, cparse_test_setup, cparse_test_teardown);
     tcase_add_test(tc, test_cparse_query_objects);
     tcase_add_test(tc, test_cparse_query_where);
+
+    tcase_set_timeout(tc, 30);
+
     suite_add_tcase(s, tc);
 
     return s;

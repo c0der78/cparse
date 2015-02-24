@@ -29,11 +29,11 @@ extern const char *cparse_app_id;
 struct cparse_client_request
 {
     char *path;
-    CPARSE_REQUEST_DATA *data;
+    cParseRequestData *data;
     char *payload;
     size_t payloadSize;
-    HTTPRequestMethod method;
-    CPARSE_REQUEST_HEADER *headers;
+    HttpRequestMethod method;
+    cParseRequestHeader *headers;
 };
 
 /*! a parse response */
@@ -75,15 +75,15 @@ void cparse_kv_list_free(struct cparse_kv_list *list)
     free(list);
 }
 
-CPARSE_RESPONSE *cparse_client_request_get_response(CPARSE_REQUEST *request);
+cParseResponse *cparse_client_request_get_response(cParseRequest *request);
 
 /*! allocates a new client request
  * \param method the http method to use
  * \param path the path/endpoint to request
  */
-CPARSE_REQUEST *cparse_client_request_with_method_and_path(HTTPRequestMethod method, const char *path)
+cParseRequest *cparse_client_request_with_method_and_path(HttpRequestMethod method, const char *path)
 {
-    CPARSE_REQUEST *request = malloc(sizeof(CPARSE_REQUEST));
+    cParseRequest *request = malloc(sizeof(cParseRequest));
 
     request->path = strdup(path);
     request->payload = NULL;
@@ -96,10 +96,10 @@ CPARSE_REQUEST *cparse_client_request_with_method_and_path(HTTPRequestMethod met
 }
 
 /*! deallocates a client request */
-void cparse_client_request_free(CPARSE_REQUEST *request)
+void cparse_client_request_free(cParseRequest *request)
 {
-    CPARSE_REQUEST_HEADER *header, *next_header;
-    CPARSE_REQUEST_DATA *data, *next_data;
+    cParseRequestHeader *header, *next_header;
+    cParseRequestData *data, *next_data;
 
     if (request->path)
         free(request->path);
@@ -123,7 +123,7 @@ void cparse_client_request_free(CPARSE_REQUEST *request)
 }
 
 /*! deallocates a response */
-void cparse_client_response_free(CPARSE_RESPONSE *response)
+void cparse_client_response_free(cParseResponse *response)
 {
     if (response->size > 0 && response->text)
         free(response->text);
@@ -131,9 +131,9 @@ void cparse_client_response_free(CPARSE_RESPONSE *response)
     free(response);
 }
 
-void cparse_client_request_add_header(CPARSE_REQUEST *request, const char *key, const char *value)
+void cparse_client_request_add_header(cParseRequest *request, const char *key, const char *value)
 {
-    CPARSE_REQUEST_HEADER *header = cparse_kv_list_new();
+    cParseRequestHeader *header = cparse_kv_list_new();
 
     header->next = request->headers;
     request->headers = header;
@@ -142,9 +142,9 @@ void cparse_client_request_add_header(CPARSE_REQUEST *request, const char *key, 
     header->value = strdup(value);
 }
 
-void cparse_client_request_set_payload(CPARSE_REQUEST *request, const char *payload)
+void cparse_client_request_set_payload(cParseRequest *request, const char *payload)
 {
-    CPARSE_REQUEST_DATA *data, *next_data;
+    cParseRequestData *data, *next_data;
 
     for (data = request->data; data; data = next_data)
     {
@@ -165,9 +165,9 @@ void cparse_client_request_set_payload(CPARSE_REQUEST *request, const char *payl
     data->value = strdup(payload);
 }
 
-void cparse_client_request_add_data(CPARSE_REQUEST *request, const char *key, const char *value)
+void cparse_client_request_add_data(cParseRequest *request, const char *key, const char *value)
 {
-    CPARSE_REQUEST_DATA *data = cparse_kv_list_new();
+    cParseRequestData *data = cparse_kv_list_new();
 
     data->next = request->data;
     request->data = data;
@@ -178,12 +178,12 @@ void cparse_client_request_add_data(CPARSE_REQUEST *request, const char *key, co
 
 static size_t cparse_client_get_response(void *ptr, size_t size, size_t nmemb, void *data)
 {
-    CPARSE_RESPONSE *s;
+    cParseResponse *s;
     size_t new_len;
 
     assert(data != NULL);
 
-    s = (CPARSE_RESPONSE *) data;
+    s = (cParseResponse *) data;
 
     new_len = s->size + size * nmemb;
 
@@ -211,11 +211,11 @@ static void cparse_client_set_request_url(CURL *curl, const char *path)
     curl_easy_setopt(curl, CURLOPT_URL, buf);
 }
 
-static void cparse_client_set_headers(CURL *curl, CPARSE_REQUEST_HEADER *requestHeaders)
+static void cparse_client_set_headers(CURL *curl, cParseRequestHeader *requestHeaders)
 {
     char buf[BUFSIZ + 1];
 
-    CPARSE_REQUEST_HEADER *header;
+    cParseRequestHeader *header;
 
     struct curl_slist *headers = NULL;
 
@@ -244,10 +244,10 @@ static void cparse_client_set_headers(CURL *curl, CPARSE_REQUEST_HEADER *request
     curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
 }
 
-static void cparse_client_set_payload_from_data(CURL *curl, CPARSE_REQUEST *request, bool encode)
+static void cparse_client_set_payload_from_data(CURL *curl, cParseRequest *request, bool encode)
 {
     char buf[BUFSIZ + 1] = {0};
-    CPARSE_REQUEST_DATA *data;
+    cParseRequestData *data;
 
     for (data = request->data; data; data = data->next)
     {
@@ -272,9 +272,9 @@ static void cparse_client_set_payload_from_data(CURL *curl, CPARSE_REQUEST *requ
     }
 }
 
-bool cparse_client_request_perform(CPARSE_REQUEST *request, CPARSE_ERROR **error)
+bool cparse_client_request_perform(cParseRequest *request, cParseError **error)
 {
-    CPARSE_RESPONSE *response = cparse_client_request_get_response(request);
+    cParseResponse *response = cparse_client_request_get_response(request);
 
     if (response != NULL)
     {
@@ -286,11 +286,11 @@ bool cparse_client_request_perform(CPARSE_REQUEST *request, CPARSE_ERROR **error
     return false;
 }
 
-CPARSE_JSON *cparse_client_response_parse_json(CPARSE_RESPONSE *response, CPARSE_ERROR **error)
+cParseJson *cparse_client_response_parse_json(cParseResponse *response, cParseError **error)
 {
     json_tokener *tok = json_tokener_new();
 
-    CPARSE_JSON *obj = json_tokener_parse_ex(tok, response->text, response->size);
+    cParseJson *obj = json_tokener_parse_ex(tok, response->text, response->size);
 
     const char *errorMessage = NULL;
 
@@ -329,13 +329,13 @@ CPARSE_JSON *cparse_client_response_parse_json(CPARSE_RESPONSE *response, CPARSE
     return obj;
 }
 
-CPARSE_JSON *cparse_client_request_get_json(CPARSE_REQUEST *request, CPARSE_ERROR **error)
+cParseJson *cparse_client_request_get_json(cParseRequest *request, cParseError **error)
 {
-    CPARSE_RESPONSE *response = cparse_client_request_get_response(request);
+    cParseResponse *response = cparse_client_request_get_response(request);
 
     if (response != NULL)
     {
-        CPARSE_JSON *json = cparse_client_response_parse_json(response, error);
+        cParseJson *json = cparse_client_response_parse_json(response, error);
 
         cparse_client_response_free(response);
 
@@ -345,11 +345,11 @@ CPARSE_JSON *cparse_client_request_get_json(CPARSE_REQUEST *request, CPARSE_ERRO
     return NULL;
 }
 
-CPARSE_RESPONSE *cparse_client_request_get_response(CPARSE_REQUEST *request)
+cParseResponse *cparse_client_request_get_response(cParseRequest *request)
 {
     CURL *curl;
     CURLcode res;
-    CPARSE_RESPONSE *response;
+    cParseResponse *response;
 
     curl = curl_easy_init();
     if (curl == NULL)
@@ -358,23 +358,23 @@ CPARSE_RESPONSE *cparse_client_request_get_response(CPARSE_REQUEST *request)
         return NULL;
     }
 
-    response = malloc(sizeof(CPARSE_RESPONSE));
+    response = malloc(sizeof(cParseResponse));
     response->text = NULL;
     response->code = 0;
     response->size = 0;
 
     switch (request->method)
     {
-    case HTTPRequestMethodPost:
+    case HttpRequestMethodPost:
         curl_easy_setopt(curl, CURLOPT_POST, 1L);
         break;
-    case HTTPRequestMethodPut:
+    case HttpRequestMethodPut:
         curl_easy_setopt(curl, CURLOPT_PUT, 1L);
         break;
-    case HTTPRequestMethodDelete:
+    case HttpRequestMethodDelete:
         curl_easy_setopt(curl, CURLOPT_CUSTOMREQUEST, "DELETE");
         break;
-    case HTTPRequestMethodGet:
+    case HttpRequestMethodGet:
         curl_easy_setopt(curl, CURLOPT_HTTPGET, 1L);
     default:
         break;
@@ -382,7 +382,7 @@ CPARSE_RESPONSE *cparse_client_request_get_response(CPARSE_REQUEST *request)
 
     if (request->data)
     {
-        if (request->method == HTTPRequestMethodGet)
+        if (request->method == HttpRequestMethodGet)
         {
             char buf[BUFSIZ + 1] = {0};
 
@@ -428,11 +428,11 @@ CPARSE_RESPONSE *cparse_client_request_get_response(CPARSE_REQUEST *request)
     return response;
 }
 
-bool cparse_client_request(HTTPRequestMethod method, const char *path, CPARSE_ERROR **error)
+bool cparse_client_request(HttpRequestMethod method, const char *path, cParseError **error)
 {
-    CPARSE_JSON *json;
+    cParseJson *json;
 
-    CPARSE_REQUEST *request = cparse_client_request_with_method_and_path(method, path);
+    cParseRequest *request = cparse_client_request_with_method_and_path(method, path);
 
     json = cparse_client_request_get_json(request, error);
 

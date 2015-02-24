@@ -2,54 +2,22 @@
 #include <cparse/json.h>
 #include "protocol.h"
 #include <string.h>
+#include "private.h"
 
-
-struct cparse_type_bytes
+cParsePointer *cparse_pointer_from_json(cParseJson *data)
 {
-    void *data;
-    size_t size;
-};
-
-struct cparse_type_date
-{
-    time_t value;
-};
-
-struct cparse_type_file
-{
-    char *localFileName;
-    char *parseFileName;
-    char *contentType;
-    char *body;
-    char *url;
-};
-
-struct cparse_type_geopoint
-{
-    double latitude;
-    double longitude;
-};
-
-struct cparse_type_pointer
-{
-    char *className;
-    char *objectId;
-};
-
-CPARSE_PTR *cparse_pointer_from_json(CPARSE_JSON *data)
-{
-    CPARSE_PTR *p;
+    cParsePointer *p;
 
     const char *type;
 
-    if(data == NULL) return NULL;
-    
+    if (data == NULL) return NULL;
+
     type = cparse_json_get_string(data, KEY_TYPE);
 
     if (strcmp(type, TYPE_POINTER))
         return NULL;
 
-    p = malloc(sizeof(CPARSE_PTR));
+    p = malloc(sizeof(cParsePointer));
 
     p->className = strdup(cparse_json_get_string(data, KEY_CLASS_NAME));
 
@@ -58,9 +26,9 @@ CPARSE_PTR *cparse_pointer_from_json(CPARSE_JSON *data)
     return p;
 }
 
-CPARSE_JSON *cparse_pointer_to_json(CPARSE_PTR *p)
+cParseJson *cparse_pointer_to_json(cParsePointer *p)
 {
-    CPARSE_JSON *data = cparse_json_new();
+    cParseJson *data = cparse_json_new();
 
     cparse_json_set_string(data, KEY_CLASS_NAME, p->className);
 
@@ -71,7 +39,7 @@ CPARSE_JSON *cparse_pointer_to_json(CPARSE_PTR *p)
     return data;
 }
 
-void cparse_pointer_free(CPARSE_PTR *p)
+void cparse_pointer_free(cParsePointer *p)
 {
     if (p->className)
         free(p->className);

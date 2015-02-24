@@ -19,7 +19,7 @@ static void cparse_test_teardown()
 
 START_TEST(test_cparse_object_save)
 {
-    CPARSE_OBJ *cp_obj = cparse_new_test_object("user1", 1234);
+    cParseObject *cp_obj = cparse_new_test_object("user1", 1234);
 
     fail_unless(cparse_save_test_object(cp_obj));
 
@@ -29,14 +29,14 @@ END_TEST
 
 START_TEST(test_cparse_object_fetch)
 {
-    CPARSE_OBJ *cp_obj = cparse_new_test_object("user1", 1234);
+    cParseObject *cp_obj = cparse_new_test_object("user1", 1234);
 
     /* first create reference object */
-    CPARSE_OBJ *obj = cparse_new_test_object("user2", 1444);
+    cParseObject *obj = cparse_new_test_object("user2", 1444);
 
-    CPARSE_JSON *data;
+    cParseJson *data;
 
-    CPARSE_ERROR *error;
+    cParseError *error = NULL;
 
     fail_unless(cparse_save_test_object(obj));
 
@@ -54,8 +54,6 @@ START_TEST(test_cparse_object_fetch)
 
     /* now fetch the reference */
 
-    error = NULL;
-
     fail_unless(cparse_object_fetch(cp_obj, &error));
 
     fail_unless(error == NULL);
@@ -66,7 +64,7 @@ START_TEST(test_cparse_object_fetch)
 }
 END_TEST
 
-void test_cparse_object_callback(CPARSE_OBJ *obj, bool success, CPARSE_ERROR *error)
+void test_cparse_object_callback(cParseObject *obj, bool success, cParseError *error)
 {
     fail_unless(success);
 
@@ -75,7 +73,7 @@ void test_cparse_object_callback(CPARSE_OBJ *obj, bool success, CPARSE_ERROR *er
 
 START_TEST(test_cparse_object_save_in_background)
 {
-    CPARSE_OBJ *cp_obj = cparse_new_test_object("user1", 1234);
+    cParseObject *cp_obj = cparse_new_test_object("user1", 1234);
 
     pthread_t thread = cparse_object_save_in_background(cp_obj, test_cparse_object_callback);
 
@@ -88,7 +86,7 @@ END_TEST
 
 START_TEST(test_cparse_object_set_value)
 {
-    CPARSE_OBJ *cp_obj = cparse_object_with_class_name(TEST_CLASS);
+    cParseObject *cp_obj = cparse_object_with_class_name(TEST_CLASS);
 
     cparse_object_set_number(cp_obj, "score", 1234);
 
@@ -102,7 +100,7 @@ END_TEST
 
 START_TEST(test_cparse_object_count_attributes)
 {
-    CPARSE_OBJ *cp_obj = cparse_object_with_class_name(TEST_CLASS);
+    cParseObject *cp_obj = cparse_object_with_class_name(TEST_CLASS);
 
     cparse_object_set_string(cp_obj, "teststr", "1234");
 
@@ -116,11 +114,11 @@ END_TEST
 
 START_TEST(test_cparse_object_remove_attribute)
 {
-    CPARSE_JSON *removed;
+    cParseJson *removed;
 
-    CPARSE_OBJ *cp_obj = cparse_object_with_class_name(TEST_CLASS);
+    cParseObject *cp_obj = cparse_object_with_class_name(TEST_CLASS);
 
-    CPARSE_JSON *value = cparse_json_new_string("1234");
+    cParseJson *value = cparse_json_new_string("1234");
 
     cparse_object_set(cp_obj, "main", value);
 
@@ -139,7 +137,7 @@ END_TEST
 START_TEST(test_cparse_object_to_json)
 {
     const char *buf;
-    CPARSE_OBJ *cp_obj = cparse_object_with_class_name(TEST_CLASS);
+    cParseObject *cp_obj = cparse_object_with_class_name(TEST_CLASS);
 
     cparse_object_set_string(cp_obj, "main", "Hello,World");
 
@@ -178,6 +176,9 @@ Suite *cparse_object_suite (void)
     tcase_add_test(tc, test_cparse_object_to_json);
     tcase_add_test(tc, test_cparse_object_save_in_background);
     tcase_add_test(tc, test_cparse_object_fetch);
+
+    tcase_set_timeout(tc, 30);
+
     suite_add_tcase(s, tc);
 
     return s;

@@ -14,8 +14,8 @@ static void cparse_test_teardown()
 
 START_TEST(test_cparse_user_sign_up)
 {
-    CPARSE_ERROR *error = NULL;
-    CPARSE_OBJ *user = cparse_user_new();
+    cParseError *error = NULL;
+    cParseObject *user = cparse_user_new();
 
     cparse_user_set_name(user, "user123");
 
@@ -41,9 +41,9 @@ END_TEST
 
 START_TEST(test_cparse_user_login)
 {
-    CPARSE_ERROR *error = NULL;
+    cParseError *error = NULL;
 
-    CPARSE_OBJ *user123 = cparse_user_new(), *user;
+    cParseObject *user123 = cparse_user_new(), *user;
 
     cparse_user_set_name(user123, "user123");
 
@@ -89,6 +89,9 @@ Suite *cparse_user_suite (void)
     tcase_add_checked_fixture(tc, cparse_test_setup, cparse_test_teardown);
     tcase_add_test(tc, test_cparse_user_sign_up);
     tcase_add_test(tc, test_cparse_user_login);
+
+    tcase_set_timeout(tc, 30);
+
     suite_add_tcase(s, tc);
 
     return s;
