@@ -4,6 +4,7 @@
 #include <cparse/query.h>
 #include <cparse/json.h>
 #include "client.h"
+#include "protocol.h"
 #include "private.h"
 
 
@@ -71,9 +72,12 @@ void cparse_query_free(cParseQuery *query)
 
 cParseQuery *cparse_query_with_class_name(const char *className)
 {
+    char buf[BUFSIZ + 1] = {0};
     cParseQuery *query = cparse_query_new();
 
-    query->className = strdup(className);
+    snprintf(buf, BUFSIZ, "%s%s", OBJECTS_PATH, className);
+
+    query->className = strdup(buf);
 
     return query;
 }
@@ -101,12 +105,7 @@ bool cparse_query_find_objects(cParseQuery *query, cParseError **error)
 
     /* build the request */
 
-    if (cparse_class_name_is_object(query->className))
-        snprintf(buf, BUFSIZ, "classes/%s", query->className);
-    else
-        snprintf(buf, BUFSIZ, "%s", query->className);
-
-    request = cparse_client_request_with_method_and_path(HttpRequestMethodGet, buf);
+    request = cparse_client_request_with_method_and_path(HttpRequestMethodGet, query->className);
 
     if (query->where)
     {

@@ -69,7 +69,7 @@ extern const char *const RESERVED_KEYS[];
 
 #define CLOUD_FUNCTIONS_PATH  "functions"
 
-#define OBJECTS_PATH  "classes"
+#define OBJECTS_PATH  "classes/"
 
 #define BATCH_REQUEST_URI  "batch"
 

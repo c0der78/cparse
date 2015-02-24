@@ -12,7 +12,7 @@ A C library to use the REST API at [parse.com](http://parse.com).
 Setup
 =====
 - run `configure && make` to compile the library
-- run `make check` to run the unit tests
+- run `make test` to run the unit tests
 
 The **unit tests** will require a parse.test.json file or the environment variables **PARSE_APP_ID** and **PARSE_API_KEY** set.
 

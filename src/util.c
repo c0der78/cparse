@@ -37,3 +37,23 @@ void replace_str(char **a, const char *b)
 
     (*a) = strdup(b);
 }
+
+int str_prefix(const char *astr, const char *bstr)
+{
+    if (astr == NULL || !*astr)
+    {
+        return 1;
+    }
+    if (bstr == NULL)
+    {
+        return 1;
+    }
+    for (; *astr; astr++, bstr++)
+    {
+        if (*astr != *bstr)
+            return 1;
+    }
+
+    return 0;
+
+}

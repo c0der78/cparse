@@ -700,9 +700,6 @@ uninstall-am:
 
 check: test_cparse
 
-test: test_cparse
-	./test_cparse
-
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:

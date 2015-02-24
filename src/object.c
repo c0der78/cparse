@@ -55,7 +55,6 @@ pthread_t cparse_object_run_in_background(cParseObject *obj, cParseObjectAction 
     arg->action = action;
     arg->obj = obj;
     arg->cleanup = cleanup;
-
     arg->callback = callback;
 
     rc = pthread_create(&arg->thread, NULL, cparse_object_background_action, arg);
@@ -108,11 +107,11 @@ static cParseRequest *cparse_object_create_request(cParseObject *obj, HttpReques
 
     if (method != HttpRequestMethodPost && obj->objectId && *obj->objectId)
     {
-        snprintf(buf, BUFSIZ, "classes/%s/%s", obj->className, obj->objectId);
+        snprintf(buf, BUFSIZ, "%s/%s", obj->className, obj->objectId);
     }
     else
     {
-        snprintf(buf, BUFSIZ, "classes/%s", obj->className);
+        snprintf(buf, BUFSIZ, "%s", obj->className);
     }
 
     return cparse_client_request_with_method_and_path(method, buf);
@@ -146,9 +145,13 @@ void cparse_object_copy(cParseObject *obj, cParseObject *other)
 
 cParseObject *cparse_object_with_class_name(const char *className)
 {
+    char buf[BUFSIZ + 1] = {0};
+
     cParseObject *obj = cparse_object_new();
 
-    obj->className = strdup(className);
+    snprintf(buf, BUFSIZ, "%s%s", OBJECTS_PATH, className);
+
+    obj->className = strdup(buf);
 
     return obj;
 }
@@ -331,7 +334,7 @@ bool cparse_class_name_is_object(const char *className)
 {
     if (!className || !*className) return false;
 
-    return strcmp(className, CPARSE_USER_CLASS_NAME);
+    return !str_prefix(OBJECTS_PATH, className);
 }
 
 bool cparse_object_is_object(cParseObject *obj)
@@ -358,13 +361,12 @@ bool cparse_object_save(cParseObject *obj, cParseError **error)
     /* build the request based on the id */
     if (!obj->objectId || !*obj->objectId)
     {
-        snprintf(buf, BUFSIZ, "classes/%s", obj->className);
-        request = cparse_client_request_with_method_and_path(HttpRequestMethodPost, buf);
+        request = cparse_client_request_with_method_and_path(HttpRequestMethodPost, obj->className);
 
     }
     else
     {
-        snprintf(buf, BUFSIZ, "classes/%s/%s", obj->className, obj->objectId);
+        snprintf(buf, BUFSIZ, "%s/%s", obj->className, obj->objectId);
         request = cparse_client_request_with_method_and_path(HttpRequestMethodPut, buf);
     }
 
@@ -489,7 +491,12 @@ void cparse_object_set_reference(cParseObject *obj, const char *key, cParseObjec
 
     /* add class name */
     if (ref->className && *ref->className)
-        cparse_json_set_string(data, KEY_CLASS_NAME, ref->className);
+    {
+        if (!str_prefix(OBJECTS_PATH, ref->className))
+            cparse_json_set_string(data, KEY_CLASS_NAME, ref->className + strlen(OBJECTS_PATH));
+        else
+            cparse_json_set_string(data, KEY_CLASS_NAME, ref->className);
+    }
 
     /* add object id */
     if (ref->objectId && *ref->objectId)

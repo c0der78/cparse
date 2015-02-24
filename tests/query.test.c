@@ -23,6 +23,7 @@ START_TEST(test_cparse_query_objects)
     cParseJson *where;
     cParseObject *user1;
     cParseError *error = NULL;
+    bool rval;
 
     fail_unless(cparse_create_and_save_test_object("user1", 1500));
 
@@ -36,7 +37,12 @@ START_TEST(test_cparse_query_objects)
 
     cparse_json_free(where);
 
-    fail_unless(cparse_query_find_objects(query, &error));
+    rval = cparse_query_find_objects(query, &error);
+
+    if (!rval)
+        printf("Query error: %s\n", cparse_error_message(error));
+
+    fail_unless(rval);
 
     fail_unless(cparse_query_size(query) > 0);
 
