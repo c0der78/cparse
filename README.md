@@ -38,7 +38,7 @@ Set the parse application and api keys with `cparse_set_application_id()` and `c
 
 Examples
 ========
-```
+```C
 cParseObject *obj = cparse_object_with_class_name("Wizards");
 
 cparse_object_set_string(obj, "name", "Harry Potter");
@@ -60,7 +60,7 @@ cparse_object_free(obj);
 
 Background Operations
 =====================
-```
+```C
 void my_nifty_callback(cParseObject *obj, bool success, cParseError *error)
 {
 	if(!success) {
@@ -81,7 +81,7 @@ cparse_object_save_in_background(obj, my_nifty_callback);
 
 Querying
 ========
-```
+```C
 cParseQuery *query = cparse_query_with_class_name("Wizards");
 
 cparse_query_where_gte(query, "score", cparse_json_new_number(24));
@@ -100,7 +100,7 @@ if(cparse_query_size(query) > 2)
 
 Building more complex Queries
 =============================
-```
+```C
 cParseQueryBuilder *builder = cparse_query_build_new();
 
 /* query score >= 24 && score < 50 */
@@ -124,7 +124,7 @@ cparse_query_build_free(builder);
 
 Sign up Users
 =============
-```
+```C
 cParseObject *user = cparse_user_with_name("user123");
 
 if(!cparse_user_sign_up(user, "Password!", &error)) {
@@ -138,7 +138,7 @@ if(!cparse_user_sign_up(user, "Password!", &error)) {
 
 Log in a User
 =============
-```
+```C
 cParseObject *user = cparse_user_login("user123", "Password!", &error);
 
 if(user == NULL) {

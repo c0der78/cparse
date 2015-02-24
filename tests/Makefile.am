@@ -8,4 +8,4 @@ test_cparse_CFLAGS = $(TEST_CPARSE_CFLAGS) -I ../src -DROOT_PATH="\".\"" @X_CFLA
 test_cparse_LDADD = ../src/libcparse.la -lcheck $(LIBS)
 
 check: test_cparse
-	./test_cparse
+
