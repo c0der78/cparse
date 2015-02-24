@@ -12,7 +12,7 @@ const char *cparse_api_key = NULL;
 
 extern cParseLogLevel cparse_current_log_level;
 
-extern const char *const RESERVED_KEYS[] =
+const char *const RESERVED_KEYS[] =
 {
     KEY_CLASS_NAME, KEY_CREATED_AT, KEY_OBJECT_ID, KEY_UPDATED_AT, KEY_USER_SESSION_TOKEN
 };

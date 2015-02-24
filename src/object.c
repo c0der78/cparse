@@ -15,21 +15,11 @@
 
 /* internals */
 
-/* for background threads */
-typedef struct
-{
-    CPARSE_OBJ *obj;
-    CPARSE_OBJ_CALLBACK callback; /* the callback passed by user */
-    bool (*action)(CPARSE_OBJ *obj, CPARSE_ERROR **error); /* the method to call in thread */
-    pthread_t thread;
-
-} CPARSE_OBJ_CALLBACK_ARG;
-
 /* this is a background thread. The argument controlls functionality*/
-void *cparse_object_background_action(void *argument)
+static void *cparse_object_background_action(void *argument)
 {
     CPARSE_ERROR *error = NULL;
-    CPARSE_OBJ_CALLBACK_ARG *arg = (CPARSE_OBJ_CALLBACK_ARG *) argument;
+    CPARSE_OBJ_THREAD *arg = (CPARSE_OBJ_THREAD *) argument;
 
     /* cparse_object_save or cparse_object_refresh */
     bool rval = (*arg->action)(arg->obj, &error);
@@ -38,14 +28,40 @@ void *cparse_object_background_action(void *argument)
     {
         (*arg->callback)(arg->obj, rval, error);
     }
-    else if (error)
+
+    if (error)
     {
         cparse_error_free(error);
+    }
+
+    if (arg->cleanup)
+    {
+        (*arg->cleanup)(arg->obj);
     }
 
     free(arg);
 
     return NULL;
+}
+
+pthread_t cparse_object_run_in_background(CPARSE_OBJ *obj, CPARSE_OBJ_ACTION action, CPARSE_OBJ_CALLBACK callback, void (*cleanup)(CPARSE_OBJ *obj))
+{
+    CPARSE_OBJ_THREAD *arg;
+    int rc;
+
+    assert(obj != NULL);
+
+    arg = malloc(sizeof(CPARSE_OBJ_THREAD));
+    arg->action = action;
+    arg->obj = obj;
+    arg->cleanup = cleanup;
+
+    arg->callback = callback;
+
+    rc = pthread_create(&arg->thread, NULL, cparse_object_background_action, arg);
+    assert(rc == 0);
+
+    return arg->thread;
 }
 
 void cparse_object_set_request_includes(CPARSE_OBJ *obj, CPARSE_REQUEST *request)
@@ -75,7 +91,7 @@ void cparse_object_set_request_includes(CPARSE_OBJ *obj, CPARSE_REQUEST *request
     }
 }
 
-CPARSE_REQUEST *cparse_object_create_request(CPARSE_OBJ *obj, HTTPRequestMethod method)
+static CPARSE_REQUEST *cparse_object_create_request(CPARSE_OBJ *obj, HTTPRequestMethod method)
 {
     char buf[BUFSIZ + 1] = {0};
 
@@ -108,10 +124,8 @@ static CPARSE_OBJ *cparse_object_new()
     return obj;
 }
 
-CPARSE_OBJ *cparse_object_copy(CPARSE_OBJ *other)
+void cparse_object_copy(CPARSE_OBJ *obj, CPARSE_OBJ *other)
 {
-    CPARSE_OBJ *obj = cparse_object_new();
-
     obj->className = strdup(other->className);
     obj->objectId = strdup(other->objectId);
     obj->acl = cparse_acl_copy(other->acl);
@@ -119,8 +133,6 @@ CPARSE_OBJ *cparse_object_copy(CPARSE_OBJ *other)
     obj->updatedAt = other->updatedAt;
 
     cparse_object_merge_json(obj, other->attributes);
-
-    return obj;
 }
 
 CPARSE_OBJ *cparse_object_with_class_name(const char *className)
@@ -251,20 +263,7 @@ bool cparse_object_fetch(CPARSE_OBJ *obj, CPARSE_ERROR **error)
 
 pthread_t cparse_object_fetch_in_background(CPARSE_OBJ *obj, CPARSE_OBJ_CALLBACK callback)
 {
-    CPARSE_OBJ_CALLBACK_ARG *arg;
-    int rc;
-
-    assert(obj != NULL);
-
-    arg = malloc(sizeof(CPARSE_OBJ_CALLBACK_ARG));
-    arg->action = cparse_object_fetch;
-    arg->obj = obj;
-    arg->callback = callback;
-
-    rc = pthread_create(&arg->thread, NULL, cparse_object_background_action, arg);
-    assert(rc == 0);
-
-    return arg->thread;
+    return cparse_object_run_in_background(obj, cparse_object_fetch, callback, NULL);
 }
 
 bool cparse_object_refresh(CPARSE_OBJ *obj, CPARSE_ERROR **error)
@@ -304,20 +303,7 @@ bool cparse_object_refresh(CPARSE_OBJ *obj, CPARSE_ERROR **error)
 
 pthread_t cparse_object_refresh_in_background(CPARSE_OBJ *obj, CPARSE_OBJ_CALLBACK callback)
 {
-    CPARSE_OBJ_CALLBACK_ARG *arg;
-    int rc;
-
-    assert(obj != NULL);
-
-    arg = malloc(sizeof(CPARSE_OBJ_CALLBACK_ARG));
-    arg->action = cparse_object_refresh;
-    arg->obj = obj;
-    arg->callback = callback;
-
-    rc = pthread_create(&arg->thread, NULL, cparse_object_background_action, arg);
-    assert(rc == 0);
-
-    return arg->thread;
+    return cparse_object_run_in_background(obj, cparse_object_refresh, callback, NULL);
 }
 
 
@@ -362,20 +348,7 @@ bool cparse_object_save(CPARSE_OBJ *obj, CPARSE_ERROR **error)
 
 pthread_t cparse_object_save_in_background(CPARSE_OBJ *obj, CPARSE_OBJ_CALLBACK callback)
 {
-    CPARSE_OBJ_CALLBACK_ARG *arg;
-    int rc;
-
-    assert(obj != NULL);
-
-    arg = malloc(sizeof(CPARSE_OBJ_CALLBACK_ARG));
-    arg->action = cparse_object_save;
-    arg->obj = obj;
-    arg->callback = callback;
-
-    rc = pthread_create(&arg->thread, NULL, cparse_object_background_action, arg);
-    assert(rc == 0);
-
-    return arg->thread;
+    return cparse_object_run_in_background(obj, cparse_object_save, callback, NULL);
 }
 
 /* setters */

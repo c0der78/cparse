@@ -15,9 +15,9 @@ extern "C" {
 
 /*! makes a copy of a parse object
  * \param obj the object instance
- * \returns a copy of the object
+ * \param other the object to copy from
  */
-CPARSE_OBJ *cparse_object_copy(CPARSE_OBJ *obj);
+void cparse_object_copy(CPARSE_OBJ *obj, CPARSE_OBJ *other);
 
 /*! allocates a parse object with a class name.
  * \param className the type of object to create
