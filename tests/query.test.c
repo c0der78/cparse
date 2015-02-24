@@ -53,15 +53,15 @@ START_TEST(test_cparse_query_where)
     cParseJson *inArray;
     cParseObject *result;
 
-    // create a user with a score
+    /* create a user with a score */
     int randScore  = rand() % 100000 + 1;
 
     fail_unless(cparse_create_and_save_test_object("user1", randScore));
 
-    // create a new test query
+    /* create a new test query */
     query = cparse_query_with_class_name(TEST_CLASS);
 
-    // build an array of scores to find
+    /* build an array of scores to find */
     inArray = cparse_json_new_array();
 
     cparse_json_array_add_number(inArray, 127978);
@@ -72,12 +72,12 @@ START_TEST(test_cparse_query_where)
 
     cparse_json_array_add_number(inArray, 255550);
 
-    // set the query where clause to the score
+    /* set the query where clause to the score */
     cparse_query_where_in(query, "score", inArray);
 
     cparse_json_free(inArray);
 
-    // find the objects
+    /* find the objects */
     fail_unless(cparse_query_find_objects(query, &error));
 
     fail_unless(cparse_query_size(query) > 0);
