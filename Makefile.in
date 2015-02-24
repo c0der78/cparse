@@ -164,8 +164,8 @@ CSCOPE = cscope
 DIST_SUBDIRS = $(SUBDIRS)
 am__DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/config.h.in \
 	$(top_srcdir)/Makefile.am.coverage AUTHORS COPYING ChangeLog \
-	INSTALL NEWS README compile config.guess config.sub install-sh \
-	ltmain.sh missing
+	INSTALL NEWS README compile config.guess config.sub depcomp \
+	install-sh ltmain.sh missing
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 distdir = $(PACKAGE)-$(VERSION)
 top_distdir = $(distdir)
@@ -842,7 +842,7 @@ uninstall-am:
 test: check
 
 memcheck: tests/test_cparse
-	CK_FORK=no libtool --mode=execute valgrind --leak-check=full tests/test_cparse
+	CK_FORK=no libtool --mode=execute valgrind --leak-check=full --error-exitcode=5 tests/test_cparse
 
 docs:
 	doxygen Doxyfile
