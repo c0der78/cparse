@@ -44,8 +44,6 @@ int main(void)
     cparse_set_log_level(cParseLogTrace);
 #endif
 
-    atexit(cleanup);
-
     sr = srunner_create(cparse_parse_suite());
     srunner_add_suite(sr, cparse_json_suite());
     srunner_add_suite(sr, cparse_object_suite());
