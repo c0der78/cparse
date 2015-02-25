@@ -22,6 +22,8 @@ cParseQuery *cparse_query_with_class_name(const char *className);
  */
 void cparse_query_free(cParseQuery *query);
 
+void cparse_query_free_results(cParseQuery *query);
+
 /* getters/setters */
 
 /*! gets the size of the results in the query

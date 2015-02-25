@@ -399,27 +399,27 @@ void cparse_object_set_number(cParseObject *obj, const char *key, cParseNumber v
 {
     assert(obj != NULL);
 
-    cparse_object_set(obj, key, cparse_json_new_number(value));
+    cparse_json_set_number(obj->attributes, key, value);
 }
 
 void cparse_object_set_real(cParseObject *obj, const char *key, double value)
 {
     assert(obj != NULL);
 
-    cparse_object_set(obj, key, cparse_json_new_real(value));
+    cparse_json_set_real(obj->attributes, key, value);
 }
 void cparse_object_set_bool(cParseObject *obj, const char *key, bool value)
 {
     assert(obj != NULL);
 
-    cparse_object_set(obj, key, cparse_json_new_bool(value));
+    cparse_json_set_bool(obj->attributes, key, value);
 }
 
 void cparse_object_set_string(cParseObject *obj, const char *key, const char *value)
 {
     assert(obj != NULL);
 
-    cparse_object_set(obj, key, cparse_json_new_string(value));
+    cparse_json_set_string(obj->attributes, key, value);
 }
 
 void cparse_object_set(cParseObject *obj, const char *key, cParseJson *value)

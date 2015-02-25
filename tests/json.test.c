@@ -70,6 +70,8 @@ START_TEST(test_cparse_array_add)
 
     fail_unless(cparse_json_array_size(array) == 1);
 
+    cparse_json_free(array);
+
 }
 END_TEST
 

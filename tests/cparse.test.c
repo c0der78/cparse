@@ -12,9 +12,9 @@ Suite *cparse_object_suite();
 Suite *cparse_query_suite();
 Suite *cparse_util_suite();
 Suite *cparse_user_suite ();
+
 extern int cparse_cleanup_test_objects();
 extern const char *cparse_app_id;
-
 extern const char *cparse_api_key;
 
 void read_env_config();
@@ -51,8 +51,6 @@ int main(void)
     srunner_run_all (sr, CK_NORMAL);
     number_failed = srunner_ntests_failed (sr);
     srunner_free (sr);
-
-    cparse_cleanup_test_objects();
 
     return (number_failed == 0) ? EXIT_SUCCESS : EXIT_FAILURE;
 }

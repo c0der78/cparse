@@ -211,7 +211,7 @@ static void cparse_client_set_request_url(CURL *curl, const char *path)
     curl_easy_setopt(curl, CURLOPT_URL, buf);
 }
 
-static void cparse_client_set_headers(CURL *curl, cParseRequestHeader *requestHeaders)
+static struct curl_slist *cparse_client_set_headers(CURL *curl, cParseRequestHeader *requestHeaders)
 {
     char buf[BUFSIZ + 1];
 
@@ -223,25 +223,27 @@ static void cparse_client_set_headers(CURL *curl, cParseRequestHeader *requestHe
 
     snprintf(buf, BUFSIZ, "%s: %s", HEADER_APP_ID, cparse_app_id);
 
-    headers = curl_slist_append(headers, buf);
+    headers = curl_slist_append(headers, strdup(buf));
 
     snprintf(buf, BUFSIZ, "%s: %s", HEADER_API_KEY, cparse_api_key);
 
-    headers = curl_slist_append(headers, buf);
+    headers = curl_slist_append(headers, strdup(buf));
 
-    headers = curl_slist_append(headers, "Content-Type: application/json");
+    headers = curl_slist_append(headers, strdup("Content-Type: application/json"));
 
     snprintf(buf, BUFSIZ, "User-Agent: libcparse-%s", cparse_lib_version);
 
-    headers = curl_slist_append(headers, buf);
+    headers = curl_slist_append(headers, strdup(buf));
 
     for (header = requestHeaders; header; header = header->next)
     {
         snprintf(buf, BUFSIZ, "%s: %s", header->key, header->value);
 
-        headers = curl_slist_append(headers, buf);
+        headers = curl_slist_append(headers, strdup(buf));
     }
     curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+
+    return headers;
 }
 
 static void cparse_client_set_payload_from_data(CURL *curl, cParseRequest *request, bool encode)
@@ -253,11 +255,16 @@ static void cparse_client_set_payload_from_data(CURL *curl, cParseRequest *reque
     {
         size_t bufLen;
 
+        char *encoded = encode ? curl_easy_escape(curl, data->value, 0) : NULL;
+
         if (data->key)
             bufLen = snprintf(buf, BUFSIZ, "%s%s=%s", request->payload ? "&" : "", data->key,
-                              encode ? curl_easy_escape(curl, data->value, 0) : data->value);
+                              encoded ? encoded : data->value);
         else
-            bufLen = snprintf(buf, BUFSIZ, "%s", encode ? curl_easy_escape(curl, data->value, 0) : data->value);
+            bufLen = snprintf(buf, BUFSIZ, "%s", encoded ? encoded : data->value);
+
+        if (encoded)
+            free(encoded);
 
         if (request->payload == NULL)
         {
@@ -307,7 +314,8 @@ cParseJson *cparse_client_response_parse_json(cParseResponse *response, cParseEr
         errorMessage = "Unable to parse json";
     }
 #endif
-    else
+
+    if (cparse_json_contains(obj, "error"))
     {
         errorMessage = cparse_json_get_string(obj, "error");
     }
@@ -322,6 +330,9 @@ cParseJson *cparse_client_response_parse_json(cParseResponse *response, cParseEr
 
             cparse_error_set_code(*error, cparse_json_get_number(obj, "code", 0));
         }
+
+        if (obj)
+            cparse_json_free(obj);
 
         return NULL;
     }
@@ -409,7 +420,7 @@ cParseResponse *cparse_client_request_get_response(cParseRequest *request)
         cparse_client_set_request_url(curl, request->path);
     }
 
-    cparse_client_set_headers(curl, request->headers);
+    struct curl_slist *headers = cparse_client_set_headers(curl, request->headers);
 
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, cparse_client_get_response);
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, response);
@@ -421,6 +432,8 @@ cParseResponse *cparse_client_request_get_response(cParseRequest *request)
     log_trace("cparse response: %s", response->text);
 
     curl_easy_getinfo (curl, CURLINFO_RESPONSE_CODE, (long *) &response->code);
+
+    curl_slist_free_all(headers);
 
     /* always cleanup */
     curl_easy_cleanup(curl);

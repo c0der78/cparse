@@ -70,6 +70,17 @@ void cparse_query_free(cParseQuery *query)
     free(query);
 }
 
+void cparse_query_free_results(cParseQuery *query)
+{
+    size_t i;
+
+    for (i = 0; query && i < query->size; i++)
+    {
+        cparse_object_free(query->results[i]);
+        query->results[i] = NULL;
+    }
+}
+
 cParseQuery *cparse_query_with_class_name(const char *className)
 {
     char buf[BUFSIZ + 1] = {0};

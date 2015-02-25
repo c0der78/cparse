@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include <cparse/user.h>
 
+#include "parse.test.h"
+
 static void cparse_test_setup()
 {
 
@@ -9,7 +11,7 @@ static void cparse_test_setup()
 
 static void cparse_test_teardown()
 {
-
+    cparse_cleanup_test_objects();
 }
 
 START_TEST(test_cparse_user_sign_up)
