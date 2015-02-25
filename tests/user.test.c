@@ -60,8 +60,6 @@ START_TEST(test_cparse_user_login)
 
     fail_unless(error == NULL);
 
-    cparse_object_free(user123);
-
     user = cparse_user_login("user123", "Passw0rd!", &error);
 
     if (error)
@@ -79,6 +77,8 @@ START_TEST(test_cparse_user_login)
 
     if (error)
         printf("user delete error: %s\n", cparse_error_message(error));
+
+    cparse_object_free(user123);
 
     cparse_object_free(user);
 }
