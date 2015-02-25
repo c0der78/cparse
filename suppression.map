@@ -1,0 +1,32 @@
+{
+   anonying
+   Memcheck:Cond
+   fun:ASN1_STRING_set
+   fun:ASN1_mbstring_ncopy
+   fun:ASN1_mbstring_copy
+   fun:ASN1_STRING_to_UTF8
+   obj:/lib/x86_64-linux-gnu/libcrypto.so.1.0.0
+   obj:/lib/x86_64-linux-gnu/libcrypto.so.1.0.0
+   fun:ASN1_item_ex_d2i
+   obj:/lib/x86_64-linux-gnu/libcrypto.so.1.0.0
+   obj:/lib/x86_64-linux-gnu/libcrypto.so.1.0.0
+   fun:ASN1_item_ex_d2i
+   obj:/lib/x86_64-linux-gnu/libcrypto.so.1.0.0
+   obj:/lib/x86_64-linux-gnu/libcrypto.so.1.0.0
+}
+{
+   sslcrap
+   Memcheck:Leak
+   fun:malloc
+   fun:CRYPTO_malloc
+   fun:sk_new
+   obj:/lib/x86_64-linux-gnu/libssl.so.1.0.0
+   fun:SSL_COMP_get_compression_methods
+   fun:SSL_library_init
+   fun:Curl_ossl_init
+   fun:curl_global_init
+   fun:cparse_client_request_get_response
+   fun:cparse_client_request_get_json
+   fun:cparse_object_save
+   fun:cparse_save_test_object
+}

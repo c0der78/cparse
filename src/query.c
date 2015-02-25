@@ -40,6 +40,7 @@ cParseQuery *cparse_query_new()
     query->results = NULL;
     query->keys = NULL;
     query->count = false;
+    query->size = 0;
 
     return query;
 }

@@ -363,6 +363,8 @@ cParseResponse *cparse_client_request_get_response(cParseRequest *request)
     cParseResponse *response;
     struct curl_slist *headers;
 
+    curl_global_init(CURL_GLOBAL_ALL);
+
     curl = curl_easy_init();
     if (curl == NULL)
     {
@@ -438,6 +440,8 @@ cParseResponse *cparse_client_request_get_response(cParseRequest *request)
 
     /* always cleanup */
     curl_easy_cleanup(curl);
+
+    curl_global_cleanup();
 
     return response;
 }

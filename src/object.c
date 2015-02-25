@@ -39,6 +39,8 @@ static void *cparse_object_background_action(void *argument)
         (*arg->cleanup)(arg->obj);
     }
 
+    pthread_detach(arg->thread);
+    
     free(arg);
 
     return NULL;
@@ -56,6 +58,7 @@ pthread_t cparse_object_run_in_background(cParseObject *obj, cParseObjectAction 
     arg->obj = obj;
     arg->cleanup = cleanup;
     arg->callback = callback;
+    arg->thread = 0;
 
     rc = pthread_create(&arg->thread, NULL, cparse_object_background_action, arg);
     assert(rc == 0);
