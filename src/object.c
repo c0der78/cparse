@@ -426,7 +426,7 @@ void cparse_object_set(cParseObject *obj, const char *key, cParseJson *value)
 {
     assert(obj != NULL);
 
-    cparse_json_set(obj->attributes, key, cparse_json_new_reference(value));
+    cparse_json_set(obj->attributes, key, value);
 }
 
 
