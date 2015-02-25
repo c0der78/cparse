@@ -118,13 +118,17 @@ START_TEST(test_cparse_object_remove_attribute)
 
     cParseObject *cp_obj = cparse_object_with_class_name(TEST_CLASS);
 
-    cparse_object_set_string(cp_obj, "main", "1234");
+    cParseJson *value = cparse_json_new_string();
+
+    cparse_object_set(cp_obj, "main", value);
 
     fail_unless(cparse_object_attribute_size(cp_obj) == 1);
 
     removed = cparse_object_remove(cp_obj, "main");
 
     fail_unless(removed == value);
+
+    cparse_json_free(value);
 
     cparse_json_free(removed);
 
