@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2015-02-25 00:06:34</td>
+            <td class="headerValue">2015-02-25 14:29:10</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">16</td>
@@ -105,25 +105,25 @@
 <span class="lineNum">      35 </span>            : /*! allocates a new key value list */
 <span class="lineNum">      36 </span>            : struct cparse_kv_list *cparse_kv_list_new()
 <span class="lineNum">      37 </span>            : {
-<span class="lineNum">      38 </span><span class="lineCov">         38 :     struct cparse_kv_list *list = malloc(sizeof(struct cparse_kv_list));</span>
+<span class="lineNum">      38 </span><span class="lineCov">         52 :     struct cparse_kv_list *list = malloc(sizeof(struct cparse_kv_list));</span>
 <span class="lineNum">      39 </span>            : 
-<span class="lineNum">      40 </span><span class="lineCov">         19 :     list-&gt;next = NULL;</span>
-<span class="lineNum">      41 </span><span class="lineCov">         19 :     list-&gt;key = NULL;</span>
-<span class="lineNum">      42 </span><span class="lineCov">         19 :     list-&gt;value = NULL;</span>
-<span class="lineNum">      43 </span><span class="lineCov">         19 :     return list;</span>
+<span class="lineNum">      40 </span><span class="lineCov">         26 :     list-&gt;next = NULL;</span>
+<span class="lineNum">      41 </span><span class="lineCov">         26 :     list-&gt;key = NULL;</span>
+<span class="lineNum">      42 </span><span class="lineCov">         26 :     list-&gt;value = NULL;</span>
+<span class="lineNum">      43 </span><span class="lineCov">         26 :     return list;</span>
 <span class="lineNum">      44 </span>            : }
 <a name="45"><span class="lineNum">      45 </span>            : </a>
 <span class="lineNum">      46 </span>            : /*! deallocates a key value list */
-<span class="lineNum">      47 </span><span class="lineCov">         18 : void cparse_kv_list_free(struct cparse_kv_list *list)</span>
+<span class="lineNum">      47 </span><span class="lineCov">         26 : void cparse_kv_list_free(struct cparse_kv_list *list)</span>
 <span class="lineNum">      48 </span>            : {
-<span class="lineNum">      49 </span><span class="lineCov">         18 :     if (!list) return;</span>
+<span class="lineNum">      49 </span><span class="lineCov">         26 :     if (!list) return;</span>
 <span class="lineNum">      50 </span>            : 
-<span class="lineNum">      51 </span><span class="lineCov">         18 :     if (list-&gt;key)</span>
-<span class="lineNum">      52 </span><span class="lineCov">          8 :         free(list-&gt;key);</span>
-<span class="lineNum">      53 </span><span class="lineCov">         18 :     if (list-&gt;value)</span>
-<span class="lineNum">      54 </span><span class="lineCov">         18 :         free(list-&gt;value);</span>
-<span class="lineNum">      55 </span><span class="lineCov">         18 :     free(list);</span>
-<span class="lineNum">      56 </span><span class="lineCov">         36 : }</span>
+<span class="lineNum">      51 </span><span class="lineCov">         26 :     if (list-&gt;key)</span>
+<span class="lineNum">      52 </span><span class="lineCov">         13 :         free(list-&gt;key);</span>
+<span class="lineNum">      53 </span><span class="lineCov">         26 :     if (list-&gt;value)</span>
+<span class="lineNum">      54 </span><span class="lineCov">         26 :         free(list-&gt;value);</span>
+<span class="lineNum">      55 </span><span class="lineCov">         26 :     free(list);</span>
+<span class="lineNum">      56 </span><span class="lineCov">         52 : }</span>
 <span class="lineNum">      57 </span>            : 
 <span class="lineNum">      58 </span>            : cParseResponse *cparse_client_request_get_response(cParseRequest *request);
 <span class="lineNum">      59 </span>            : 
@@ -131,72 +131,72 @@
 <span class="lineNum">      61 </span>            :  * \param method the http method to use
 <a name="62"><span class="lineNum">      62 </span>            :  * \param path the path/endpoint to request</a>
 <span class="lineNum">      63 </span>            :  */
-<span class="lineNum">      64 </span><span class="lineCov">         28 : cParseRequest *cparse_client_request_with_method_and_path(HttpRequestMethod method, const char *path)</span>
+<span class="lineNum">      64 </span><span class="lineCov">         36 : cParseRequest *cparse_client_request_with_method_and_path(HttpRequestMethod method, const char *path)</span>
 <span class="lineNum">      65 </span>            : {
-<span class="lineNum">      66 </span><span class="lineCov">         28 :     cParseRequest *request = malloc(sizeof(cParseRequest));</span>
+<span class="lineNum">      66 </span><span class="lineCov">         36 :     cParseRequest *request = malloc(sizeof(cParseRequest));</span>
 <span class="lineNum">      67 </span>            : 
-<span class="lineNum">      68 </span><span class="lineCov">         28 :     request-&gt;path = strdup(path);</span>
-<span class="lineNum">      69 </span><span class="lineCov">         28 :     request-&gt;payload = NULL;</span>
-<span class="lineNum">      70 </span><span class="lineCov">         28 :     request-&gt;payloadSize = 0;</span>
-<span class="lineNum">      71 </span><span class="lineCov">         28 :     request-&gt;data = NULL;</span>
-<span class="lineNum">      72 </span><span class="lineCov">         28 :     request-&gt;method = method;</span>
-<span class="lineNum">      73 </span><span class="lineCov">         28 :     request-&gt;headers = NULL;</span>
+<span class="lineNum">      68 </span><span class="lineCov">         36 :     request-&gt;path = strdup(path);</span>
+<span class="lineNum">      69 </span><span class="lineCov">         36 :     request-&gt;payload = NULL;</span>
+<span class="lineNum">      70 </span><span class="lineCov">         36 :     request-&gt;payloadSize = 0;</span>
+<span class="lineNum">      71 </span><span class="lineCov">         36 :     request-&gt;data = NULL;</span>
+<span class="lineNum">      72 </span><span class="lineCov">         36 :     request-&gt;method = method;</span>
+<span class="lineNum">      73 </span><span class="lineCov">         36 :     request-&gt;headers = NULL;</span>
 <span class="lineNum">      74 </span>            : 
-<span class="lineNum">      75 </span><span class="lineCov">         28 :     return request;</span>
+<span class="lineNum">      75 </span><span class="lineCov">         36 :     return request;</span>
 <span class="lineNum">      76 </span>            : }
 <a name="77"><span class="lineNum">      77 </span>            : </a>
 <span class="lineNum">      78 </span>            : /*! deallocates a client request */
-<span class="lineNum">      79 </span><span class="lineCov">         26 : void cparse_client_request_free(cParseRequest *request)</span>
+<span class="lineNum">      79 </span><span class="lineCov">         36 : void cparse_client_request_free(cParseRequest *request)</span>
 <span class="lineNum">      80 </span>            : {
-<span class="lineNum">      81 </span><span class="lineCov">         26 :     cParseRequestHeader *header, *next_header;</span>
-<span class="lineNum">      82 </span><span class="lineCov">         26 :     cParseRequestData *data, *next_data;</span>
+<span class="lineNum">      81 </span><span class="lineCov">         36 :     cParseRequestHeader *header, *next_header;</span>
+<span class="lineNum">      82 </span><span class="lineCov">         36 :     cParseRequestData *data, *next_data;</span>
 <span class="lineNum">      83 </span>            : 
-<span class="lineNum">      84 </span><span class="lineCov">         26 :     if (request-&gt;path)</span>
-<span class="lineNum">      85 </span><span class="lineCov">         26 :         free(request-&gt;path);</span>
-<span class="lineNum">      86 </span><span class="lineCov">         26 :     if (request-&gt;payload)</span>
-<span class="lineNum">      87 </span><span class="lineCov">         14 :         free(request-&gt;payload);</span>
+<span class="lineNum">      84 </span><span class="lineCov">         36 :     if (request-&gt;path)</span>
+<span class="lineNum">      85 </span><span class="lineCov">         36 :         free(request-&gt;path);</span>
+<span class="lineNum">      86 </span><span class="lineCov">         36 :     if (request-&gt;payload)</span>
+<span class="lineNum">      87 </span><span class="lineCov">         17 :         free(request-&gt;payload);</span>
 <span class="lineNum">      88 </span>            : 
-<span class="lineNum">      89 </span><span class="lineCov">         56 :     for (header = request-&gt;headers; header; header = next_header)</span>
+<span class="lineNum">      89 </span><span class="lineCov">         82 :     for (header = request-&gt;headers; header; header = next_header)</span>
 <span class="lineNum">      90 </span>            :     {
-<span class="lineNum">      91 </span><span class="lineCov">          2 :         next_header = header-&gt;next;</span>
+<span class="lineNum">      91 </span><span class="lineCov">          5 :         next_header = header-&gt;next;</span>
 <span class="lineNum">      92 </span>            : 
-<span class="lineNum">      93 </span><span class="lineCov">          2 :         cparse_kv_list_free(header);</span>
-<span class="lineNum">      94 </span><span class="lineCov">          2 :     }</span>
+<span class="lineNum">      93 </span><span class="lineCov">          5 :         cparse_kv_list_free(header);</span>
+<span class="lineNum">      94 </span><span class="lineCov">          5 :     }</span>
 <span class="lineNum">      95 </span>            : 
-<span class="lineNum">      96 </span><span class="lineCov">         82 :     for (data = request-&gt;data; data; data = next_data)</span>
+<span class="lineNum">      96 </span><span class="lineCov">        112 :     for (data = request-&gt;data; data; data = next_data)</span>
 <span class="lineNum">      97 </span>            :     {
-<span class="lineNum">      98 </span><span class="lineCov">         15 :         next_data = data-&gt;next;</span>
+<span class="lineNum">      98 </span><span class="lineCov">         20 :         next_data = data-&gt;next;</span>
 <span class="lineNum">      99 </span>            : 
-<span class="lineNum">     100 </span><span class="lineCov">         15 :         cparse_kv_list_free(data);</span>
-<span class="lineNum">     101 </span><span class="lineCov">         15 :     }</span>
-<span class="lineNum">     102 </span><span class="lineCov">         26 :     free(request);</span>
-<span class="lineNum">     103 </span><span class="lineCov">         26 : }</span>
+<span class="lineNum">     100 </span><span class="lineCov">         20 :         cparse_kv_list_free(data);</span>
+<span class="lineNum">     101 </span><span class="lineCov">         20 :     }</span>
+<span class="lineNum">     102 </span><span class="lineCov">         36 :     free(request);</span>
+<span class="lineNum">     103 </span><span class="lineCov">         36 : }</span>
 <a name="104"><span class="lineNum">     104 </span>            : </a>
 <span class="lineNum">     105 </span>            : /*! deallocates a response */
-<span class="lineNum">     106 </span><span class="lineCov">         27 : void cparse_client_response_free(cParseResponse *response)</span>
+<span class="lineNum">     106 </span><span class="lineCov">         35 : void cparse_client_response_free(cParseResponse *response)</span>
 <span class="lineNum">     107 </span>            : {
-<span class="lineNum">     108 </span><span class="lineCov">         54 :     if (response-&gt;size &gt; 0 &amp;&amp; response-&gt;text)</span>
-<span class="lineNum">     109 </span><span class="lineCov">         27 :         free(response-&gt;text);</span>
+<span class="lineNum">     108 </span><span class="lineCov">         70 :     if (response-&gt;size &gt; 0 &amp;&amp; response-&gt;text)</span>
+<span class="lineNum">     109 </span><span class="lineCov">         35 :         free(response-&gt;text);</span>
 <span class="lineNum">     110 </span>            : 
-<span class="lineNum">     111 </span><span class="lineCov">         27 :     free(response);</span>
-<a name="112"><span class="lineNum">     112 </span><span class="lineCov">         27 : }</span></a>
+<span class="lineNum">     111 </span><span class="lineCov">         35 :     free(response);</span>
+<a name="112"><span class="lineNum">     112 </span><span class="lineCov">         35 : }</span></a>
 <span class="lineNum">     113 </span>            : 
-<span class="lineNum">     114 </span><span class="lineCov">          2 : void cparse_client_request_add_header(cParseRequest *request, const char *key, const char *value)</span>
+<span class="lineNum">     114 </span><span class="lineCov">          5 : void cparse_client_request_add_header(cParseRequest *request, const char *key, const char *value)</span>
 <span class="lineNum">     115 </span>            : {
-<span class="lineNum">     116 </span><span class="lineCov">          2 :     cParseRequestHeader *header = cparse_kv_list_new();</span>
+<span class="lineNum">     116 </span><span class="lineCov">          5 :     cParseRequestHeader *header = cparse_kv_list_new();</span>
 <span class="lineNum">     117 </span>            : 
-<span class="lineNum">     118 </span><span class="lineCov">          2 :     header-&gt;next = request-&gt;headers;</span>
-<span class="lineNum">     119 </span><span class="lineCov">          2 :     request-&gt;headers = header;</span>
+<span class="lineNum">     118 </span><span class="lineCov">          5 :     header-&gt;next = request-&gt;headers;</span>
+<span class="lineNum">     119 </span><span class="lineCov">          5 :     request-&gt;headers = header;</span>
 <span class="lineNum">     120 </span>            : 
-<span class="lineNum">     121 </span><span class="lineCov">          2 :     header-&gt;key = strdup(key);</span>
-<span class="lineNum">     122 </span><span class="lineCov">          2 :     header-&gt;value = strdup(value);</span>
-<a name="123"><span class="lineNum">     123 </span><span class="lineCov">          2 : }</span></a>
+<span class="lineNum">     121 </span><span class="lineCov">          5 :     header-&gt;key = strdup(key);</span>
+<span class="lineNum">     122 </span><span class="lineCov">          5 :     header-&gt;value = strdup(value);</span>
+<a name="123"><span class="lineNum">     123 </span><span class="lineCov">          5 : }</span></a>
 <span class="lineNum">     124 </span>            : 
-<span class="lineNum">     125 </span><span class="lineCov">         11 : void cparse_client_request_set_payload(cParseRequest *request, const char *payload)</span>
+<span class="lineNum">     125 </span><span class="lineCov">         13 : void cparse_client_request_set_payload(cParseRequest *request, const char *payload)</span>
 <span class="lineNum">     126 </span>            : {
-<span class="lineNum">     127 </span><span class="lineCov">         11 :     cParseRequestData *data, *next_data;</span>
+<span class="lineNum">     127 </span><span class="lineCov">         13 :     cParseRequestData *data, *next_data;</span>
 <span class="lineNum">     128 </span>            : 
-<span class="lineNum">     129 </span><span class="lineCov">         24 :     for (data = request-&gt;data; data; data = next_data)</span>
+<span class="lineNum">     129 </span><span class="lineCov">         28 :     for (data = request-&gt;data; data; data = next_data)</span>
 <span class="lineNum">     130 </span>            :     {
 <span class="lineNum">     131 </span><span class="lineCov">          1 :         next_data = data-&gt;next;</span>
 <span class="lineNum">     132 </span>            : 
@@ -204,153 +204,153 @@
 <span class="lineNum">     134 </span><span class="lineCov">          1 :             cparse_kv_list_free(data);</span>
 <span class="lineNum">     135 </span><span class="lineCov">          1 :     }</span>
 <span class="lineNum">     136 </span>            : 
-<span class="lineNum">     137 </span><span class="lineCov">         11 :     request-&gt;data = NULL;</span>
+<span class="lineNum">     137 </span><span class="lineCov">         13 :     request-&gt;data = NULL;</span>
 <span class="lineNum">     138 </span>            : 
-<span class="lineNum">     139 </span><span class="lineCov">         11 :     data = cparse_kv_list_new();</span>
+<span class="lineNum">     139 </span><span class="lineCov">         13 :     data = cparse_kv_list_new();</span>
 <span class="lineNum">     140 </span>            : 
-<span class="lineNum">     141 </span><span class="lineCov">         11 :     data-&gt;next = request-&gt;data;</span>
-<span class="lineNum">     142 </span><span class="lineCov">         11 :     request-&gt;data = data;</span>
+<span class="lineNum">     141 </span><span class="lineCov">         13 :     data-&gt;next = request-&gt;data;</span>
+<span class="lineNum">     142 </span><span class="lineCov">         13 :     request-&gt;data = data;</span>
 <span class="lineNum">     143 </span>            : 
-<span class="lineNum">     144 </span><span class="lineCov">         11 :     data-&gt;key = NULL;</span>
-<span class="lineNum">     145 </span><span class="lineCov">         11 :     data-&gt;value = strdup(payload);</span>
-<a name="146"><span class="lineNum">     146 </span><span class="lineCov">         11 : }</span></a>
+<span class="lineNum">     144 </span><span class="lineCov">         13 :     data-&gt;key = NULL;</span>
+<span class="lineNum">     145 </span><span class="lineCov">         13 :     data-&gt;value = strdup(payload);</span>
+<a name="146"><span class="lineNum">     146 </span><span class="lineCov">         13 : }</span></a>
 <span class="lineNum">     147 </span>            : 
-<span class="lineNum">     148 </span><span class="lineCov">          6 : void cparse_client_request_add_data(cParseRequest *request, const char *key, const char *value)</span>
+<span class="lineNum">     148 </span><span class="lineCov">          8 : void cparse_client_request_add_data(cParseRequest *request, const char *key, const char *value)</span>
 <span class="lineNum">     149 </span>            : {
-<span class="lineNum">     150 </span><span class="lineCov">          6 :     cParseRequestData *data = cparse_kv_list_new();</span>
+<span class="lineNum">     150 </span><span class="lineCov">          8 :     cParseRequestData *data = cparse_kv_list_new();</span>
 <span class="lineNum">     151 </span>            : 
-<span class="lineNum">     152 </span><span class="lineCov">          6 :     data-&gt;next = request-&gt;data;</span>
-<span class="lineNum">     153 </span><span class="lineCov">          6 :     request-&gt;data = data;</span>
+<span class="lineNum">     152 </span><span class="lineCov">          8 :     data-&gt;next = request-&gt;data;</span>
+<span class="lineNum">     153 </span><span class="lineCov">          8 :     request-&gt;data = data;</span>
 <span class="lineNum">     154 </span>            : 
-<span class="lineNum">     155 </span><span class="lineCov">          6 :     data-&gt;key = strdup(key);</span>
-<span class="lineNum">     156 </span><span class="lineCov">          6 :     data-&gt;value = strdup(value);</span>
-<a name="157"><span class="lineNum">     157 </span><span class="lineCov">          6 : }</span></a>
+<span class="lineNum">     155 </span><span class="lineCov">          8 :     data-&gt;key = strdup(key);</span>
+<span class="lineNum">     156 </span><span class="lineCov">          8 :     data-&gt;value = strdup(value);</span>
+<a name="157"><span class="lineNum">     157 </span><span class="lineCov">          8 : }</span></a>
 <span class="lineNum">     158 </span>            : 
-<span class="lineNum">     159 </span><span class="lineCov">         27 : static size_t cparse_client_get_response(void *ptr, size_t size, size_t nmemb, void *data)</span>
+<span class="lineNum">     159 </span><span class="lineCov">         35 : static size_t cparse_client_get_response(void *ptr, size_t size, size_t nmemb, void *data)</span>
 <span class="lineNum">     160 </span>            : {
-<span class="lineNum">     161 </span><span class="lineCov">         27 :     cParseResponse *s;</span>
-<span class="lineNum">     162 </span><span class="lineCov">         27 :     size_t new_len;</span>
+<span class="lineNum">     161 </span><span class="lineCov">         35 :     cParseResponse *s;</span>
+<span class="lineNum">     162 </span><span class="lineCov">         35 :     size_t new_len;</span>
 <span class="lineNum">     163 </span>            : 
-<span class="lineNum">     164 </span><span class="lineCov">         54 :     assert(data != NULL);</span>
+<span class="lineNum">     164 </span><span class="lineCov">         70 :     assert(data != NULL);</span>
 <span class="lineNum">     165 </span>            : 
-<span class="lineNum">     166 </span><span class="lineCov">         27 :     s = (cParseResponse *) data;</span>
+<span class="lineNum">     166 </span><span class="lineCov">         35 :     s = (cParseResponse *) data;</span>
 <span class="lineNum">     167 </span>            : 
-<span class="lineNum">     168 </span><span class="lineCov">         27 :     new_len = s-&gt;size + size * nmemb;</span>
+<span class="lineNum">     168 </span><span class="lineCov">         35 :     new_len = s-&gt;size + size * nmemb;</span>
 <span class="lineNum">     169 </span>            : 
-<span class="lineNum">     170 </span><span class="lineCov">         27 :     s-&gt;text = realloc(s-&gt;text, new_len + 1);</span>
-<span class="lineNum">     171 </span><span class="lineCov">         27 :     if (s-&gt;text == NULL)</span>
+<span class="lineNum">     170 </span><span class="lineCov">         35 :     s-&gt;text = realloc(s-&gt;text, new_len + 1);</span>
+<span class="lineNum">     171 </span><span class="lineCov">         35 :     if (s-&gt;text == NULL)</span>
 <span class="lineNum">     172 </span>            :     {
 <span class="lineNum">     173 </span><span class="lineNoCov">          0 :         log_error(&quot;realloc() failed&quot;);</span>
 <span class="lineNum">     174 </span><span class="lineNoCov">          0 :         exit(EXIT_FAILURE);</span>
 <span class="lineNum">     175 </span>            :     }
-<span class="lineNum">     176 </span><span class="lineCov">         27 :     memcpy(s-&gt;text + s-&gt;size, ptr, size * nmemb);</span>
-<span class="lineNum">     177 </span><span class="lineCov">         27 :     s-&gt;text[new_len] = '\0';</span>
-<span class="lineNum">     178 </span><span class="lineCov">         27 :     s-&gt;size = new_len;</span>
+<span class="lineNum">     176 </span><span class="lineCov">         35 :     memcpy(s-&gt;text + s-&gt;size, ptr, size * nmemb);</span>
+<span class="lineNum">     177 </span><span class="lineCov">         35 :     s-&gt;text[new_len] = '\0';</span>
+<span class="lineNum">     178 </span><span class="lineCov">         35 :     s-&gt;size = new_len;</span>
 <span class="lineNum">     179 </span>            : 
-<span class="lineNum">     180 </span><span class="lineCov">         27 :     return size * nmemb;</span>
+<span class="lineNum">     180 </span><span class="lineCov">         35 :     return size * nmemb;</span>
 <a name="181"><span class="lineNum">     181 </span>            : }</a>
 <span class="lineNum">     182 </span>            : 
-<span class="lineNum">     183 </span><span class="lineCov">         27 : static void cparse_client_set_request_url(CURL *curl, const char *path)</span>
+<span class="lineNum">     183 </span><span class="lineCov">         35 : static void cparse_client_set_request_url(CURL *curl, const char *path)</span>
 <span class="lineNum">     184 </span>            : {
-<span class="lineNum">     185 </span><span class="lineCov">         27 :     char buf[BUFSIZ + 1];</span>
+<span class="lineNum">     185 </span><span class="lineCov">         35 :     char buf[BUFSIZ + 1];</span>
 <span class="lineNum">     186 </span>            : 
-<span class="lineNum">     187 </span><span class="lineCov">         27 :     snprintf(buf, BUFSIZ, &quot;%s/%s/%s&quot;, cparse_domain, cparse_api_version, path);</span>
+<span class="lineNum">     187 </span><span class="lineCov">         35 :     snprintf(buf, BUFSIZ, &quot;%s/%s/%s&quot;, cparse_domain, cparse_api_version, path);</span>
 <span class="lineNum">     188 </span>            : 
-<span class="lineNum">     189 </span><span class="lineCov">         27 :     log_debug(&quot;cparse request URL: %s&quot;, buf);</span>
+<span class="lineNum">     189 </span><span class="lineCov">         35 :     log_debug(&quot;cparse request URL: %s&quot;, buf);</span>
 <span class="lineNum">     190 </span>            : 
-<span class="lineNum">     191 </span><span class="lineCov">         27 :     curl_easy_setopt(curl, CURLOPT_URL, buf);</span>
-<a name="192"><span class="lineNum">     192 </span><span class="lineCov">         27 : }</span></a>
+<span class="lineNum">     191 </span><span class="lineCov">         35 :     curl_easy_setopt(curl, CURLOPT_URL, buf);</span>
+<a name="192"><span class="lineNum">     192 </span><span class="lineCov">         35 : }</span></a>
 <span class="lineNum">     193 </span>            : 
-<span class="lineNum">     194 </span><span class="lineCov">         27 : static struct curl_slist *cparse_client_set_headers(CURL *curl, cParseRequestHeader *requestHeaders)</span>
+<span class="lineNum">     194 </span><span class="lineCov">         35 : static struct curl_slist *cparse_client_set_headers(CURL *curl, cParseRequestHeader *requestHeaders)</span>
 <span class="lineNum">     195 </span>            : {
-<span class="lineNum">     196 </span><span class="lineCov">         27 :     char buf[BUFSIZ + 1];</span>
+<span class="lineNum">     196 </span><span class="lineCov">         35 :     char buf[BUFSIZ + 1];</span>
 <span class="lineNum">     197 </span>            : 
-<span class="lineNum">     198 </span><span class="lineCov">         27 :     cParseRequestHeader *header;</span>
+<span class="lineNum">     198 </span><span class="lineCov">         35 :     cParseRequestHeader *header;</span>
 <span class="lineNum">     199 </span>            : 
-<span class="lineNum">     200 </span><span class="lineCov">         27 :     struct curl_slist *headers = NULL;</span>
+<span class="lineNum">     200 </span><span class="lineCov">         35 :     struct curl_slist *headers = NULL;</span>
 <span class="lineNum">     201 </span>            : 
-<span class="lineNum">     202 </span><span class="lineCov">         54 :     assert(cparse_app_id != NULL);</span>
+<span class="lineNum">     202 </span><span class="lineCov">         70 :     assert(cparse_app_id != NULL);</span>
 <span class="lineNum">     203 </span>            : 
-<span class="lineNum">     204 </span><span class="lineCov">         27 :     snprintf(buf, BUFSIZ, &quot;%s: %s&quot;, HEADER_APP_ID, cparse_app_id);</span>
+<span class="lineNum">     204 </span><span class="lineCov">         35 :     snprintf(buf, BUFSIZ, &quot;%s: %s&quot;, HEADER_APP_ID, cparse_app_id);</span>
 <span class="lineNum">     205 </span>            : 
-<span class="lineNum">     206 </span><span class="lineCov">         27 :     headers = curl_slist_append(headers, buf);</span>
+<span class="lineNum">     206 </span><span class="lineCov">         35 :     headers = curl_slist_append(headers, buf);</span>
 <span class="lineNum">     207 </span>            : 
-<span class="lineNum">     208 </span><span class="lineCov">         27 :     snprintf(buf, BUFSIZ, &quot;%s: %s&quot;, HEADER_API_KEY, cparse_api_key);</span>
+<span class="lineNum">     208 </span><span class="lineCov">         35 :     snprintf(buf, BUFSIZ, &quot;%s: %s&quot;, HEADER_API_KEY, cparse_api_key);</span>
 <span class="lineNum">     209 </span>            : 
-<span class="lineNum">     210 </span><span class="lineCov">         27 :     headers = curl_slist_append(headers, buf);</span>
+<span class="lineNum">     210 </span><span class="lineCov">         35 :     headers = curl_slist_append(headers, buf);</span>
 <span class="lineNum">     211 </span>            : 
-<span class="lineNum">     212 </span><span class="lineCov">         27 :     headers = curl_slist_append(headers, &quot;Content-Type: application/json&quot;);</span>
+<span class="lineNum">     212 </span><span class="lineCov">         35 :     headers = curl_slist_append(headers, &quot;Content-Type: application/json&quot;);</span>
 <span class="lineNum">     213 </span>            : 
-<span class="lineNum">     214 </span><span class="lineCov">         27 :     snprintf(buf, BUFSIZ, &quot;User-Agent: libcparse-%s&quot;, cparse_lib_version);</span>
+<span class="lineNum">     214 </span><span class="lineCov">         35 :     snprintf(buf, BUFSIZ, &quot;User-Agent: libcparse-%s&quot;, cparse_lib_version);</span>
 <span class="lineNum">     215 </span>            : 
-<span class="lineNum">     216 </span><span class="lineCov">         27 :     headers = curl_slist_append(headers, buf);</span>
+<span class="lineNum">     216 </span><span class="lineCov">         35 :     headers = curl_slist_append(headers, buf);</span>
 <span class="lineNum">     217 </span>            : 
-<span class="lineNum">     218 </span><span class="lineCov">         58 :     for (header = requestHeaders; header; header = header-&gt;next)</span>
+<span class="lineNum">     218 </span><span class="lineCov">         80 :     for (header = requestHeaders; header; header = header-&gt;next)</span>
 <span class="lineNum">     219 </span>            :     {
-<span class="lineNum">     220 </span><span class="lineCov">          2 :         snprintf(buf, BUFSIZ, &quot;%s: %s&quot;, header-&gt;key, header-&gt;value);</span>
+<span class="lineNum">     220 </span><span class="lineCov">          5 :         snprintf(buf, BUFSIZ, &quot;%s: %s&quot;, header-&gt;key, header-&gt;value);</span>
 <span class="lineNum">     221 </span>            : 
-<span class="lineNum">     222 </span><span class="lineCov">          2 :         headers = curl_slist_append(headers, buf);</span>
-<span class="lineNum">     223 </span><span class="lineCov">          2 :     }</span>
-<span class="lineNum">     224 </span><span class="lineCov">         27 :     curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);</span>
+<span class="lineNum">     222 </span><span class="lineCov">          5 :         headers = curl_slist_append(headers, buf);</span>
+<span class="lineNum">     223 </span><span class="lineCov">          5 :     }</span>
+<span class="lineNum">     224 </span><span class="lineCov">         35 :     curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);</span>
 <span class="lineNum">     225 </span>            : 
-<span class="lineNum">     226 </span><span class="lineCov">         27 :     return headers;</span>
+<span class="lineNum">     226 </span><span class="lineCov">         35 :     return headers;</span>
 <a name="227"><span class="lineNum">     227 </span>            : }</a>
 <span class="lineNum">     228 </span>            : 
-<span class="lineNum">     229 </span><span class="lineCov">         14 : static void cparse_client_set_payload_from_data(CURL *curl, cParseRequest *request, bool encode)</span>
+<span class="lineNum">     229 </span><span class="lineCov">         17 : static void cparse_client_set_payload_from_data(CURL *curl, cParseRequest *request, bool encode)</span>
 <span class="lineNum">     230 </span>            : {
-<span class="lineNum">     231 </span><span class="lineCov">         14 :     char buf[BUFSIZ + 1] = {0};</span>
-<span class="lineNum">     232 </span><span class="lineCov">         14 :     cParseRequestData *data;</span>
+<span class="lineNum">     231 </span><span class="lineCov">         17 :     char buf[BUFSIZ + 1] = {0};</span>
+<span class="lineNum">     232 </span><span class="lineCov">         17 :     cParseRequestData *data;</span>
 <span class="lineNum">     233 </span>            : 
-<span class="lineNum">     234 </span><span class="lineCov">         58 :     for (data = request-&gt;data; data; data = data-&gt;next)</span>
+<span class="lineNum">     234 </span><span class="lineCov">         72 :     for (data = request-&gt;data; data; data = data-&gt;next)</span>
 <span class="lineNum">     235 </span>            :     {
-<span class="lineNum">     236 </span><span class="lineCov">         15 :         size_t bufLen;</span>
+<span class="lineNum">     236 </span><span class="lineCov">         19 :         size_t bufLen;</span>
 <span class="lineNum">     237 </span>            : 
-<span class="lineNum">     238 </span><span class="lineCov">         45 :         char *encoded = encode ? curl_easy_escape(curl, data-&gt;value, 0) : NULL;</span>
+<span class="lineNum">     238 </span><span class="lineCov">         57 :         char *encoded = encode ? curl_easy_escape(curl, data-&gt;value, 0) : NULL;</span>
 <span class="lineNum">     239 </span>            : 
-<span class="lineNum">     240 </span><span class="lineCov">         15 :         if (data-&gt;key)</span>
-<span class="lineNum">     241 </span><span class="lineCov">         15 :             bufLen = snprintf(buf, BUFSIZ, &quot;%s%s=%s&quot;, request-&gt;payload ? &quot;&amp;&quot; : &quot;&quot;, data-&gt;key,</span>
+<span class="lineNum">     240 </span><span class="lineCov">         19 :         if (data-&gt;key)</span>
+<span class="lineNum">     241 </span><span class="lineCov">         21 :             bufLen = snprintf(buf, BUFSIZ, &quot;%s%s=%s&quot;, request-&gt;payload ? &quot;&amp;&quot; : &quot;&quot;, data-&gt;key,</span>
 <span class="lineNum">     242 </span>            :                               encoded ? encoded : data-&gt;value);
 <span class="lineNum">     243 </span>            :         else
-<span class="lineNum">     244 </span><span class="lineCov">         30 :             bufLen = snprintf(buf, BUFSIZ, &quot;%s&quot;, encoded ? encoded : data-&gt;value);</span>
+<span class="lineNum">     244 </span><span class="lineCov">         36 :             bufLen = snprintf(buf, BUFSIZ, &quot;%s&quot;, encoded ? encoded : data-&gt;value);</span>
 <span class="lineNum">     245 </span>            : 
-<span class="lineNum">     246 </span><span class="lineCov">         15 :         if (encoded)</span>
-<span class="lineNum">     247 </span><span class="lineCov">          5 :             free(encoded);</span>
+<span class="lineNum">     246 </span><span class="lineCov">         19 :         if (encoded)</span>
+<span class="lineNum">     247 </span><span class="lineCov">          7 :             free(encoded);</span>
 <span class="lineNum">     248 </span>            : 
-<span class="lineNum">     249 </span><span class="lineCov">         15 :         if (request-&gt;payload == NULL)</span>
+<span class="lineNum">     249 </span><span class="lineCov">         19 :         if (request-&gt;payload == NULL)</span>
 <span class="lineNum">     250 </span>            :         {
-<span class="lineNum">     251 </span><span class="lineCov">         14 :             request-&gt;payload = strdup(buf);</span>
-<span class="lineNum">     252 </span><span class="lineCov">         14 :         }</span>
+<span class="lineNum">     251 </span><span class="lineCov">         17 :             request-&gt;payload = strdup(buf);</span>
+<span class="lineNum">     252 </span><span class="lineCov">         17 :         }</span>
 <span class="lineNum">     253 </span>            :         else
 <span class="lineNum">     254 </span>            :         {
-<span class="lineNum">     255 </span><span class="lineCov">          1 :             request-&gt;payload = realloc(request-&gt;payload, request-&gt;payloadSize + bufLen + 1);</span>
+<span class="lineNum">     255 </span><span class="lineCov">          2 :             request-&gt;payload = realloc(request-&gt;payload, request-&gt;payloadSize + bufLen + 1);</span>
 <span class="lineNum">     256 </span>            : 
-<span class="lineNum">     257 </span><span class="lineCov">          1 :             strncat(request-&gt;payload, buf, bufLen);</span>
+<span class="lineNum">     257 </span><span class="lineCov">          2 :             strncat(request-&gt;payload, buf, bufLen);</span>
 <span class="lineNum">     258 </span>            :         }
-<span class="lineNum">     259 </span><span class="lineCov">         15 :         request-&gt;payloadSize += bufLen;</span>
-<span class="lineNum">     260 </span><span class="lineCov">         15 :     }</span>
-<a name="261"><span class="lineNum">     261 </span><span class="lineCov">         14 : }</span></a>
+<span class="lineNum">     259 </span><span class="lineCov">         19 :         request-&gt;payloadSize += bufLen;</span>
+<span class="lineNum">     260 </span><span class="lineCov">         19 :     }</span>
+<a name="261"><span class="lineNum">     261 </span><span class="lineCov">         17 : }</span></a>
 <span class="lineNum">     262 </span>            : 
-<span class="lineNum">     263 </span><span class="lineCov">          9 : bool cparse_client_request_perform(cParseRequest *request, cParseError **error)</span>
+<span class="lineNum">     263 </span><span class="lineCov">         12 : bool cparse_client_request_perform(cParseRequest *request, cParseError **error)</span>
 <span class="lineNum">     264 </span>            : {
-<span class="lineNum">     265 </span><span class="lineCov">          9 :     cParseResponse *response = cparse_client_request_get_response(request);</span>
+<span class="lineNum">     265 </span><span class="lineCov">         12 :     cParseResponse *response = cparse_client_request_get_response(request);</span>
 <span class="lineNum">     266 </span>            : 
-<span class="lineNum">     267 </span><span class="lineCov">          9 :     if (response != NULL)</span>
+<span class="lineNum">     267 </span><span class="lineCov">         12 :     if (response != NULL)</span>
 <span class="lineNum">     268 </span>            :     {
-<span class="lineNum">     269 </span><span class="lineCov">          9 :         cparse_client_response_free(response);</span>
+<span class="lineNum">     269 </span><span class="lineCov">         12 :         cparse_client_response_free(response);</span>
 <span class="lineNum">     270 </span>            : 
-<span class="lineNum">     271 </span><span class="lineCov">          9 :         return true;</span>
+<span class="lineNum">     271 </span><span class="lineCov">         12 :         return true;</span>
 <span class="lineNum">     272 </span>            :     }
 <span class="lineNum">     273 </span>            : 
 <span class="lineNum">     274 </span><span class="lineNoCov">          0 :     return false;</span>
-<a name="275"><span class="lineNum">     275 </span><span class="lineCov">          9 : }</span></a>
+<a name="275"><span class="lineNum">     275 </span><span class="lineCov">         12 : }</span></a>
 <span class="lineNum">     276 </span>            : 
-<span class="lineNum">     277 </span><span class="lineCov">         18 : cParseJson *cparse_client_response_parse_json(cParseResponse *response, cParseError **error)</span>
+<span class="lineNum">     277 </span><span class="lineCov">         23 : cParseJson *cparse_client_response_parse_json(cParseResponse *response, cParseError **error)</span>
 <span class="lineNum">     278 </span>            : {
-<span class="lineNum">     279 </span><span class="lineCov">         18 :     json_tokener *tok = json_tokener_new();</span>
+<span class="lineNum">     279 </span><span class="lineCov">         23 :     json_tokener *tok = json_tokener_new();</span>
 <span class="lineNum">     280 </span>            : 
-<span class="lineNum">     281 </span><span class="lineCov">         18 :     cParseJson *obj = json_tokener_parse_ex(tok, response-&gt;text, response-&gt;size);</span>
+<span class="lineNum">     281 </span><span class="lineCov">         23 :     cParseJson *obj = json_tokener_parse_ex(tok, response-&gt;text, response-&gt;size);</span>
 <span class="lineNum">     282 </span>            : 
-<span class="lineNum">     283 </span><span class="lineCov">         18 :     const char *errorMessage = NULL;</span>
+<span class="lineNum">     283 </span><span class="lineCov">         23 :     const char *errorMessage = NULL;</span>
 <span class="lineNum">     284 </span>            : 
 <span class="lineNum">     285 </span>            : #ifdef HAVE_JSON_TOKENER_GET_ERROR
 <span class="lineNum">     286 </span>            :     enum json_tokener_error parseError = json_tokener_get_error(tok);
@@ -360,20 +360,20 @@
 <span class="lineNum">     290 </span>            :         errorMessage = json_tokener_error_desc(parseError);
 <span class="lineNum">     291 </span>            :     }
 <span class="lineNum">     292 </span>            : #else
-<span class="lineNum">     293 </span><span class="lineCov">         18 :     if (obj == NULL)</span>
+<span class="lineNum">     293 </span><span class="lineCov">         23 :     if (obj == NULL)</span>
 <span class="lineNum">     294 </span>            :     {
 <span class="lineNum">     295 </span><span class="lineNoCov">          0 :         errorMessage = &quot;Unable to parse json&quot;;</span>
 <span class="lineNum">     296 </span><span class="lineNoCov">          0 :     }</span>
 <span class="lineNum">     297 </span>            : #endif
 <span class="lineNum">     298 </span>            : 
-<span class="lineNum">     299 </span><span class="lineCov">         18 :     if (cparse_json_contains(obj, &quot;error&quot;))</span>
+<span class="lineNum">     299 </span><span class="lineCov">         23 :     if (cparse_json_contains(obj, &quot;error&quot;))</span>
 <span class="lineNum">     300 </span>            :     {
 <span class="lineNum">     301 </span><span class="lineCov">          1 :         errorMessage = cparse_json_get_string(obj, &quot;error&quot;);</span>
 <span class="lineNum">     302 </span><span class="lineCov">          1 :     }</span>
 <span class="lineNum">     303 </span>            : 
-<span class="lineNum">     304 </span><span class="lineCov">         18 :     json_tokener_free(tok);</span>
+<span class="lineNum">     304 </span><span class="lineCov">         23 :     json_tokener_free(tok);</span>
 <span class="lineNum">     305 </span>            : 
-<span class="lineNum">     306 </span><span class="lineCov">         18 :     if (errorMessage != NULL)</span>
+<span class="lineNum">     306 </span><span class="lineCov">         23 :     if (errorMessage != NULL)</span>
 <span class="lineNum">     307 </span>            :     {
 <span class="lineNum">     308 </span><span class="lineCov">          1 :         if (error)</span>
 <span class="lineNum">     309 </span>            :         {
@@ -388,117 +388,117 @@
 <span class="lineNum">     318 </span><span class="lineCov">          1 :         return NULL;</span>
 <span class="lineNum">     319 </span>            :     }
 <span class="lineNum">     320 </span>            : 
-<span class="lineNum">     321 </span><span class="lineCov">         17 :     return obj;</span>
-<a name="322"><span class="lineNum">     322 </span><span class="lineCov">         18 : }</span></a>
+<span class="lineNum">     321 </span><span class="lineCov">         22 :     return obj;</span>
+<a name="322"><span class="lineNum">     322 </span><span class="lineCov">         23 : }</span></a>
 <span class="lineNum">     323 </span>            : 
-<span class="lineNum">     324 </span><span class="lineCov">         18 : cParseJson *cparse_client_request_get_json(cParseRequest *request, cParseError **error)</span>
+<span class="lineNum">     324 </span><span class="lineCov">         23 : cParseJson *cparse_client_request_get_json(cParseRequest *request, cParseError **error)</span>
 <span class="lineNum">     325 </span>            : {
-<span class="lineNum">     326 </span><span class="lineCov">         18 :     cParseResponse *response = cparse_client_request_get_response(request);</span>
+<span class="lineNum">     326 </span><span class="lineCov">         23 :     cParseResponse *response = cparse_client_request_get_response(request);</span>
 <span class="lineNum">     327 </span>            : 
-<span class="lineNum">     328 </span><span class="lineCov">         18 :     if (response != NULL)</span>
+<span class="lineNum">     328 </span><span class="lineCov">         23 :     if (response != NULL)</span>
 <span class="lineNum">     329 </span>            :     {
-<span class="lineNum">     330 </span><span class="lineCov">         18 :         cParseJson *json = cparse_client_response_parse_json(response, error);</span>
+<span class="lineNum">     330 </span><span class="lineCov">         23 :         cParseJson *json = cparse_client_response_parse_json(response, error);</span>
 <span class="lineNum">     331 </span>            : 
-<span class="lineNum">     332 </span><span class="lineCov">         18 :         cparse_client_response_free(response);</span>
+<span class="lineNum">     332 </span><span class="lineCov">         23 :         cparse_client_response_free(response);</span>
 <span class="lineNum">     333 </span>            : 
-<span class="lineNum">     334 </span><span class="lineCov">         18 :         return json;</span>
+<span class="lineNum">     334 </span><span class="lineCov">         23 :         return json;</span>
 <span class="lineNum">     335 </span>            :     }
 <span class="lineNum">     336 </span>            : 
 <span class="lineNum">     337 </span><span class="lineNoCov">          0 :     return NULL;</span>
-<a name="338"><span class="lineNum">     338 </span><span class="lineCov">         18 : }</span></a>
+<a name="338"><span class="lineNum">     338 </span><span class="lineCov">         23 : }</span></a>
 <span class="lineNum">     339 </span>            : 
-<span class="lineNum">     340 </span><span class="lineCov">         27 : cParseResponse *cparse_client_request_get_response(cParseRequest *request)</span>
+<span class="lineNum">     340 </span><span class="lineCov">         35 : cParseResponse *cparse_client_request_get_response(cParseRequest *request)</span>
 <span class="lineNum">     341 </span>            : {
-<span class="lineNum">     342 </span><span class="lineCov">         27 :     CURL *curl;</span>
-<span class="lineNum">     343 </span><span class="lineCov">         27 :     CURLcode res;</span>
-<span class="lineNum">     344 </span><span class="lineCov">         27 :     cParseResponse *response;</span>
-<span class="lineNum">     345 </span><span class="lineCov">         27 :     struct curl_slist *headers;</span>
+<span class="lineNum">     342 </span><span class="lineCov">         35 :     CURL *curl;</span>
+<span class="lineNum">     343 </span><span class="lineCov">         35 :     CURLcode res;</span>
+<span class="lineNum">     344 </span><span class="lineCov">         35 :     cParseResponse *response;</span>
+<span class="lineNum">     345 </span><span class="lineCov">         35 :     struct curl_slist *headers;</span>
 <span class="lineNum">     346 </span>            : 
-<span class="lineNum">     347 </span><span class="lineCov">         27 :     curl_global_init(CURL_GLOBAL_ALL);</span>
+<span class="lineNum">     347 </span><span class="lineCov">         35 :     curl_global_init(CURL_GLOBAL_ALL);</span>
 <span class="lineNum">     348 </span>            : 
-<span class="lineNum">     349 </span><span class="lineCov">         27 :     curl = curl_easy_init();</span>
-<span class="lineNum">     350 </span><span class="lineCov">         27 :     if (curl == NULL)</span>
+<span class="lineNum">     349 </span><span class="lineCov">         35 :     curl = curl_easy_init();</span>
+<span class="lineNum">     350 </span><span class="lineCov">         35 :     if (curl == NULL)</span>
 <span class="lineNum">     351 </span>            :     {
 <span class="lineNum">     352 </span><span class="lineNoCov">          0 :         log_error(&quot;unable to init curl&quot;);</span>
 <span class="lineNum">     353 </span><span class="lineNoCov">          0 :         return NULL;</span>
 <span class="lineNum">     354 </span>            :     }
 <span class="lineNum">     355 </span>            : 
-<span class="lineNum">     356 </span><span class="lineCov">         35 :     response = malloc(sizeof(cParseResponse));</span>
-<span class="lineNum">     357 </span><span class="lineCov">         35 :     response-&gt;text = NULL;</span>
-<span class="lineNum">     358 </span><span class="lineCov">         35 :     response-&gt;code = 0;</span>
-<span class="lineNum">     359 </span><span class="lineCov">         35 :     response-&gt;size = 0;</span>
+<span class="lineNum">     356 </span><span class="lineCov">         46 :     response = malloc(sizeof(cParseResponse));</span>
+<span class="lineNum">     357 </span><span class="lineCov">         46 :     response-&gt;text = NULL;</span>
+<span class="lineNum">     358 </span><span class="lineCov">         46 :     response-&gt;code = 0;</span>
+<span class="lineNum">     359 </span><span class="lineCov">         46 :     response-&gt;size = 0;</span>
 <span class="lineNum">     360 </span>            : 
-<span class="lineNum">     361 </span><span class="lineCov">         35 :     switch (request-&gt;method)</span>
+<span class="lineNum">     361 </span><span class="lineCov">         46 :     switch (request-&gt;method)</span>
 <span class="lineNum">     362 </span>            :     {
 <span class="lineNum">     363 </span>            :     case HttpRequestMethodPost:
-<span class="lineNum">     364 </span><span class="lineCov">          9 :         curl_easy_setopt(curl, CURLOPT_POST, 1L);</span>
-<span class="lineNum">     365 </span><span class="lineCov">          9 :         break;</span>
+<span class="lineNum">     364 </span><span class="lineCov">         11 :         curl_easy_setopt(curl, CURLOPT_POST, 1L);</span>
+<span class="lineNum">     365 </span><span class="lineCov">         11 :         break;</span>
 <span class="lineNum">     366 </span>            :     case HttpRequestMethodPut:
 <span class="lineNum">     367 </span><span class="lineCov">          1 :         curl_easy_setopt(curl, CURLOPT_CUSTOMREQUEST, HttpRequestMethodNames[HttpRequestMethodPut]);</span>
 <span class="lineNum">     368 </span><span class="lineCov">          1 :         break;</span>
 <span class="lineNum">     369 </span>            :     case HttpRequestMethodDelete:
-<span class="lineNum">     370 </span><span class="lineCov">          9 :         curl_easy_setopt(curl, CURLOPT_CUSTOMREQUEST, HttpRequestMethodNames[HttpRequestMethodDelete]);</span>
-<span class="lineNum">     371 </span><span class="lineCov">          9 :         break;</span>
+<span class="lineNum">     370 </span><span class="lineCov">         12 :         curl_easy_setopt(curl, CURLOPT_CUSTOMREQUEST, HttpRequestMethodNames[HttpRequestMethodDelete]);</span>
+<span class="lineNum">     371 </span><span class="lineCov">         12 :         break;</span>
 <span class="lineNum">     372 </span>            :     case HttpRequestMethodGet:
-<span class="lineNum">     373 </span><span class="lineCov">          8 :         curl_easy_setopt(curl, CURLOPT_HTTPGET, 1L);</span>
+<span class="lineNum">     373 </span><span class="lineCov">         11 :         curl_easy_setopt(curl, CURLOPT_HTTPGET, 1L);</span>
 <span class="lineNum">     374 </span>            :     default:
-<span class="lineNum">     375 </span><span class="lineCov">          8 :         break;</span>
+<span class="lineNum">     375 </span><span class="lineCov">         11 :         break;</span>
 <span class="lineNum">     376 </span>            :     }
 <span class="lineNum">     377 </span>            : 
-<span class="lineNum">     378 </span><span class="lineCov">         27 :     if (request-&gt;data)</span>
+<span class="lineNum">     378 </span><span class="lineCov">         35 :     if (request-&gt;data)</span>
 <span class="lineNum">     379 </span>            :     {
-<span class="lineNum">     380 </span><span class="lineCov">         14 :         if (request-&gt;method == HttpRequestMethodGet)</span>
+<span class="lineNum">     380 </span><span class="lineCov">         17 :         if (request-&gt;method == HttpRequestMethodGet)</span>
 <span class="lineNum">     381 </span>            :         {
-<span class="lineNum">     382 </span><span class="lineCov">          4 :             char buf[BUFSIZ + 1] = {0};</span>
+<span class="lineNum">     382 </span><span class="lineCov">          5 :             char buf[BUFSIZ + 1] = {0};</span>
 <span class="lineNum">     383 </span>            : 
-<span class="lineNum">     384 </span><span class="lineCov">          4 :             cparse_client_set_payload_from_data(curl, request, true);</span>
+<span class="lineNum">     384 </span><span class="lineCov">          5 :             cparse_client_set_payload_from_data(curl, request, true);</span>
 <span class="lineNum">     385 </span>            : 
-<span class="lineNum">     386 </span><span class="lineCov">          4 :             snprintf(buf, BUFSIZ,  &quot;%s?%s&quot;, request-&gt;path, request-&gt;payload);</span>
+<span class="lineNum">     386 </span><span class="lineCov">          5 :             snprintf(buf, BUFSIZ,  &quot;%s?%s&quot;, request-&gt;path, request-&gt;payload);</span>
 <span class="lineNum">     387 </span>            : 
-<span class="lineNum">     388 </span><span class="lineCov">          4 :             cparse_client_set_request_url(curl, buf);</span>
-<span class="lineNum">     389 </span><span class="lineCov">          4 :         }</span>
+<span class="lineNum">     388 </span><span class="lineCov">          5 :             cparse_client_set_request_url(curl, buf);</span>
+<span class="lineNum">     389 </span><span class="lineCov">          5 :         }</span>
 <span class="lineNum">     390 </span>            :         else
 <span class="lineNum">     391 </span>            :         {
-<span class="lineNum">     392 </span><span class="lineCov">         10 :             cparse_client_set_payload_from_data(curl, request, false);</span>
+<span class="lineNum">     392 </span><span class="lineCov">         12 :             cparse_client_set_payload_from_data(curl, request, false);</span>
 <span class="lineNum">     393 </span>            : 
-<span class="lineNum">     394 </span><span class="lineCov">         10 :             curl_easy_setopt(curl, CURLOPT_POSTFIELDS, request-&gt;payload);</span>
-<span class="lineNum">     395 </span><span class="lineCov">         10 :             curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE, request-&gt;payloadSize);</span>
+<span class="lineNum">     394 </span><span class="lineCov">         12 :             curl_easy_setopt(curl, CURLOPT_POSTFIELDS, request-&gt;payload);</span>
+<span class="lineNum">     395 </span><span class="lineCov">         12 :             curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE, request-&gt;payloadSize);</span>
 <span class="lineNum">     396 </span>            : 
-<span class="lineNum">     397 </span><span class="lineCov">         10 :             cparse_client_set_request_url(curl, request-&gt;path);</span>
+<span class="lineNum">     397 </span><span class="lineCov">         12 :             cparse_client_set_request_url(curl, request-&gt;path);</span>
 <span class="lineNum">     398 </span>            :         }
 <span class="lineNum">     399 </span>            : 
-<span class="lineNum">     400 </span><span class="lineCov">         14 :         log_trace(&quot;cparse request payload: %s&quot;, request-&gt;payload);</span>
-<span class="lineNum">     401 </span><span class="lineCov">         14 :     }</span>
+<span class="lineNum">     400 </span><span class="lineCov">         17 :         log_trace(&quot;cparse request payload: %s&quot;, request-&gt;payload);</span>
+<span class="lineNum">     401 </span><span class="lineCov">         17 :     }</span>
 <span class="lineNum">     402 </span>            :     else
 <span class="lineNum">     403 </span>            :     {
-<span class="lineNum">     404 </span><span class="lineCov">         13 :         cparse_client_set_request_url(curl, request-&gt;path);</span>
+<span class="lineNum">     404 </span><span class="lineCov">         18 :         cparse_client_set_request_url(curl, request-&gt;path);</span>
 <span class="lineNum">     405 </span>            :     }
 <span class="lineNum">     406 </span>            : 
-<span class="lineNum">     407 </span><span class="lineCov">         27 :     log_trace(&quot;cparse request method: %s&quot;, HttpRequestMethodNames[request-&gt;method]);</span>
+<span class="lineNum">     407 </span><span class="lineCov">         35 :     log_trace(&quot;cparse request method: %s&quot;, HttpRequestMethodNames[request-&gt;method]);</span>
 <span class="lineNum">     408 </span>            : 
-<span class="lineNum">     409 </span><span class="lineCov">         27 :     headers = cparse_client_set_headers(curl, request-&gt;headers);</span>
+<span class="lineNum">     409 </span><span class="lineCov">         35 :     headers = cparse_client_set_headers(curl, request-&gt;headers);</span>
 <span class="lineNum">     410 </span>            : 
-<span class="lineNum">     411 </span><span class="lineCov">         27 :     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, cparse_client_get_response);</span>
-<span class="lineNum">     412 </span><span class="lineCov">         27 :     curl_easy_setopt(curl, CURLOPT_WRITEDATA, response);</span>
+<span class="lineNum">     411 </span><span class="lineCov">         35 :     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, cparse_client_get_response);</span>
+<span class="lineNum">     412 </span><span class="lineCov">         35 :     curl_easy_setopt(curl, CURLOPT_WRITEDATA, response);</span>
 <span class="lineNum">     413 </span>            : 
-<span class="lineNum">     414 </span><span class="lineCov">         27 :     res = curl_easy_perform(curl);</span>
+<span class="lineNum">     414 </span><span class="lineCov">         35 :     res = curl_easy_perform(curl);</span>
 <span class="lineNum">     415 </span>            : 
-<span class="lineNum">     416 </span><span class="lineCov">         27 :     if (res != CURLE_OK)</span>
+<span class="lineNum">     416 </span><span class="lineCov">         35 :     if (res != CURLE_OK)</span>
 <span class="lineNum">     417 </span><span class="lineNoCov">          0 :         log_error(&quot;problem with cparse request %s&quot;, curl_easy_strerror(res));</span>
 <span class="lineNum">     418 </span>            : 
-<span class="lineNum">     419 </span><span class="lineCov">         27 :     log_trace(&quot;cparse response: %s&quot;, response-&gt;text);</span>
+<span class="lineNum">     419 </span><span class="lineCov">         35 :     log_trace(&quot;cparse response: %s&quot;, response-&gt;text);</span>
 <span class="lineNum">     420 </span>            : 
-<span class="lineNum">     421 </span><span class="lineCov">         27 :     curl_easy_getinfo (curl, CURLINFO_RESPONSE_CODE, (long *) &amp;response-&gt;code);</span>
+<span class="lineNum">     421 </span><span class="lineCov">         35 :     curl_easy_getinfo (curl, CURLINFO_RESPONSE_CODE, (long *) &amp;response-&gt;code);</span>
 <span class="lineNum">     422 </span>            : 
-<span class="lineNum">     423 </span><span class="lineCov">         27 :     curl_slist_free_all(headers);</span>
+<span class="lineNum">     423 </span><span class="lineCov">         35 :     curl_slist_free_all(headers);</span>
 <span class="lineNum">     424 </span>            : 
 <span class="lineNum">     425 </span>            :     /* always cleanup */
-<span class="lineNum">     426 </span><span class="lineCov">         27 :     curl_easy_cleanup(curl);</span>
+<span class="lineNum">     426 </span><span class="lineCov">         35 :     curl_easy_cleanup(curl);</span>
 <span class="lineNum">     427 </span>            : 
-<span class="lineNum">     428 </span><span class="lineCov">         27 :     curl_global_cleanup();</span>
+<span class="lineNum">     428 </span><span class="lineCov">         35 :     curl_global_cleanup();</span>
 <span class="lineNum">     429 </span>            : 
-<span class="lineNum">     430 </span><span class="lineCov">         27 :     return response;</span>
-<a name="431"><span class="lineNum">     431 </span><span class="lineCov">         27 : }</span></a>
+<span class="lineNum">     430 </span><span class="lineCov">         35 :     return response;</span>
+<a name="431"><span class="lineNum">     431 </span><span class="lineCov">         35 : }</span></a>
 <span class="lineNum">     432 </span>            : 
 <span class="lineNum">     433 </span><span class="lineNoCov">          0 : bool cparse_client_request(HttpRequestMethod method, const char *path, cParseError **error)</span>
 <span class="lineNum">     434 </span>            : {

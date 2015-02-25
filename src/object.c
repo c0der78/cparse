@@ -15,6 +15,8 @@
 
 /* internals */
 
+extern cParseObject *cparse_current_user_;
+
 /* this is a background thread. The argument controlls functionality*/
 static void *cparse_object_background_action(void *argument)
 {
@@ -120,7 +122,7 @@ static cParseRequest *cparse_object_create_request(cParseObject *obj, HttpReques
 }
 
 /* initializers */
-static cParseObject *cparse_object_new()
+cParseObject *cparse_object_new()
 {
     cParseObject *obj = malloc(sizeof(cParseObject));
 
@@ -170,6 +172,8 @@ cParseObject *cparse_object_with_class_data(const char *className, cParseJson *a
 /* cleanup */
 void cparse_object_free(cParseObject *obj)
 {
+    if (cparse_current_user_ == obj)
+        cparse_current_user_ = NULL;
 
     cparse_json_free(obj->attributes);
 

@@ -108,13 +108,11 @@ Suite *cparse_query_suite (void)
     Suite *s = suite_create ("Query");
 
     /* Core test case */
-    TCase *tc = tcase_create ("Query");
+    TCase *tc = tcase_create ("Where");
     tcase_add_checked_fixture(tc, cparse_test_setup, cparse_test_teardown);
     tcase_add_test(tc, test_cparse_query_objects);
     tcase_add_test(tc, test_cparse_query_where);
-
     tcase_set_timeout(tc, 30);
-
     suite_add_tcase(s, tc);
 
     return s;

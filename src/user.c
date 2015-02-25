@@ -10,7 +10,11 @@
 #include "client.h"
 #include "private.h"
 
-char current_user_token[BUFSIZ + 1] = {0};
+char cparse_current_user_token[BUFSIZ + 1] = {0};
+
+cParseObject *cparse_current_user_ = NULL;
+
+extern cParseObject *cparse_object_new();
 
 extern void cparse_object_set_request_includes(cParseObject *obj, cParseRequest *request);
 
@@ -38,7 +42,11 @@ static cParseRequest *cparse_user_create_request(cParseObject *obj, HttpRequestM
 
 cParseObject *cparse_user_new()
 {
-    return cparse_object_with_class_name(CPARSE_USER_CLASS_NAME);
+    cParseObject *obj = cparse_object_new();
+
+    obj->className = strdup(CPARSE_USER_CLASS_NAME);
+
+    return obj;
 }
 
 cParseObject *cparse_user_with_name(const char *username)
@@ -52,21 +60,24 @@ cParseObject *cparse_user_with_name(const char *username)
 
 cParseObject *cparse_current_user(cParseError **error)
 {
-    cParseObject *user;
+    if (cparse_current_user_ != NULL)
+        return cparse_current_user_;
 
-    if (!*current_user_token)
+    if (!cparse_current_user_token[0])
         return NULL;
 
-    user = cparse_object_with_class_name(CPARSE_USER_CLASS_NAME);
+    cparse_current_user_ = cparse_object_with_class_name(CPARSE_USER_CLASS_NAME);
 
-    if (!cparse_user_validate(user, current_user_token, error))
+    if (!cparse_user_validate(cparse_current_user_, cparse_current_user_token, error))
     {
-        cparse_object_free(user);
+        cparse_object_free(cparse_current_user_);
+
+        cparse_current_user_ = NULL;
 
         return NULL;
     }
 
-    return user;
+    return cparse_current_user_;
 }
 
 /* getters/setters */
@@ -165,8 +176,10 @@ bool cparse_user_login_user(cParseObject *user, cParseError **error)
 
         if (sessionToken)
         {
-            strncpy(current_user_token, sessionToken, BUFSIZ);
+            strncpy(cparse_current_user_token, sessionToken, BUFSIZ);
         }
+
+        cparse_current_user_ = user;
     }
     return true;
 }
@@ -199,7 +212,8 @@ pthread_t cparse_user_login_in_background(const char *username, const char *pass
 
 void cparse_user_logout()
 {
-    memset(current_user_token, 0, BUFSIZ);
+    memset(cparse_current_user_token, 0, BUFSIZ);
+    cparse_current_user_ = NULL;
 }
 
 
@@ -300,7 +314,10 @@ static bool cparse_user_sign_up_user(cParseObject *user, cParseError **error)
         {
             const char *sessionToken = cparse_object_get_string(user, KEY_USER_SESSION_TOKEN);
 
-            strncpy(current_user_token, sessionToken, BUFSIZ);
+            if (sessionToken)
+                strncpy(cparse_current_user_token, sessionToken, BUFSIZ);
+
+            cparse_current_user_ = user;
         }
         return true;
     }
@@ -321,6 +338,9 @@ bool cparse_user_sign_up(cParseObject *user, const char *password, cParseError *
 
 pthread_t cparse_user_sign_up_in_background(cParseObject *user, const char *password, cParseObjectCallback callback)
 {
+    if (password && *password)
+        cparse_object_set_string(user, KEY_USER_PASSWORD, password);
+
     return cparse_object_run_in_background(user, cparse_user_sign_up_user, callback, NULL);
 }
 
@@ -408,7 +428,14 @@ bool cparse_user_validate(cParseObject *user, const char *sessionToken, cParseEr
 
     cParseJson *json;
 
-    request = cparse_client_request_with_method_and_path(HttpRequestMethodGet, "me");
+    if (sessionToken == NULL || !*sessionToken)
+    {
+        if (error)
+            *error = cparse_error_with_message("missing session token");
+        return false;
+    }
+
+    request = cparse_client_request_with_method_and_path(HttpRequestMethodGet, CPARSE_USER_CLASS_NAME "/me");
 
     cparse_client_request_add_header(request, HEADER_SESSION_TOKEN, sessionToken);
 

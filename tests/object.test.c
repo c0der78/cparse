@@ -62,6 +62,9 @@ START_TEST(test_cparse_object_fetch)
     /* check we fail if no object id */
     fail_if(cparse_object_fetch(obj, &error));
 
+    if (error)
+        cparse_error_free(error);
+
     fail_unless(cparse_save_test_object(obj));
 
     fail_unless(cparse_object_id(obj) != NULL);
@@ -78,6 +81,8 @@ START_TEST(test_cparse_object_fetch)
 
     /* now fetch the reference */
 
+    error = NULL;
+
     fail_unless(cparse_object_fetch(cp_obj, &error));
 
     fail_unless(error == NULL);
@@ -91,8 +96,11 @@ START_TEST(test_cparse_object_fetch)
     pthread_join(bg, NULL);
 }
 END_TEST
+
 START_TEST(test_cparse_object_refresh)
 {
+    cParseError *error = NULL;
+    bool rval;
     pthread_t bg;
     cParseObject *obj = cparse_new_test_object("user2", 1444), *obj2;
 
@@ -100,17 +108,30 @@ START_TEST(test_cparse_object_refresh)
 
     obj2 = cparse_new_test_object("user3", 1234);
 
-    fail_if(cparse_object_refresh(obj, NULL));
+    cparse_cleanup_test_object(obj2);
+
+    rval = cparse_object_refresh(obj, NULL);
+
+    if (!rval)
+        printf("refresh error: %s\n", cparse_error_message(error));
+
+    fail_unless(rval);
 
     obj2->objectId = strdup(obj->objectId);
 
-    fail_unless(cparse_object_refresh(obj2, NULL));
+    rval = cparse_object_refresh(obj2, &error);
+
+    if (!rval)
+        printf("Refresh error: %s\n", cparse_error_message(error));
+
+    fail_unless(rval);
 
     fail_unless(cparse_object_get_number(obj2, "score", 0) == 1444);
 
     bg = cparse_object_refresh_in_background(obj2, test_cparse_object_callback);
 
     pthread_join(bg, NULL);
+
 }
 END_TEST
 
@@ -214,19 +235,26 @@ Suite *cparse_object_suite (void)
     Suite *s = suite_create ("Object");
 
     /* Core test case */
-    TCase *tc = tcase_create ("Object");
+    TCase *tc = tcase_create ("Save/Update");
     tcase_add_checked_fixture(tc, cparse_test_setup, cparse_test_teardown);
     tcase_add_test(tc, test_cparse_object_save);
+    tcase_add_test(tc, test_cparse_object_save_in_background);
+    tcase_set_timeout(tc, 30);
+    suite_add_tcase(s, tc);
+
+    tc = tcase_create ("Attributes");
+    tcase_add_checked_fixture(tc, cparse_test_setup, cparse_test_teardown);
     tcase_add_test(tc, test_cparse_object_set_value);
     tcase_add_test(tc, test_cparse_object_count_attributes);
     tcase_add_test(tc, test_cparse_object_remove_attribute);
     tcase_add_test(tc, test_cparse_object_to_json);
-    tcase_add_test(tc, test_cparse_object_save_in_background);
+    suite_add_tcase(s, tc);
+
+    tc = tcase_create("Refresh/Fetch");
+    tcase_add_checked_fixture(tc, cparse_test_setup, cparse_test_teardown);
     tcase_add_test(tc, test_cparse_object_fetch);
     tcase_add_test(tc, test_cparse_object_refresh);
-
     tcase_set_timeout(tc, 30);
-
     suite_add_tcase(s, tc);
 
     return s;

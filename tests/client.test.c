@@ -1,5 +1,6 @@
 #include "../src/client.h"
 #include "../src/private.h"
+#include "../src/cparse/error.h"
 #include "parse.test.h"
 #include <check.h>
 
@@ -26,6 +27,8 @@ START_TEST(test_cparse_client_payload)
     fail_unless(request->data->key == NULL);
 
     fail_unless(!strcmp(request->data->value, "key=value"));
+
+    cparse_client_request_free(request);
 }
 END_TEST
 
@@ -39,6 +42,11 @@ START_TEST(test_cparse_client_bad_request)
     cParseJson *json = cparse_client_request_get_json(request, &error);
 
     fail_unless(json == NULL);
+
+    if(error)
+        cparse_error_free(error);
+
+    cparse_client_request_free(request);
 }
 END_TEST
 

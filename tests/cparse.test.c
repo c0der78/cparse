@@ -21,6 +21,7 @@ extern const char *cparse_api_key;
 void read_env_config();
 void read_test_config();
 void die(const char *message);
+void cleanup();
 
 int main(void)
 {
@@ -42,6 +43,8 @@ int main(void)
 #ifdef DEBUG
     cparse_set_log_level(cParseLogTrace);
 #endif
+
+    atexit(cleanup);
 
     sr = srunner_create(cparse_parse_suite());
     srunner_add_suite(sr, cparse_json_suite());
@@ -101,16 +104,19 @@ void read_test_config()
 
     config = cparse_json_tokenize(text);
 
+    free(text);
+
     if (cparse_json_contains(config, "parseAppId"))
-        cparse_set_application_id(cparse_json_get_string(config, "parseAppId"));
+        cparse_set_application_id(strdup(cparse_json_get_string(config, "parseAppId")));
     else
         die("No app id");
 
     if (cparse_json_contains(config, "parseApiKey"))
-        cparse_set_api_key(cparse_json_get_string(config, "parseApiKey"));
+        cparse_set_api_key(strdup(cparse_json_get_string(config, "parseApiKey")));
     else
         die("No api key");
 
+    cparse_json_free(config);
 }
 
 void read_env_config()
@@ -124,4 +130,13 @@ void read_env_config()
 
     if (val != NULL)
         cparse_set_api_key(val);
+}
+
+void cleanup()
+{
+    if(cparse_app_id)
+        free((char*)cparse_app_id);
+
+    if(cparse_api_key)
+        free((char*)cparse_api_key);
 }
