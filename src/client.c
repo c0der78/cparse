@@ -361,6 +361,7 @@ cParseResponse *cparse_client_request_get_response(cParseRequest *request)
     CURL *curl;
     CURLcode res;
     cParseResponse *response;
+    struct curl_slist *headers;
 
     curl = curl_easy_init();
     if (curl == NULL)
@@ -420,7 +421,7 @@ cParseResponse *cparse_client_request_get_response(cParseRequest *request)
         cparse_client_set_request_url(curl, request->path);
     }
 
-    struct curl_slist *headers = cparse_client_set_headers(curl, request->headers);
+    headers = cparse_client_set_headers(curl, request->headers);
 
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, cparse_client_get_response);
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, response);
