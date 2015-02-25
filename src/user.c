@@ -292,7 +292,9 @@ static bool cparse_user_sign_up_user(cParseObject *user, cParseError **error)
         cparse_json_free(json);
 
         /* remove the passwrod from the user attributes for security */
-        cparse_object_remove(user, "password");
+        json = cparse_object_remove(user, "password");
+
+        cparse_json_free(json);
 
         if (cparse_object_contains(user, KEY_USER_SESSION_TOKEN))
         {

@@ -122,11 +122,15 @@ START_TEST(test_cparse_object_remove_attribute)
 
     cparse_object_set(cp_obj, "main", value);
 
+    cparse_json_free(value);
+
     fail_unless(cparse_object_attribute_size(cp_obj) == 1);
 
     removed = cparse_object_remove(cp_obj, "main");
 
     fail_unless(removed == value);
+
+    cparse_json_free(removed);
 
     fail_unless(cparse_object_attribute_size(cp_obj) == 0);
 
