@@ -223,23 +223,23 @@ static struct curl_slist *cparse_client_set_headers(CURL *curl, cParseRequestHea
 
     snprintf(buf, BUFSIZ, "%s: %s", HEADER_APP_ID, cparse_app_id);
 
-    headers = curl_slist_append(headers, strdup(buf));
+    headers = curl_slist_append(headers, buf);
 
     snprintf(buf, BUFSIZ, "%s: %s", HEADER_API_KEY, cparse_api_key);
 
-    headers = curl_slist_append(headers, strdup(buf));
+    headers = curl_slist_append(headers, buf);
 
-    headers = curl_slist_append(headers, strdup("Content-Type: application/json"));
+    headers = curl_slist_append(headers, "Content-Type: application/json");
 
     snprintf(buf, BUFSIZ, "User-Agent: libcparse-%s", cparse_lib_version);
 
-    headers = curl_slist_append(headers, strdup(buf));
+    headers = curl_slist_append(headers, buf);
 
     for (header = requestHeaders; header; header = header->next)
     {
         snprintf(buf, BUFSIZ, "%s: %s", header->key, header->value);
 
-        headers = curl_slist_append(headers, strdup(buf));
+        headers = curl_slist_append(headers, buf);
     }
     curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
 
