@@ -25,31 +25,11 @@ extern const char *cparse_api_key;
 
 extern const char *cparse_app_id;
 
-/*! a parse request */
-struct cparse_client_request
-{
-    char *path;
-    cParseRequestData *data;
-    char *payload;
-    size_t payloadSize;
-    HttpRequestMethod method;
-    cParseRequestHeader *headers;
-};
-
-/*! a parse response */
-struct cparse_client_response
-{
-    char *text;
-    size_t size;
-    int code;
-};
-
-/*! a simple key value linked list */
-struct cparse_kv_list
-{
-    struct cparse_kv_list *next;
-    char *key;
-    char *value;
+const char *const HttpRequestMethodNames[] = {
+    "GET",
+    "POST",
+    "PUT",
+    "DELETE"
 };
 
 /*! allocates a new key value list */
@@ -206,7 +186,7 @@ static void cparse_client_set_request_url(CURL *curl, const char *path)
 
     snprintf(buf, BUFSIZ, "%s/%s/%s", cparse_domain, cparse_api_version, path);
 
-    log_debug("cparse request %s", buf);
+    log_debug("cparse request URL: %s", buf);
 
     curl_easy_setopt(curl, CURLOPT_URL, buf);
 }
@@ -273,6 +253,7 @@ static void cparse_client_set_payload_from_data(CURL *curl, cParseRequest *reque
         else
         {
             request->payload = realloc(request->payload, request->payloadSize + bufLen + 1);
+
             strncat(request->payload, buf, bufLen);
         }
         request->payloadSize += bufLen;
@@ -383,10 +364,10 @@ cParseResponse *cparse_client_request_get_response(cParseRequest *request)
         curl_easy_setopt(curl, CURLOPT_POST, 1L);
         break;
     case HttpRequestMethodPut:
-        curl_easy_setopt(curl, CURLOPT_PUT, 1L);
+        curl_easy_setopt(curl, CURLOPT_CUSTOMREQUEST, HttpRequestMethodNames[HttpRequestMethodPut]);
         break;
     case HttpRequestMethodDelete:
-        curl_easy_setopt(curl, CURLOPT_CUSTOMREQUEST, "DELETE");
+        curl_easy_setopt(curl, CURLOPT_CUSTOMREQUEST, HttpRequestMethodNames[HttpRequestMethodDelete]);
         break;
     case HttpRequestMethodGet:
         curl_easy_setopt(curl, CURLOPT_HTTPGET, 1L);
@@ -423,10 +404,13 @@ cParseResponse *cparse_client_request_get_response(cParseRequest *request)
         cparse_client_set_request_url(curl, request->path);
     }
 
+    log_trace("cparse request method: %s", HttpRequestMethodNames[request->method]);
+
     headers = cparse_client_set_headers(curl, request->headers);
 
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, cparse_client_get_response);
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, response);
+
     res = curl_easy_perform(curl);
 
     if (res != CURLE_OK)

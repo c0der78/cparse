@@ -45,6 +45,14 @@ struct cparse_query_builder
     cParseJson *json;
 };
 
+/*! a simple key value linked list */
+struct cparse_kv_list
+{
+    struct cparse_kv_list *next;
+    char *key;
+    char *value;
+};
+
 struct cparse_op_array
 {
     char *operation;

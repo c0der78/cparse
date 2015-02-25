@@ -31,18 +31,18 @@
             <td class="headerValue">Code Coverage</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">23</td>
+            <td class="headerCovTableEntry">8</td>
             <td class="headerCovTableEntry">44</td>
-            <td class="headerCovTableEntryLo">52.3 %</td>
+            <td class="headerCovTableEntryLo">18.2 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2015-02-16 23:40:50</td>
+            <td class="headerValue">2015-02-25 00:06:34</td>
             <td></td>
             <td class="headerItem">Functions:</td>
-            <td class="headerCovTableEntry">3</td>
+            <td class="headerCovTableEntry">2</td>
             <td class="headerCovTableEntry">6</td>
-            <td class="headerCovTableEntryLo">50.0 %</td>
+            <td class="headerCovTableEntryLo">33.3 %</td>
           </tr>
           <tr>
             <td class="headerItem">Legend:</td>
@@ -81,17 +81,17 @@
 <span class="lineNum">      11 </span>            : 
 <a name="12"><span class="lineNum">      12 </span>            : cParseLogLevel cparse_current_log_level;</a>
 <span class="lineNum">      13 </span>            : 
-<span class="lineNum">      14 </span><span class="lineCov">         52 : static void log_vargs(cParseLogLevel level, const char *const format, va_list args)</span>
+<span class="lineNum">      14 </span><span class="lineNoCov">          0 : static void log_vargs(cParseLogLevel level, const char *const format, va_list args)</span>
 <span class="lineNum">      15 </span>            : {
-<span class="lineNum">      16 </span><span class="lineCov">         52 :     char buf[BUFSIZ + 1] = {0};</span>
+<span class="lineNum">      16 </span><span class="lineNoCov">          0 :     char buf[BUFSIZ + 1] = {0};</span>
 <span class="lineNum">      17 </span>            : 
-<span class="lineNum">      18 </span><span class="lineCov">         52 :     time_t t = time(0);</span>
-<span class="lineNum">      19 </span><span class="lineCov">         52 :     strftime(buf, BUFSIZ, &quot;%Y-%m-%d %H:%M:%S&quot;, localtime(&amp;t));</span>
-<span class="lineNum">      20 </span><span class="lineCov">         52 :     fprintf(stdout, &quot;%s %s: &quot;, buf, cParseLogLevelNames[level]);</span>
-<span class="lineNum">      21 </span><span class="lineCov">         52 :     vfprintf(stdout, format, args);</span>
-<span class="lineNum">      22 </span><span class="lineCov">         52 :     fputs(&quot;\n&quot;, stdout);</span>
-<span class="lineNum">      23 </span><span class="lineCov">         52 :     fflush(stdout);</span>
-<a name="24"><span class="lineNum">      24 </span><span class="lineCov">         52 : }</span></a>
+<span class="lineNum">      18 </span><span class="lineNoCov">          0 :     time_t t = time(0);</span>
+<span class="lineNum">      19 </span><span class="lineNoCov">          0 :     strftime(buf, BUFSIZ, &quot;%Y-%m-%d %H:%M:%S&quot;, localtime(&amp;t));</span>
+<span class="lineNum">      20 </span><span class="lineNoCov">          0 :     fprintf(stdout, &quot;%s %s: &quot;, buf, cParseLogLevelNames[level]);</span>
+<span class="lineNum">      21 </span><span class="lineNoCov">          0 :     vfprintf(stdout, format, args);</span>
+<span class="lineNum">      22 </span><span class="lineNoCov">          0 :     fputs(&quot;\n&quot;, stdout);</span>
+<span class="lineNum">      23 </span><span class="lineNoCov">          0 :     fflush(stdout);</span>
+<a name="24"><span class="lineNum">      24 </span><span class="lineNoCov">          0 : }</span></a>
 <span class="lineNum">      25 </span>            : 
 <span class="lineNum">      26 </span><span class="lineNoCov">          0 : void log_error(const char *const format, ...)</span>
 <span class="lineNum">      27 </span>            : {
@@ -126,27 +126,27 @@
 <span class="lineNum">      56 </span><span class="lineNoCov">          0 :     va_end(args);</span>
 <a name="57"><span class="lineNum">      57 </span><span class="lineNoCov">          0 : }</span></a>
 <span class="lineNum">      58 </span>            : 
-<span class="lineNum">      59 </span><span class="lineCov">         20 : void log_debug(const char *const format, ...)</span>
+<span class="lineNum">      59 </span><span class="lineCov">         27 : void log_debug(const char *const format, ...)</span>
 <span class="lineNum">      60 </span>            : {
-<span class="lineNum">      61 </span><span class="lineCov">         20 :     va_list args;</span>
+<span class="lineNum">      61 </span><span class="lineCov">         27 :     va_list args;</span>
 <span class="lineNum">      62 </span>            : 
-<span class="lineNum">      63 </span><span class="lineCov">         20 :     if (cParseLogDebug &gt; cparse_current_log_level) return;</span>
+<span class="lineNum">      63 </span><span class="lineCov">         54 :     if (cParseLogDebug &gt; cparse_current_log_level) return;</span>
 <span class="lineNum">      64 </span>            : 
-<span class="lineNum">      65 </span><span class="lineCov">         20 :     va_start(args, format);</span>
-<span class="lineNum">      66 </span><span class="lineCov">         20 :     log_vargs(cParseLogDebug, format, args);</span>
-<span class="lineNum">      67 </span><span class="lineCov">         20 :     va_end(args);</span>
-<a name="68"><span class="lineNum">      68 </span><span class="lineCov">         40 : }</span></a>
+<span class="lineNum">      65 </span><span class="lineNoCov">          0 :     va_start(args, format);</span>
+<span class="lineNum">      66 </span><span class="lineNoCov">          0 :     log_vargs(cParseLogDebug, format, args);</span>
+<span class="lineNum">      67 </span><span class="lineNoCov">          0 :     va_end(args);</span>
+<a name="68"><span class="lineNum">      68 </span><span class="lineCov">         27 : }</span></a>
 <span class="lineNum">      69 </span>            : 
-<span class="lineNum">      70 </span><span class="lineCov">         32 : void log_trace(const char *const format, ...)</span>
+<span class="lineNum">      70 </span><span class="lineCov">         68 : void log_trace(const char *const format, ...)</span>
 <span class="lineNum">      71 </span>            : {
-<span class="lineNum">      72 </span><span class="lineCov">         32 :     va_list args;</span>
+<span class="lineNum">      72 </span><span class="lineCov">         68 :     va_list args;</span>
 <span class="lineNum">      73 </span>            : 
-<span class="lineNum">      74 </span><span class="lineCov">         32 :     if (cParseLogTrace &gt; cparse_current_log_level) return;</span>
+<span class="lineNum">      74 </span><span class="lineCov">        136 :     if (cParseLogTrace &gt; cparse_current_log_level) return;</span>
 <span class="lineNum">      75 </span>            : 
-<span class="lineNum">      76 </span><span class="lineCov">         32 :     va_start(args, format);</span>
-<span class="lineNum">      77 </span><span class="lineCov">         32 :     log_vargs(cParseLogTrace, format, args);</span>
-<span class="lineNum">      78 </span><span class="lineCov">         32 :     va_end(args);</span>
-<span class="lineNum">      79 </span><span class="lineCov">         64 : }</span>
+<span class="lineNum">      76 </span><span class="lineNoCov">          0 :     va_start(args, format);</span>
+<span class="lineNum">      77 </span><span class="lineNoCov">          0 :     log_vargs(cParseLogTrace, format, args);</span>
+<span class="lineNum">      78 </span><span class="lineNoCov">          0 :     va_end(args);</span>
+<span class="lineNum">      79 </span><span class="lineCov">         68 : }</span>
 <span class="lineNum">      80 </span>            : 
 </pre>
       </td>

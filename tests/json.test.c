@@ -79,7 +79,7 @@ END_TEST
 
 Suite *cparse_json_suite (void)
 {
-    Suite *s = suite_create ("Value");
+    Suite *s = suite_create ("Json");
 
     /* Core test case */
     TCase *tc = tcase_create ("Value");

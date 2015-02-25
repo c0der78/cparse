@@ -6,6 +6,8 @@
 #include <cparse/json.h>
 #include <cparse/error.h>
 
+#include "../src/private.h"
+
 #include "parse.test.h"
 
 static void cparse_test_setup()
@@ -19,16 +21,35 @@ static void cparse_test_teardown()
 
 START_TEST(test_cparse_object_save)
 {
+    cParseError *error;
+    bool rval;
     cParseObject *cp_obj = cparse_new_test_object("user1", 1234);
 
     fail_unless(cparse_save_test_object(cp_obj));
 
     fail_unless(cparse_object_id(cp_obj) != NULL);
+
+    cparse_object_set_number(cp_obj, "score", 3243);
+
+    rval = cparse_object_save(cp_obj, &error);
+
+    if (!rval)
+        printf("Update error: %s", cparse_error_message(error));
+
+    fail_unless(rval);
 }
 END_TEST
 
+void test_cparse_object_callback(cParseObject *obj, bool success, cParseError *error)
+{
+    fail_unless(success);
+
+    fail_unless(cparse_object_id(obj) != NULL);
+}
+
 START_TEST(test_cparse_object_fetch)
 {
+    pthread_t bg;
     cParseObject *cp_obj = cparse_new_test_object("user1", 1234);
 
     /* first create reference object */
@@ -37,6 +58,9 @@ START_TEST(test_cparse_object_fetch)
     cParseJson *data;
 
     cParseError *error = NULL;
+
+    /* check we fail if no object id */
+    fail_if(cparse_object_fetch(obj, &error));
 
     fail_unless(cparse_save_test_object(obj));
 
@@ -61,15 +85,34 @@ START_TEST(test_cparse_object_fetch)
     data = cparse_object_get(cp_obj, "partner");
 
     fail_unless(cparse_json_num_keys(data) > 3);
+
+    bg = cparse_object_fetch_in_background(cp_obj, test_cparse_object_callback);
+
+    pthread_join(bg, NULL);
 }
 END_TEST
-
-void test_cparse_object_callback(cParseObject *obj, bool success, cParseError *error)
+START_TEST(test_cparse_object_refresh)
 {
-    fail_unless(success);
+    pthread_t bg;
+    cParseObject *obj = cparse_new_test_object("user2", 1444), *obj2;
 
-    fail_unless(cparse_object_id(obj) != NULL);
+    fail_unless(cparse_save_test_object(obj));
+
+    obj2 = cparse_new_test_object("user3", 1234);
+
+    fail_if(cparse_object_refresh(obj, NULL));
+
+    obj2->objectId = strdup(obj->objectId);
+
+    fail_unless(cparse_object_refresh(obj2, NULL));
+
+    fail_unless(cparse_object_get_number(obj2, "score", 0) == 1444);
+
+    bg = cparse_object_refresh_in_background(obj2, test_cparse_object_callback);
+
+    pthread_join(bg, NULL);
 }
+END_TEST
 
 START_TEST(test_cparse_object_save_in_background)
 {
@@ -180,6 +223,7 @@ Suite *cparse_object_suite (void)
     tcase_add_test(tc, test_cparse_object_to_json);
     tcase_add_test(tc, test_cparse_object_save_in_background);
     tcase_add_test(tc, test_cparse_object_fetch);
+    tcase_add_test(tc, test_cparse_object_refresh);
 
     tcase_set_timeout(tc, 30);
 

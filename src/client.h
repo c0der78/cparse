@@ -23,11 +23,30 @@ typedef struct cparse_kv_list cParseRequestData;
 /*! HTTP Request Method Types */
 typedef enum
 {
-    HttpRequestMethodGet,
-    HttpRequestMethodPost,
-    HttpRequestMethodPut,
-    HttpRequestMethodDelete
+	HttpRequestMethodGet,
+	HttpRequestMethodPost,
+	HttpRequestMethodPut,
+	HttpRequestMethodDelete
 } HttpRequestMethod;
+
+/*! a parse request */
+struct cparse_client_request
+{
+	char *path;
+	cParseRequestData *data;
+	char *payload;
+	size_t payloadSize;
+	HttpRequestMethod method;
+	cParseRequestHeader *headers;
+};
+
+/*! a parse response */
+struct cparse_client_response
+{
+	char *text;
+	size_t size;
+	int code;
+};
 
 /*! allocates a client request
  * \param method the HTTP method to use

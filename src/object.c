@@ -40,7 +40,7 @@ static void *cparse_object_background_action(void *argument)
     }
 
     pthread_detach(arg->thread);
-    
+
     free(arg);
 
     return NULL;
@@ -99,11 +99,10 @@ static cParseRequest *cparse_object_create_request(cParseObject *obj, HttpReques
 
     if (!obj) return NULL;
 
-
-    if (cparse_object_is_user(obj))
+    if (!cparse_object_is_object(obj))
     {
         if (error)
-            *error = cparse_error_with_message("Cannot create an object request for a user object");
+            *error = cparse_error_with_message("Cannot create an object request for a non-object");
 
         return NULL;
     }
@@ -137,8 +136,8 @@ static cParseObject *cparse_object_new()
 
 void cparse_object_copy(cParseObject *obj, cParseObject *other)
 {
-    obj->className = strdup(other->className);
-    obj->objectId = strdup(other->objectId);
+    replace_str(&obj->className, other->className);
+    replace_str(&obj->objectId, other->objectId);
     obj->acl = cparse_acl_copy(other->acl);
     obj->createdAt = other->createdAt;
     obj->updatedAt = other->updatedAt;
@@ -348,18 +347,9 @@ bool cparse_object_is_object(cParseObject *obj)
 bool cparse_object_save(cParseObject *obj, cParseError **error)
 {
     cParseRequest *request;
-    char buf[BUFSIZ + 1] = {0};
     cParseJson *json;
 
     if (!obj) return false;
-
-    if (cparse_object_is_user(obj))
-    {
-        if (error)
-            *error = cparse_error_with_message("cannot request an object with a user object");
-
-        return false;
-    }
 
     /* build the request based on the id */
     if (!obj->objectId || !*obj->objectId)
@@ -369,6 +359,7 @@ bool cparse_object_save(cParseObject *obj, cParseError **error)
     }
     else
     {
+        char buf[BUFSIZ + 1] = {0};
         snprintf(buf, BUFSIZ, "%s/%s", obj->className, obj->objectId);
         request = cparse_client_request_with_method_and_path(HttpRequestMethodPut, buf);
     }

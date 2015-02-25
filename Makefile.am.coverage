@@ -10,7 +10,7 @@ clean-gcda:
 
 .PHONY: coverage-html generate-coverage-html clean-coverage-html
 coverage-html: clean-gcda
-	-$(MAKE) $(AM_MAKEFLAGS) -k check
+	-$(MAKE) $(AM_MAKEFLAGS) -k test
 	$(MAKE) $(AM_MAKEFLAGS) generate-coverage-html
 
 generate-coverage-html:
