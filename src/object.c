@@ -504,6 +504,8 @@ void cparse_object_set_reference(cParseObject *obj, const char *key, cParseObjec
 
     /* set key for the object */
     cparse_json_set(obj->attributes, key, data);
+
+    cparse_json_free(data);
 }
 
 void cparse_object_merge_json(cParseObject *a, cParseJson *b)
@@ -517,19 +519,34 @@ void cparse_object_merge_json(cParseObject *a, cParseJson *b)
     if (id != NULL)
     {
         replace_str(&a->objectId, cparse_json_to_string(id));
+
+        cparse_json_free(id);
     }
 
     id = cparse_json_remove(b, KEY_CREATED_AT);
 
     if (id != NULL)
+    {
         a->createdAt = cparse_date_time(cparse_json_to_string(id));
+
+        cparse_json_free(id);
+    }
 
     id = cparse_json_remove(b, KEY_UPDATED_AT);
 
     if (id != NULL)
+    {
         a->updatedAt = cparse_date_time(cparse_json_to_string(id));
 
-    cparse_json_remove(b, KEY_CLASS_NAME);
+        cparse_json_free(id);
+    }
+
+    id = cparse_json_remove(b, KEY_CLASS_NAME);
+
+    if (id != NULL)
+    {
+        cparse_json_free(id);
+    }
 
     cparse_json_copy(a->attributes, b, true);
 }

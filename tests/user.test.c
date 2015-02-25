@@ -38,6 +38,8 @@ START_TEST(test_cparse_user_sign_up)
 
     if (error)
         printf("user delete error: %s\n", cparse_error_message(error));
+
+    cparse_object_free(user);
 }
 END_TEST
 
