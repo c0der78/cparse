@@ -114,104 +114,107 @@ Macros</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
 Enumerations</h2></td></tr>
-<tr class="memitem:ac14d0688da972209d31d94dd6efc608b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac14d0688da972209d31d94dd6efc608b"></a>enum &#160;</td><td class="memItemRight" valign="bottom"><b>cParseJSONType</b> { <br />
-&#160;&#160;<b>cParseJSONNumber</b>, 
-<b>cParseJSONReal</b>, 
-<b>cParseJSONString</b>, 
-<b>cParseJSONBoolean</b>, 
+<tr class="memitem:a2bf0ca3132e702be3c8a67638ab5c219"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2bf0ca3132e702be3c8a67638ab5c219"></a>enum &#160;</td><td class="memItemRight" valign="bottom"><b>cParseJsonType</b> { <br />
+&#160;&#160;<b>cParseJsonNumber</b>, 
+<b>cParseJsonReal</b>, 
+<b>cParseJsonString</b>, 
+<b>cParseJsonBoolean</b>, 
 <br />
-&#160;&#160;<b>cParseJSONObject</b>, 
-<b>cParseJSONArray</b>, 
-<b>cParseJSONNull</b>
+&#160;&#160;<b>cParseJsonObject</b>, 
+<b>cParseJsonArray</b>, 
+<b>cParseJsonNull</b>
 <br />
  }</td></tr>
-<tr class="separator:ac14d0688da972209d31d94dd6efc608b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:a2bf0ca3132e702be3c8a67638ab5c219"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a191fcbfc57490d0cb7025fb5b8c2948a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="defines_8h.html#aa21b1a5825128fc9abab2c7b06770e44">CPARSE_JSON</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="json_8h.html#a191fcbfc57490d0cb7025fb5b8c2948a">cparse_json_new</a> ()</td></tr>
-<tr class="separator:a191fcbfc57490d0cb7025fb5b8c2948a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab5c651008457449007d4ef4b13ee7263"><td class="memItemLeft" align="right" valign="top"><a class="el" href="defines_8h.html#aa21b1a5825128fc9abab2c7b06770e44">CPARSE_JSON</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="json_8h.html#ab5c651008457449007d4ef4b13ee7263">cparse_json_new_reference</a> (<a class="el" href="defines_8h.html#aa21b1a5825128fc9abab2c7b06770e44">CPARSE_JSON</a> *orig)</td></tr>
-<tr class="separator:ab5c651008457449007d4ef4b13ee7263"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a658fb2e07bd816986e667e209c2044a5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="defines_8h.html#aa21b1a5825128fc9abab2c7b06770e44">CPARSE_JSON</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="json_8h.html#a658fb2e07bd816986e667e209c2044a5">cparse_json_new_number</a> (<a class="el" href="defines_8h.html#a657ce6efd807e2c34f10c74b45673937">cparse_number</a>)</td></tr>
-<tr class="separator:a658fb2e07bd816986e667e209c2044a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a56a4ee5ef87be7f3325d1709a13d96a4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="defines_8h.html#aa21b1a5825128fc9abab2c7b06770e44">CPARSE_JSON</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="json_8h.html#a56a4ee5ef87be7f3325d1709a13d96a4">cparse_json_new_real</a> (double)</td></tr>
-<tr class="separator:a56a4ee5ef87be7f3325d1709a13d96a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af0e5659f88d4ffe43ed401ec624dfc2c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="defines_8h.html#aa21b1a5825128fc9abab2c7b06770e44">CPARSE_JSON</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="json_8h.html#af0e5659f88d4ffe43ed401ec624dfc2c">cparse_json_new_bool</a> (bool value)</td></tr>
-<tr class="separator:af0e5659f88d4ffe43ed401ec624dfc2c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3bb6c541fd8435ba62eafc48d5c1c292"><td class="memItemLeft" align="right" valign="top"><a class="el" href="defines_8h.html#aa21b1a5825128fc9abab2c7b06770e44">CPARSE_JSON</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="json_8h.html#a3bb6c541fd8435ba62eafc48d5c1c292">cparse_json_new_string</a> (const char *str)</td></tr>
-<tr class="separator:a3bb6c541fd8435ba62eafc48d5c1c292"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9804e05874ce0b2f1bdb7f15387a25f4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="defines_8h.html#aa21b1a5825128fc9abab2c7b06770e44">CPARSE_JSON</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="json_8h.html#a9804e05874ce0b2f1bdb7f15387a25f4">cparse_json_new_array</a> ()</td></tr>
-<tr class="separator:a9804e05874ce0b2f1bdb7f15387a25f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad584d67e46322959438cb4acfb4b3b8f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="json_8h.html#ad584d67e46322959438cb4acfb4b3b8f">cparse_json_copy</a> (<a class="el" href="defines_8h.html#aa21b1a5825128fc9abab2c7b06770e44">CPARSE_JSON</a> *orig, <a class="el" href="defines_8h.html#aa21b1a5825128fc9abab2c7b06770e44">CPARSE_JSON</a> *other, bool replaceOnConflict)</td></tr>
-<tr class="separator:ad584d67e46322959438cb4acfb4b3b8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a64e76208229ba9ec6da4cbb701114f61"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="json_8h.html#a64e76208229ba9ec6da4cbb701114f61">cparse_json_free</a> (<a class="el" href="defines_8h.html#aa21b1a5825128fc9abab2c7b06770e44">CPARSE_JSON</a> *value)</td></tr>
-<tr class="separator:a64e76208229ba9ec6da4cbb701114f61"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acefb40de5ef3fad776b6e4d9e30eae5c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="json_8h.html#acefb40de5ef3fad776b6e4d9e30eae5c">cparse_json_set</a> (<a class="el" href="defines_8h.html#aa21b1a5825128fc9abab2c7b06770e44">CPARSE_JSON</a> *obj, const char *key, <a class="el" href="defines_8h.html#aa21b1a5825128fc9abab2c7b06770e44">CPARSE_JSON</a> *value)</td></tr>
-<tr class="separator:acefb40de5ef3fad776b6e4d9e30eae5c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2dc9d208fe5b97d7f199f5cf3841ba09"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="json_8h.html#a2dc9d208fe5b97d7f199f5cf3841ba09">cparse_json_set_number</a> (<a class="el" href="defines_8h.html#aa21b1a5825128fc9abab2c7b06770e44">CPARSE_JSON</a> *obj, const char *key, <a class="el" href="defines_8h.html#a657ce6efd807e2c34f10c74b45673937">cparse_number</a> value)</td></tr>
-<tr class="separator:a2dc9d208fe5b97d7f199f5cf3841ba09"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0f18af5ded1c203b1474cadf141ff9ed"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="json_8h.html#a0f18af5ded1c203b1474cadf141ff9ed">cparse_json_set_real</a> (<a class="el" href="defines_8h.html#aa21b1a5825128fc9abab2c7b06770e44">CPARSE_JSON</a> *obj, const char *key, double value)</td></tr>
-<tr class="separator:a0f18af5ded1c203b1474cadf141ff9ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad6fcfba6f27d4111762806663694e652"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="json_8h.html#ad6fcfba6f27d4111762806663694e652">cparse_json_set_string</a> (<a class="el" href="defines_8h.html#aa21b1a5825128fc9abab2c7b06770e44">CPARSE_JSON</a> *obj, const char *key, const char *value)</td></tr>
-<tr class="separator:ad6fcfba6f27d4111762806663694e652"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a59e3623bd3037b1b15181960895b3c68"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="json_8h.html#a59e3623bd3037b1b15181960895b3c68">cparse_json_set_bool</a> (<a class="el" href="defines_8h.html#aa21b1a5825128fc9abab2c7b06770e44">CPARSE_JSON</a> *obj, const char *key, bool value)</td></tr>
-<tr class="separator:a59e3623bd3037b1b15181960895b3c68"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1e0e70c222380f21d8ab165e4d63a031"><td class="memItemLeft" align="right" valign="top"><a class="el" href="defines_8h.html#aa21b1a5825128fc9abab2c7b06770e44">CPARSE_JSON</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="json_8h.html#a1e0e70c222380f21d8ab165e4d63a031">cparse_json_get</a> (<a class="el" href="defines_8h.html#aa21b1a5825128fc9abab2c7b06770e44">CPARSE_JSON</a> *obj, const char *key)</td></tr>
-<tr class="separator:a1e0e70c222380f21d8ab165e4d63a031"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad55508b9f2a1a164dde78a0b1e9c7000"><td class="memItemLeft" align="right" valign="top"><a class="el" href="defines_8h.html#a657ce6efd807e2c34f10c74b45673937">cparse_number</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="json_8h.html#ad55508b9f2a1a164dde78a0b1e9c7000">cparse_json_get_number</a> (<a class="el" href="defines_8h.html#aa21b1a5825128fc9abab2c7b06770e44">CPARSE_JSON</a> *obj, const char *key, <a class="el" href="defines_8h.html#a657ce6efd807e2c34f10c74b45673937">cparse_number</a> def)</td></tr>
-<tr class="separator:ad55508b9f2a1a164dde78a0b1e9c7000"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a89903ec12c93f3a6139bb7c96a77d294"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="json_8h.html#a89903ec12c93f3a6139bb7c96a77d294">cparse_json_get_real</a> (<a class="el" href="defines_8h.html#aa21b1a5825128fc9abab2c7b06770e44">CPARSE_JSON</a> *obj, const char *key, double def)</td></tr>
-<tr class="separator:a89903ec12c93f3a6139bb7c96a77d294"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aee841b3fda03cc81c477e857d0452a78"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="json_8h.html#aee841b3fda03cc81c477e857d0452a78">cparse_json_get_bool</a> (<a class="el" href="defines_8h.html#aa21b1a5825128fc9abab2c7b06770e44">CPARSE_JSON</a> *obj, const char *key)</td></tr>
-<tr class="separator:aee841b3fda03cc81c477e857d0452a78"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7b4074d7c547508f0045451b3885a58a"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="json_8h.html#a7b4074d7c547508f0045451b3885a58a">cparse_json_get_string</a> (<a class="el" href="defines_8h.html#aa21b1a5825128fc9abab2c7b06770e44">CPARSE_JSON</a> *obj, const char *key)</td></tr>
-<tr class="separator:a7b4074d7c547508f0045451b3885a58a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa936c3e94b96f1d48219f72c802c238c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="json_8h.html#aa936c3e94b96f1d48219f72c802c238c">cparse_json_is_array</a> (<a class="el" href="defines_8h.html#aa21b1a5825128fc9abab2c7b06770e44">CPARSE_JSON</a> *obj)</td></tr>
-<tr class="separator:aa936c3e94b96f1d48219f72c802c238c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5cc23eabc177b693465f63fe0f57add3"><td class="memItemLeft" align="right" valign="top">cParseJSONType&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="json_8h.html#a5cc23eabc177b693465f63fe0f57add3">cparse_json_type</a> (<a class="el" href="defines_8h.html#aa21b1a5825128fc9abab2c7b06770e44">CPARSE_JSON</a> *obj)</td></tr>
-<tr class="separator:a5cc23eabc177b693465f63fe0f57add3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5ffb7bbfccf8c7a66e04a3fc2fe173ef"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="json_8h.html#a5ffb7bbfccf8c7a66e04a3fc2fe173ef">cparse_json_num_keys</a> (<a class="el" href="defines_8h.html#aa21b1a5825128fc9abab2c7b06770e44">CPARSE_JSON</a> *obj)</td></tr>
-<tr class="separator:a5ffb7bbfccf8c7a66e04a3fc2fe173ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a84911775dfb9dd7622cd55f662091df4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="json_8h.html#a84911775dfb9dd7622cd55f662091df4">cparse_json_contains</a> (<a class="el" href="defines_8h.html#aa21b1a5825128fc9abab2c7b06770e44">CPARSE_JSON</a> *obj, const char *key)</td></tr>
-<tr class="separator:a84911775dfb9dd7622cd55f662091df4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5d358bdb282cccc947faa0ff65d88492"><td class="memItemLeft" align="right" valign="top"><a class="el" href="defines_8h.html#aa21b1a5825128fc9abab2c7b06770e44">CPARSE_JSON</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="json_8h.html#a5d358bdb282cccc947faa0ff65d88492">cparse_json_remove</a> (<a class="el" href="defines_8h.html#aa21b1a5825128fc9abab2c7b06770e44">CPARSE_JSON</a> *obj, const char *key)</td></tr>
-<tr class="separator:a5d358bdb282cccc947faa0ff65d88492"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7ef40a476dea176c1bf4a267e4cdd070"><td class="memItemLeft" align="right" valign="top"><a class="el" href="defines_8h.html#aa21b1a5825128fc9abab2c7b06770e44">CPARSE_JSON</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="json_8h.html#a7ef40a476dea176c1bf4a267e4cdd070">cparse_json_tokenize</a> (const char *str)</td></tr>
-<tr class="separator:a7ef40a476dea176c1bf4a267e4cdd070"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1bd7469fadea1ce98e81c2a4ea257156"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="json_8h.html#a1bd7469fadea1ce98e81c2a4ea257156">cparse_json_array_add_number</a> (<a class="el" href="defines_8h.html#aa21b1a5825128fc9abab2c7b06770e44">CPARSE_JSON</a> *array, <a class="el" href="defines_8h.html#a657ce6efd807e2c34f10c74b45673937">cparse_number</a> value)</td></tr>
-<tr class="separator:a1bd7469fadea1ce98e81c2a4ea257156"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2bb76bd62b5c80bd891f25cbc930f604"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="json_8h.html#a2bb76bd62b5c80bd891f25cbc930f604">cparse_json_array_add_real</a> (<a class="el" href="defines_8h.html#aa21b1a5825128fc9abab2c7b06770e44">CPARSE_JSON</a> *array, double value)</td></tr>
-<tr class="separator:a2bb76bd62b5c80bd891f25cbc930f604"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aafcb324348987f4ebee8d1bd99f0bcdd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="json_8h.html#aafcb324348987f4ebee8d1bd99f0bcdd">cparse_json_array_add_bool</a> (<a class="el" href="defines_8h.html#aa21b1a5825128fc9abab2c7b06770e44">CPARSE_JSON</a> *array, bool value)</td></tr>
-<tr class="separator:aafcb324348987f4ebee8d1bd99f0bcdd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abde53d6cb55b9bdfa5222936e33dfbdf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="json_8h.html#abde53d6cb55b9bdfa5222936e33dfbdf">cparse_json_array_add_string</a> (<a class="el" href="defines_8h.html#aa21b1a5825128fc9abab2c7b06770e44">CPARSE_JSON</a> *array, const char *value)</td></tr>
-<tr class="separator:abde53d6cb55b9bdfa5222936e33dfbdf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad6a182b9aa3175aa8609f9dbdd9dd3db"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="json_8h.html#ad6a182b9aa3175aa8609f9dbdd9dd3db">cparse_json_array_add</a> (<a class="el" href="defines_8h.html#aa21b1a5825128fc9abab2c7b06770e44">CPARSE_JSON</a> *array, <a class="el" href="defines_8h.html#aa21b1a5825128fc9abab2c7b06770e44">CPARSE_JSON</a> *obj)</td></tr>
-<tr class="separator:ad6a182b9aa3175aa8609f9dbdd9dd3db"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9b9c19bcc10e5970b0ca4993ffc3a4ab"><td class="memItemLeft" align="right" valign="top"><a class="el" href="defines_8h.html#a657ce6efd807e2c34f10c74b45673937">cparse_number</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="json_8h.html#a9b9c19bcc10e5970b0ca4993ffc3a4ab">cparse_json_array_get_number</a> (<a class="el" href="defines_8h.html#aa21b1a5825128fc9abab2c7b06770e44">CPARSE_JSON</a> *array, size_t index)</td></tr>
-<tr class="separator:a9b9c19bcc10e5970b0ca4993ffc3a4ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5584497ae8f0e433586201c3072c4df7"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="json_8h.html#a5584497ae8f0e433586201c3072c4df7">cparse_json_array_get_real</a> (<a class="el" href="defines_8h.html#aa21b1a5825128fc9abab2c7b06770e44">CPARSE_JSON</a> *array, size_t index)</td></tr>
-<tr class="separator:a5584497ae8f0e433586201c3072c4df7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeac52f187a5db1022a7e8a324b9ced8a"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="json_8h.html#aeac52f187a5db1022a7e8a324b9ced8a">cparse_json_array_get_string</a> (<a class="el" href="defines_8h.html#aa21b1a5825128fc9abab2c7b06770e44">CPARSE_JSON</a> *array, size_t index)</td></tr>
-<tr class="separator:aeac52f187a5db1022a7e8a324b9ced8a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9f1b1c594d8a3ddc8fe27f4c531bb3c5"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="json_8h.html#a9f1b1c594d8a3ddc8fe27f4c531bb3c5">cparse_json_array_get_bool</a> (<a class="el" href="defines_8h.html#aa21b1a5825128fc9abab2c7b06770e44">CPARSE_JSON</a> *array, size_t index)</td></tr>
-<tr class="separator:a9f1b1c594d8a3ddc8fe27f4c531bb3c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a411503e57729ac44387aa109113ff818"><td class="memItemLeft" align="right" valign="top"><a class="el" href="defines_8h.html#aa21b1a5825128fc9abab2c7b06770e44">CPARSE_JSON</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="json_8h.html#a411503e57729ac44387aa109113ff818">cparse_json_array_get</a> (<a class="el" href="defines_8h.html#aa21b1a5825128fc9abab2c7b06770e44">CPARSE_JSON</a> *array, size_t index)</td></tr>
-<tr class="separator:a411503e57729ac44387aa109113ff818"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa9a9a181b551a10b08f7f841bd067cd0"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa9a9a181b551a10b08f7f841bd067cd0"></a>
-size_t&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_json_array_size</b> (<a class="el" href="defines_8h.html#aa21b1a5825128fc9abab2c7b06770e44">CPARSE_JSON</a> *value)</td></tr>
-<tr class="separator:aa9a9a181b551a10b08f7f841bd067cd0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afe2035ef855f481cc6bd1faeac9b55a2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="defines_8h.html#a657ce6efd807e2c34f10c74b45673937">cparse_number</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="json_8h.html#afe2035ef855f481cc6bd1faeac9b55a2">cparse_json_to_number</a> (<a class="el" href="defines_8h.html#aa21b1a5825128fc9abab2c7b06770e44">CPARSE_JSON</a> *)</td></tr>
-<tr class="separator:afe2035ef855f481cc6bd1faeac9b55a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ade5172c5893c3d7258fdd1ced2c96b68"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="json_8h.html#ade5172c5893c3d7258fdd1ced2c96b68">cparse_json_to_real</a> (<a class="el" href="defines_8h.html#aa21b1a5825128fc9abab2c7b06770e44">CPARSE_JSON</a> *)</td></tr>
-<tr class="separator:ade5172c5893c3d7258fdd1ced2c96b68"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a49874c59d4df7262ae8c3c22299bbf32"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="json_8h.html#a49874c59d4df7262ae8c3c22299bbf32">cparse_json_to_bool</a> (<a class="el" href="defines_8h.html#aa21b1a5825128fc9abab2c7b06770e44">CPARSE_JSON</a> *)</td></tr>
-<tr class="separator:a49874c59d4df7262ae8c3c22299bbf32"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a44d13b481b412ff7989d6db47073f86b"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="json_8h.html#a44d13b481b412ff7989d6db47073f86b">cparse_json_to_string</a> (<a class="el" href="defines_8h.html#aa21b1a5825128fc9abab2c7b06770e44">CPARSE_JSON</a> *value)</td></tr>
-<tr class="separator:a44d13b481b412ff7989d6db47073f86b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a751b076c12a9c370a5d2ae0ebf0dd028"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="json_8h.html#a751b076c12a9c370a5d2ae0ebf0dd028">cparse_json_to_json_string</a> (<a class="el" href="defines_8h.html#aa21b1a5825128fc9abab2c7b06770e44">CPARSE_JSON</a> *value)</td></tr>
-<tr class="separator:a751b076c12a9c370a5d2ae0ebf0dd028"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae43201cdec840887a83f2d6db904194e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="json_8h.html#ae43201cdec840887a83f2d6db904194e">cparse_json_new</a> ()</td></tr>
+<tr class="separator:ae43201cdec840887a83f2d6db904194e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5b27f07edca1dc9c14b2d83ddf2ac980"><td class="memItemLeft" align="right" valign="top"><a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="json_8h.html#a5b27f07edca1dc9c14b2d83ddf2ac980">cparse_json_new_reference</a> (<a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *orig)</td></tr>
+<tr class="separator:a5b27f07edca1dc9c14b2d83ddf2ac980"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5d94245210526017c5803b48b17cff5b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="json_8h.html#a5d94245210526017c5803b48b17cff5b">cparse_json_new_number</a> (<a class="el" href="defines_8h.html#af78276d292256dff61f689f93f2d3f48">cParseNumber</a>)</td></tr>
+<tr class="separator:a5d94245210526017c5803b48b17cff5b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afd06150c980a7817a6bf918f1c663eef"><td class="memItemLeft" align="right" valign="top"><a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="json_8h.html#afd06150c980a7817a6bf918f1c663eef">cparse_json_new_real</a> (double)</td></tr>
+<tr class="separator:afd06150c980a7817a6bf918f1c663eef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a50b636400400cec549566a8b840fa05c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="json_8h.html#a50b636400400cec549566a8b840fa05c">cparse_json_new_bool</a> (bool value)</td></tr>
+<tr class="separator:a50b636400400cec549566a8b840fa05c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1f615b93a9df8bc78d03c7070e592414"><td class="memItemLeft" align="right" valign="top"><a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="json_8h.html#a1f615b93a9df8bc78d03c7070e592414">cparse_json_new_string</a> (const char *str)</td></tr>
+<tr class="separator:a1f615b93a9df8bc78d03c7070e592414"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a76f11516574531bdcd906e07690a754c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="json_8h.html#a76f11516574531bdcd906e07690a754c">cparse_json_new_array</a> ()</td></tr>
+<tr class="separator:a76f11516574531bdcd906e07690a754c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a76a7532e69893ff777d4cd5574ad11c8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="json_8h.html#a76a7532e69893ff777d4cd5574ad11c8">cparse_json_copy</a> (<a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *orig, <a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *other, bool replaceOnConflict)</td></tr>
+<tr class="separator:a76a7532e69893ff777d4cd5574ad11c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0abde7bb481fc7651b4cf919ef8ed01c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="json_8h.html#a0abde7bb481fc7651b4cf919ef8ed01c">cparse_json_free</a> (<a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *value)</td></tr>
+<tr class="separator:a0abde7bb481fc7651b4cf919ef8ed01c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0421bb09e0502ce7a0140cb751e08eb5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="json_8h.html#a0421bb09e0502ce7a0140cb751e08eb5">cparse_json_set</a> (<a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *obj, const char *key, <a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *value)</td></tr>
+<tr class="separator:a0421bb09e0502ce7a0140cb751e08eb5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac24c72daa8dab86368882084e0405190"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="json_8h.html#ac24c72daa8dab86368882084e0405190">cparse_json_set_number</a> (<a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *obj, const char *key, <a class="el" href="defines_8h.html#af78276d292256dff61f689f93f2d3f48">cParseNumber</a> value)</td></tr>
+<tr class="separator:ac24c72daa8dab86368882084e0405190"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad05faa9d11317699b6bbe0586d883225"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="json_8h.html#ad05faa9d11317699b6bbe0586d883225">cparse_json_set_real</a> (<a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *obj, const char *key, double value)</td></tr>
+<tr class="separator:ad05faa9d11317699b6bbe0586d883225"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0b94cfac695c46eb4888e4e0032f6d1b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="json_8h.html#a0b94cfac695c46eb4888e4e0032f6d1b">cparse_json_set_string</a> (<a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *obj, const char *key, const char *value)</td></tr>
+<tr class="separator:a0b94cfac695c46eb4888e4e0032f6d1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7117539b18c14bbfa50a853d22ce9ee6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="json_8h.html#a7117539b18c14bbfa50a853d22ce9ee6">cparse_json_set_bool</a> (<a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *obj, const char *key, bool value)</td></tr>
+<tr class="separator:a7117539b18c14bbfa50a853d22ce9ee6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeb3431a55d52d90c519ef28bbb9cb856"><td class="memItemLeft" align="right" valign="top"><a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="json_8h.html#aeb3431a55d52d90c519ef28bbb9cb856">cparse_json_get</a> (<a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *obj, const char *key)</td></tr>
+<tr class="separator:aeb3431a55d52d90c519ef28bbb9cb856"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a40d047e70c9162861b3286daf7014392"><td class="memItemLeft" align="right" valign="top"><a class="el" href="defines_8h.html#af78276d292256dff61f689f93f2d3f48">cParseNumber</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="json_8h.html#a40d047e70c9162861b3286daf7014392">cparse_json_get_number</a> (<a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *obj, const char *key, <a class="el" href="defines_8h.html#af78276d292256dff61f689f93f2d3f48">cParseNumber</a> def)</td></tr>
+<tr class="separator:a40d047e70c9162861b3286daf7014392"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a245c37cc694ad14fb69c6b03d1f58def"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="json_8h.html#a245c37cc694ad14fb69c6b03d1f58def">cparse_json_get_real</a> (<a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *obj, const char *key, double def)</td></tr>
+<tr class="separator:a245c37cc694ad14fb69c6b03d1f58def"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a679ae162999797c3290cce28b6000437"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="json_8h.html#a679ae162999797c3290cce28b6000437">cparse_json_get_bool</a> (<a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *obj, const char *key)</td></tr>
+<tr class="separator:a679ae162999797c3290cce28b6000437"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6e06de47946c9cea242bd2fc3076d390"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="json_8h.html#a6e06de47946c9cea242bd2fc3076d390">cparse_json_get_string</a> (<a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *obj, const char *key)</td></tr>
+<tr class="separator:a6e06de47946c9cea242bd2fc3076d390"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaffbc54ad87cca04075934fd3a7c2445"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="json_8h.html#aaffbc54ad87cca04075934fd3a7c2445">cparse_json_is_array</a> (<a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *obj)</td></tr>
+<tr class="separator:aaffbc54ad87cca04075934fd3a7c2445"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acf24f5a88c2bc6ca9eb50a5e425eb2cd"><td class="memItemLeft" align="right" valign="top">cParseJsonType&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="json_8h.html#acf24f5a88c2bc6ca9eb50a5e425eb2cd">cparse_json_type</a> (<a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *obj)</td></tr>
+<tr class="separator:acf24f5a88c2bc6ca9eb50a5e425eb2cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a36d69270ed5e3aac2af7e469450af789"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="json_8h.html#a36d69270ed5e3aac2af7e469450af789">cparse_json_num_keys</a> (<a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *obj)</td></tr>
+<tr class="separator:a36d69270ed5e3aac2af7e469450af789"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1f7624085ed4fc1462f94e63a1981584"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="json_8h.html#a1f7624085ed4fc1462f94e63a1981584">cparse_json_contains</a> (<a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *obj, const char *key)</td></tr>
+<tr class="separator:a1f7624085ed4fc1462f94e63a1981584"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a67258a99ff518fb0c9769cacbb250b0b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="json_8h.html#a67258a99ff518fb0c9769cacbb250b0b">cparse_json_remove</a> (<a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *obj, const char *key)</td></tr>
+<tr class="separator:a67258a99ff518fb0c9769cacbb250b0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aafee0855d37abd5291b3063dd3d754f7"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aafee0855d37abd5291b3063dd3d754f7"></a>
+<a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_json_remove_and_get</b> (<a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *ob, const char *key)</td></tr>
+<tr class="separator:aafee0855d37abd5291b3063dd3d754f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a50c6949d3d663fc5ac2b42e6ae917f5d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="json_8h.html#a50c6949d3d663fc5ac2b42e6ae917f5d">cparse_json_tokenize</a> (const char *str)</td></tr>
+<tr class="separator:a50c6949d3d663fc5ac2b42e6ae917f5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a941bf6eff49617825c45237fceee3e1e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="json_8h.html#a941bf6eff49617825c45237fceee3e1e">cparse_json_array_add_number</a> (<a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *array, <a class="el" href="defines_8h.html#af78276d292256dff61f689f93f2d3f48">cParseNumber</a> value)</td></tr>
+<tr class="separator:a941bf6eff49617825c45237fceee3e1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5bfd3ade69a14c39b88f9c80e0293d77"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="json_8h.html#a5bfd3ade69a14c39b88f9c80e0293d77">cparse_json_array_add_real</a> (<a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *array, double value)</td></tr>
+<tr class="separator:a5bfd3ade69a14c39b88f9c80e0293d77"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5c2e2f4a8f9a3d5159ce8685b89e1183"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="json_8h.html#a5c2e2f4a8f9a3d5159ce8685b89e1183">cparse_json_array_add_bool</a> (<a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *array, bool value)</td></tr>
+<tr class="separator:a5c2e2f4a8f9a3d5159ce8685b89e1183"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a17ede94821f7584f9af68fa4844e3ebc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="json_8h.html#a17ede94821f7584f9af68fa4844e3ebc">cparse_json_array_add_string</a> (<a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *array, const char *value)</td></tr>
+<tr class="separator:a17ede94821f7584f9af68fa4844e3ebc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a29b53a99eb7dd84b0ec9c2deb2ad34cb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="json_8h.html#a29b53a99eb7dd84b0ec9c2deb2ad34cb">cparse_json_array_add</a> (<a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *array, <a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *obj)</td></tr>
+<tr class="separator:a29b53a99eb7dd84b0ec9c2deb2ad34cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa01071935ac3e03f9893e6f144125531"><td class="memItemLeft" align="right" valign="top"><a class="el" href="defines_8h.html#af78276d292256dff61f689f93f2d3f48">cParseNumber</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="json_8h.html#aa01071935ac3e03f9893e6f144125531">cparse_json_array_get_number</a> (<a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *array, size_t index)</td></tr>
+<tr class="separator:aa01071935ac3e03f9893e6f144125531"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2238d56db6dbad3fd42b6b7b1b104be4"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="json_8h.html#a2238d56db6dbad3fd42b6b7b1b104be4">cparse_json_array_get_real</a> (<a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *array, size_t index)</td></tr>
+<tr class="separator:a2238d56db6dbad3fd42b6b7b1b104be4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adefb1920863346f0e0482d2676066595"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="json_8h.html#adefb1920863346f0e0482d2676066595">cparse_json_array_get_string</a> (<a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *array, size_t index)</td></tr>
+<tr class="separator:adefb1920863346f0e0482d2676066595"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acc234d4915d14fb93f3d8b8f0739d49a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="json_8h.html#acc234d4915d14fb93f3d8b8f0739d49a">cparse_json_array_get_bool</a> (<a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *array, size_t index)</td></tr>
+<tr class="separator:acc234d4915d14fb93f3d8b8f0739d49a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa8e306b30f75bf420a8fdf4220aa4ddd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="json_8h.html#aa8e306b30f75bf420a8fdf4220aa4ddd">cparse_json_array_get</a> (<a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *array, size_t index)</td></tr>
+<tr class="separator:aa8e306b30f75bf420a8fdf4220aa4ddd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae91ad47765ae7137dde0943c8a0653db"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae91ad47765ae7137dde0943c8a0653db"></a>
+size_t&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_json_array_size</b> (<a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *value)</td></tr>
+<tr class="separator:ae91ad47765ae7137dde0943c8a0653db"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeed44d60f89449689e38a5a706a6a0eb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="defines_8h.html#af78276d292256dff61f689f93f2d3f48">cParseNumber</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="json_8h.html#aeed44d60f89449689e38a5a706a6a0eb">cparse_json_to_number</a> (<a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *)</td></tr>
+<tr class="separator:aeed44d60f89449689e38a5a706a6a0eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a15fcf63c640575738a6e5b4f77c0e3d2"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="json_8h.html#a15fcf63c640575738a6e5b4f77c0e3d2">cparse_json_to_real</a> (<a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *)</td></tr>
+<tr class="separator:a15fcf63c640575738a6e5b4f77c0e3d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0f3704fe77f6facc0d702034f2c01ee3"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="json_8h.html#a0f3704fe77f6facc0d702034f2c01ee3">cparse_json_to_bool</a> (<a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *)</td></tr>
+<tr class="separator:a0f3704fe77f6facc0d702034f2c01ee3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad9640ba29abd5f1e2fe871fb0f359953"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="json_8h.html#ad9640ba29abd5f1e2fe871fb0f359953">cparse_json_to_string</a> (<a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *value)</td></tr>
+<tr class="separator:ad9640ba29abd5f1e2fe871fb0f359953"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a94c6d05a76619ff0dee40bae04cc5e62"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="json_8h.html#a94c6d05a76619ff0dee40bae04cc5e62">cparse_json_to_json_string</a> (<a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *value)</td></tr>
+<tr class="separator:a94c6d05a76619ff0dee40bae04cc5e62"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
 <a class="anchor" id="adeb8de5cac3b4e1ae05e4707f66f5037"></a>
@@ -276,20 +279,20 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_json_array_s
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
-<a class="anchor" id="ad6a182b9aa3175aa8609f9dbdd9dd3db"></a>
+<a class="anchor" id="a29b53a99eb7dd84b0ec9c2deb2ad34cb"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">void cparse_json_array_add </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="defines_8h.html#aa21b1a5825128fc9abab2c7b06770e44">CPARSE_JSON</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *&#160;</td>
           <td class="paramname"><em>array</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="defines_8h.html#aa21b1a5825128fc9abab2c7b06770e44">CPARSE_JSON</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *&#160;</td>
           <td class="paramname"><em>obj</em>&#160;</td>
         </tr>
         <tr>
@@ -309,14 +312,14 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_json_array_s
 
 </div>
 </div>
-<a class="anchor" id="aafcb324348987f4ebee8d1bd99f0bcdd"></a>
+<a class="anchor" id="a5c2e2f4a8f9a3d5159ce8685b89e1183"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">void cparse_json_array_add_bool </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="defines_8h.html#aa21b1a5825128fc9abab2c7b06770e44">CPARSE_JSON</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *&#160;</td>
           <td class="paramname"><em>array</em>, </td>
         </tr>
         <tr>
@@ -342,20 +345,20 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_json_array_s
 
 </div>
 </div>
-<a class="anchor" id="a1bd7469fadea1ce98e81c2a4ea257156"></a>
+<a class="anchor" id="a941bf6eff49617825c45237fceee3e1e"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">void cparse_json_array_add_number </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="defines_8h.html#aa21b1a5825128fc9abab2c7b06770e44">CPARSE_JSON</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *&#160;</td>
           <td class="paramname"><em>array</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="defines_8h.html#a657ce6efd807e2c34f10c74b45673937">cparse_number</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="defines_8h.html#af78276d292256dff61f689f93f2d3f48">cParseNumber</a>&#160;</td>
           <td class="paramname"><em>value</em>&#160;</td>
         </tr>
         <tr>
@@ -375,14 +378,14 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_json_array_s
 
 </div>
 </div>
-<a class="anchor" id="a2bb76bd62b5c80bd891f25cbc930f604"></a>
+<a class="anchor" id="a5bfd3ade69a14c39b88f9c80e0293d77"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">void cparse_json_array_add_real </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="defines_8h.html#aa21b1a5825128fc9abab2c7b06770e44">CPARSE_JSON</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *&#160;</td>
           <td class="paramname"><em>array</em>, </td>
         </tr>
         <tr>
@@ -408,14 +411,14 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_json_array_s
 
 </div>
 </div>
-<a class="anchor" id="abde53d6cb55b9bdfa5222936e33dfbdf"></a>
+<a class="anchor" id="a17ede94821f7584f9af68fa4844e3ebc"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">void cparse_json_array_add_string </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="defines_8h.html#aa21b1a5825128fc9abab2c7b06770e44">CPARSE_JSON</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *&#160;</td>
           <td class="paramname"><em>array</em>, </td>
         </tr>
         <tr>
@@ -441,14 +444,14 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_json_array_s
 
 </div>
 </div>
-<a class="anchor" id="a411503e57729ac44387aa109113ff818"></a>
+<a class="anchor" id="aa8e306b30f75bf420a8fdf4220aa4ddd"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="defines_8h.html#aa21b1a5825128fc9abab2c7b06770e44">CPARSE_JSON</a>* cparse_json_array_get </td>
+          <td class="memname"><a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a>* cparse_json_array_get </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="defines_8h.html#aa21b1a5825128fc9abab2c7b06770e44">CPARSE_JSON</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *&#160;</td>
           <td class="paramname"><em>array</em>, </td>
         </tr>
         <tr>
@@ -475,14 +478,14 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_json_array_s
 
 </div>
 </div>
-<a class="anchor" id="a9f1b1c594d8a3ddc8fe27f4c531bb3c5"></a>
+<a class="anchor" id="acc234d4915d14fb93f3d8b8f0739d49a"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">bool cparse_json_array_get_bool </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="defines_8h.html#aa21b1a5825128fc9abab2c7b06770e44">CPARSE_JSON</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *&#160;</td>
           <td class="paramname"><em>array</em>, </td>
         </tr>
         <tr>
@@ -509,14 +512,14 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_json_array_s
 
 </div>
 </div>
-<a class="anchor" id="a9b9c19bcc10e5970b0ca4993ffc3a4ab"></a>
+<a class="anchor" id="aa01071935ac3e03f9893e6f144125531"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="defines_8h.html#a657ce6efd807e2c34f10c74b45673937">cparse_number</a> cparse_json_array_get_number </td>
+          <td class="memname"><a class="el" href="defines_8h.html#af78276d292256dff61f689f93f2d3f48">cParseNumber</a> cparse_json_array_get_number </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="defines_8h.html#aa21b1a5825128fc9abab2c7b06770e44">CPARSE_JSON</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *&#160;</td>
           <td class="paramname"><em>array</em>, </td>
         </tr>
         <tr>
@@ -543,14 +546,14 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_json_array_s
 
 </div>
 </div>
-<a class="anchor" id="a5584497ae8f0e433586201c3072c4df7"></a>
+<a class="anchor" id="a2238d56db6dbad3fd42b6b7b1b104be4"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">double cparse_json_array_get_real </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="defines_8h.html#aa21b1a5825128fc9abab2c7b06770e44">CPARSE_JSON</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *&#160;</td>
           <td class="paramname"><em>array</em>, </td>
         </tr>
         <tr>
@@ -577,14 +580,14 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_json_array_s
 
 </div>
 </div>
-<a class="anchor" id="aeac52f187a5db1022a7e8a324b9ced8a"></a>
+<a class="anchor" id="adefb1920863346f0e0482d2676066595"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">const char* cparse_json_array_get_string </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="defines_8h.html#aa21b1a5825128fc9abab2c7b06770e44">CPARSE_JSON</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *&#160;</td>
           <td class="paramname"><em>array</em>, </td>
         </tr>
         <tr>
@@ -611,14 +614,14 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_json_array_s
 
 </div>
 </div>
-<a class="anchor" id="a84911775dfb9dd7622cd55f662091df4"></a>
+<a class="anchor" id="a1f7624085ed4fc1462f94e63a1981584"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">bool cparse_json_contains </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="defines_8h.html#aa21b1a5825128fc9abab2c7b06770e44">CPARSE_JSON</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *&#160;</td>
           <td class="paramname"><em>obj</em>, </td>
         </tr>
         <tr>
@@ -645,20 +648,20 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_json_array_s
 
 </div>
 </div>
-<a class="anchor" id="ad584d67e46322959438cb4acfb4b3b8f"></a>
+<a class="anchor" id="a76a7532e69893ff777d4cd5574ad11c8"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">void cparse_json_copy </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="defines_8h.html#aa21b1a5825128fc9abab2c7b06770e44">CPARSE_JSON</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *&#160;</td>
           <td class="paramname"><em>orig</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="defines_8h.html#aa21b1a5825128fc9abab2c7b06770e44">CPARSE_JSON</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *&#160;</td>
           <td class="paramname"><em>other</em>, </td>
         </tr>
         <tr>
@@ -685,14 +688,14 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_json_array_s
 
 </div>
 </div>
-<a class="anchor" id="a64e76208229ba9ec6da4cbb701114f61"></a>
+<a class="anchor" id="a0abde7bb481fc7651b4cf919ef8ed01c"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">void cparse_json_free </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="defines_8h.html#aa21b1a5825128fc9abab2c7b06770e44">CPARSE_JSON</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *&#160;</td>
           <td class="paramname"><em>value</em></td><td>)</td>
           <td></td>
         </tr>
@@ -707,14 +710,14 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_json_array_s
 
 </div>
 </div>
-<a class="anchor" id="a1e0e70c222380f21d8ab165e4d63a031"></a>
+<a class="anchor" id="aeb3431a55d52d90c519ef28bbb9cb856"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="defines_8h.html#aa21b1a5825128fc9abab2c7b06770e44">CPARSE_JSON</a>* cparse_json_get </td>
+          <td class="memname"><a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a>* cparse_json_get </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="defines_8h.html#aa21b1a5825128fc9abab2c7b06770e44">CPARSE_JSON</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *&#160;</td>
           <td class="paramname"><em>obj</em>, </td>
         </tr>
         <tr>
@@ -740,14 +743,14 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_json_array_s
 
 </div>
 </div>
-<a class="anchor" id="aee841b3fda03cc81c477e857d0452a78"></a>
+<a class="anchor" id="a679ae162999797c3290cce28b6000437"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">bool cparse_json_get_bool </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="defines_8h.html#aa21b1a5825128fc9abab2c7b06770e44">CPARSE_JSON</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *&#160;</td>
           <td class="paramname"><em>obj</em>, </td>
         </tr>
         <tr>
@@ -773,14 +776,14 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_json_array_s
 
 </div>
 </div>
-<a class="anchor" id="ad55508b9f2a1a164dde78a0b1e9c7000"></a>
+<a class="anchor" id="a40d047e70c9162861b3286daf7014392"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="defines_8h.html#a657ce6efd807e2c34f10c74b45673937">cparse_number</a> cparse_json_get_number </td>
+          <td class="memname"><a class="el" href="defines_8h.html#af78276d292256dff61f689f93f2d3f48">cParseNumber</a> cparse_json_get_number </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="defines_8h.html#aa21b1a5825128fc9abab2c7b06770e44">CPARSE_JSON</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *&#160;</td>
           <td class="paramname"><em>obj</em>, </td>
         </tr>
         <tr>
@@ -792,7 +795,7 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_json_array_s
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="defines_8h.html#a657ce6efd807e2c34f10c74b45673937">cparse_number</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="defines_8h.html#af78276d292256dff61f689f93f2d3f48">cParseNumber</a>&#160;</td>
           <td class="paramname"><em>def</em>&#160;</td>
         </tr>
         <tr>
@@ -813,14 +816,14 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_json_array_s
 
 </div>
 </div>
-<a class="anchor" id="a89903ec12c93f3a6139bb7c96a77d294"></a>
+<a class="anchor" id="a245c37cc694ad14fb69c6b03d1f58def"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">double cparse_json_get_real </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="defines_8h.html#aa21b1a5825128fc9abab2c7b06770e44">CPARSE_JSON</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *&#160;</td>
           <td class="paramname"><em>obj</em>, </td>
         </tr>
         <tr>
@@ -853,14 +856,14 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_json_array_s
 
 </div>
 </div>
-<a class="anchor" id="a7b4074d7c547508f0045451b3885a58a"></a>
+<a class="anchor" id="a6e06de47946c9cea242bd2fc3076d390"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">const char* cparse_json_get_string </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="defines_8h.html#aa21b1a5825128fc9abab2c7b06770e44">CPARSE_JSON</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *&#160;</td>
           <td class="paramname"><em>obj</em>, </td>
         </tr>
         <tr>
@@ -886,14 +889,14 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_json_array_s
 
 </div>
 </div>
-<a class="anchor" id="aa936c3e94b96f1d48219f72c802c238c"></a>
+<a class="anchor" id="aaffbc54ad87cca04075934fd3a7c2445"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">bool cparse_json_is_array </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="defines_8h.html#aa21b1a5825128fc9abab2c7b06770e44">CPARSE_JSON</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *&#160;</td>
           <td class="paramname"><em>obj</em></td><td>)</td>
           <td></td>
         </tr>
@@ -909,12 +912,12 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_json_array_s
 
 </div>
 </div>
-<a class="anchor" id="a191fcbfc57490d0cb7025fb5b8c2948a"></a>
+<a class="anchor" id="ae43201cdec840887a83f2d6db904194e"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="defines_8h.html#aa21b1a5825128fc9abab2c7b06770e44">CPARSE_JSON</a>* cparse_json_new </td>
+          <td class="memname"><a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a>* cparse_json_new </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -925,12 +928,12 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_json_array_s
 
 </div>
 </div>
-<a class="anchor" id="a9804e05874ce0b2f1bdb7f15387a25f4"></a>
+<a class="anchor" id="a76f11516574531bdcd906e07690a754c"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="defines_8h.html#aa21b1a5825128fc9abab2c7b06770e44">CPARSE_JSON</a>* cparse_json_new_array </td>
+          <td class="memname"><a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a>* cparse_json_new_array </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -941,12 +944,12 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_json_array_s
 
 </div>
 </div>
-<a class="anchor" id="af0e5659f88d4ffe43ed401ec624dfc2c"></a>
+<a class="anchor" id="a50b636400400cec549566a8b840fa05c"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="defines_8h.html#aa21b1a5825128fc9abab2c7b06770e44">CPARSE_JSON</a>* cparse_json_new_bool </td>
+          <td class="memname"><a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a>* cparse_json_new_bool </td>
           <td>(</td>
           <td class="paramtype">bool&#160;</td>
           <td class="paramname"><em>value</em></td><td>)</td>
@@ -964,14 +967,14 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_json_array_s
 
 </div>
 </div>
-<a class="anchor" id="a658fb2e07bd816986e667e209c2044a5"></a>
+<a class="anchor" id="a5d94245210526017c5803b48b17cff5b"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="defines_8h.html#aa21b1a5825128fc9abab2c7b06770e44">CPARSE_JSON</a>* cparse_json_new_number </td>
+          <td class="memname"><a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a>* cparse_json_new_number </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="defines_8h.html#a657ce6efd807e2c34f10c74b45673937">cparse_number</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="defines_8h.html#af78276d292256dff61f689f93f2d3f48">cParseNumber</a>&#160;</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
@@ -987,12 +990,12 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_json_array_s
 
 </div>
 </div>
-<a class="anchor" id="a56a4ee5ef87be7f3325d1709a13d96a4"></a>
+<a class="anchor" id="afd06150c980a7817a6bf918f1c663eef"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="defines_8h.html#aa21b1a5825128fc9abab2c7b06770e44">CPARSE_JSON</a>* cparse_json_new_real </td>
+          <td class="memname"><a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a>* cparse_json_new_real </td>
           <td>(</td>
           <td class="paramtype">double&#160;</td>
           <td class="paramname"></td><td>)</td>
@@ -1010,14 +1013,14 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_json_array_s
 
 </div>
 </div>
-<a class="anchor" id="ab5c651008457449007d4ef4b13ee7263"></a>
+<a class="anchor" id="a5b27f07edca1dc9c14b2d83ddf2ac980"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="defines_8h.html#aa21b1a5825128fc9abab2c7b06770e44">CPARSE_JSON</a>* cparse_json_new_reference </td>
+          <td class="memname"><a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a>* cparse_json_new_reference </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="defines_8h.html#aa21b1a5825128fc9abab2c7b06770e44">CPARSE_JSON</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *&#160;</td>
           <td class="paramname"><em>orig</em></td><td>)</td>
           <td></td>
         </tr>
@@ -1033,12 +1036,12 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_json_array_s
 
 </div>
 </div>
-<a class="anchor" id="a3bb6c541fd8435ba62eafc48d5c1c292"></a>
+<a class="anchor" id="a1f615b93a9df8bc78d03c7070e592414"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="defines_8h.html#aa21b1a5825128fc9abab2c7b06770e44">CPARSE_JSON</a>* cparse_json_new_string </td>
+          <td class="memname"><a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a>* cparse_json_new_string </td>
           <td>(</td>
           <td class="paramtype">const char *&#160;</td>
           <td class="paramname"><em>str</em></td><td>)</td>
@@ -1056,14 +1059,14 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_json_array_s
 
 </div>
 </div>
-<a class="anchor" id="a5ffb7bbfccf8c7a66e04a3fc2fe173ef"></a>
+<a class="anchor" id="a36d69270ed5e3aac2af7e469450af789"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">int cparse_json_num_keys </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="defines_8h.html#aa21b1a5825128fc9abab2c7b06770e44">CPARSE_JSON</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *&#160;</td>
           <td class="paramname"><em>obj</em></td><td>)</td>
           <td></td>
         </tr>
@@ -1079,14 +1082,14 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_json_array_s
 
 </div>
 </div>
-<a class="anchor" id="a5d358bdb282cccc947faa0ff65d88492"></a>
+<a class="anchor" id="a67258a99ff518fb0c9769cacbb250b0b"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="defines_8h.html#aa21b1a5825128fc9abab2c7b06770e44">CPARSE_JSON</a>* cparse_json_remove </td>
+          <td class="memname">void cparse_json_remove </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="defines_8h.html#aa21b1a5825128fc9abab2c7b06770e44">CPARSE_JSON</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *&#160;</td>
           <td class="paramname"><em>obj</em>, </td>
         </tr>
         <tr>
@@ -1113,14 +1116,14 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_json_array_s
 
 </div>
 </div>
-<a class="anchor" id="acefb40de5ef3fad776b6e4d9e30eae5c"></a>
+<a class="anchor" id="a0421bb09e0502ce7a0140cb751e08eb5"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">void cparse_json_set </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="defines_8h.html#aa21b1a5825128fc9abab2c7b06770e44">CPARSE_JSON</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *&#160;</td>
           <td class="paramname"><em>obj</em>, </td>
         </tr>
         <tr>
@@ -1132,7 +1135,7 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_json_array_s
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="defines_8h.html#aa21b1a5825128fc9abab2c7b06770e44">CPARSE_JSON</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *&#160;</td>
           <td class="paramname"><em>value</em>&#160;</td>
         </tr>
         <tr>
@@ -1153,14 +1156,14 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_json_array_s
 
 </div>
 </div>
-<a class="anchor" id="a59e3623bd3037b1b15181960895b3c68"></a>
+<a class="anchor" id="a7117539b18c14bbfa50a853d22ce9ee6"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">void cparse_json_set_bool </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="defines_8h.html#aa21b1a5825128fc9abab2c7b06770e44">CPARSE_JSON</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *&#160;</td>
           <td class="paramname"><em>obj</em>, </td>
         </tr>
         <tr>
@@ -1193,14 +1196,14 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_json_array_s
 
 </div>
 </div>
-<a class="anchor" id="a2dc9d208fe5b97d7f199f5cf3841ba09"></a>
+<a class="anchor" id="ac24c72daa8dab86368882084e0405190"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">void cparse_json_set_number </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="defines_8h.html#aa21b1a5825128fc9abab2c7b06770e44">CPARSE_JSON</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *&#160;</td>
           <td class="paramname"><em>obj</em>, </td>
         </tr>
         <tr>
@@ -1212,7 +1215,7 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_json_array_s
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="defines_8h.html#a657ce6efd807e2c34f10c74b45673937">cparse_number</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="defines_8h.html#af78276d292256dff61f689f93f2d3f48">cParseNumber</a>&#160;</td>
           <td class="paramname"><em>value</em>&#160;</td>
         </tr>
         <tr>
@@ -1233,14 +1236,14 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_json_array_s
 
 </div>
 </div>
-<a class="anchor" id="a0f18af5ded1c203b1474cadf141ff9ed"></a>
+<a class="anchor" id="ad05faa9d11317699b6bbe0586d883225"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">void cparse_json_set_real </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="defines_8h.html#aa21b1a5825128fc9abab2c7b06770e44">CPARSE_JSON</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *&#160;</td>
           <td class="paramname"><em>obj</em>, </td>
         </tr>
         <tr>
@@ -1273,14 +1276,14 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_json_array_s
 
 </div>
 </div>
-<a class="anchor" id="ad6fcfba6f27d4111762806663694e652"></a>
+<a class="anchor" id="a0b94cfac695c46eb4888e4e0032f6d1b"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">void cparse_json_set_string </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="defines_8h.html#aa21b1a5825128fc9abab2c7b06770e44">CPARSE_JSON</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *&#160;</td>
           <td class="paramname"><em>obj</em>, </td>
         </tr>
         <tr>
@@ -1313,14 +1316,14 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_json_array_s
 
 </div>
 </div>
-<a class="anchor" id="a49874c59d4df7262ae8c3c22299bbf32"></a>
+<a class="anchor" id="a0f3704fe77f6facc0d702034f2c01ee3"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">bool cparse_json_to_bool </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="defines_8h.html#aa21b1a5825128fc9abab2c7b06770e44">CPARSE_JSON</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *&#160;</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
@@ -1336,14 +1339,14 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_json_array_s
 
 </div>
 </div>
-<a class="anchor" id="a751b076c12a9c370a5d2ae0ebf0dd028"></a>
+<a class="anchor" id="a94c6d05a76619ff0dee40bae04cc5e62"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">const char* cparse_json_to_json_string </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="defines_8h.html#aa21b1a5825128fc9abab2c7b06770e44">CPARSE_JSON</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *&#160;</td>
           <td class="paramname"><em>value</em></td><td>)</td>
           <td></td>
         </tr>
@@ -1359,14 +1362,14 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_json_array_s
 
 </div>
 </div>
-<a class="anchor" id="afe2035ef855f481cc6bd1faeac9b55a2"></a>
+<a class="anchor" id="aeed44d60f89449689e38a5a706a6a0eb"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="defines_8h.html#a657ce6efd807e2c34f10c74b45673937">cparse_number</a> cparse_json_to_number </td>
+          <td class="memname"><a class="el" href="defines_8h.html#af78276d292256dff61f689f93f2d3f48">cParseNumber</a> cparse_json_to_number </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="defines_8h.html#aa21b1a5825128fc9abab2c7b06770e44">CPARSE_JSON</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *&#160;</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
@@ -1382,14 +1385,14 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_json_array_s
 
 </div>
 </div>
-<a class="anchor" id="ade5172c5893c3d7258fdd1ced2c96b68"></a>
+<a class="anchor" id="a15fcf63c640575738a6e5b4f77c0e3d2"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">double cparse_json_to_real </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="defines_8h.html#aa21b1a5825128fc9abab2c7b06770e44">CPARSE_JSON</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *&#160;</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
@@ -1405,14 +1408,14 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_json_array_s
 
 </div>
 </div>
-<a class="anchor" id="a44d13b481b412ff7989d6db47073f86b"></a>
+<a class="anchor" id="ad9640ba29abd5f1e2fe871fb0f359953"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">const char* cparse_json_to_string </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="defines_8h.html#aa21b1a5825128fc9abab2c7b06770e44">CPARSE_JSON</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *&#160;</td>
           <td class="paramname"><em>value</em></td><td>)</td>
           <td></td>
         </tr>
@@ -1428,12 +1431,12 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_json_array_s
 
 </div>
 </div>
-<a class="anchor" id="a7ef40a476dea176c1bf4a267e4cdd070"></a>
+<a class="anchor" id="a50c6949d3d663fc5ac2b42e6ae917f5d"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="defines_8h.html#aa21b1a5825128fc9abab2c7b06770e44">CPARSE_JSON</a>* cparse_json_tokenize </td>
+          <td class="memname"><a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a>* cparse_json_tokenize </td>
           <td>(</td>
           <td class="paramtype">const char *&#160;</td>
           <td class="paramname"><em>str</em></td><td>)</td>
@@ -1451,14 +1454,14 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_json_array_s
 
 </div>
 </div>
-<a class="anchor" id="a5cc23eabc177b693465f63fe0f57add3"></a>
+<a class="anchor" id="acf24f5a88c2bc6ca9eb50a5e425eb2cd"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">cParseJSONType cparse_json_type </td>
+          <td class="memname">cParseJsonType cparse_json_type </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="defines_8h.html#aa21b1a5825128fc9abab2c7b06770e44">CPARSE_JSON</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *&#160;</td>
           <td class="paramname"><em>obj</em></td><td>)</td>
           <td></td>
         </tr>
@@ -1477,7 +1480,7 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_json_array_s
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Feb 17 2015 14:59:52 for cParse by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Feb 26 2015 14:35:45 for cParse by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>

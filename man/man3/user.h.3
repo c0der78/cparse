@@ -1,4 +1,4 @@
-.TH "src/cparse/user.h" 3 "Tue Feb 17 2015" "Version 0.1" "cParse" \" -*- nroff -*-
+.TH "src/cparse/user.h" 3 "Thu Feb 26 2015" "Version 0.1" "cParse" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -17,60 +17,290 @@ src/cparse/user.h \-
 
 .in +1c
 .ti -1c
-.RI "\fBCPARSE_OBJ\fP * \fBcparse_current_user\fP ()"
+.RI "\fBcParseObject\fP * \fBcparse_current_user\fP ()"
 .br
 .ti -1c
-.RI "\fBCPARSE_OBJ\fP * \fBcparse_user_new\fP ()"
+.RI "\fBcParseObject\fP * \fBcparse_user_new\fP ()"
 .br
 .ti -1c
-.RI "\fBCPARSE_OBJ\fP * \fBcparse_user_with_name\fP (const char *username)"
+.RI "\fBcParseObject\fP * \fBcparse_user_with_name\fP (const char *username)"
 .br
 .ti -1c
-.RI "\fBCPARSE_OBJ\fP * \fBcparse_user_login\fP (const char *username, const char *password, \fBCPARSE_ERROR\fP **error)"
+.RI "\fBcParseObject\fP * \fBcparse_user_login\fP (const char *username, const char *password, \fBcParseError\fP **error)"
 .br
 .ti -1c
-.RI "void \fBcparse_user_login_in_background\fP (const char *username, const char *password, \fBCPARSE_OBJ_CALLBACK\fP callback)"
+.RI "pthread_t \fBcparse_user_login_in_background\fP (const char *username, const char *password, \fBcParseObjectCallback\fP callback)"
 .br
 .ti -1c
 .RI "void \fBcparse_user_logout\fP ()"
 .br
 .ti -1c
-.RI "bool \fBcparse_user_delete\fP (\fBCPARSE_OBJ\fP *user, \fBCPARSE_ERROR\fP **error)"
+.RI "bool \fBcparse_user_delete\fP (\fBcParseObject\fP *user, \fBcParseError\fP **error)"
 .br
 .ti -1c
-.RI "\fBCPARSE_QUERY\fP * \fBcparse_user_query\fP ()"
+.RI "\fBcParseQuery\fP * \fBcparse_user_query_new\fP ()"
 .br
 .ti -1c
-.RI "bool \fBcparse_user_sign_up\fP (\fBCPARSE_OBJ\fP *user, const char *password, \fBCPARSE_ERROR\fP **error)"
+.RI "bool \fBcparse_user_sign_up\fP (\fBcParseObject\fP *user, const char *password, \fBcParseError\fP **error)"
 .br
 .ti -1c
-.RI "const char * \fBcparse_user_name\fP (\fBCPARSE_OBJ\fP *user)"
+.RI "pthread_t \fBcparse_user_sign_up_in_background\fP (\fBcParseObject\fP *user, const char *password, \fBcParseObjectCallback\fP callback)"
 .br
 .ti -1c
-.RI "void \fBcparse_user_set_name\fP (\fBCPARSE_OBJ\fP *user, char *value)"
+.RI "const char * \fBcparse_user_name\fP (\fBcParseObject\fP *user)"
 .br
 .ti -1c
-.RI "const char * \fBcparse_user_email\fP (\fBCPARSE_OBJ\fP *user)"
+.RI "void \fBcparse_user_set_name\fP (\fBcParseObject\fP *user, char *value)"
 .br
 .ti -1c
-.RI "const char * \fBcparse_user_session_token\fP (\fBCPARSE_OBJ\fP *user)"
+.RI "const char * \fBcparse_user_email\fP (\fBcParseObject\fP *user)"
 .br
 .ti -1c
-.RI "bool \fBcparse_user_validate\fP (\fBCPARSE_OBJ\fP *user, const char *sessionToken, \fBCPARSE_ERROR\fP **error)"
+.RI "const char * \fBcparse_user_session_token\fP (\fBcParseObject\fP *user)"
 .br
 .ti -1c
-.RI "bool \fBcparse_user_validate_email\fP (\fBCPARSE_OBJ\fP *user, \fBCPARSE_ERROR\fP **error)"
+.RI "bool \fBcparse_user_validate\fP (\fBcParseObject\fP *user, const char *sessionToken, \fBcParseError\fP **error)"
 .br
 .ti -1c
-.RI "bool \fBcparse_user_refresh\fP (\fBCPARSE_OBJ\fP *obj, \fBCPARSE_ERROR\fP **error)"
+.RI "bool \fBcparse_user_validate_email\fP (\fBcParseObject\fP *user, \fBcParseError\fP **error)"
 .br
 .ti -1c
-.RI "bool \fBcparse_user_fetch\fP (\fBCPARSE_OBJ\fP *obj, \fBCPARSE_ERROR\fP **error)"
+.RI "bool \fBcparse_user_refresh\fP (\fBcParseObject\fP *obj, \fBcParseError\fP **error)"
 .br
 .ti -1c
-.RI "bool \fBcparse_user_reset_password\fP (\fBCPARSE_OBJ\fP *user, \fBCPARSE_ERROR\fP **error)"
+.RI "pthread_t \fBcparse_user_refresh_in_background\fP (\fBcParseObject\fP *obj, \fBcParseObjectCallback\fP callback)"
+.br
+.ti -1c
+.RI "bool \fBcparse_user_fetch\fP (\fBcParseObject\fP *obj, \fBcParseError\fP **error)"
+.br
+.ti -1c
+.RI "pthread_t \fBcparse_user_fetch_in_background\fP (\fBcParseObject\fP *user, \fBcParseObjectCallback\fP callback)"
+.br
+.ti -1c
+.RI "bool \fBcparse_user_reset_password\fP (\fBcParseObject\fP *user, \fBcParseError\fP **error)"
+.br
+.ti -1c
+.RI "pthread_t \fBcparse_user_reset_password_in_background\fP (\fBcParseObject\fP *user, \fBcParseObjectCallback\fP callback)"
+.br
+.ti -1c
+.RI "pthread_t \fBcparse_user_delete_in_background\fP (\fBcParseObject\fP *obj, \fBcParseObjectCallback\fP callback)"
 .br
 .in -1c
+.SH "Function Documentation"
+.PP 
+.SS "\fBcParseObject\fP* cparse_current_user ()"
+gets the currently logged in user 
+.PP
+\fBReturns:\fP
+.RS 4
+the current logged in user instance or NULL 
+.RE
+.PP
+
+.SS "bool cparse_user_delete (\fBcParseObject\fP * user, \fBcParseError\fP ** error)"
+deletes a user from the backend 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIuser\fP the user instance 
+.br
+\fIerror\fP a pointer to an error that gets allocated if not successful\&. can be NULL 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+true if successful 
+.RE
+.PP
+
+.SS "const char* cparse_user_email (\fBcParseObject\fP * user)"
+gets a user's email 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIuser\fP the user instance 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+the email as a string or NULL 
+.RE
+.PP
+
+.SS "\fBcParseObject\fP* cparse_user_login (const char * username, const char * password, \fBcParseError\fP ** error)"
+logs in as a user 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIusername\fP the username of the user 
+.br
+\fIpassword\fP the password for the user 
+.br
+\fIerror\fP a pointer to an error that gets allocated if unsuccessful\&. can be NULL 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+the user object if successful, NULL otherwise 
+.RE
+.PP
+
+.SS "pthread_t cparse_user_login_in_background (const char * username, const char * password, \fBcParseObjectCallback\fP callback)"
+logs in as a user in the background 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIusername\fP the username of the user 
+.br
+\fIpassword\fP the password of the user 
+.br
+\fIcallback\fP the callback issued if successful 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+an identifier for the background thread 
+.RE
+.PP
+
+.SS "void cparse_user_logout ()"
+logs out the current user 
+.SS "const char* cparse_user_name (\fBcParseObject\fP * user)"
+gets the user name  user the user instance 
+.PP
+\fBReturns:\fP
+.RS 4
+the name as a string or NULL 
+.RE
+.PP
+
+.SS "\fBcParseObject\fP* cparse_user_new ()"
+allocates a new user object 
+.PP
+\fBReturns:\fP
+.RS 4
+the allocated user instance 
+.RE
+.PP
+
+.SS "\fBcParseQuery\fP* cparse_user_query_new ()"
+creates a new query for a user object 
+.PP
+\fBReturns:\fP
+.RS 4
+the query instance 
+.RE
+.PP
+
+.SS "const char* cparse_user_session_token (\fBcParseObject\fP * user)"
+gets a user's session token 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIthe\fP user instance 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+the session token as a string or NULL 
+.RE
+.PP
+
+.SS "void cparse_user_set_name (\fBcParseObject\fP * user, char * value)"
+sets a user's name 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIuser\fP the user instance 
+.br
+\fIvalue\fP the string value 
+.RE
+.PP
+
+.SS "bool cparse_user_sign_up (\fBcParseObject\fP * user, const char * password, \fBcParseError\fP ** error)"
+Creates a new user on the backend 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIuser\fP the user instance 
+.br
+\fIpassword\fP the user's password 
+.br
+\fIerror\fP a pointer to an error that will get allocated if unsuccessful\&. Can be NULL\&. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+true if successful\&. 
+.RE
+.PP
+
+.SS "pthread_t cparse_user_sign_up_in_background (\fBcParseObject\fP * user, const char * password, \fBcParseObjectCallback\fP callback)"
+Creates a new user in the background 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIuser\fP the user instance 
+.br
+\fIpassword\fP the user's password 
+.br
+\fIcallback\fP the callback issued after signing up 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+an identifier for the background thread 
+.RE
+.PP
+
+.SS "bool cparse_user_validate (\fBcParseObject\fP * user, const char * sessionToken, \fBcParseError\fP ** error)"
+validates a session token against the backend 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIuser\fP the user to store the data in 
+.br
+\fIsessionToken\fP the session token to validate 
+.br
+\fIerror\fP a pointer to an error that will get allocated if unsuccessful\&. Can be NULL\&. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+true if successful 
+.RE
+.PP
+
+.SS "bool cparse_user_validate_email (\fBcParseObject\fP * user, \fBcParseError\fP ** error)"
+tests if the user has an 'emailVerified' parameter and its true\&. If the parameter does not exists a refresh from the server will be attempted\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIuser\fP the user instance 
+.br
+\fIerror\fP a pointer to an error that will get allocated if unsuccessful\&. Can be NULL\&. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+true if successful 
+.RE
+.PP
+
+.SS "\fBcParseObject\fP* cparse_user_with_name (const char * username)"
+allocates a new user with a user name 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIusername\fP the username for the user 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+the allocated user instance 
+.RE
+.PP
+
 .SH "Author"
 .PP 
 Generated automatically by Doxygen for cParse from the source code\&.

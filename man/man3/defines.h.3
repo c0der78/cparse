@@ -1,4 +1,4 @@
-.TH "src/cparse/defines.h" 3 "Tue Feb 17 2015" "Version 0.1" "cParse" \" -*- nroff -*-
+.TH "src/cparse/defines.h" 3 "Thu Feb 26 2015" "Version 0.1" "cParse" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -23,82 +23,85 @@ src/cparse/defines.h \-
 .RI "typedef unsigned char \fBbool\fP"
 .br
 .ti -1c
-.RI "typedef int \fBcparse_number\fP"
+.RI "typedef int \fBcParseNumber\fP"
 .br
 .ti -1c
-.RI "typedef struct cparse_acl \fBCPARSE_ACL\fP"
+.RI "typedef struct cparse_acl \fBcParseACL\fP"
 .br
 .ti -1c
-.RI "typedef struct cparse_error \fBCPARSE_ERROR\fP"
+.RI "typedef struct cparse_error \fBcParseError\fP"
 .br
 .ti -1c
-.RI "typedef struct cparse_object \fBCPARSE_OBJ\fP"
+.RI "typedef struct cparse_object \fBcParseObject\fP"
 .br
 .ti -1c
-.RI "typedef struct cparse_query \fBCPARSE_QUERY\fP"
+.RI "typedef struct cparse_query \fBcParseQuery\fP"
 .br
 .ti -1c
-.RI "typedef void(* \fBCPARSE_OBJ_CALLBACK\fP) (\fBCPARSE_OBJ\fP *obj, bool success, \fBCPARSE_ERROR\fP *error)"
+.RI "typedef struct cparse_query_builder \fBcParseQueryBuilder\fP"
 .br
 .ti -1c
-.RI "typedef struct json_object \fBCPARSE_JSON\fP"
+.RI "typedef void(* \fBcParseObjectCallback\fP) (\fBcParseObject\fP *obj, bool success, \fBcParseError\fP *error)"
 .br
 .ti -1c
-.RI "typedef struct cparse_type_bytes \fBCPARSE_BYTES\fP"
+.RI "typedef struct json_object \fBcParseJson\fP"
 .br
 .ti -1c
-.RI "typedef struct cparse_type_data \fBCPARSE_DATA\fP"
+.RI "typedef struct cparse_type_bytes \fBcParseBytes\fP"
 .br
 .ti -1c
-.RI "typedef struct cparse_type_file \fBCPARSE_FILE\fP"
+.RI "typedef struct cparse_type_data \fBcParseData\fP"
 .br
 .ti -1c
-.RI "typedef struct cparse_type_geopoint \fBCPARSE_GEO_POINT\fP"
+.RI "typedef struct cparse_type_file \fBcParseFile\fP"
 .br
 .ti -1c
-.RI "typedef struct cparse_type_pointer \fBCPARSE_PTR\fP"
+.RI "typedef struct cparse_type_geopoint \fBcParseGeoPoint\fP"
 .br
 .ti -1c
-.RI "typedef struct cparse_op_array \fBCPARSE_OP_ARRAY\fP"
+.RI "typedef struct cparse_type_pointer \fBcParsePointer\fP"
 .br
 .ti -1c
-.RI "typedef struct cparse_op_decrement \fBCPARSE_OP_DEC\fP"
+.RI "typedef struct cparse_op_array \fBcParseOperatorArray\fP"
 .br
 .ti -1c
-.RI "typedef struct cparse_op_increment \fBCPARSE_OP_INC\fP"
+.RI "typedef struct cparse_op_decrement \fBcParseOperatorDecrement\fP"
+.br
+.ti -1c
+.RI "typedef struct cparse_op_increment \fBcParseOperatorIncrement\fP"
 .br
 .in -1c
 .SH "Typedef Documentation"
 .PP 
-.SS "typedef struct cparse_acl \fBCPARSE_ACL\fP"
+.SS "typedef struct cparse_acl \fBcParseACL\fP"
 A parse Access Control List structure 
-.SS "typedef struct cparse_type_bytes \fBCPARSE_BYTES\fP"
+.SS "typedef struct cparse_type_bytes \fBcParseBytes\fP"
 a parse bytes structure 
-.SS "typedef struct cparse_type_data \fBCPARSE_DATA\fP"
+.SS "typedef struct cparse_type_data \fBcParseData\fP"
 a parse data structure 
-.SS "typedef struct cparse_error \fBCPARSE_ERROR\fP"
+.SS "typedef struct cparse_error \fBcParseError\fP"
 An error structure 
-.SS "typedef struct cparse_type_file \fBCPARSE_FILE\fP"
+.SS "typedef struct cparse_type_file \fBcParseFile\fP"
 a parse file structure 
-.SS "typedef struct cparse_type_geopoint \fBCPARSE_GEO_POINT\fP"
+.SS "typedef struct cparse_type_geopoint \fBcParseGeoPoint\fP"
 a parse geo point structure 
-.SS "typedef struct json_object \fBCPARSE_JSON\fP"
+.SS "typedef struct json_object \fBcParseJson\fP"
 a json structure 
-.SS "typedef int \fBcparse_number\fP"
+.SS "typedef int \fBcParseNumber\fP"
 a type representing an integral number 
-.SS "typedef struct cparse_object \fBCPARSE_OBJ\fP"
+.SS "typedef struct cparse_object \fBcParseObject\fP"
 A parse object structure 
-.SS "typedef void(* CPARSE_OBJ_CALLBACK) (\fBCPARSE_OBJ\fP *obj, bool success, \fBCPARSE_ERROR\fP *error)"
+.SS "typedef void(* cParseObjectCallback) (\fBcParseObject\fP *obj, bool success, \fBcParseError\fP *error)"
 An object callback function 
-.SS "typedef struct cparse_op_array \fBCPARSE_OP_ARRAY\fP"
+.SS "typedef struct cparse_op_array \fBcParseOperatorArray\fP"
 an array operator 
-.SS "typedef struct cparse_op_decrement \fBCPARSE_OP_DEC\fP"
+.SS "typedef struct cparse_op_decrement \fBcParseOperatorDecrement\fP"
 a decrement operator 
-.SS "typedef struct cparse_op_increment \fBCPARSE_OP_INC\fP"
+.SS "typedef struct cparse_op_increment \fBcParseOperatorIncrement\fP"
 a increment operator 
-.SS "typedef struct cparse_type_pointer \fBCPARSE_PTR\fP"
+.SS "typedef struct cparse_type_pointer \fBcParsePointer\fP"
 a parse pointer structure 
-.SS "typedef struct cparse_query \fBCPARSE_QUERY\fP"
+.SS "typedef struct cparse_query \fBcParseQuery\fP"
 A parse query structure 
 .SH "Author"
 .PP 

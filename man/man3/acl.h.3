@@ -1,4 +1,4 @@
-.TH "src/cparse/acl.h" 3 "Tue Feb 17 2015" "Version 0.1" "cParse" \" -*- nroff -*-
+.TH "src/cparse/acl.h" 3 "Thu Feb 26 2015" "Version 0.1" "cParse" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -13,19 +13,19 @@ src/cparse/acl.h \-
 
 .in +1c
 .ti -1c
-.RI "\fBCPARSE_ACL\fP * \fBcparse_acl_new\fP ()"
+.RI "\fBcParseACL\fP * \fBcparse_acl_new\fP ()"
 .br
 .ti -1c
-.RI "\fBCPARSE_ACL\fP * \fBcparse_acl_new_with_user\fP (\fBCPARSE_OBJ\fP *user)"
+.RI "\fBcParseACL\fP * \fBcparse_acl_new_with_user\fP (\fBcParseObject\fP *user)"
 .br
 .ti -1c
-.RI "\fBCPARSE_ACL\fP * \fBcparse_acl_copy\fP (\fBCPARSE_ACL\fP *other)"
+.RI "\fBcParseACL\fP * \fBcparse_acl_copy\fP (\fBcParseACL\fP *other)"
 .br
 .ti -1c
-.RI "void \fBcparse_set_default_acl\fP (\fBCPARSE_ACL\fP *acl, bool currentUserAccess)"
+.RI "void \fBcparse_set_default_acl\fP (\fBcParseACL\fP *acl, bool currentUserAccess)"
 .br
 .ti -1c
-.RI "void \fBcparse_acl_free\fP (\fBCPARSE_ACL\fP *acl)"
+.RI "void \fBcparse_acl_free\fP (\fBcParseACL\fP *acl)"
 .br
 .in -1c
 .SH "Author"

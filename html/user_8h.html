@@ -106,65 +106,521 @@ Include dependency graph for user.h:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a18943ab3e516d9812e6d870d9ac2f4b3"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a18943ab3e516d9812e6d870d9ac2f4b3"></a>
-<a class="el" href="defines_8h.html#ac095129e63236c9d5e6cd86982077e39">CPARSE_OBJ</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_current_user</b> ()</td></tr>
-<tr class="separator:a18943ab3e516d9812e6d870d9ac2f4b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad51689910091997d22a5c6fb3412d1ca"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad51689910091997d22a5c6fb3412d1ca"></a>
-<a class="el" href="defines_8h.html#ac095129e63236c9d5e6cd86982077e39">CPARSE_OBJ</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_user_new</b> ()</td></tr>
-<tr class="separator:ad51689910091997d22a5c6fb3412d1ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acd3cb12f860f6eec572fa0249a4b2cb1"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="acd3cb12f860f6eec572fa0249a4b2cb1"></a>
-<a class="el" href="defines_8h.html#ac095129e63236c9d5e6cd86982077e39">CPARSE_OBJ</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_user_with_name</b> (const char *username)</td></tr>
-<tr class="separator:acd3cb12f860f6eec572fa0249a4b2cb1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acd940724a1a2175015a52f6898404f55"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="acd940724a1a2175015a52f6898404f55"></a>
-<a class="el" href="defines_8h.html#ac095129e63236c9d5e6cd86982077e39">CPARSE_OBJ</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_user_login</b> (const char *username, const char *password, <a class="el" href="defines_8h.html#a202a6e41233201c4e202756bd53f1222">CPARSE_ERROR</a> **error)</td></tr>
-<tr class="separator:acd940724a1a2175015a52f6898404f55"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a029e42909b6f22ff8c90fde7052c511a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a029e42909b6f22ff8c90fde7052c511a"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_user_login_in_background</b> (const char *username, const char *password, <a class="el" href="defines_8h.html#a77730bfaaa6a7ef65de88d9767b75eec">CPARSE_OBJ_CALLBACK</a> callback)</td></tr>
-<tr class="separator:a029e42909b6f22ff8c90fde7052c511a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab117159075cda07f3482c7be05ac4972"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab117159075cda07f3482c7be05ac4972"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_user_logout</b> ()</td></tr>
+<tr class="memitem:af75cde438f0f2024e0b997cae9def9b6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="defines_8h.html#a2ccd5051f86d3933c9df2240ac02e912">cParseObject</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="user_8h.html#af75cde438f0f2024e0b997cae9def9b6">cparse_current_user</a> ()</td></tr>
+<tr class="separator:af75cde438f0f2024e0b997cae9def9b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aff05dfabe8e46aabe4cfaa1a2a43b121"><td class="memItemLeft" align="right" valign="top"><a class="el" href="defines_8h.html#a2ccd5051f86d3933c9df2240ac02e912">cParseObject</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="user_8h.html#aff05dfabe8e46aabe4cfaa1a2a43b121">cparse_user_new</a> ()</td></tr>
+<tr class="separator:aff05dfabe8e46aabe4cfaa1a2a43b121"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acbb9e6ef9c759ec1abbe653cdbb3a1e8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="defines_8h.html#a2ccd5051f86d3933c9df2240ac02e912">cParseObject</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="user_8h.html#acbb9e6ef9c759ec1abbe653cdbb3a1e8">cparse_user_with_name</a> (const char *username)</td></tr>
+<tr class="separator:acbb9e6ef9c759ec1abbe653cdbb3a1e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9ac0a515f1465f634e8eae957f8939bd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="defines_8h.html#a2ccd5051f86d3933c9df2240ac02e912">cParseObject</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="user_8h.html#a9ac0a515f1465f634e8eae957f8939bd">cparse_user_login</a> (const char *username, const char *password, <a class="el" href="defines_8h.html#ac029144e51f48abfbe57cd20af5b4339">cParseError</a> **error)</td></tr>
+<tr class="separator:a9ac0a515f1465f634e8eae957f8939bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af5c0ce8f774dbccb884b5789ef007f93"><td class="memItemLeft" align="right" valign="top">pthread_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="user_8h.html#af5c0ce8f774dbccb884b5789ef007f93">cparse_user_login_in_background</a> (const char *username, const char *password, <a class="el" href="defines_8h.html#ab02b024ff456cf891cfe7ed0b881c29a">cParseObjectCallback</a> callback)</td></tr>
+<tr class="separator:af5c0ce8f774dbccb884b5789ef007f93"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab117159075cda07f3482c7be05ac4972"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="user_8h.html#ab117159075cda07f3482c7be05ac4972">cparse_user_logout</a> ()</td></tr>
 <tr class="separator:ab117159075cda07f3482c7be05ac4972"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a18fd13a9041b1c0c3465c3409a8a0bc6"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a18fd13a9041b1c0c3465c3409a8a0bc6"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_user_delete</b> (<a class="el" href="defines_8h.html#ac095129e63236c9d5e6cd86982077e39">CPARSE_OBJ</a> *user, <a class="el" href="defines_8h.html#a202a6e41233201c4e202756bd53f1222">CPARSE_ERROR</a> **error)</td></tr>
-<tr class="separator:a18fd13a9041b1c0c3465c3409a8a0bc6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adcef83592bd77dee1a5e764ed4481d54"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="adcef83592bd77dee1a5e764ed4481d54"></a>
-<a class="el" href="defines_8h.html#a9ec68ecda1afdf3ec2994ea1c2249d86">CPARSE_QUERY</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_user_query</b> ()</td></tr>
-<tr class="separator:adcef83592bd77dee1a5e764ed4481d54"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a15ec7f8b246d64cf332e068d8bb9705e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a15ec7f8b246d64cf332e068d8bb9705e"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_user_sign_up</b> (<a class="el" href="defines_8h.html#ac095129e63236c9d5e6cd86982077e39">CPARSE_OBJ</a> *user, const char *password, <a class="el" href="defines_8h.html#a202a6e41233201c4e202756bd53f1222">CPARSE_ERROR</a> **error)</td></tr>
-<tr class="separator:a15ec7f8b246d64cf332e068d8bb9705e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afd42a887adec6266218e235826065593"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="afd42a887adec6266218e235826065593"></a>
-const char *&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_user_name</b> (<a class="el" href="defines_8h.html#ac095129e63236c9d5e6cd86982077e39">CPARSE_OBJ</a> *user)</td></tr>
-<tr class="separator:afd42a887adec6266218e235826065593"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6aa8fdc4a66241ca83574c546c4b3f16"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6aa8fdc4a66241ca83574c546c4b3f16"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_user_set_name</b> (<a class="el" href="defines_8h.html#ac095129e63236c9d5e6cd86982077e39">CPARSE_OBJ</a> *user, char *value)</td></tr>
-<tr class="separator:a6aa8fdc4a66241ca83574c546c4b3f16"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad5eb89e2878a68aef277e74542b01fbd"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad5eb89e2878a68aef277e74542b01fbd"></a>
-const char *&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_user_email</b> (<a class="el" href="defines_8h.html#ac095129e63236c9d5e6cd86982077e39">CPARSE_OBJ</a> *user)</td></tr>
-<tr class="separator:ad5eb89e2878a68aef277e74542b01fbd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8d99416186b88a185c6a715cc445302c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8d99416186b88a185c6a715cc445302c"></a>
-const char *&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_user_session_token</b> (<a class="el" href="defines_8h.html#ac095129e63236c9d5e6cd86982077e39">CPARSE_OBJ</a> *user)</td></tr>
-<tr class="separator:a8d99416186b88a185c6a715cc445302c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a252ab3e954012d2194d3674814f41e68"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a252ab3e954012d2194d3674814f41e68"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_user_validate</b> (<a class="el" href="defines_8h.html#ac095129e63236c9d5e6cd86982077e39">CPARSE_OBJ</a> *user, const char *sessionToken, <a class="el" href="defines_8h.html#a202a6e41233201c4e202756bd53f1222">CPARSE_ERROR</a> **error)</td></tr>
-<tr class="separator:a252ab3e954012d2194d3674814f41e68"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a468abba4e553e3c7505cf9be35be845a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a468abba4e553e3c7505cf9be35be845a"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_user_validate_email</b> (<a class="el" href="defines_8h.html#ac095129e63236c9d5e6cd86982077e39">CPARSE_OBJ</a> *user, <a class="el" href="defines_8h.html#a202a6e41233201c4e202756bd53f1222">CPARSE_ERROR</a> **error)</td></tr>
-<tr class="separator:a468abba4e553e3c7505cf9be35be845a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad07a1e4ac06044badb257a3097f0ddea"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad07a1e4ac06044badb257a3097f0ddea"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_user_refresh</b> (<a class="el" href="defines_8h.html#ac095129e63236c9d5e6cd86982077e39">CPARSE_OBJ</a> *obj, <a class="el" href="defines_8h.html#a202a6e41233201c4e202756bd53f1222">CPARSE_ERROR</a> **error)</td></tr>
-<tr class="separator:ad07a1e4ac06044badb257a3097f0ddea"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac955ddfcd4c8a2323714d9d9cc7cb13f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac955ddfcd4c8a2323714d9d9cc7cb13f"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_user_fetch</b> (<a class="el" href="defines_8h.html#ac095129e63236c9d5e6cd86982077e39">CPARSE_OBJ</a> *obj, <a class="el" href="defines_8h.html#a202a6e41233201c4e202756bd53f1222">CPARSE_ERROR</a> **error)</td></tr>
-<tr class="separator:ac955ddfcd4c8a2323714d9d9cc7cb13f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2f75a5847939adb66f1c8d8f9fe6a6df"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2f75a5847939adb66f1c8d8f9fe6a6df"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_user_reset_password</b> (<a class="el" href="defines_8h.html#ac095129e63236c9d5e6cd86982077e39">CPARSE_OBJ</a> *user, <a class="el" href="defines_8h.html#a202a6e41233201c4e202756bd53f1222">CPARSE_ERROR</a> **error)</td></tr>
-<tr class="separator:a2f75a5847939adb66f1c8d8f9fe6a6df"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae6888365b816a07e40b8e31dbcafbe2a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="user_8h.html#ae6888365b816a07e40b8e31dbcafbe2a">cparse_user_delete</a> (<a class="el" href="defines_8h.html#a2ccd5051f86d3933c9df2240ac02e912">cParseObject</a> *user, <a class="el" href="defines_8h.html#ac029144e51f48abfbe57cd20af5b4339">cParseError</a> **error)</td></tr>
+<tr class="separator:ae6888365b816a07e40b8e31dbcafbe2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a137f566f27433cfad4fb2c540476fa6c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="defines_8h.html#aaaa2ae5bacca4dcc458d71f7d5f9f150">cParseQuery</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="user_8h.html#a137f566f27433cfad4fb2c540476fa6c">cparse_user_query_new</a> ()</td></tr>
+<tr class="separator:a137f566f27433cfad4fb2c540476fa6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9e0bbc2e32b24147795ea284e94a6ad4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="user_8h.html#a9e0bbc2e32b24147795ea284e94a6ad4">cparse_user_sign_up</a> (<a class="el" href="defines_8h.html#a2ccd5051f86d3933c9df2240ac02e912">cParseObject</a> *user, const char *password, <a class="el" href="defines_8h.html#ac029144e51f48abfbe57cd20af5b4339">cParseError</a> **error)</td></tr>
+<tr class="separator:a9e0bbc2e32b24147795ea284e94a6ad4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a852aff850b0b7307b1d17b89b0f03341"><td class="memItemLeft" align="right" valign="top">pthread_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="user_8h.html#a852aff850b0b7307b1d17b89b0f03341">cparse_user_sign_up_in_background</a> (<a class="el" href="defines_8h.html#a2ccd5051f86d3933c9df2240ac02e912">cParseObject</a> *user, const char *password, <a class="el" href="defines_8h.html#ab02b024ff456cf891cfe7ed0b881c29a">cParseObjectCallback</a> callback)</td></tr>
+<tr class="separator:a852aff850b0b7307b1d17b89b0f03341"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa99d22a2b725cdd2789d85f2955f8b7d"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="user_8h.html#aa99d22a2b725cdd2789d85f2955f8b7d">cparse_user_name</a> (<a class="el" href="defines_8h.html#a2ccd5051f86d3933c9df2240ac02e912">cParseObject</a> *user)</td></tr>
+<tr class="separator:aa99d22a2b725cdd2789d85f2955f8b7d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ada7ce395c559531910f4594d134dd988"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="user_8h.html#ada7ce395c559531910f4594d134dd988">cparse_user_set_name</a> (<a class="el" href="defines_8h.html#a2ccd5051f86d3933c9df2240ac02e912">cParseObject</a> *user, char *value)</td></tr>
+<tr class="separator:ada7ce395c559531910f4594d134dd988"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5daefe806837b325263f6322c30ccd99"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="user_8h.html#a5daefe806837b325263f6322c30ccd99">cparse_user_email</a> (<a class="el" href="defines_8h.html#a2ccd5051f86d3933c9df2240ac02e912">cParseObject</a> *user)</td></tr>
+<tr class="separator:a5daefe806837b325263f6322c30ccd99"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac09132f4772902be971c0ffd70c28227"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="user_8h.html#ac09132f4772902be971c0ffd70c28227">cparse_user_session_token</a> (<a class="el" href="defines_8h.html#a2ccd5051f86d3933c9df2240ac02e912">cParseObject</a> *user)</td></tr>
+<tr class="separator:ac09132f4772902be971c0ffd70c28227"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a52ca047f2df3fdad9b72d5b8e9e0ca9d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="user_8h.html#a52ca047f2df3fdad9b72d5b8e9e0ca9d">cparse_user_validate</a> (<a class="el" href="defines_8h.html#a2ccd5051f86d3933c9df2240ac02e912">cParseObject</a> *user, const char *sessionToken, <a class="el" href="defines_8h.html#ac029144e51f48abfbe57cd20af5b4339">cParseError</a> **error)</td></tr>
+<tr class="separator:a52ca047f2df3fdad9b72d5b8e9e0ca9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a350fdea027becaa686344b1f8f423f7f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="user_8h.html#a350fdea027becaa686344b1f8f423f7f">cparse_user_validate_email</a> (<a class="el" href="defines_8h.html#a2ccd5051f86d3933c9df2240ac02e912">cParseObject</a> *user, <a class="el" href="defines_8h.html#ac029144e51f48abfbe57cd20af5b4339">cParseError</a> **error)</td></tr>
+<tr class="separator:a350fdea027becaa686344b1f8f423f7f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1cf01665ef5943fa5267081842e11b59"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1cf01665ef5943fa5267081842e11b59"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_user_refresh</b> (<a class="el" href="defines_8h.html#a2ccd5051f86d3933c9df2240ac02e912">cParseObject</a> *obj, <a class="el" href="defines_8h.html#ac029144e51f48abfbe57cd20af5b4339">cParseError</a> **error)</td></tr>
+<tr class="separator:a1cf01665ef5943fa5267081842e11b59"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a65b9bcce4525bac0e094f3b6e2e38254"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a65b9bcce4525bac0e094f3b6e2e38254"></a>
+pthread_t&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_user_refresh_in_background</b> (<a class="el" href="defines_8h.html#a2ccd5051f86d3933c9df2240ac02e912">cParseObject</a> *obj, <a class="el" href="defines_8h.html#ab02b024ff456cf891cfe7ed0b881c29a">cParseObjectCallback</a> callback)</td></tr>
+<tr class="separator:a65b9bcce4525bac0e094f3b6e2e38254"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2605be758fdafadbe3a5bcb31aabe424"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2605be758fdafadbe3a5bcb31aabe424"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_user_fetch</b> (<a class="el" href="defines_8h.html#a2ccd5051f86d3933c9df2240ac02e912">cParseObject</a> *obj, <a class="el" href="defines_8h.html#ac029144e51f48abfbe57cd20af5b4339">cParseError</a> **error)</td></tr>
+<tr class="separator:a2605be758fdafadbe3a5bcb31aabe424"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a68496b08e3b0136c281eeb465137c02a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a68496b08e3b0136c281eeb465137c02a"></a>
+pthread_t&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_user_fetch_in_background</b> (<a class="el" href="defines_8h.html#a2ccd5051f86d3933c9df2240ac02e912">cParseObject</a> *user, <a class="el" href="defines_8h.html#ab02b024ff456cf891cfe7ed0b881c29a">cParseObjectCallback</a> callback)</td></tr>
+<tr class="separator:a68496b08e3b0136c281eeb465137c02a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a69bb3d95ca19e4ffd16135d58ef6641b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a69bb3d95ca19e4ffd16135d58ef6641b"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_user_reset_password</b> (<a class="el" href="defines_8h.html#a2ccd5051f86d3933c9df2240ac02e912">cParseObject</a> *user, <a class="el" href="defines_8h.html#ac029144e51f48abfbe57cd20af5b4339">cParseError</a> **error)</td></tr>
+<tr class="separator:a69bb3d95ca19e4ffd16135d58ef6641b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a06b801d139c5e7632751a6f598298f76"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a06b801d139c5e7632751a6f598298f76"></a>
+pthread_t&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_user_reset_password_in_background</b> (<a class="el" href="defines_8h.html#a2ccd5051f86d3933c9df2240ac02e912">cParseObject</a> *user, <a class="el" href="defines_8h.html#ab02b024ff456cf891cfe7ed0b881c29a">cParseObjectCallback</a> callback)</td></tr>
+<tr class="separator:a06b801d139c5e7632751a6f598298f76"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3856f3dd3c38ce542a9ab836e9394013"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3856f3dd3c38ce542a9ab836e9394013"></a>
+pthread_t&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_user_delete_in_background</b> (<a class="el" href="defines_8h.html#a2ccd5051f86d3933c9df2240ac02e912">cParseObject</a> *obj, <a class="el" href="defines_8h.html#ab02b024ff456cf891cfe7ed0b881c29a">cParseObjectCallback</a> callback)</td></tr>
+<tr class="separator:a3856f3dd3c38ce542a9ab836e9394013"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Function Documentation</h2>
+<a class="anchor" id="af75cde438f0f2024e0b997cae9def9b6"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="defines_8h.html#a2ccd5051f86d3933c9df2240ac02e912">cParseObject</a>* cparse_current_user </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>gets the currently logged in user </p><dl class="section return"><dt>Returns</dt><dd>the current logged in user instance or NULL </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ae6888365b816a07e40b8e31dbcafbe2a"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool cparse_user_delete </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="defines_8h.html#a2ccd5051f86d3933c9df2240ac02e912">cParseObject</a> *&#160;</td>
+          <td class="paramname"><em>user</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="defines_8h.html#ac029144e51f48abfbe57cd20af5b4339">cParseError</a> **&#160;</td>
+          <td class="paramname"><em>error</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>deletes a user from the backend </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">user</td><td>the user instance </td></tr>
+    <tr><td class="paramname">error</td><td>a pointer to an error that gets allocated if not successful. can be NULL </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true if successful </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a5daefe806837b325263f6322c30ccd99"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const char* cparse_user_email </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="defines_8h.html#a2ccd5051f86d3933c9df2240ac02e912">cParseObject</a> *&#160;</td>
+          <td class="paramname"><em>user</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>gets a user's email </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">user</td><td>the user instance </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the email as a string or NULL </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a9ac0a515f1465f634e8eae957f8939bd"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="defines_8h.html#a2ccd5051f86d3933c9df2240ac02e912">cParseObject</a>* cparse_user_login </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>username</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>password</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="defines_8h.html#ac029144e51f48abfbe57cd20af5b4339">cParseError</a> **&#160;</td>
+          <td class="paramname"><em>error</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>logs in as a user </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">username</td><td>the username of the user </td></tr>
+    <tr><td class="paramname">password</td><td>the password for the user </td></tr>
+    <tr><td class="paramname">error</td><td>a pointer to an error that gets allocated if unsuccessful. can be NULL </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the user object if successful, NULL otherwise </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="af5c0ce8f774dbccb884b5789ef007f93"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">pthread_t cparse_user_login_in_background </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>username</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>password</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="defines_8h.html#ab02b024ff456cf891cfe7ed0b881c29a">cParseObjectCallback</a>&#160;</td>
+          <td class="paramname"><em>callback</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>logs in as a user in the background </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">username</td><td>the username of the user </td></tr>
+    <tr><td class="paramname">password</td><td>the password of the user </td></tr>
+    <tr><td class="paramname">callback</td><td>the callback issued if successful </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>an identifier for the background thread </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ab117159075cda07f3482c7be05ac4972"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void cparse_user_logout </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>logs out the current user </p>
+
+</div>
+</div>
+<a class="anchor" id="aa99d22a2b725cdd2789d85f2955f8b7d"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const char* cparse_user_name </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="defines_8h.html#a2ccd5051f86d3933c9df2240ac02e912">cParseObject</a> *&#160;</td>
+          <td class="paramname"><em>user</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>gets the user name  user the user instance </p><dl class="section return"><dt>Returns</dt><dd>the name as a string or NULL </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="aff05dfabe8e46aabe4cfaa1a2a43b121"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="defines_8h.html#a2ccd5051f86d3933c9df2240ac02e912">cParseObject</a>* cparse_user_new </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>allocates a new user object </p><dl class="section return"><dt>Returns</dt><dd>the allocated user instance </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a137f566f27433cfad4fb2c540476fa6c"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="defines_8h.html#aaaa2ae5bacca4dcc458d71f7d5f9f150">cParseQuery</a>* cparse_user_query_new </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>creates a new query for a user object </p><dl class="section return"><dt>Returns</dt><dd>the query instance </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ac09132f4772902be971c0ffd70c28227"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const char* cparse_user_session_token </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="defines_8h.html#a2ccd5051f86d3933c9df2240ac02e912">cParseObject</a> *&#160;</td>
+          <td class="paramname"><em>user</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>gets a user's session token </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">the</td><td>user instance </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the session token as a string or NULL </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ada7ce395c559531910f4594d134dd988"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void cparse_user_set_name </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="defines_8h.html#a2ccd5051f86d3933c9df2240ac02e912">cParseObject</a> *&#160;</td>
+          <td class="paramname"><em>user</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>value</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>sets a user's name </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">user</td><td>the user instance </td></tr>
+    <tr><td class="paramname">value</td><td>the string value </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a9e0bbc2e32b24147795ea284e94a6ad4"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool cparse_user_sign_up </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="defines_8h.html#a2ccd5051f86d3933c9df2240ac02e912">cParseObject</a> *&#160;</td>
+          <td class="paramname"><em>user</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>password</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="defines_8h.html#ac029144e51f48abfbe57cd20af5b4339">cParseError</a> **&#160;</td>
+          <td class="paramname"><em>error</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Creates a new user on the backend </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">user</td><td>the user instance </td></tr>
+    <tr><td class="paramname">password</td><td>the user's password </td></tr>
+    <tr><td class="paramname">error</td><td>a pointer to an error that will get allocated if unsuccessful. Can be NULL. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true if successful. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a852aff850b0b7307b1d17b89b0f03341"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">pthread_t cparse_user_sign_up_in_background </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="defines_8h.html#a2ccd5051f86d3933c9df2240ac02e912">cParseObject</a> *&#160;</td>
+          <td class="paramname"><em>user</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>password</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="defines_8h.html#ab02b024ff456cf891cfe7ed0b881c29a">cParseObjectCallback</a>&#160;</td>
+          <td class="paramname"><em>callback</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Creates a new user in the background </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">user</td><td>the user instance </td></tr>
+    <tr><td class="paramname">password</td><td>the user's password </td></tr>
+    <tr><td class="paramname">callback</td><td>the callback issued after signing up </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>an identifier for the background thread </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a52ca047f2df3fdad9b72d5b8e9e0ca9d"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool cparse_user_validate </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="defines_8h.html#a2ccd5051f86d3933c9df2240ac02e912">cParseObject</a> *&#160;</td>
+          <td class="paramname"><em>user</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>sessionToken</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="defines_8h.html#ac029144e51f48abfbe57cd20af5b4339">cParseError</a> **&#160;</td>
+          <td class="paramname"><em>error</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>validates a session token against the backend </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">user</td><td>the user to store the data in </td></tr>
+    <tr><td class="paramname">sessionToken</td><td>the session token to validate </td></tr>
+    <tr><td class="paramname">error</td><td>a pointer to an error that will get allocated if unsuccessful. Can be NULL. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true if successful </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a350fdea027becaa686344b1f8f423f7f"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool cparse_user_validate_email </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="defines_8h.html#a2ccd5051f86d3933c9df2240ac02e912">cParseObject</a> *&#160;</td>
+          <td class="paramname"><em>user</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="defines_8h.html#ac029144e51f48abfbe57cd20af5b4339">cParseError</a> **&#160;</td>
+          <td class="paramname"><em>error</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>tests if the user has an 'emailVerified' parameter and its true. If the parameter does not exists a refresh from the server will be attempted. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">user</td><td>the user instance </td></tr>
+    <tr><td class="paramname">error</td><td>a pointer to an error that will get allocated if unsuccessful. Can be NULL. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true if successful </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="acbb9e6ef9c759ec1abbe653cdbb3a1e8"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="defines_8h.html#a2ccd5051f86d3933c9df2240ac02e912">cParseObject</a>* cparse_user_with_name </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>username</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>allocates a new user with a user name </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">username</td><td>the username for the user </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the allocated user instance </dd></dl>
+
+</div>
+</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Feb 17 2015 14:59:52 for cParse by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Feb 26 2015 14:35:45 for cParse by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>

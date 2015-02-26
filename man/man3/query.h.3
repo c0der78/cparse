@@ -1,4 +1,4 @@
-.TH "src/cparse/query.h" 3 "Tue Feb 17 2015" "Version 0.1" "cParse" \" -*- nroff -*-
+.TH "src/cparse/query.h" 3 "Thu Feb 26 2015" "Version 0.1" "cParse" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -13,77 +13,118 @@ src/cparse/query.h \-
 \fC#include <cparse/object\&.h>\fP
 .br
 
-.SS "Macros"
-
-.in +1c
-.ti -1c
-.RI "#define \fBCPARSE_QUERY_LESS_THAN\fP   '$lt'"
-.br
-.ti -1c
-.RI "#define \fBCPARSE_QUERY_LESS_THAN_EQUAL\fP   '$lte'"
-.br
-.ti -1c
-.RI "#define \fBCPARSE_QUERY_GREATER_THAN\fP   '$gt'"
-.br
-.ti -1c
-.RI "#define \fBCPARSE_QUERY_GREATER_THAN_EQUAL\fP   '$gte'"
-.br
-.ti -1c
-.RI "#define \fBCPARSE_QUERY_NOT_EQUAL\fP   '$ne'"
-.br
-.ti -1c
-.RI "#define \fBCPARSE_QUERY_IN\fP   '$in'"
-.br
-.ti -1c
-.RI "#define \fBCPARSE_QUERY_NOT_IN\fP   '$nin'"
-.br
-.ti -1c
-.RI "#define \fBCPARSE_QUERY_EXISTS\fP   '$exists'"
-.br
-.ti -1c
-.RI "#define \fBCPARSE_QUERY_SELECT\fP   '$select'"
-.br
-.ti -1c
-.RI "#define \fBCPARSE_QUERY_DONT_SELECT\fP   '$dontSelect'"
-.br
-.ti -1c
-.RI "#define \fBCPARSE_QUERY_ALL\fP   '$all'"
-.br
-.ti -1c
-.RI "#define \fBCPARSE_ARRAY_KEY\fP   'arrayKey'"
-.br
-.in -1c
 .SS "Functions"
 
 .in +1c
 .ti -1c
-.RI "\fBCPARSE_QUERY\fP * \fBcparse_query_with_class_name\fP (const char *className)"
+.RI "\fBcParseQuery\fP * \fBcparse_query_with_class_name\fP (const char *className)"
 .br
 .ti -1c
-.RI "void \fBcparse_query_free\fP (\fBCPARSE_QUERY\fP *query)"
+.RI "void \fBcparse_query_free\fP (\fBcParseQuery\fP *query)"
 .br
 .ti -1c
-.RI "size_t \fBcparse_query_size\fP (\fBCPARSE_QUERY\fP *query)"
+.RI "void \fBcparse_query_free_results\fP (\fBcParseQuery\fP *query)"
 .br
 .ti -1c
-.RI "\fBCPARSE_OBJ\fP * \fBcparse_query_result\fP (\fBCPARSE_QUERY\fP *query, size_t index)"
+.RI "size_t \fBcparse_query_size\fP (\fBcParseQuery\fP *query)"
 .br
 .ti -1c
-.RI "void \fBcparse_query_set_where\fP (\fBCPARSE_QUERY\fP *query, \fBCPARSE_JSON\fP *where)"
+.RI "\fBcParseObject\fP * \fBcparse_query_result\fP (\fBcParseQuery\fP *query, size_t index)"
 .br
 .ti -1c
-.RI "void \fBcparse_query_cancel\fP (\fBCPARSE_QUERY\fP *query)"
+.RI "void \fBcparse_query_set_where\fP (\fBcParseQuery\fP *query, \fBcParseJson\fP *where)"
 .br
 .ti -1c
-.RI "int \fBcparse_query_count_objects\fP (\fBCPARSE_QUERY\fP *query, \fBCPARSE_ERROR\fP **error)"
+.RI "void \fBcparse_query_build_where\fP (\fBcParseQuery\fP *query, cParseQueryBuilder *builder)"
 .br
 .ti -1c
-.RI "bool \fBcparse_query_find_objects\fP (\fBCPARSE_QUERY\fP *query, \fBCPARSE_ERROR\fP **error)"
+.RI "void \fBcparse_query_cancel\fP (\fBcParseQuery\fP *query)"
+.br
+.ti -1c
+.RI "int \fBcparse_query_count_objects\fP (\fBcParseQuery\fP *query, \fBcParseError\fP **error)"
+.br
+.ti -1c
+.RI "bool \fBcparse_query_find_objects\fP (\fBcParseQuery\fP *query, \fBcParseError\fP **error)"
+.br
+.ti -1c
+.RI "void \fBcparse_query_where_in\fP (\fBcParseQuery\fP *query, const char *key, \fBcParseJson\fP *inArray)"
+.br
+.ti -1c
+.RI "void \fBcparse_query_where_lte\fP (\fBcParseQuery\fP *query, const char *key, \fBcParseJson\fP *value)"
+.br
+.ti -1c
+.RI "void \fBcparse_query_where_lt\fP (\fBcParseQuery\fP *query, const char *key, \fBcParseJson\fP *value)"
+.br
+.ti -1c
+.RI "void \fBcparse_query_where_gte\fP (\fBcParseQuery\fP *query, const char *key, \fBcParseJson\fP *value)"
+.br
+.ti -1c
+.RI "void \fBcparse_query_where_gt\fP (\fBcParseQuery\fP *query, const char *key, \fBcParseJson\fP *value)"
+.br
+.ti -1c
+.RI "void \fBcparse_query_where_ne\fP (\fBcParseQuery\fP *query, const char *key, \fBcParseJson\fP *value)"
+.br
+.ti -1c
+.RI "void \fBcparse_query_where_nin\fP (\fBcParseQuery\fP *query, const char *key, \fBcParseJson\fP *inArray)"
+.br
+.ti -1c
+.RI "void \fBcparse_query_where_exists\fP (\fBcParseQuery\fP *query, const char *key, \fBcParseJson\fP *value)"
+.br
+.ti -1c
+.RI "void \fBcparse_query_where_select\fP (\fBcParseQuery\fP *query, const char *key, \fBcParseJson\fP *value)"
+.br
+.ti -1c
+.RI "void \fBcparse_query_where_nselect\fP (\fBcParseQuery\fP *query, const char *key, \fBcParseJson\fP *value)"
+.br
+.ti -1c
+.RI "void \fBcparse_query_where_all\fP (\fBcParseQuery\fP *query, const char *key, \fBcParseJson\fP *value)"
+.br
+.ti -1c
+.RI "cParseQueryBuilder * \fBcparse_query_build_new\fP ()"
+.br
+.ti -1c
+.RI "cParseQueryBuilder * \fBcparse_query_build_in\fP (cParseQueryBuilder *query, const char *key, \fBcParseJson\fP *inArray)"
+.br
+.ti -1c
+.RI "cParseQueryBuilder * \fBcparse_query_build_lte\fP (cParseQueryBuilder *query, const char *key, \fBcParseJson\fP *value)"
+.br
+.ti -1c
+.RI "cParseQueryBuilder * \fBcparse_query_build_lt\fP (cParseQueryBuilder *query, const char *key, \fBcParseJson\fP *value)"
+.br
+.ti -1c
+.RI "cParseQueryBuilder * \fBcparse_query_build_gte\fP (cParseQueryBuilder *query, const char *key, \fBcParseJson\fP *value)"
+.br
+.ti -1c
+.RI "cParseQueryBuilder * \fBcparse_query_build_gt\fP (cParseQueryBuilder *query, const char *key, \fBcParseJson\fP *value)"
+.br
+.ti -1c
+.RI "cParseQueryBuilder * \fBcparse_query_build_ne\fP (cParseQueryBuilder *query, const char *key, \fBcParseJson\fP *value)"
+.br
+.ti -1c
+.RI "cParseQueryBuilder * \fBcparse_query_build_nin\fP (cParseQueryBuilder *query, const char *key, \fBcParseJson\fP *inArray)"
+.br
+.ti -1c
+.RI "cParseQueryBuilder * \fBcparse_query_build_exists\fP (cParseQueryBuilder *query, const char *key, \fBcParseJson\fP *value)"
+.br
+.ti -1c
+.RI "cParseQueryBuilder * \fBcparse_query_build_select\fP (cParseQueryBuilder *query, const char *key, \fBcParseJson\fP *value)"
+.br
+.ti -1c
+.RI "cParseQueryBuilder * \fBcparse_query_build_nselect\fP (cParseQueryBuilder *query, const char *key, \fBcParseJson\fP *value)"
+.br
+.ti -1c
+.RI "cParseQueryBuilder * \fBcparse_query_build_all\fP (cParseQueryBuilder *query, const char *key, \fBcParseJson\fP *value)"
+.br
+.ti -1c
+.RI "\fBcParseJson\fP * \fBcparse_query_build_json\fP (cParseQueryBuilder *query)"
+.br
+.ti -1c
+.RI "void \fBcparse_query_build_free\fP (cParseQueryBuilder *query)"
 .br
 .in -1c
 .SH "Function Documentation"
 .PP 
-.SS "bool cparse_query_find_objects (\fBCPARSE_QUERY\fP * query, \fBCPARSE_ERROR\fP ** error)"
+.SS "bool cparse_query_find_objects (\fBcParseQuery\fP * query, \fBcParseError\fP ** error)"
 find objects from a query 
 .PP
 \fBParameters:\fP
@@ -99,7 +140,7 @@ true if successful
 .RE
 .PP
 
-.SS "void cparse_query_free (\fBCPARSE_QUERY\fP * query)"
+.SS "void cparse_query_free (\fBcParseQuery\fP * query)"
 deallocates a query 
 .PP
 \fBParameters:\fP
@@ -108,7 +149,7 @@ deallocates a query
 .RE
 .PP
 
-.SS "\fBCPARSE_OBJ\fP* cparse_query_result (\fBCPARSE_QUERY\fP * query, size_t index)"
+.SS "\fBcParseObject\fP* cparse_query_result (\fBcParseQuery\fP * query, size_t index)"
 gets a result in the query 
 .PP
 \fBParameters:\fP
@@ -124,7 +165,7 @@ the query result object or NULL
 .RE
 .PP
 
-.SS "void cparse_query_set_where (\fBCPARSE_QUERY\fP * query, \fBCPARSE_JSON\fP * where)"
+.SS "void cparse_query_set_where (\fBcParseQuery\fP * query, \fBcParseJson\fP * where)"
 sets the where clause of a query 
 .PP
 \fBParameters:\fP
@@ -135,7 +176,7 @@ sets the where clause of a query
 .RE
 .PP
 
-.SS "size_t cparse_query_size (\fBCPARSE_QUERY\fP * query)"
+.SS "size_t cparse_query_size (\fBcParseQuery\fP * query)"
 gets the size of the results in the query 
 .PP
 \fBParameters:\fP
@@ -149,7 +190,7 @@ the number of results in the query
 .RE
 .PP
 
-.SS "\fBCPARSE_QUERY\fP* cparse_query_with_class_name (const char * className)"
+.SS "\fBcParseQuery\fP* cparse_query_with_class_name (const char * className)"
 creates a new query for an object type 
 .PP
 \fBParameters:\fP

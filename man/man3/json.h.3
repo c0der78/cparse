@@ -1,4 +1,4 @@
-.TH "src/cparse/json.h" 3 "Tue Feb 17 2015" "Version 0.1" "cParse" \" -*- nroff -*-
+.TH "src/cparse/json.h" 3 "Thu Feb 26 2015" "Version 0.1" "cParse" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -25,134 +25,137 @@ src/cparse/json.h \-
 
 .in +1c
 .ti -1c
-.RI "enum \fBcParseJSONType\fP { \fBcParseJSONNumber\fP, \fBcParseJSONReal\fP, \fBcParseJSONString\fP, \fBcParseJSONBoolean\fP, \fBcParseJSONObject\fP, \fBcParseJSONArray\fP, \fBcParseJSONNull\fP }"
+.RI "enum \fBcParseJsonType\fP { \fBcParseJsonNumber\fP, \fBcParseJsonReal\fP, \fBcParseJsonString\fP, \fBcParseJsonBoolean\fP, \fBcParseJsonObject\fP, \fBcParseJsonArray\fP, \fBcParseJsonNull\fP }"
 .br
 .in -1c
 .SS "Functions"
 
 .in +1c
 .ti -1c
-.RI "\fBCPARSE_JSON\fP * \fBcparse_json_new\fP ()"
+.RI "\fBcParseJson\fP * \fBcparse_json_new\fP ()"
 .br
 .ti -1c
-.RI "\fBCPARSE_JSON\fP * \fBcparse_json_new_reference\fP (\fBCPARSE_JSON\fP *orig)"
+.RI "\fBcParseJson\fP * \fBcparse_json_new_reference\fP (\fBcParseJson\fP *orig)"
 .br
 .ti -1c
-.RI "\fBCPARSE_JSON\fP * \fBcparse_json_new_number\fP (\fBcparse_number\fP)"
+.RI "\fBcParseJson\fP * \fBcparse_json_new_number\fP (\fBcParseNumber\fP)"
 .br
 .ti -1c
-.RI "\fBCPARSE_JSON\fP * \fBcparse_json_new_real\fP (double)"
+.RI "\fBcParseJson\fP * \fBcparse_json_new_real\fP (double)"
 .br
 .ti -1c
-.RI "\fBCPARSE_JSON\fP * \fBcparse_json_new_bool\fP (bool value)"
+.RI "\fBcParseJson\fP * \fBcparse_json_new_bool\fP (bool value)"
 .br
 .ti -1c
-.RI "\fBCPARSE_JSON\fP * \fBcparse_json_new_string\fP (const char *str)"
+.RI "\fBcParseJson\fP * \fBcparse_json_new_string\fP (const char *str)"
 .br
 .ti -1c
-.RI "\fBCPARSE_JSON\fP * \fBcparse_json_new_array\fP ()"
+.RI "\fBcParseJson\fP * \fBcparse_json_new_array\fP ()"
 .br
 .ti -1c
-.RI "void \fBcparse_json_copy\fP (\fBCPARSE_JSON\fP *orig, \fBCPARSE_JSON\fP *other, bool replaceOnConflict)"
+.RI "void \fBcparse_json_copy\fP (\fBcParseJson\fP *orig, \fBcParseJson\fP *other, bool replaceOnConflict)"
 .br
 .ti -1c
-.RI "void \fBcparse_json_free\fP (\fBCPARSE_JSON\fP *value)"
+.RI "void \fBcparse_json_free\fP (\fBcParseJson\fP *value)"
 .br
 .ti -1c
-.RI "void \fBcparse_json_set\fP (\fBCPARSE_JSON\fP *obj, const char *key, \fBCPARSE_JSON\fP *value)"
+.RI "void \fBcparse_json_set\fP (\fBcParseJson\fP *obj, const char *key, \fBcParseJson\fP *value)"
 .br
 .ti -1c
-.RI "void \fBcparse_json_set_number\fP (\fBCPARSE_JSON\fP *obj, const char *key, \fBcparse_number\fP value)"
+.RI "void \fBcparse_json_set_number\fP (\fBcParseJson\fP *obj, const char *key, \fBcParseNumber\fP value)"
 .br
 .ti -1c
-.RI "void \fBcparse_json_set_real\fP (\fBCPARSE_JSON\fP *obj, const char *key, double value)"
+.RI "void \fBcparse_json_set_real\fP (\fBcParseJson\fP *obj, const char *key, double value)"
 .br
 .ti -1c
-.RI "void \fBcparse_json_set_string\fP (\fBCPARSE_JSON\fP *obj, const char *key, const char *value)"
+.RI "void \fBcparse_json_set_string\fP (\fBcParseJson\fP *obj, const char *key, const char *value)"
 .br
 .ti -1c
-.RI "void \fBcparse_json_set_bool\fP (\fBCPARSE_JSON\fP *obj, const char *key, bool value)"
+.RI "void \fBcparse_json_set_bool\fP (\fBcParseJson\fP *obj, const char *key, bool value)"
 .br
 .ti -1c
-.RI "\fBCPARSE_JSON\fP * \fBcparse_json_get\fP (\fBCPARSE_JSON\fP *obj, const char *key)"
+.RI "\fBcParseJson\fP * \fBcparse_json_get\fP (\fBcParseJson\fP *obj, const char *key)"
 .br
 .ti -1c
-.RI "\fBcparse_number\fP \fBcparse_json_get_number\fP (\fBCPARSE_JSON\fP *obj, const char *key, \fBcparse_number\fP def)"
+.RI "\fBcParseNumber\fP \fBcparse_json_get_number\fP (\fBcParseJson\fP *obj, const char *key, \fBcParseNumber\fP def)"
 .br
 .ti -1c
-.RI "double \fBcparse_json_get_real\fP (\fBCPARSE_JSON\fP *obj, const char *key, double def)"
+.RI "double \fBcparse_json_get_real\fP (\fBcParseJson\fP *obj, const char *key, double def)"
 .br
 .ti -1c
-.RI "bool \fBcparse_json_get_bool\fP (\fBCPARSE_JSON\fP *obj, const char *key)"
+.RI "bool \fBcparse_json_get_bool\fP (\fBcParseJson\fP *obj, const char *key)"
 .br
 .ti -1c
-.RI "const char * \fBcparse_json_get_string\fP (\fBCPARSE_JSON\fP *obj, const char *key)"
+.RI "const char * \fBcparse_json_get_string\fP (\fBcParseJson\fP *obj, const char *key)"
 .br
 .ti -1c
-.RI "bool \fBcparse_json_is_array\fP (\fBCPARSE_JSON\fP *obj)"
+.RI "bool \fBcparse_json_is_array\fP (\fBcParseJson\fP *obj)"
 .br
 .ti -1c
-.RI "cParseJSONType \fBcparse_json_type\fP (\fBCPARSE_JSON\fP *obj)"
+.RI "cParseJsonType \fBcparse_json_type\fP (\fBcParseJson\fP *obj)"
 .br
 .ti -1c
-.RI "int \fBcparse_json_num_keys\fP (\fBCPARSE_JSON\fP *obj)"
+.RI "int \fBcparse_json_num_keys\fP (\fBcParseJson\fP *obj)"
 .br
 .ti -1c
-.RI "bool \fBcparse_json_contains\fP (\fBCPARSE_JSON\fP *obj, const char *key)"
+.RI "bool \fBcparse_json_contains\fP (\fBcParseJson\fP *obj, const char *key)"
 .br
 .ti -1c
-.RI "\fBCPARSE_JSON\fP * \fBcparse_json_remove\fP (\fBCPARSE_JSON\fP *obj, const char *key)"
+.RI "void \fBcparse_json_remove\fP (\fBcParseJson\fP *obj, const char *key)"
 .br
 .ti -1c
-.RI "\fBCPARSE_JSON\fP * \fBcparse_json_tokenize\fP (const char *str)"
+.RI "\fBcParseJson\fP * \fBcparse_json_remove_and_get\fP (\fBcParseJson\fP *ob, const char *key)"
 .br
 .ti -1c
-.RI "void \fBcparse_json_array_add_number\fP (\fBCPARSE_JSON\fP *array, \fBcparse_number\fP value)"
+.RI "\fBcParseJson\fP * \fBcparse_json_tokenize\fP (const char *str)"
 .br
 .ti -1c
-.RI "void \fBcparse_json_array_add_real\fP (\fBCPARSE_JSON\fP *array, double value)"
+.RI "void \fBcparse_json_array_add_number\fP (\fBcParseJson\fP *array, \fBcParseNumber\fP value)"
 .br
 .ti -1c
-.RI "void \fBcparse_json_array_add_bool\fP (\fBCPARSE_JSON\fP *array, bool value)"
+.RI "void \fBcparse_json_array_add_real\fP (\fBcParseJson\fP *array, double value)"
 .br
 .ti -1c
-.RI "void \fBcparse_json_array_add_string\fP (\fBCPARSE_JSON\fP *array, const char *value)"
+.RI "void \fBcparse_json_array_add_bool\fP (\fBcParseJson\fP *array, bool value)"
 .br
 .ti -1c
-.RI "void \fBcparse_json_array_add\fP (\fBCPARSE_JSON\fP *array, \fBCPARSE_JSON\fP *obj)"
+.RI "void \fBcparse_json_array_add_string\fP (\fBcParseJson\fP *array, const char *value)"
 .br
 .ti -1c
-.RI "\fBcparse_number\fP \fBcparse_json_array_get_number\fP (\fBCPARSE_JSON\fP *array, size_t index)"
+.RI "void \fBcparse_json_array_add\fP (\fBcParseJson\fP *array, \fBcParseJson\fP *obj)"
 .br
 .ti -1c
-.RI "double \fBcparse_json_array_get_real\fP (\fBCPARSE_JSON\fP *array, size_t index)"
+.RI "\fBcParseNumber\fP \fBcparse_json_array_get_number\fP (\fBcParseJson\fP *array, size_t index)"
 .br
 .ti -1c
-.RI "const char * \fBcparse_json_array_get_string\fP (\fBCPARSE_JSON\fP *array, size_t index)"
+.RI "double \fBcparse_json_array_get_real\fP (\fBcParseJson\fP *array, size_t index)"
 .br
 .ti -1c
-.RI "bool \fBcparse_json_array_get_bool\fP (\fBCPARSE_JSON\fP *array, size_t index)"
+.RI "const char * \fBcparse_json_array_get_string\fP (\fBcParseJson\fP *array, size_t index)"
 .br
 .ti -1c
-.RI "\fBCPARSE_JSON\fP * \fBcparse_json_array_get\fP (\fBCPARSE_JSON\fP *array, size_t index)"
+.RI "bool \fBcparse_json_array_get_bool\fP (\fBcParseJson\fP *array, size_t index)"
 .br
 .ti -1c
-.RI "size_t \fBcparse_json_array_size\fP (\fBCPARSE_JSON\fP *value)"
+.RI "\fBcParseJson\fP * \fBcparse_json_array_get\fP (\fBcParseJson\fP *array, size_t index)"
 .br
 .ti -1c
-.RI "\fBcparse_number\fP \fBcparse_json_to_number\fP (\fBCPARSE_JSON\fP *)"
+.RI "size_t \fBcparse_json_array_size\fP (\fBcParseJson\fP *value)"
 .br
 .ti -1c
-.RI "double \fBcparse_json_to_real\fP (\fBCPARSE_JSON\fP *)"
+.RI "\fBcParseNumber\fP \fBcparse_json_to_number\fP (\fBcParseJson\fP *)"
 .br
 .ti -1c
-.RI "bool \fBcparse_json_to_bool\fP (\fBCPARSE_JSON\fP *)"
+.RI "double \fBcparse_json_to_real\fP (\fBcParseJson\fP *)"
 .br
 .ti -1c
-.RI "const char * \fBcparse_json_to_string\fP (\fBCPARSE_JSON\fP *value)"
+.RI "bool \fBcparse_json_to_bool\fP (\fBcParseJson\fP *)"
 .br
 .ti -1c
-.RI "const char * \fBcparse_json_to_json_string\fP (\fBCPARSE_JSON\fP *value)"
+.RI "const char * \fBcparse_json_to_string\fP (\fBcParseJson\fP *value)"
+.br
+.ti -1c
+.RI "const char * \fBcparse_json_to_json_string\fP (\fBcParseJson\fP *value)"
 .br
 .in -1c
 .SH "Macro Definition Documentation"
@@ -192,7 +195,7 @@ cparse_json_object_foreach_end;
 
 .SH "Function Documentation"
 .PP 
-.SS "void cparse_json_array_add (\fBCPARSE_JSON\fP * array, \fBCPARSE_JSON\fP * obj)"
+.SS "void cparse_json_array_add (\fBcParseJson\fP * array, \fBcParseJson\fP * obj)"
 adds a json object to an array json object 
 .PP
 \fBParameters:\fP
@@ -203,7 +206,7 @@ adds a json object to an array json object
 .RE
 .PP
 
-.SS "void cparse_json_array_add_bool (\fBCPARSE_JSON\fP * array, bool value)"
+.SS "void cparse_json_array_add_bool (\fBcParseJson\fP * array, bool value)"
 adds a boolean to an array json object 
 .PP
 \fBParameters:\fP
@@ -214,7 +217,7 @@ adds a boolean to an array json object
 .RE
 .PP
 
-.SS "void cparse_json_array_add_number (\fBCPARSE_JSON\fP * array, \fBcparse_number\fP value)"
+.SS "void cparse_json_array_add_number (\fBcParseJson\fP * array, \fBcParseNumber\fP value)"
 adds a number to an array json object 
 .PP
 \fBParameters:\fP
@@ -225,7 +228,7 @@ adds a number to an array json object
 .RE
 .PP
 
-.SS "void cparse_json_array_add_real (\fBCPARSE_JSON\fP * array, double value)"
+.SS "void cparse_json_array_add_real (\fBcParseJson\fP * array, double value)"
 adds a floating point to an array json object 
 .PP
 \fBParameters:\fP
@@ -236,7 +239,7 @@ adds a floating point to an array json object
 .RE
 .PP
 
-.SS "void cparse_json_array_add_string (\fBCPARSE_JSON\fP * array, const char * value)"
+.SS "void cparse_json_array_add_string (\fBcParseJson\fP * array, const char * value)"
 adds a string to an array json object 
 .PP
 \fBParameters:\fP
@@ -247,7 +250,7 @@ adds a string to an array json object
 .RE
 .PP
 
-.SS "\fBCPARSE_JSON\fP* cparse_json_array_get (\fBCPARSE_JSON\fP * array, size_t index)"
+.SS "\fBcParseJson\fP* cparse_json_array_get (\fBcParseJson\fP * array, size_t index)"
 gets a json object from a position in a json array\&. 
 .PP
 \fBParameters:\fP
@@ -263,7 +266,7 @@ the object value or NULL if not found
 .RE
 .PP
 
-.SS "bool cparse_json_array_get_bool (\fBCPARSE_JSON\fP * array, size_t index)"
+.SS "bool cparse_json_array_get_bool (\fBcParseJson\fP * array, size_t index)"
 gets a boolean from a position in a json array\&. 
 .PP
 \fBParameters:\fP
@@ -279,7 +282,7 @@ the boolean value or NULL
 .RE
 .PP
 
-.SS "\fBcparse_number\fP cparse_json_array_get_number (\fBCPARSE_JSON\fP * array, size_t index)"
+.SS "\fBcParseNumber\fP cparse_json_array_get_number (\fBcParseJson\fP * array, size_t index)"
 gets a number from a position in a json array\&. if no conversion is possible errno is set to EINVAL\&. 
 .PP
 \fBParameters:\fP
@@ -295,7 +298,7 @@ the number value or zero if no conversion
 .RE
 .PP
 
-.SS "double cparse_json_array_get_real (\fBCPARSE_JSON\fP * array, size_t index)"
+.SS "double cparse_json_array_get_real (\fBcParseJson\fP * array, size_t index)"
 gets a floating point from a position in a json array\&. if no conversion is possible errno is set to EINVAL\&. 
 .PP
 \fBParameters:\fP
@@ -311,7 +314,7 @@ the floating point value or zero if no conversion
 .RE
 .PP
 
-.SS "const char* cparse_json_array_get_string (\fBCPARSE_JSON\fP * array, size_t index)"
+.SS "const char* cparse_json_array_get_string (\fBcParseJson\fP * array, size_t index)"
 gets a string from a position in a json array\&. 
 .PP
 \fBParameters:\fP
@@ -327,7 +330,7 @@ the string value or zero if no conversion
 .RE
 .PP
 
-.SS "bool cparse_json_contains (\fBCPARSE_JSON\fP * obj, const char * key)"
+.SS "bool cparse_json_contains (\fBcParseJson\fP * obj, const char * key)"
 tests if a json object contains a key 
 .PP
 \fBParameters:\fP
@@ -343,7 +346,7 @@ true if the object contains the key
 .RE
 .PP
 
-.SS "void cparse_json_copy (\fBCPARSE_JSON\fP * orig, \fBCPARSE_JSON\fP * other, bool replaceOnConflict)"
+.SS "void cparse_json_copy (\fBcParseJson\fP * orig, \fBcParseJson\fP * other, bool replaceOnConflict)"
 copies one json object into another 
 .PP
 \fBParameters:\fP
@@ -356,7 +359,7 @@ copies one json object into another
 .RE
 .PP
 
-.SS "void cparse_json_free (\fBCPARSE_JSON\fP * value)"
+.SS "void cparse_json_free (\fBcParseJson\fP * value)"
 deallocates a json object 
 .PP
 \fBParameters:\fP
@@ -365,7 +368,7 @@ deallocates a json object
 .RE
 .PP
 
-.SS "\fBCPARSE_JSON\fP* cparse_json_get (\fBCPARSE_JSON\fP * obj, const char * key)"
+.SS "\fBcParseJson\fP* cparse_json_get (\fBcParseJson\fP * obj, const char * key)"
 gets a json attribute 
 .PP
 \fBParameters:\fP
@@ -376,7 +379,7 @@ gets a json attribute
 .RE
 .PP
 
-.SS "bool cparse_json_get_bool (\fBCPARSE_JSON\fP * obj, const char * key)"
+.SS "bool cparse_json_get_bool (\fBcParseJson\fP * obj, const char * key)"
 gets a boolean attribute 
 .PP
 \fBParameters:\fP
@@ -387,7 +390,7 @@ gets a boolean attribute
 .RE
 .PP
 
-.SS "\fBcparse_number\fP cparse_json_get_number (\fBCPARSE_JSON\fP * obj, const char * key, \fBcparse_number\fP def)"
+.SS "\fBcParseNumber\fP cparse_json_get_number (\fBcParseJson\fP * obj, const char * key, \fBcParseNumber\fP def)"
 gets a number attribute\&. if no conversion is possible errno is set to EINVAL\&. 
 .PP
 \fBParameters:\fP
@@ -403,7 +406,7 @@ the number of zero if no conversion
 .RE
 .PP
 
-.SS "double cparse_json_get_real (\fBCPARSE_JSON\fP * obj, const char * key, double def)"
+.SS "double cparse_json_get_real (\fBcParseJson\fP * obj, const char * key, double def)"
 gets a floating point attribute\&. if no conversion is possible errno is set to EINVAL\&. 
 .PP
 \fBParameters:\fP
@@ -419,7 +422,7 @@ the floating point or 0\&.0
 .RE
 .PP
 
-.SS "const char* cparse_json_get_string (\fBCPARSE_JSON\fP * obj, const char * key)"
+.SS "const char* cparse_json_get_string (\fBcParseJson\fP * obj, const char * key)"
 gets a string attribute 
 .PP
 \fBParameters:\fP
@@ -430,7 +433,7 @@ gets a string attribute
 .RE
 .PP
 
-.SS "bool cparse_json_is_array (\fBCPARSE_JSON\fP * obj)"
+.SS "bool cparse_json_is_array (\fBcParseJson\fP * obj)"
 tests if a json object is an array object 
 .PP
 \fBParameters:\fP
@@ -444,7 +447,7 @@ true if the object is an array
 .RE
 .PP
 
-.SS "\fBCPARSE_JSON\fP* cparse_json_new ()"
+.SS "\fBcParseJson\fP* cparse_json_new ()"
 allocates a new json object 
 .PP
 \fBReturns:\fP
@@ -453,7 +456,7 @@ the allocated json object
 .RE
 .PP
 
-.SS "\fBCPARSE_JSON\fP* cparse_json_new_array ()"
+.SS "\fBcParseJson\fP* cparse_json_new_array ()"
 creates an array json object 
 .PP
 \fBReturns:\fP
@@ -462,7 +465,7 @@ the array json object
 .RE
 .PP
 
-.SS "\fBCPARSE_JSON\fP* cparse_json_new_bool (bool value)"
+.SS "\fBcParseJson\fP* cparse_json_new_bool (bool value)"
 creates a bool as a json object 
 .PP
 \fBParameters:\fP
@@ -476,7 +479,7 @@ the value as a json object
 .RE
 .PP
 
-.SS "\fBCPARSE_JSON\fP* cparse_json_new_number (\fBcparse_number\fP)"
+.SS "\fBcParseJson\fP* cparse_json_new_number (\fBcParseNumber\fP)"
 creates a number as a json object 
 .PP
 \fBParameters:\fP
@@ -490,7 +493,7 @@ the number as a json object
 .RE
 .PP
 
-.SS "\fBCPARSE_JSON\fP* cparse_json_new_real (double)"
+.SS "\fBcParseJson\fP* cparse_json_new_real (double)"
 creates a floating point number as a json object 
 .PP
 \fBParameters:\fP
@@ -504,7 +507,7 @@ the floating point number as a json object
 .RE
 .PP
 
-.SS "\fBCPARSE_JSON\fP* cparse_json_new_reference (\fBCPARSE_JSON\fP * orig)"
+.SS "\fBcParseJson\fP* cparse_json_new_reference (\fBcParseJson\fP * orig)"
 increments the reference count on a json object so it is safe to use after deallocation 
 .PP
 \fBParameters:\fP
@@ -518,7 +521,7 @@ the object with an incremented reference count
 .RE
 .PP
 
-.SS "\fBCPARSE_JSON\fP* cparse_json_new_string (const char * str)"
+.SS "\fBcParseJson\fP* cparse_json_new_string (const char * str)"
 creates a string as a json object 
 .PP
 \fBParameters:\fP
@@ -532,7 +535,7 @@ the string as a json object
 .RE
 .PP
 
-.SS "int cparse_json_num_keys (\fBCPARSE_JSON\fP * obj)"
+.SS "int cparse_json_num_keys (\fBcParseJson\fP * obj)"
 gets the number of keys in a json object 
 .PP
 \fBParameters:\fP
@@ -546,7 +549,7 @@ the number of keys in the object
 .RE
 .PP
 
-.SS "\fBCPARSE_JSON\fP* cparse_json_remove (\fBCPARSE_JSON\fP * obj, const char * key)"
+.SS "void cparse_json_remove (\fBcParseJson\fP * obj, const char * key)"
 removes an attribute from a json object 
 .PP
 \fBParameters:\fP
@@ -562,7 +565,7 @@ the removed attribute
 .RE
 .PP
 
-.SS "void cparse_json_set (\fBCPARSE_JSON\fP * obj, const char * key, \fBCPARSE_JSON\fP * value)"
+.SS "void cparse_json_set (\fBcParseJson\fP * obj, const char * key, \fBcParseJson\fP * value)"
 sets a json attribute 
 .PP
 \fBParameters:\fP
@@ -575,7 +578,7 @@ sets a json attribute
 .RE
 .PP
 
-.SS "void cparse_json_set_bool (\fBCPARSE_JSON\fP * obj, const char * key, bool value)"
+.SS "void cparse_json_set_bool (\fBcParseJson\fP * obj, const char * key, bool value)"
 sets a boolean attribute 
 .PP
 \fBParameters:\fP
@@ -588,7 +591,7 @@ sets a boolean attribute
 .RE
 .PP
 
-.SS "void cparse_json_set_number (\fBCPARSE_JSON\fP * obj, const char * key, \fBcparse_number\fP value)"
+.SS "void cparse_json_set_number (\fBcParseJson\fP * obj, const char * key, \fBcParseNumber\fP value)"
 sets a number attribute 
 .PP
 \fBParameters:\fP
@@ -601,7 +604,7 @@ sets a number attribute
 .RE
 .PP
 
-.SS "void cparse_json_set_real (\fBCPARSE_JSON\fP * obj, const char * key, double value)"
+.SS "void cparse_json_set_real (\fBcParseJson\fP * obj, const char * key, double value)"
 sets a floating point attribute 
 .PP
 \fBParameters:\fP
@@ -614,7 +617,7 @@ sets a floating point attribute
 .RE
 .PP
 
-.SS "void cparse_json_set_string (\fBCPARSE_JSON\fP * obj, const char * key, const char * value)"
+.SS "void cparse_json_set_string (\fBcParseJson\fP * obj, const char * key, const char * value)"
 sets a string attribute 
 .PP
 \fBParameters:\fP
@@ -627,7 +630,7 @@ sets a string attribute
 .RE
 .PP
 
-.SS "bool cparse_json_to_bool (\fBCPARSE_JSON\fP *)"
+.SS "bool cparse_json_to_bool (\fBcParseJson\fP *)"
 gets the boolean value of an object\&. 
 .PP
 \fBParameters:\fP
@@ -641,7 +644,7 @@ the boolean value or zero
 .RE
 .PP
 
-.SS "const char* cparse_json_to_json_string (\fBCPARSE_JSON\fP * value)"
+.SS "const char* cparse_json_to_json_string (\fBcParseJson\fP * value)"
 converts a json object to a formated json string 
 .PP
 \fBParameters:\fP
@@ -655,7 +658,7 @@ the json string
 .RE
 .PP
 
-.SS "\fBcparse_number\fP cparse_json_to_number (\fBCPARSE_JSON\fP *)"
+.SS "\fBcParseNumber\fP cparse_json_to_number (\fBcParseJson\fP *)"
 gets the number value of an object\&. if no conversion possible errno is set to EINVAL 
 .PP
 \fBParameters:\fP
@@ -669,7 +672,7 @@ the number value or zero
 .RE
 .PP
 
-.SS "double cparse_json_to_real (\fBCPARSE_JSON\fP *)"
+.SS "double cparse_json_to_real (\fBcParseJson\fP *)"
 gets the floating point value of an object\&. if no conversion possible errno is set to EINVAL 
 .PP
 \fBParameters:\fP
@@ -683,7 +686,7 @@ the floating point value or zero
 .RE
 .PP
 
-.SS "const char* cparse_json_to_string (\fBCPARSE_JSON\fP * value)"
+.SS "const char* cparse_json_to_string (\fBcParseJson\fP * value)"
 gets the string value of an object\&. 
 .PP
 \fBParameters:\fP
@@ -697,7 +700,7 @@ the string value or zero
 .RE
 .PP
 
-.SS "\fBCPARSE_JSON\fP* cparse_json_tokenize (const char * str)"
+.SS "\fBcParseJson\fP* cparse_json_tokenize (const char * str)"
 creates a json object from a string 
 .PP
 \fBParameters:\fP
@@ -711,7 +714,7 @@ a json object or NULL if str was not valid json
 .RE
 .PP
 
-.SS "cParseJSONType cparse_json_type (\fBCPARSE_JSON\fP * obj)"
+.SS "cParseJsonType cparse_json_type (\fBcParseJson\fP * obj)"
 gets the type of json object 
 .PP
 \fBParameters:\fP
