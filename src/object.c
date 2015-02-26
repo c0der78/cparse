@@ -385,10 +385,68 @@ bool cparse_object_save(cParseObject *obj, cParseError **error)
 
     return false;
 }
-
 pthread_t cparse_object_save_in_background(cParseObject *obj, cParseObjectCallback callback)
 {
     return cparse_object_run_in_background(obj, cparse_object_save, callback, NULL);
+}
+
+bool cparse_object_update(cParseObject *obj, cParseJson *json, cParseError **error)
+{
+    char buf[BUFSIZ + 1] = {0};
+    cParseRequest *request;
+
+    if (!obj) return false;
+
+    /* build the request based on the id */
+    if (!obj->objectId || !*obj->objectId)
+    {
+        if (error)
+            *error = cparse_error_with_message("object has no id");
+        return false;
+    }
+
+    snprintf(buf, BUFSIZ, "%s/%s", obj->className, obj->objectId);
+    request = cparse_client_request_with_method_and_path(HttpRequestMethodPut, buf);
+
+    cparse_client_request_set_payload(request, cparse_json_to_json_string(json));
+
+    json = cparse_client_request_get_json(request, error);
+
+    cparse_client_request_free(request);
+
+    if (json != NULL)
+    {
+        cparse_object_merge_json(obj, json);
+
+        cparse_json_free(json);
+
+        return true;
+    }
+
+    return false;
+}
+
+static bool cparse_object_update_object(cParseObject *obj, cParseError **error)
+{
+    cParseJson *json;
+    bool rval;
+
+    if (!obj) return false;
+
+    json = cparse_object_remove_and_get(obj, "__update_attributes");
+
+    rval = cparse_object_update(obj, json, error);
+
+    cparse_json_free(json);
+
+    return rval;
+}
+
+pthread_t cparse_object_update_in_background(cParseObject *obj, cParseJson *json, cParseObjectCallback callback)
+{
+    cparse_object_set(obj, "__update_attributes", json);
+
+    return cparse_object_run_in_background(obj, cparse_object_update_object, callback, NULL);
 }
 
 /* setters */
@@ -437,9 +495,14 @@ void cparse_object_foreach_attribute(cParseObject *obj, void (*foreach) (cParseJ
     cparse_json_object_foreach_end;
 }
 
-cParseJson *cparse_object_remove(cParseObject *obj, const char *key)
+cParseJson *cparse_object_remove_and_get(cParseObject *obj, const char *key)
 {
-    return cparse_json_remove(obj->attributes, key);
+    return cparse_json_remove_and_get(obj->attributes, key);
+}
+
+void cparse_object_remove(cParseObject *obj, const char *key)
+{
+    cparse_json_remove(obj->attributes, key);
 }
 
 /* getters */
@@ -512,7 +575,7 @@ void cparse_object_merge_json(cParseObject *a, cParseJson *b)
     /* objectId, createdAt, and updatedAt are special attributes
      * we're remove them from the b if they exist and add them to a
      */
-    cParseJson *id = cparse_json_remove(b, KEY_OBJECT_ID);
+    cParseJson *id = cparse_json_remove_and_get(b, KEY_OBJECT_ID);
 
     if (id != NULL)
     {
@@ -521,7 +584,7 @@ void cparse_object_merge_json(cParseObject *a, cParseJson *b)
         cparse_json_free(id);
     }
 
-    id = cparse_json_remove(b, KEY_CREATED_AT);
+    id = cparse_json_remove_and_get(b, KEY_CREATED_AT);
 
     if (id != NULL)
     {
@@ -530,7 +593,7 @@ void cparse_object_merge_json(cParseObject *a, cParseJson *b)
         cparse_json_free(id);
     }
 
-    id = cparse_json_remove(b, KEY_UPDATED_AT);
+    id = cparse_json_remove_and_get(b, KEY_UPDATED_AT);
 
     if (id != NULL)
     {
@@ -539,7 +602,7 @@ void cparse_object_merge_json(cParseObject *a, cParseJson *b)
         cparse_json_free(id);
     }
 
-    id = cparse_json_remove(b, KEY_CLASS_NAME);
+    id = cparse_json_remove_and_get(b, KEY_CLASS_NAME);
 
     if (id != NULL)
     {

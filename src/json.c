@@ -263,7 +263,12 @@ int cparse_json_num_keys(cParseJson *obj)
     return json_object_get_object (obj)->count;
 }
 
-cParseJson *cparse_json_remove(cParseJson *obj, const char *key)
+void cparse_json_remove(cParseJson *obj, const char *key)
+{
+    json_object_object_del(obj, key);
+}
+
+cParseJson *cparse_json_remove_and_get(cParseJson *obj, const char *key)
 {
     cParseJson *orig = NULL;
 

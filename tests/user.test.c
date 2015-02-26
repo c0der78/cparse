@@ -138,7 +138,7 @@ void cparse_login_callback(cParseObject *obj, bool success, cParseError *error)
 
     fail_unless(success);
 
-    fail_unless(cparse_user_delete(obj, &error));
+    fail_unless(cparse_user_delete(obj, NULL));
 }
 
 START_TEST(test_cparse_login_in_background)

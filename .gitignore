@@ -16,3 +16,4 @@ parse.test.json
 Makefile
 *.gcno
 coverage.info
+configure.lineno

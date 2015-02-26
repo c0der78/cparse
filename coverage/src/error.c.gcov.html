@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2015-02-25 14:29:10</td>
+            <td class="headerValue">2015-02-26 12:14:19</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">4</td>
@@ -81,37 +81,37 @@
 <span class="lineNum">      11 </span>            : 
 <span class="lineNum">      12 </span>            : cParseError *cparse_error_new()
 <span class="lineNum">      13 </span>            : {
-<span class="lineNum">      14 </span><span class="lineCov">          4 :     cParseError *e = malloc(sizeof(cParseError));</span>
+<span class="lineNum">      14 </span><span class="lineCov">          2 :     cParseError *e = malloc(sizeof(cParseError));</span>
 <span class="lineNum">      15 </span>            : 
-<span class="lineNum">      16 </span><span class="lineCov">          2 :     if (e == NULL)</span>
+<span class="lineNum">      16 </span><span class="lineCov">          1 :     if (e == NULL)</span>
 <span class="lineNum">      17 </span>            :     {
 <span class="lineNum">      18 </span><span class="lineNoCov">          0 :         return NULL;</span>
 <span class="lineNum">      19 </span>            :     }
 <span class="lineNum">      20 </span>            : 
-<span class="lineNum">      21 </span><span class="lineCov">          2 :     e-&gt;code = 0;</span>
-<span class="lineNum">      22 </span><span class="lineCov">          2 :     e-&gt;message = NULL;</span>
+<span class="lineNum">      21 </span><span class="lineCov">          1 :     e-&gt;code = 0;</span>
+<span class="lineNum">      22 </span><span class="lineCov">          1 :     e-&gt;message = NULL;</span>
 <span class="lineNum">      23 </span>            : 
-<span class="lineNum">      24 </span><span class="lineCov">          2 :     return e;</span>
-<a name="25"><span class="lineNum">      25 </span><span class="lineCov">          2 : }</span></a>
+<span class="lineNum">      24 </span><span class="lineCov">          1 :     return e;</span>
+<a name="25"><span class="lineNum">      25 </span><span class="lineCov">          1 : }</span></a>
 <span class="lineNum">      26 </span>            : 
-<span class="lineNum">      27 </span><span class="lineCov">          2 : cParseError *cparse_error_with_message(const char *message)</span>
+<span class="lineNum">      27 </span><span class="lineCov">          1 : cParseError *cparse_error_with_message(const char *message)</span>
 <span class="lineNum">      28 </span>            : {
-<span class="lineNum">      29 </span><span class="lineCov">          2 :     cParseError *e = cparse_error_new();</span>
+<span class="lineNum">      29 </span><span class="lineCov">          1 :     cParseError *e = cparse_error_new();</span>
 <span class="lineNum">      30 </span>            : 
-<span class="lineNum">      31 </span><span class="lineCov">          2 :     if (e == NULL) return NULL;</span>
+<span class="lineNum">      31 </span><span class="lineCov">          1 :     if (e == NULL) return NULL;</span>
 <span class="lineNum">      32 </span>            : 
-<span class="lineNum">      33 </span><span class="lineCov">          2 :     e-&gt;message = strdup(message);</span>
+<span class="lineNum">      33 </span><span class="lineCov">          1 :     e-&gt;message = strdup(message);</span>
 <span class="lineNum">      34 </span>            : 
-<span class="lineNum">      35 </span><span class="lineCov">          2 :     return e;</span>
-<a name="36"><span class="lineNum">      36 </span><span class="lineCov">          2 : }</span></a>
+<span class="lineNum">      35 </span><span class="lineCov">          1 :     return e;</span>
+<a name="36"><span class="lineNum">      36 </span><span class="lineCov">          1 : }</span></a>
 <span class="lineNum">      37 </span>            : 
-<span class="lineNum">      38 </span><span class="lineCov">          2 : void cparse_error_free(cParseError *e)</span>
+<span class="lineNum">      38 </span><span class="lineCov">          1 : void cparse_error_free(cParseError *e)</span>
 <span class="lineNum">      39 </span>            : {
-<span class="lineNum">      40 </span><span class="lineCov">          2 :     if (e-&gt;message)</span>
-<span class="lineNum">      41 </span><span class="lineCov">          2 :         free(e-&gt;message);</span>
+<span class="lineNum">      40 </span><span class="lineCov">          1 :     if (e-&gt;message)</span>
+<span class="lineNum">      41 </span><span class="lineCov">          1 :         free(e-&gt;message);</span>
 <span class="lineNum">      42 </span>            : 
-<span class="lineNum">      43 </span><span class="lineCov">          2 :     free(e);</span>
-<a name="44"><span class="lineNum">      44 </span><span class="lineCov">          2 : }</span></a>
+<span class="lineNum">      43 </span><span class="lineCov">          1 :     free(e);</span>
+<a name="44"><span class="lineNum">      44 </span><span class="lineCov">          1 : }</span></a>
 <span class="lineNum">      45 </span>            : 
 <span class="lineNum">      46 </span><span class="lineNoCov">          0 : const char *cparse_error_message(cParseError *error)</span>
 <span class="lineNum">      47 </span>            : {

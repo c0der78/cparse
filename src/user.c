@@ -123,7 +123,7 @@ const char *cparse_user_session_token(cParseObject *user)
 }
 /* functions */
 
-bool cparse_user_login_user(cParseObject *user, cParseError **error)
+static bool cparse_user_login_user(cParseObject *user, cParseError **error)
 {
     cParseJson *data;
     cParseRequest *request;
@@ -132,6 +132,7 @@ bool cparse_user_login_user(cParseObject *user, cParseError **error)
     if (!user) return false;
 
     username = cparse_object_get_string(user, KEY_USER_NAME);
+
     password = cparse_object_get_string(user, KEY_USER_PASSWORD);
 
     if (!username || !*username)
@@ -160,6 +161,8 @@ bool cparse_user_login_user(cParseObject *user, cParseError **error)
     data = cparse_client_request_get_json(request, error);
 
     cparse_client_request_free(request);
+
+    cparse_object_remove(user, KEY_USER_PASSWORD);
 
     if (data == NULL)
     {
@@ -299,14 +302,11 @@ static bool cparse_user_sign_up_user(cParseObject *user, cParseError **error)
 
     cparse_client_request_free(request);
 
+    cparse_object_remove(user, KEY_USER_PASSWORD);
+
     if (json != NULL)
     {
         cparse_object_merge_json(user, json);
-
-        cparse_json_free(json);
-
-        /* remove the passwrod from the user attributes for security */
-        json = cparse_object_remove(user, "password");
 
         cparse_json_free(json);
 
@@ -321,9 +321,6 @@ static bool cparse_user_sign_up_user(cParseObject *user, cParseError **error)
         }
         return true;
     }
-
-    /* remove the passwrod from the user attributes for security */
-    cparse_object_remove(user, "password");
 
     return false;
 }

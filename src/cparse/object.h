@@ -90,6 +90,22 @@ bool cparse_object_save(cParseObject *obj, cParseError **error);
  */
 pthread_t cparse_object_save_in_background(cParseObject *obj, cParseObjectCallback callback);
 
+/*! updates a parse object
+ * \param obj the object instance
+ * \param attributes the object attributes to update
+ * \param error a pointer to an error that gets allocated if not successful.
+ * \returns true if successful
+ */
+bool cparse_object_update(cParseObject *obj, cParseJson *attributes, cParseError **error);
+
+/*! updates a parse object in the background
+ * \param obj the object instance
+ * \param attributes the attributes to update
+ * \param callback the callback issued after the update
+ * \returns a background thread identifier
+ */
+pthread_t cparse_object_update_in_background(cParseObject *obj, cParseJson *attributes, cParseObjectCallback callback);
+
 /*! deletes and object
  * \param obj the object instance
  * \param error a pointer to an error that gets allocated if not successful.
@@ -221,12 +237,18 @@ bool cparse_object_get_bool(cParseObject *, const char *key);
  */
 const char *cparse_object_get_string(cParseObject *, const char *key);
 
-/*! removes an attribute from an object
+/*! removes an attribute from an object and returns the value
  * \param obj the object instance
  * \param key the key to identify the value to remove
  * \returns the removed attribute or NULL if not found
  */
-cParseJson *cparse_object_remove(cParseObject *, const char *key);
+cParseJson *cparse_object_remove_and_get(cParseObject *, const char *key);
+
+/*! removes an attribute from an object
+ * \param obj the object instance
+ * \param key the key to identify the attribute value
+ */
+void cparse_object_remove(cParseObject *, const char *key);
 
 /*! tests if an object has an attribute
  * \param obj the object instance

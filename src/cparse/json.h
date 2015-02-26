@@ -181,7 +181,14 @@ bool cparse_json_contains(cParseJson *obj, const char *key);
  * \param key the key identifying the attribute
  * \returns the removed attribute
  */
-cParseJson *cparse_json_remove(cParseJson *obj, const char *key);
+void cparse_json_remove(cParseJson *obj, const char *key);
+
+/* !removes an attribute from a json object but returns the value
+ * \param obj the json object instance
+ * \param key the key identifying the attribute
+ * \returns the removed attribute value
+ */
+cParseJson *cparse_json_remove_and_get(cParseJson *ob, const char *key);
 
 /*! creates a json object from a string
  * \param str the json string

@@ -188,7 +188,7 @@ START_TEST(test_cparse_object_remove_attribute)
 
     fail_unless(cparse_object_attribute_size(cp_obj) == 1);
 
-    removed = cparse_object_remove(cp_obj, "main");
+    removed = cparse_object_remove_and_get(cp_obj, "main");
 
     fail_unless(removed == value);
 

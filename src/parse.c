@@ -1,6 +1,7 @@
 #include "config.h"
 #include <stdlib.h>
 #include <time.h>
+#include <string.h>
 #include <cparse/parse.h>
 #include "protocol.h"
 
@@ -19,12 +20,12 @@ const char *const RESERVED_KEYS[] =
 
 void cparse_set_application_id(const char *appId)
 {
-    cparse_app_id = appId;
+    cparse_app_id = strdup(appId);
 }
 
 void cparse_set_api_key(const char *apiKey)
 {
-    cparse_api_key = apiKey;
+    cparse_api_key = strdup(apiKey);
 }
 
 void cparse_set_log_level(cParseLogLevel value)
