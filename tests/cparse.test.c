@@ -13,6 +13,7 @@ Suite *cparse_query_suite();
 Suite *cparse_util_suite();
 Suite *cparse_user_suite ();
 Suite *cparse_client_suite ();
+Suite *cparse_acl_suite ();
 
 extern int cparse_cleanup_test_objects();
 extern const char *cparse_app_id;
@@ -51,6 +52,7 @@ int main(void)
     srunner_add_suite(sr, cparse_util_suite());
     srunner_add_suite(sr, cparse_user_suite());
     srunner_add_suite(sr, cparse_client_suite());
+    srunner_add_suite(sr, cparse_acl_suite());
     srunner_run_all (sr, CK_NORMAL);
     number_failed = srunner_ntests_failed (sr);
     srunner_free (sr);

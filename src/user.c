@@ -12,15 +12,15 @@
 
 char cparse_current_user_token[BUFSIZ + 1] = {0};
 
-cParseObject *cparse_current_user_ = NULL;
+cParseUser *cparse_current_user_ = NULL;
 
-extern cParseObject *cparse_object_new();
+extern cParseUser *cparse_object_new();
 
-extern void cparse_object_set_request_includes(cParseObject *obj, cParseRequest *request);
+extern void cparse_object_set_request_includes(cParseUser *obj, cParseRequest *request);
 
 /* Private */
 
-static cParseRequest *cparse_user_create_request(cParseObject *obj, HttpRequestMethod method)
+static cParseRequest *cparse_user_create_request(cParseUser *obj, HttpRequestMethod method)
 {
     char buf[BUFSIZ + 1] = {0};
 
@@ -40,25 +40,25 @@ static cParseRequest *cparse_user_create_request(cParseObject *obj, HttpRequestM
 
 /* initializers */
 
-cParseObject *cparse_user_new()
+cParseUser *cparse_user_new()
 {
-    cParseObject *obj = cparse_object_new();
+    cParseUser *obj = cparse_object_new();
 
     obj->className = strdup(CPARSE_USER_CLASS_NAME);
 
     return obj;
 }
 
-cParseObject *cparse_user_with_name(const char *username)
+cParseUser *cparse_user_with_name(const char *username)
 {
-    cParseObject *obj = cparse_object_with_class_name(CPARSE_USER_CLASS_NAME);
+    cParseUser *obj = cparse_object_with_class_name(CPARSE_USER_CLASS_NAME);
 
     cparse_object_set_string(obj, KEY_USER_NAME, username);
 
     return obj;
 }
 
-cParseObject *cparse_current_user(cParseError **error)
+cParseUser *cparse_current_user(cParseError **error)
 {
     if (cparse_current_user_ != NULL)
         return cparse_current_user_;
@@ -97,14 +97,14 @@ bool cparse_class_name_is_user(const char *className)
     return !strcmp(className, CPARSE_USER_CLASS_NAME);
 }
 
-const char *cparse_user_name(cParseObject *user)
+const char *cparse_user_name(cParseUser *user)
 {
     if (!user) return NULL;
 
     return cparse_object_get_string(user, KEY_USER_NAME);
 }
 
-void cparse_user_set_name(cParseObject *user, char *name)
+void cparse_user_set_name(cParseUser *user, char *name)
 {
     if (user)
     {
@@ -112,18 +112,18 @@ void cparse_user_set_name(cParseObject *user, char *name)
     }
 }
 
-const char *cparse_user_email(cParseObject *user)
+const char *cparse_user_email(cParseUser *user)
 {
     return cparse_object_get_string(user, KEY_USER_EMAIL);
 }
 
-const char *cparse_user_session_token(cParseObject *user)
+const char *cparse_user_session_token(cParseUser *user)
 {
     return cparse_object_get_string(user, KEY_USER_SESSION_TOKEN);
 }
 /* functions */
 
-static bool cparse_user_login_user(cParseObject *user, cParseError **error)
+static bool cparse_user_login_user(cParseUser *user, cParseError **error)
 {
     cParseJson *data;
     cParseRequest *request;
@@ -187,9 +187,9 @@ static bool cparse_user_login_user(cParseObject *user, cParseError **error)
     return true;
 }
 
-cParseObject *cparse_user_login(const char *username, const char *password, cParseError **error)
+cParseUser *cparse_user_login(const char *username, const char *password, cParseError **error)
 {
-    cParseObject *user;
+    cParseUser *user;
 
     user = cparse_user_with_name(username);
 
@@ -206,7 +206,7 @@ cParseObject *cparse_user_login(const char *username, const char *password, cPar
 
 pthread_t cparse_user_login_in_background(const char *username, const char *password, cParseObjectCallback callback)
 {
-    cParseObject *obj = cparse_user_with_name(username);
+    cParseUser *obj = cparse_user_with_name(username);
 
     cparse_object_set_string(obj, KEY_USER_PASSWORD, password);
 
@@ -220,7 +220,7 @@ void cparse_user_logout()
 }
 
 
-bool cparse_user_delete(cParseObject *obj, cParseError **error)
+bool cparse_user_delete(cParseUser *obj, cParseError **error)
 {
     cParseRequest *request;
     const char *sessionToken;
@@ -253,7 +253,7 @@ bool cparse_user_delete(cParseObject *obj, cParseError **error)
     return rval;
 }
 
-pthread_t cparse_user_delete_in_background(cParseObject *obj, cParseObjectCallback callback)
+pthread_t cparse_user_delete_in_background(cParseUser *obj, cParseObjectCallback callback)
 {
     return cparse_object_run_in_background(obj, cparse_user_delete, callback, NULL);
 }
@@ -266,7 +266,7 @@ cParseQuery *cparse_user_query_new()
     return query;
 }
 
-static bool cparse_user_sign_up_user(cParseObject *user, cParseError **error)
+static bool cparse_user_sign_up_user(cParseUser *user, cParseError **error)
 {
     const char *username;
     const char *password;
@@ -325,7 +325,7 @@ static bool cparse_user_sign_up_user(cParseObject *user, cParseError **error)
     return false;
 }
 
-bool cparse_user_sign_up(cParseObject *user, const char *password, cParseError **error)
+bool cparse_user_sign_up(cParseUser *user, const char *password, cParseError **error)
 {
     if (password && *password)
         cparse_object_set_string(user, KEY_USER_PASSWORD, password);
@@ -333,7 +333,7 @@ bool cparse_user_sign_up(cParseObject *user, const char *password, cParseError *
     return cparse_user_sign_up_user(user, error);
 }
 
-pthread_t cparse_user_sign_up_in_background(cParseObject *user, const char *password, cParseObjectCallback callback)
+pthread_t cparse_user_sign_up_in_background(cParseUser *user, const char *password, cParseObjectCallback callback)
 {
     if (password && *password)
         cparse_object_set_string(user, KEY_USER_PASSWORD, password);
@@ -341,7 +341,7 @@ pthread_t cparse_user_sign_up_in_background(cParseObject *user, const char *pass
     return cparse_object_run_in_background(user, cparse_user_sign_up_user, callback, NULL);
 }
 
-bool cparse_user_fetch(cParseObject *obj, cParseError **error)
+bool cparse_user_fetch(cParseUser *obj, cParseError **error)
 {
     cParseRequest *request;
     cParseJson *json;
@@ -378,12 +378,12 @@ bool cparse_user_fetch(cParseObject *obj, cParseError **error)
     return false;
 }
 
-pthread_t cparse_user_fetch_in_background(cParseObject *obj, cParseObjectCallback callback)
+pthread_t cparse_user_fetch_in_background(cParseUser *obj, cParseObjectCallback callback)
 {
     return cparse_object_run_in_background(obj, cparse_user_fetch, callback, NULL);
 }
 
-bool cparse_user_refresh(cParseObject *obj, cParseError **error)
+bool cparse_user_refresh(cParseUser *obj, cParseError **error)
 {
     cParseRequest *request;
     cParseJson *json;
@@ -414,12 +414,12 @@ bool cparse_user_refresh(cParseObject *obj, cParseError **error)
     return false;
 }
 
-pthread_t cparse_user_refresh_in_background(cParseObject *user, cParseObjectCallback callback)
+pthread_t cparse_user_refresh_in_background(cParseUser *user, cParseObjectCallback callback)
 {
     return cparse_object_run_in_background(user, cparse_user_refresh, callback, NULL);
 }
 
-bool cparse_user_validate(cParseObject *user, const char *sessionToken, cParseError **error)
+bool cparse_user_validate(cParseUser *user, const char *sessionToken, cParseError **error)
 {
     cParseRequest *request;
 
@@ -452,7 +452,7 @@ bool cparse_user_validate(cParseObject *user, const char *sessionToken, cParseEr
     return true;
 }
 
-bool cparse_user_validate_email(cParseObject *user, cParseError **error)
+bool cparse_user_validate_email(cParseUser *user, cParseError **error)
 {
     if (!user) return false;
 
@@ -474,7 +474,7 @@ bool cparse_user_validate_email(cParseObject *user, cParseError **error)
     return true;
 }
 
-bool cparse_user_reset_password(cParseObject *user, cParseError **error)
+bool cparse_user_reset_password(cParseUser *user, cParseError **error)
 {
     cParseRequest *request;
     cParseJson *json;
@@ -519,7 +519,7 @@ bool cparse_user_reset_password(cParseObject *user, cParseError **error)
     return true;
 }
 
-pthread_t cparse_user_reset_password_in_background(cParseObject *user, cParseObjectCallback callback)
+pthread_t cparse_user_reset_password_in_background(cParseUser *user, cParseObjectCallback callback)
 {
     return cparse_object_run_in_background(user, cparse_user_reset_password, callback, NULL);
 }

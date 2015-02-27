@@ -48,7 +48,7 @@ cParseJson *cparse_json_tokenize(const char *str)
 
 void cparse_json_copy(cParseJson *orig, cParseJson *other, bool replaceOnConflict)
 {
-    cparse_json_object_foreach_start(other, key, val)
+    cparse_json_foreach_start(other, key, val)
     {
         if (replaceOnConflict &&
 #ifdef HAVE_JSON_EXTENDED
@@ -63,7 +63,7 @@ void cparse_json_copy(cParseJson *orig, cParseJson *other, bool replaceOnConflic
 
         json_object_object_add(orig, key, json_object_get(val));
     }
-    cparse_json_object_foreach_end;
+    cparse_json_foreach_end;
 }
 
 cParseJson *cparse_json_new_array()

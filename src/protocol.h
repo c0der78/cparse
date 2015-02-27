@@ -23,6 +23,8 @@
 
 #define KEY_USER_EMAIL  "email"
 
+#define KEY_ACL         "ACL"
+
 #define KEY_USER_PASSWORD "password"
 
 #define KEY_RESULTS  "results"

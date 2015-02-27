@@ -312,12 +312,12 @@ const char *cparse_json_to_json_string(cParseJson *value);
  * \param key the name of the key variable
  * \param val the name of the value variable
  */
-#define cparse_json_object_foreach_start(obj, key, val) do { \
+#define cparse_json_foreach_start(obj, key, val) do { \
         char *key; struct json_object *val; struct lh_entry *entry;\
         for(entry = json_object_get_object(obj)->head; entry && ( ( (key = (char*)entry->k)  || entry) && ( (val = (struct json_object*)entry->v)  || entry)); entry = entry->next )
 
 /*! the end block for a json object iterator */
-#define cparse_json_object_foreach_end  } while(0)
+#define cparse_json_foreach_end  } while(0)
 
 #ifdef __cplusplus
 }

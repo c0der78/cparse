@@ -9,7 +9,6 @@ extern "C" {
 
 struct cparse_object
 {
-    /* rest of fields */
     cParseJson *attributes;
     cParseACL *acl;
     char *className;
@@ -62,7 +61,6 @@ struct cparse_op_array
 struct cparse_op_decrement
 {
     int amount;
-
 };
 
 struct cparse_op_increment

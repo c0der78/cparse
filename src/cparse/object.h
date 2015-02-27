@@ -74,6 +74,20 @@ time_t cparse_object_updated_at(cParseObject *obj);
  */
 cParseACL *cparse_object_acl(cParseObject *obj);
 
+/*! sets the object as readable by another object
+ * \param obj the object instance
+ * \param name the name of the object to access this object
+ * \param value the read value
+ */
+void cparse_object_set_readable_by(cParseObject *obj, const char *name, bool value);
+
+/*! sets the object as writable by another object
+ * \param obj the object instance
+ * \param name the name of the object to access this object
+ * \param value the write value
+ */
+void cparse_object_set_writable_by(cParseObject *obj, const char *name, bool value);
+
 /* client/rest methods */
 
 /*! saves a parse object

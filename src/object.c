@@ -73,7 +73,7 @@ void cparse_object_set_request_includes(cParseObject *obj, cParseRequest *reques
     char types[BUFSIZ + 1] = {0};
 
     /* parse some pointers to include */
-    cparse_json_object_foreach_start(obj->attributes, key, val)
+    cparse_json_foreach_start(obj->attributes, key, val)
     {
         const char *typeVal;
 
@@ -87,7 +87,7 @@ void cparse_object_set_request_includes(cParseObject *obj, cParseRequest *reques
             strncat(types, key, BUFSIZ);
         }
     }
-    cparse_json_object_foreach_end;
+    cparse_json_foreach_end;
 
     if (types[0] != 0)
     {
@@ -140,7 +140,8 @@ void cparse_object_copy(cParseObject *obj, cParseObject *other)
 {
     replace_str(&obj->className, other->className);
     replace_str(&obj->objectId, other->objectId);
-    obj->acl = cparse_acl_copy(other->acl);
+    obj->acl = cparse_acl_new();
+    cparse_acl_copy(obj->acl, other->acl);
     obj->createdAt = other->createdAt;
     obj->updatedAt = other->updatedAt;
 
@@ -488,11 +489,11 @@ void cparse_object_set(cParseObject *obj, const char *key, cParseJson *value)
 
 void cparse_object_foreach_attribute(cParseObject *obj, void (*foreach) (cParseJson *data))
 {
-    cparse_json_object_foreach_start(obj->attributes, key, val)
+    cparse_json_foreach_start(obj->attributes, key, val)
     {
         foreach(val);
     }
-    cparse_json_object_foreach_end;
+    cparse_json_foreach_end;
 }
 
 cParseJson *cparse_object_remove_and_get(cParseObject *obj, const char *key)
@@ -609,6 +610,15 @@ void cparse_object_merge_json(cParseObject *a, cParseJson *b)
         cparse_json_free(id);
     }
 
+    id = cparse_json_remove_and_get(b, KEY_ACL);
+
+    if (id != NULL)
+    {
+        a->acl = cparse_acl_from_json(id);
+
+        cparse_json_free(id);
+    }
+
     cparse_json_copy(a->attributes, b, true);
 }
 
@@ -616,7 +626,7 @@ cParseObject *cparse_object_from_json(cParseJson *jobj)
 {
     cParseObject *obj = cparse_object_new();
 
-    cparse_json_copy(obj->attributes, jobj, false);
+    cparse_object_merge_json(obj, jobj);
 
     return obj;
 }
@@ -625,3 +635,18 @@ const char *cparse_object_to_json_string(cParseObject *obj)
 {
     return cparse_json_to_json_string(obj->attributes);
 }
+
+
+void cparse_object_set_readable_by(cParseObject *obj, const char *name, bool value)
+{
+    cparse_acl_set_readable(obj->acl, name, value);
+}
+
+void cparse_object_set_writable_by(cParseObject *obj, const char *name, bool value)
+{
+    cparse_acl_set_writable(obj->acl, name, value);
+}
+
+
+
+

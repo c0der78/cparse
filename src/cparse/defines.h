@@ -35,6 +35,12 @@ typedef struct cparse_error cParseError;
 /*! A parse object structure */
 typedef struct cparse_object cParseObject;
 
+/*! A parse user structure */
+typedef struct cparse_object cParseUser;
+
+/*! A parse role structure */
+typedef struct cparse_object cParseRole;
+
 /*! A parse query structure */
 typedef struct cparse_query cParseQuery;
 

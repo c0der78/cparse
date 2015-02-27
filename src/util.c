@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <cparse/util.h>
 
 time_t cparse_date_time(const char *str)
 {
@@ -36,6 +37,13 @@ void replace_str(char **a, const char *b)
         free(*a);
 
     (*a) = strdup(b);
+}
+
+int str_cmp(const char *a, const char *b)
+{
+    if (str_empty(a) || str_empty(b)) return 0;
+
+    return strcmp(a, b);
 }
 
 int str_prefix(const char *astr, const char *bstr)
