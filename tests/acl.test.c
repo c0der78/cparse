@@ -11,6 +11,7 @@ static void cparse_test_setup()
 
 static void cparse_test_teardown()
 {
+    cparse_cleanup_test_objects();
 }
 
 START_TEST(test_cparse_acl_set)
@@ -24,6 +25,8 @@ START_TEST(test_cparse_acl_set)
     cparse_object_set_readable_by(obj, "1234knjsdf", true);
 
     cparse_acl_free(acl);
+
+    cparse_object_free(obj);
 }
 END_TEST
 
