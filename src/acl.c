@@ -69,7 +69,7 @@ void cparse_acl_free(cParseACL *acl)
 
 cParseACL *cparse_acl_from_json(cParseJson *json)
 {
-    cParseACL *acl = NULL, *acl_last;
+    cParseACL *acl = NULL, *acl_last = NULL;
 
     if (json == NULL)
         return acl;
