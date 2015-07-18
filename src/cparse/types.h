@@ -5,9 +5,7 @@
 #include <cparse/defines.h>
 #include <time.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+BEGIN_DECL
 
 cParsePointer *cparse_pointer_from_json(cParseJson *data);
 
@@ -23,9 +21,6 @@ cParseFile *cparse_file_from_json(cParseJson *data);
 
 void cparse_file_free(cParseFile *file);
 
-
-#ifdef __cplusplus
-}
-#endif
+END_DECL
 
 #endif

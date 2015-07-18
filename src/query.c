@@ -8,19 +8,26 @@
 #include "private.h"
 
 
-#define CPARSE_QUERY_LESS_THAN "$lt"
+#define CPARSE_QUERY_LESS_THAN  "$lt"
 #define CPARSE_QUERY_LESS_THAN_EQUAL "$lte"
 #define CPARSE_QUERY_GREATER_THAN "$gt"
 #define CPARSE_QUERY_GREATER_THAN_EQUAL "$gte"
-#define CPARSE_QUERY_NOT_EQUAL "$ne"
-#define CPARSE_QUERY_IN "$in"
-#define CPARSE_QUERY_NOT_IN "$nin"
-#define CPARSE_QUERY_EXISTS "$exists"
-#define CPARSE_QUERY_SELECT "$select"
+#define CPARSE_QUERY_NOT_EQUAL  "$ne"
+#define CPARSE_QUERY_IN         "$in"
+#define CPARSE_QUERY_NOT_IN     "$nin"
+#define CPARSE_QUERY_EXISTS     "$exists"
+#define CPARSE_QUERY_SELECT     "$select"
 #define CPARSE_QUERY_DONT_SELECT "$dontSelect"
-#define CPARSE_QUERY_ALL "$all"
+#define CPARSE_QUERY_ALL        "$all"
 
-#define CPARSE_ARRAY_KEY "arrayKey"
+#define CPARSE_QUERY_WHERE      "where"
+#define CPARSE_QUERY_SKIP       "skip"
+#define CPARSE_QUERY_LIMIT      "limit"
+#define CPARSE_QUERY_KEYS       "keys"
+#define CPARSE_QUERY_COUNT      "count"
+#define CPARSE_QUERY_RESULTS    "results"
+
+#define CPARSE_ARRAY_KEY        "arrayKey"
 
 
 void cparse_query_clear_all_caches()
@@ -73,7 +80,7 @@ void cparse_query_free(cParseQuery *query)
 
 void cparse_query_free_results(cParseQuery *query)
 {
-    size_t i;
+    size_t i = 0;
 
     for (i = 0; query && i < query->size; i++)
     {
@@ -84,10 +91,10 @@ void cparse_query_free_results(cParseQuery *query)
 
 cParseQuery *cparse_query_with_class_name(const char *className)
 {
-    char buf[BUFSIZ + 1] = {0};
+    char buf[CPARSE_BUF_SIZE + 1] = {0};
     cParseQuery *query = cparse_query_new();
 
-    snprintf(buf, BUFSIZ, "%s%s", OBJECTS_PATH, className);
+    snprintf(buf, CPARSE_BUF_SIZE, "%s%s", CPARSE_OBJECTS_PATH, className);
 
     query->className = strdup(buf);
 
@@ -103,48 +110,49 @@ size_t cparse_query_size(cParseQuery *query)
 
 cParseObject *cparse_query_result(cParseQuery *query, size_t index)
 {
-    if (!query || !query->results || index > query->size)
+    if (!query || !query->results || index > query->size) {
         return NULL;
+    }
 
     return query->results[index];
 }
 
 bool cparse_query_find_objects(cParseQuery *query, cParseError **error)
 {
-    cParseRequest *request;
-    cParseJson *data;
-    char buf[BUFSIZ + 1];
+    cParseRequest *request = NULL;
+    cParseJson *data = NULL;
+    char buf[CPARSE_BUF_SIZE + 1] = {0};
 
     /* build the request */
 
-    request = cparse_client_request_with_method_and_path(HttpRequestMethodGet, query->className);
+    request = cparse_client_request_with_method_and_path(cParseHttpRequestMethodGet, query->className);
 
     if (query->where)
     {
-        cparse_client_request_add_data(request, "where", cparse_json_to_json_string(query->where));
+        cparse_client_request_add_data(request, CPARSE_QUERY_WHERE, cparse_json_to_json_string(query->where));
     }
 
     if (query->limit > 0)
     {
-        snprintf(buf, BUFSIZ, "%d", query->limit);
-        cparse_client_request_add_data(request, "limit", buf);
+        snprintf(buf, CPARSE_BUF_SIZE, "%d", query->limit);
+        cparse_client_request_add_data(request, CPARSE_QUERY_LIMIT, buf);
     }
 
     if (query->skip > 0)
     {
-        snprintf(buf, BUFSIZ, "%d", query->skip);
-        cparse_client_request_add_data(request, "skip", buf);
+        snprintf(buf, CPARSE_BUF_SIZE, "%d", query->skip);
+        cparse_client_request_add_data(request, CPARSE_QUERY_SKIP, buf);
     }
 
     if (query->keys)
     {
-        cparse_client_request_add_data(request, "keys", query->keys);
+        cparse_client_request_add_data(request, CPARSE_QUERY_KEYS, query->keys);
     }
 
     if (query->count)
     {
-        snprintf(buf, BUFSIZ, "%d", query->count);
-        cparse_client_request_add_data(request, "count", buf);
+        snprintf(buf, CPARSE_BUF_SIZE, "%d", query->count);
+        cparse_client_request_add_data(request, CPARSE_QUERY_COUNT, buf);
     }
 
     /* do the deed */
@@ -159,11 +167,11 @@ bool cparse_query_find_objects(cParseQuery *query, cParseError **error)
 
     if (query->count)
     {
-        query->size = cparse_json_get_number(data, "count", 0);
+        query->size = cparse_json_get_number(data, CPARSE_QUERY_COUNT, 0);
     }
     else
     {
-        cParseJson *results = cparse_json_get(data, "results");
+        cParseJson *results = cparse_json_get(data, CPARSE_QUERY_RESULTS);
 
         query->size = cparse_json_array_size(results);
 
@@ -202,16 +210,18 @@ int cparse_query_count_objects(cParseQuery *query, cParseError **error)
 
 void cparse_query_set_where(cParseQuery *query, cParseJson *value)
 {
-    if (query->where)
+    if (query->where) {
         cparse_json_free(query->where);
+    }
 
     query->where = cparse_json_new_reference(value);
 }
 
 void cparse_query_build_where(cParseQuery *query, cParseQueryBuilder *builder)
 {
-    if (query->where)
+    if (query->where) {
         cparse_json_free(query->where);
+    }
 
     query->where = cparse_json_new_reference(builder->json);
 }

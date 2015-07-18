@@ -42,7 +42,7 @@ cParseACL *cparse_acl_new_with_user(cParseUser *user)
 
 void cparse_acl_copy(cParseACL *orig, cParseACL *other)
 {
-    replace_str(&orig->name, other->name);
+    cparse_replace_str(&orig->name, other->name);
     orig->read = other->read;
     orig->write = other->write;
 }
@@ -69,10 +69,11 @@ void cparse_acl_free(cParseACL *acl)
 
 cParseACL *cparse_acl_from_json(cParseJson *json)
 {
-    cParseACL *acl = NULL, *acl_last;
+    cParseACL *acl = NULL, *acl_last = NULL;
 
-    if (json == NULL)
+    if (json == NULL) {
         return acl;
+    }
 
     cparse_json_foreach_start(json, key, val)
     {
@@ -104,7 +105,7 @@ cParseACL *cparse_acl_from_json(cParseJson *json)
 
 cParseJson *cparse_acl_to_json(cParseACL *acl)
 {
-    cParseACL *a;
+    cParseACL *a = NULL;
     cParseJson *json = cparse_json_new();
 
     for (a = acl; a; a = a->next)
@@ -120,14 +121,15 @@ cParseJson *cparse_acl_to_json(cParseACL *acl)
 
 bool cparse_acl_is_readable(cParseACL *acl, const char *name)
 {
-    cParseACL *a;
+    cParseACL *a = NULL;
 
-    if (str_empty(name))
+    if (cparse_str_empty(name)) {
         return false;
+    }
 
     for (a = acl; a; a = a->next)
     {
-        if (!str_cmp(name, a->name))
+        if (!cparse_str_cmp(name, a->name))
         {
             return a->read;
         }
@@ -138,14 +140,15 @@ bool cparse_acl_is_readable(cParseACL *acl, const char *name)
 
 bool cparse_acl_is_writable(cParseACL *acl, const char *name)
 {
-    cParseACL *a;
+    cParseACL *a = NULL;
 
-    if (str_empty(name))
+    if (cparse_str_empty(name)) {
         return false;
+    }
 
     for (a = acl; a; a = a->next)
     {
-        if (!str_cmp(name, a->name))
+        if (!cparse_str_cmp(name, a->name))
         {
             return a->write;
         }
@@ -156,16 +159,17 @@ bool cparse_acl_is_writable(cParseACL *acl, const char *name)
 
 static void cparse_acl_set_acl(cParseACL *acl, const char *name, bool value, void (*funk)(cParseACL *, bool))
 {
-    cParseACL *a, *acl_last = NULL;
+    cParseACL *a = NULL, *acl_last = NULL;
 
-    if (str_empty(name) || !acl)
+    if (cparse_str_empty(name) || !acl) {
         return;
+    }
 
     for (a = acl; a; a = a->next)
     {
         acl_last = a;
 
-        if (!str_cmp(name, a->name))
+        if (!cparse_str_cmp(name, a->name))
         {
             (*funk)(a, value);
             break;
@@ -191,14 +195,16 @@ static void cparse_acl_set_acl(cParseACL *acl, const char *name, bool value, voi
 
 static void cparse_acl_set_this_readable(cParseACL *acl, bool value)
 {
-    if (acl)
+    if (acl) {
         acl->read = value;
+    }
 }
 
 static void cparse_acl_set_this_writable(cParseACL *acl, bool value)
 {
-    if (acl)
+    if (acl) {
         acl->write = value;
+    }
 }
 
 void cparse_acl_set_readable(cParseACL *acl, const char *name, bool value)

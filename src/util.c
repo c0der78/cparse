@@ -6,6 +6,11 @@
 #include <string.h>
 #include <cparse/util.h>
 
+inline int cparse_str_empty(const char *str)
+{
+    return !str || !*str;
+}
+
 time_t cparse_date_time(const char *str)
 {
     int y, M, d, h, m;
@@ -29,24 +34,25 @@ time_t cparse_date_time(const char *str)
     return mktime(&time) - timezone;
 }
 
-void replace_str(char **a, const char *b)
+void cparse_replace_str(char **a, const char *b)
 {
-    if (!a) return;
+    if (!a) { return; }
 
-    if (*a)
+    if (*a) {
         free(*a);
+    }
 
     (*a) = strdup(b);
 }
 
-int str_cmp(const char *a, const char *b)
+inline int cparse_str_cmp(const char *a, const char *b)
 {
-    if (str_empty(a) || str_empty(b)) return 0;
+    if (cparse_str_empty(a) || cparse_str_empty(b)) { return 0; }
 
     return strcmp(a, b);
 }
 
-int str_prefix(const char *astr, const char *bstr)
+int cparse_str_prefix(const char *astr, const char *bstr)
 {
     if (astr == NULL || !*astr)
     {
@@ -58,8 +64,9 @@ int str_prefix(const char *astr, const char *bstr)
     }
     for (; *astr; astr++, bstr++)
     {
-        if (*astr != *bstr)
+        if (*astr != *bstr) {
             return 1;
+        }
     }
 
     return 0;

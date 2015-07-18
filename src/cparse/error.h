@@ -1,12 +1,10 @@
 /*! \file error.h */
-#ifndef cParseError_H_
-#define cParseError_H_
+#ifndef CPARSE_ERROR_H
+#define CPARSE_ERROR_H
 
 #include <cparse/defines.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+BEGIN_DECL
 
 /*! allocates a new empty error
  * \returns an allocated error
@@ -48,8 +46,6 @@ int cparse_error_code(cParseError *error);
  */
 void cparse_error_set_code(cParseError *error, int code);
 
-#ifdef __cplusplus
-}
-#endif
+END_DECL
 
 #endif

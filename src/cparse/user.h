@@ -6,9 +6,7 @@
 #include <cparse/query.h>
 #include <cparse/acl.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+BEGIN_DECL
 
 /*! gets the currently logged in user
  * \returns the current logged in user instance or NULL
@@ -131,9 +129,6 @@ bool cparse_user_delete(cParseUser *obj, cParseError **error);
 
 pthread_t cparse_user_delete_in_background(cParseUser *obj, cParseObjectCallback callback);
 
-
-#ifdef __cplusplus
-}
-#endif
+END_DECL
 
 #endif

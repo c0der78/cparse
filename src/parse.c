@@ -13,23 +13,24 @@ const char *cparse_api_key = NULL;
 
 extern cParseLogLevel cparse_current_log_level;
 
-const char *const RESERVED_KEYS[] =
+const char *const CPARSE_RESERVED_KEYS[] =
 {
-    KEY_CLASS_NAME, KEY_CREATED_AT, KEY_OBJECT_ID, KEY_UPDATED_AT, KEY_USER_SESSION_TOKEN
+	CPARSE_KEY_CLASS_NAME, CPARSE_KEY_CREATED_AT, CPARSE_KEY_OBJECT_ID,
+	CPARSE_KEY_UPDATED_AT, CPARSE_KEY_USER_SESSION_TOKEN
 };
 
 void cparse_set_application_id(const char *appId)
 {
-    cparse_app_id = strdup(appId);
+	cparse_app_id = strdup(appId);
 }
 
 void cparse_set_api_key(const char *apiKey)
 {
-    cparse_api_key = strdup(apiKey);
+	cparse_api_key = strdup(apiKey);
 }
 
 void cparse_set_log_level(cParseLogLevel value)
 {
-    cparse_current_log_level = value;
+	cparse_current_log_level = value;
 }
 

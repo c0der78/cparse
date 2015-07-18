@@ -7,9 +7,7 @@
 #include <cparse/object.h>
 
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+BEGIN_DECL
 
 /*! creates a new query for an object type
  * \param className the type of object
@@ -92,8 +90,6 @@ cParseJson *cparse_query_build_json(cParseQueryBuilder *query);
 
 void cparse_query_build_free(cParseQueryBuilder *query);
 
-#ifdef __cplusplus
-}
-#endif
+END_DECL
 
 #endif

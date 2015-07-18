@@ -1,28 +1,26 @@
 /*! \file json.h */
-#ifndef cParseJson_H_
-#define cParseJson_H_
+#ifndef CPARSE_JSON_H
+#define CPARSE_JSON_H
 
 #include <stdlib.h>
-
-#ifdef __cplusplus
-extern "C" {
-#endif
 
 #include <cparse/defines.h>
 
 /* JSON types */
 typedef enum
 {
-    cParseJsonNumber,
-    cParseJsonReal,
-    cParseJsonString,
-    cParseJsonBoolean,
-    cParseJsonObject,
-    cParseJsonArray,
-    cParseJsonNull
+	cParseJsonNumber,
+	cParseJsonReal,
+	cParseJsonString,
+	cParseJsonBoolean,
+	cParseJsonObject,
+	cParseJsonArray,
+	cParseJsonNull
 } cParseJsonType;
 
 /* value initializers */
+
+BEGIN_DECL
 
 /*! allocates a new json object
  * \returns the allocated json object
@@ -299,6 +297,8 @@ const char *cparse_json_to_string(cParseJson *value);
  */
 const char *cparse_json_to_json_string(cParseJson *value);
 
+END_DECL
+
 /*! a start block for a json object iterator
  * _example_:
  * \code{.c}
@@ -318,9 +318,5 @@ const char *cparse_json_to_json_string(cParseJson *value);
 
 /*! the end block for a json object iterator */
 #define cparse_json_foreach_end  } while(0)
-
-#ifdef __cplusplus
-}
-#endif
 
 #endif

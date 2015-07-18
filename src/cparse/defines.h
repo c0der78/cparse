@@ -1,10 +1,6 @@
 /*! \file defines.h */
-#ifndef CPARSE_DEFINES_H_
-#define CPARSE_DEFINES_H_
-
-#ifdef __cplusplus
-extern "C" {
-#endif
+#ifndef CPARSE_DEFINES_H
+#define CPARSE_DEFINES_H
 
 #ifndef HAVE_STDBOOL_H
 typedef unsigned char bool;
@@ -17,6 +13,18 @@ typedef unsigned char bool;
 #endif
 #else
 #include <stdbool.h>
+#endif
+
+#ifdef __cplusplus
+#define BEGIN_DECL extern "C" {
+#else
+#define BEGIN_DECL
+#endif
+
+#ifdef __cplusplus
+#define END_DECL }
+#else
+#define END_DECL
 #endif
 
 /*! a type representing an integral number */
@@ -80,8 +88,5 @@ typedef struct cparse_op_decrement cParseOperatorDecrement;
 /*! a increment operator */
 typedef struct cparse_op_increment cParseOperatorIncrement;
 
-#ifdef __cplusplus
-}
-#endif
 
 #endif

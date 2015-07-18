@@ -1,12 +1,10 @@
 /*! \file acl.h */
-#ifndef CPARSE_ACL_H_
-#define CPARSE_ACL_H_
+#ifndef CPARSE_ACL_H
+#define CPARSE_ACL_H
 
 #include <cparse/defines.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+BEGIN_DECL
 
 cParseACL *cparse_acl_new();
 
@@ -32,8 +30,6 @@ void cparse_acl_set_readable(cParseACL *acl, const char *name, bool value);
 
 void cparse_acl_set_writable(cParseACL *acl, const char *name, bool value);
 
-#ifdef __cplusplus
-}
-#endif
+END_DECL
 
 #endif

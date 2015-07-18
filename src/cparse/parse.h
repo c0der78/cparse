@@ -2,9 +2,7 @@
 #ifndef CPARSE_PARSE_H_
 #define CPARSE_PARSE_H_
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#include <cparse/defines.h>
 
 /*! levels of logging */
 typedef enum
@@ -23,6 +21,8 @@ typedef enum
     cParseLogTrace = 5
 } cParseLogLevel;
 
+BEGIN_DECL
+
 /*! sets the parse api application id
  * \param appId the application id
  */
@@ -38,8 +38,6 @@ void cparse_set_api_key(const char *apiKey);
  */
 void cparse_set_log_level(cParseLogLevel level);
 
-#ifdef __cplusplus
-}
-#endif
+END_DECL
 
 #endif

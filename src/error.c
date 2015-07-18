@@ -28,7 +28,7 @@ cParseError *cparse_error_with_message(const char *message)
 {
     cParseError *e = cparse_error_new();
 
-    if (e == NULL) return NULL;
+    if (e == NULL) { return NULL; }
 
     e->message = strdup(message);
 
@@ -37,8 +37,9 @@ cParseError *cparse_error_with_message(const char *message)
 
 void cparse_error_free(cParseError *e)
 {
-    if (e->message)
+    if (e->message) {
         free(e->message);
+    }
 
     free(e);
 }

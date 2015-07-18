@@ -30,7 +30,7 @@ if test x"$ac_cv_lib_json_c_json_object_object_get_ex" = x"yes" || test x"$ac_cv
 fi
 
 # Checks for header files.
-AC_CHECK_HEADERS([stdbool.h stdlib.h string.h json-c/json.h json/json.h json.h curl/curl.h curl.h])
+AC_CHECK_HEADERS([stdbool.h stdlib.h string.h json-c/json.h json/json.h json.h curl/curl.h curl.h pthread.h])
 
 AC_CHECK_FUNC(strptime, AC_DEFINE(HAVE_STRPTIME, 1, [a posix time function]), [])
 

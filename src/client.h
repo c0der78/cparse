@@ -4,10 +4,6 @@
 #include <stdlib.h>
 #include <cparse/defines.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 /*! a parse response */
 typedef struct cparse_client_response cParseResponse;
 
@@ -23,11 +19,11 @@ typedef struct cparse_kv_list cParseRequestData;
 /*! HTTP Request Method Types */
 typedef enum
 {
-	HttpRequestMethodGet,
-	HttpRequestMethodPost,
-	HttpRequestMethodPut,
-	HttpRequestMethodDelete
-} HttpRequestMethod;
+	cParseHttpRequestMethodGet,
+	cParseHttpRequestMethodPost,
+	cParseHttpRequestMethodPut,
+	cParseHttpRequestMethodDelete
+} cParseHttpRequestMethod;
 
 /*! a parse request */
 struct cparse_client_request
@@ -36,7 +32,7 @@ struct cparse_client_request
 	cParseRequestData *data;
 	char *payload;
 	size_t payloadSize;
-	HttpRequestMethod method;
+	cParseHttpRequestMethod method;
 	cParseRequestHeader *headers;
 };
 
@@ -48,12 +44,14 @@ struct cparse_client_response
 	int code;
 };
 
+BEGIN_DECL
+
 /*! allocates a client request
  * \param method the HTTP method to use
  * \param path the endpoint to use
  * \returns the allocated request
  */
-cParseRequest *cparse_client_request_with_method_and_path(HttpRequestMethod method, const char *path);
+cParseRequest *cparse_client_request_with_method_and_path(cParseHttpRequestMethod method, const char *path);
 
 /*! issues a request and returns a json response
  * \param request the request instance
@@ -94,8 +92,6 @@ void cparse_client_request_free(cParseRequest *request);
  */
 bool cparse_client_request_perform(cParseRequest *request, cParseError **error);
 
-#ifdef __cplusplus
-}
-#endif
+END_DECL
 
 #endif

@@ -12970,7 +12970,7 @@ $as_echo "#define HAVE_JSON_EXTENDED 1" >>confdefs.h
 fi
 
 # Checks for header files.
-for ac_header in stdbool.h stdlib.h string.h json-c/json.h json/json.h json.h curl/curl.h curl.h
+for ac_header in stdbool.h stdlib.h string.h json-c/json.h json/json.h json.h curl/curl.h curl.h pthread.h
 do :
   as_ac_Header=`$as_echo "ac_cv_header_$ac_header" | $as_tr_sh`
 ac_fn_c_check_header_mongrel "$LINENO" "$ac_header" "$as_ac_Header" "$ac_includes_default"

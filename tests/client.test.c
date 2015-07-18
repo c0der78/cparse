@@ -14,7 +14,7 @@ static void cparse_test_teardown()
 
 START_TEST(test_cparse_client_payload)
 {
-    cParseRequest *request = cparse_client_request_with_method_and_path(HttpRequestMethodGet, "users");
+    cParseRequest *request = cparse_client_request_with_method_and_path(cParseHttpRequestMethodGet, "users");
 
     cparse_client_request_add_data(request, "key", "value");
 
@@ -35,16 +35,17 @@ END_TEST
 
 START_TEST(test_cparse_client_bad_request)
 {
-    cParseError *error;
+    cParseError *error = NULL;
 
-    cParseRequest *request = cparse_client_request_with_method_and_path(HttpRequestMethodGet, "classes/" TEST_CLASS "/sk4k3kmf");
+    cParseRequest *request = cparse_client_request_with_method_and_path(cParseHttpRequestMethodGet, "classes/" TEST_CLASS "/sk4k3kmf");
 
     cParseJson *json = cparse_client_request_get_json(request, &error);
 
     fail_unless(json == NULL);
 
-    if(error)
+    if (error) {
         cparse_error_free(error);
+    }
 
     cparse_client_request_free(request);
 }

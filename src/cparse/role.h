@@ -2,16 +2,12 @@
 #ifndef CPARSE_ROLE_H_
 #define CPARSE_ROLE_H_
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#include <cparse/defines.h>
 
-#include "defines.h"
+BEGIN_DECL
 
 bool cparse_role_save(cParseRole *role, cParseError *error);
 
-#ifdef __cplusplus
-}
-#endif
+END_DECL
 
 #endif

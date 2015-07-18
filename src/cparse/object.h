@@ -7,9 +7,7 @@
 #include <cparse/acl.h>
 #include <pthread.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+BEGIN_DECL
 
 /* initializers */
 
@@ -304,8 +302,6 @@ const char *cparse_object_to_json_string(cParseObject *obj);
 
 bool cparse_object_is_object(cParseObject *obj);
 
-#ifdef __cplusplus
-}
-#endif
+END_DECL
 
 #endif

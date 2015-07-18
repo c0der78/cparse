@@ -3,10 +3,6 @@
 
 #include <pthread.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 struct cparse_object
 {
     cParseJson *attributes;
@@ -116,13 +112,13 @@ typedef struct
 /* this runs a object action in the background */
 pthread_t cparse_object_run_in_background(cParseObject *obj, cParseObjectAction action, cParseObjectCallback callback, void (*cleanup)(cParseObject *));
 
-#define CPARSE_USER_CLASS_NAME "users"
+extern const char *const CPARSE_USER_CLASS_NAME;
+
+BEGIN_DECL
 
 bool cparse_class_name_is_user(const char *className);
 bool cparse_class_name_is_object(const char *className);
 
-#ifdef __cplusplus
-}
-#endif
+END_DECL
 
 #endif

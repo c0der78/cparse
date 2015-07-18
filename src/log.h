@@ -6,14 +6,14 @@
 #define __attribute__(x)
 #endif
 
-void log_error(const char *const format, ...) __attribute__((format(printf, 1, 2)));
+void cparse_log_error(const char *const format, ...) __attribute__((format(printf, 1, 2)));
 
-void log_warn(const char *const format, ...) __attribute__((format(printf, 1, 2)));
+void cparse_log_warn(const char *const format, ...) __attribute__((format(printf, 1, 2)));
 
-void log_info(const char *const format, ...) __attribute__((format(printf, 1, 2)));
+void cparse_log_info(const char *const format, ...) __attribute__((format(printf, 1, 2)));
 
-void log_debug(const char *const format, ...) __attribute__((format(printf, 1, 2)));
+void cparse_log_debug(const char *const format, ...) __attribute__((format(printf, 1, 2)));
 
-void log_trace(const char *const format, ...) __attribute__((format(printf, 1, 2)));
+void cparse_log_trace(const char *const format, ...) __attribute__((format(printf, 1, 2)));
 
 #endif

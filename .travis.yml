@@ -1,6 +1,13 @@
+sudo: false
 language: c
-before_install: 
-  - sudo apt-get install libjson0 libjson0-dev check valgrind
+addons:
+  apt:
+    packages:
+      - g++-4.8
+      - libjson0 
+      - libjson0-dev 
+      - check 
+      - valgrind
 before_script: 
   - autoreconf --recursive -if
 env:
