@@ -18,13 +18,7 @@ AC_PROG_CC
 AC_SUBST(X_CFLAGS, "-pedantic -Wall -Werror")
 
 # Checks for libraries.
-AC_CHECK_LIB(json-c, json_object_put, has_libjson="json-c", AC_CHECK_LIB(json, json_object_put, has_libjson="json" ,))
-
-if test "x$has_libjson" == "x"; then
-	AC_MSG_ERROR([json-c library is required])
-else
-	AC_SUBST(LIBJSON, $has_libjson, [the libjson binary])
-fi
+AC_CHECK_LIB([json-c], [json_object_get], [], AC_CHECK_LIB(json, [json_object_get], [], AC_MSG_ERROR([json library is required!])))
 
 AC_CHECK_LIB([json-c], [json_object_object_get_ex], [], 
 	AC_CHECK_LIB([json], [json_object_object_get_ex]))
