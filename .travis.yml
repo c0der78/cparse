@@ -3,7 +3,6 @@ language: c
 addons:
   apt:
     packages:
-      - g++-4.8
       - libjson0-dev 
       - check
       - valgrind
