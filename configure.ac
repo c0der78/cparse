@@ -20,8 +20,7 @@ AC_SUBST(X_CFLAGS, "-pedantic -Wall -Werror")
 # Checks for libraries.
 AC_CHECK_LIB([json-c], [json_object_get], [], AC_CHECK_LIB(json, [json_object_get], [], AC_MSG_ERROR([json library is required!])))
 
-AC_CHECK_LIB([json-c], [json_object_object_get_ex], [], 
-	AC_CHECK_LIB([json], [json_object_object_get_ex]))
+AC_CHECK_LIB([json-c], [json_object_object_get_ex], [], AC_CHECK_LIB([json], [json_object_object_get_ex]))
 
 AC_CHECK_LIB([curl], [curl_easy_init], [], AC_MSG_ERROR([libcurl library is required!]))
 

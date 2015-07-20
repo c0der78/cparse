@@ -210,6 +210,7 @@ ECHO_T = @ECHO_T@
 EGREP = @EGREP@
 EXEEXT = @EXEEXT@
 FGREP = @FGREP@
+GCOV = @GCOV@
 GENHTML = @GENHTML@
 GREP = @GREP@
 INSTALL = @INSTALL@
@@ -220,7 +221,6 @@ INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
 LCOV = @LCOV@
 LD = @LD@
 LDFLAGS = @LDFLAGS@
-LIBJSON = @LIBJSON@
 LIBOBJS = @LIBOBJS@
 LIBS = @LIBS@
 LIBTOOL = @LIBTOOL@
@@ -306,8 +306,9 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 test_cparse_SOURCES = cparse.test.c json.test.c object.test.c parse.test.c query.test.c util.test.c user.test.c client.test.c acl.test.c
-test_cparse_CFLAGS = $(TEST_CPARSE_CFLAGS) -I ../src -DROOT_PATH="\".\"" @X_CFLAGS@
+test_cparse_CFLAGS = $(TEST_CPARSE_CFLAGS) -I ../src -DROOT_PATH="\".\"" @X_CFLAGS@ @COVERAGE_CFLAGS@
 test_cparse_LDADD = ../src/libcparse.la -lcheck $(LIBS)
+CLEANFILES = *.gcno
 all: all-am
 
 .SUFFIXES:
@@ -633,6 +634,7 @@ install-strip:
 mostlyclean-generic:
 
 clean-generic:
+	-test -z "$(CLEANFILES)" || rm -f $(CLEANFILES)
 
 distclean-generic:
 	-test -z "$(CONFIG_CLEAN_FILES)" || rm -f $(CONFIG_CLEAN_FILES)

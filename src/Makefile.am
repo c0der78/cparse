@@ -9,5 +9,6 @@ subdirheaders_HEADERS = cparse/acl.h cparse/defines.h cparse/error.h cparse/json
 
 libcparse_la_SOURCES = acl.c client.c error.c json.c object.c parse.c query.c types.c user.c util.c operators.c log.c
 
-libcparse_la_CFLAGS = $(LIBCPARSE_LA_CFLAGS) $(COVERAGE_CFLAGS) @X_CFLAGS@
+libcparse_la_CFLAGS = $(LIBCPARSE_LA_CFLAGS) @X_CFLAGS@ @COVERAGE_CFLAGS@
 
+CLEANFILES = *.gcno

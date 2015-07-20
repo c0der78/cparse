@@ -23,7 +23,7 @@
 AC_DEFUN([AC_TDD_GCOV],
 [
   AC_ARG_ENABLE(gcov,
-  AS_HELP_STRING([--enable-gcov],
+  AS_HELP_STRING([--enable-coverage],
 		 [enable coverage testing with gcov]),
   [use_gcov=yes], [use_gcov=no])
 
@@ -32,7 +32,7 @@ AC_DEFUN([AC_TDD_GCOV],
   if test "x$use_gcov" = "xyes"; then
   # we need gcc:
   if test "$GCC" != "yes"; then
-    AC_MSG_ERROR([GCC is required for --enable-gcov])
+    AC_MSG_ERROR([GCC is required for --enable-coverage])
   fi
 
   # Check if ccache is being used
@@ -47,32 +47,13 @@ AC_DEFUN([AC_TDD_GCOV],
     AC_MSG_ERROR([ccache must be disabled when --enable-gcov option is used. You can disable ccache by setting environment variable CCACHE_DISABLE=1.])
   fi
 
-  lcov_version_list="1.6 1.7 1.8 1.9 1.10 1.11"
   AC_CHECK_PROG(LCOV, lcov, lcov)
+  AC_CHECK_PROG(GCOV, gcov, gcov)
   AC_CHECK_PROG(GENHTML, genhtml, genhtml)
 
-  if test "$LCOV"; then
-    AC_CACHE_CHECK([for lcov version], glib_cv_lcov_version, [
-      glib_cv_lcov_version=invalid
-      lcov_version=`$LCOV -v 2>/dev/null | $SED -e 's/^.* //'`
-      for lcov_check_version in $lcov_version_list; do
-        if test "$lcov_version" = "$lcov_check_version"; then
-          glib_cv_lcov_version="$lcov_check_version (ok)"
-        fi
-      done
-    ])
-  else
-    lcov_msg="To enable code coverage reporting you must have one of the following lcov versions installed: $lcov_version_list"
-    AC_MSG_ERROR([$lcov_msg])
+  if test "x$GCOV" == "x"; then
+    AC_MSG_ERROR([Could not find gcov])
   fi
-
-  case $glib_cv_lcov_version in
-    ""|invalid[)]
-      lcov_msg="You must have one of the following versions of lcov: $lcov_version_list (found: $lcov_version)."
-      AC_MSG_ERROR([$lcov_msg])
-      LCOV="exit 0;"
-      ;;
-  esac
 
   if test -z "$GENHTML"; then
     AC_MSG_ERROR([Could not find genhtml from the lcov package])
@@ -86,7 +67,7 @@ AC_DEFUN([AC_TDD_GCOV],
   # Add the special gcc flags
   COVERAGE_CFLAGS="--coverage"
   COVERAGE_CXXFLAGS="--coverage"	
-  COVERAGE_LDFLAGS="-lgcov"
+  COVERAGE_LDFLAGS="-lgcov --coverage"
 
 fi
 ]) # AC_TDD_GCOV

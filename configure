@@ -642,11 +642,11 @@ COVERAGE_LDFLAGS
 COVERAGE_CXXFLAGS
 COVERAGE_CFLAGS
 GENHTML
+GCOV
 LCOV
 SHTOOL
 HAVE_GCOV_FALSE
 HAVE_GCOV_TRUE
-LIBJSON
 X_CFLAGS
 CPP
 LT_SYS_LIBRARY_PATH
@@ -1415,7 +1415,7 @@ Optional Features:
   --disable-dependency-tracking
                           speeds up one-time build
   --disable-libtool-lock  avoid locking (might break parallel builds)
-  --enable-gcov           enable coverage testing with gcov
+  --enable-coverage       enable coverage testing with gcov
 
 Optional Packages:
   --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
@@ -12730,9 +12730,9 @@ X_CFLAGS="-pedantic -Wall -Werror"
 
 
 # Checks for libraries.
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for json_object_put in -ljson-c" >&5
-$as_echo_n "checking for json_object_put in -ljson-c... " >&6; }
-if ${ac_cv_lib_json_c_json_object_put+:} false; then :
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for json_object_get in -ljson-c" >&5
+$as_echo_n "checking for json_object_get in -ljson-c... " >&6; }
+if ${ac_cv_lib_json_c_json_object_get+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ac_check_lib_save_LIBS=$LIBS
@@ -12746,32 +12746,37 @@ cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 #ifdef __cplusplus
 extern "C"
 #endif
-char json_object_put ();
+char json_object_get ();
 int
 main ()
 {
-return json_object_put ();
+return json_object_get ();
   ;
   return 0;
 }
 _ACEOF
 if ac_fn_c_try_link "$LINENO"; then :
-  ac_cv_lib_json_c_json_object_put=yes
+  ac_cv_lib_json_c_json_object_get=yes
 else
-  ac_cv_lib_json_c_json_object_put=no
+  ac_cv_lib_json_c_json_object_get=no
 fi
 rm -f core conftest.err conftest.$ac_objext \
     conftest$ac_exeext conftest.$ac_ext
 LIBS=$ac_check_lib_save_LIBS
 fi
-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_json_c_json_object_put" >&5
-$as_echo "$ac_cv_lib_json_c_json_object_put" >&6; }
-if test "x$ac_cv_lib_json_c_json_object_put" = xyes; then :
-  has_libjson="json-c"
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_json_c_json_object_get" >&5
+$as_echo "$ac_cv_lib_json_c_json_object_get" >&6; }
+if test "x$ac_cv_lib_json_c_json_object_get" = xyes; then :
+  cat >>confdefs.h <<_ACEOF
+#define HAVE_LIBJSON_C 1
+_ACEOF
+
+  LIBS="-ljson-c $LIBS"
+
 else
-  { $as_echo "$as_me:${as_lineno-$LINENO}: checking for json_object_put in -ljson" >&5
-$as_echo_n "checking for json_object_put in -ljson... " >&6; }
-if ${ac_cv_lib_json_json_object_put+:} false; then :
+  { $as_echo "$as_me:${as_lineno-$LINENO}: checking for json_object_get in -ljson" >&5
+$as_echo_n "checking for json_object_get in -ljson... " >&6; }
+if ${ac_cv_lib_json_json_object_get+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ac_check_lib_save_LIBS=$LIBS
@@ -12785,39 +12790,39 @@ cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 #ifdef __cplusplus
 extern "C"
 #endif
-char json_object_put ();
+char json_object_get ();
 int
 main ()
 {
-return json_object_put ();
+return json_object_get ();
   ;
   return 0;
 }
 _ACEOF
 if ac_fn_c_try_link "$LINENO"; then :
-  ac_cv_lib_json_json_object_put=yes
+  ac_cv_lib_json_json_object_get=yes
 else
-  ac_cv_lib_json_json_object_put=no
+  ac_cv_lib_json_json_object_get=no
 fi
 rm -f core conftest.err conftest.$ac_objext \
     conftest$ac_exeext conftest.$ac_ext
 LIBS=$ac_check_lib_save_LIBS
 fi
-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_json_json_object_put" >&5
-$as_echo "$ac_cv_lib_json_json_object_put" >&6; }
-if test "x$ac_cv_lib_json_json_object_put" = xyes; then :
-  has_libjson="json"
-fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_json_json_object_get" >&5
+$as_echo "$ac_cv_lib_json_json_object_get" >&6; }
+if test "x$ac_cv_lib_json_json_object_get" = xyes; then :
+  cat >>confdefs.h <<_ACEOF
+#define HAVE_LIBJSON 1
+_ACEOF
 
-fi
+  LIBS="-ljson $LIBS"
 
-
-if test "x$has_libjson" == "x"; then
-	as_fn_error $? "json-c library is required" "$LINENO" 5
 else
-	LIBJSON=$has_libjson
+  as_fn_error $? "json library is required!" "$LINENO" 5
+fi
 
 fi
+
 
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for json_object_object_get_ex in -ljson-c" >&5
 $as_echo_n "checking for json_object_object_get_ex in -ljson-c... " >&6; }
@@ -13036,7 +13041,7 @@ fi
   if test "x$use_gcov" = "xyes"; then
   # we need gcc:
   if test "$GCC" != "yes"; then
-    as_fn_error $? "GCC is required for --enable-gcov" "$LINENO" 5
+    as_fn_error $? "GCC is required for --enable-coverage" "$LINENO" 5
   fi
 
   # Check if ccache is being used
@@ -13090,7 +13095,6 @@ esac
     as_fn_error $? "ccache must be disabled when --enable-gcov option is used. You can disable ccache by setting environment variable CCACHE_DISABLE=1." "$LINENO" 5
   fi
 
-  lcov_version_list="1.6 1.7 1.8 1.9 1.10 1.11"
   # Extract the first word of "lcov", so it can be a program name with args.
 set dummy lcov; ac_word=$2
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
@@ -13122,6 +13126,43 @@ LCOV=$ac_cv_prog_LCOV
 if test -n "$LCOV"; then
   { $as_echo "$as_me:${as_lineno-$LINENO}: result: $LCOV" >&5
 $as_echo "$LCOV" >&6; }
+else
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+fi
+
+
+  # Extract the first word of "gcov", so it can be a program name with args.
+set dummy gcov; ac_word=$2
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
+$as_echo_n "checking for $ac_word... " >&6; }
+if ${ac_cv_prog_GCOV+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  if test -n "$GCOV"; then
+  ac_cv_prog_GCOV="$GCOV" # Let the user override the test.
+else
+as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $PATH
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+    for ac_exec_ext in '' $ac_executable_extensions; do
+  if as_fn_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
+    ac_cv_prog_GCOV="gcov"
+    $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
+  fi
+done
+  done
+IFS=$as_save_IFS
+
+fi
+fi
+GCOV=$ac_cv_prog_GCOV
+if test -n "$GCOV"; then
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $GCOV" >&5
+$as_echo "$GCOV" >&6; }
 else
   { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
 $as_echo "no" >&6; }
@@ -13166,36 +13207,9 @@ fi
 
 
 
-  if test "$LCOV"; then
-    { $as_echo "$as_me:${as_lineno-$LINENO}: checking for lcov version" >&5
-$as_echo_n "checking for lcov version... " >&6; }
-if ${glib_cv_lcov_version+:} false; then :
-  $as_echo_n "(cached) " >&6
-else
-
-      glib_cv_lcov_version=invalid
-      lcov_version=`$LCOV -v 2>/dev/null | $SED -e 's/^.* //'`
-      for lcov_check_version in $lcov_version_list; do
-        if test "$lcov_version" = "$lcov_check_version"; then
-          glib_cv_lcov_version="$lcov_check_version (ok)"
-        fi
-      done
-
-fi
-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $glib_cv_lcov_version" >&5
-$as_echo "$glib_cv_lcov_version" >&6; }
-  else
-    lcov_msg="To enable code coverage reporting you must have one of the following lcov versions installed: $lcov_version_list"
-    as_fn_error $? "$lcov_msg" "$LINENO" 5
+  if test "x$GCOV" == "x"; then
+    as_fn_error $? "Could not find gcov" "$LINENO" 5
   fi
-
-  case $glib_cv_lcov_version in
-    ""|invalid)
-      lcov_msg="You must have one of the following versions of lcov: $lcov_version_list (found: $lcov_version)."
-      as_fn_error $? "$lcov_msg" "$LINENO" 5
-      LCOV="exit 0;"
-      ;;
-  esac
 
   if test -z "$GENHTML"; then
     as_fn_error $? "Could not find genhtml from the lcov package" "$LINENO" 5
@@ -13209,7 +13223,7 @@ $as_echo "$glib_cv_lcov_version" >&6; }
   # Add the special gcc flags
   COVERAGE_CFLAGS="--coverage"
   COVERAGE_CXXFLAGS="--coverage"
-  COVERAGE_LDFLAGS="-lgcov"
+  COVERAGE_LDFLAGS="-lgcov --coverage"
 
 fi
 

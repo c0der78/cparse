@@ -9,17 +9,17 @@ clean-gcda:
 	-find $(top_builddir) -name '*.gcda' -print | xargs rm
 
 .PHONY: coverage-html generate-coverage-html clean-coverage-html
-coverage-html: clean-gcda
+coverage: clean-gcda
 	-$(MAKE) $(AM_MAKEFLAGS) -k test
 	$(MAKE) $(AM_MAKEFLAGS) generate-coverage-html
 
 generate-coverage-html:
 	@echo Collecting coverage data
-	$(LCOV) --directory $(top_builddir) --capture --output-file coverage.info --no-checksum --compat-libtool --no-external
+	$(LCOV) --directory $(top_builddir) --capture --output-file coverage.info --no-checksum --compat-libtool --no-external --gcov-tool $(GCOV)
 	$(GENHTML) --output-directory coverage --title "Code Coverage" --legend --show-details coverage.info
 
 clean-coverage-html: clean-gcda
-	-$(LCOV) --directory $(top_builddir) -z
+	-$(LCOV) --directory $(top_builddir) -z --gcov-tool $(GCOV)
 	-rm -rf coverage.info
 
 clean-local: clean-coverage-html

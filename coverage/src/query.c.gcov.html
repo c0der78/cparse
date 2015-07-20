@@ -31,13 +31,13 @@
             <td class="headerValue">Code Coverage</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">99</td>
-            <td class="headerCovTableEntry">247</td>
-            <td class="headerCovTableEntryLo">40.1 %</td>
+            <td class="headerCovTableEntry">87</td>
+            <td class="headerCovTableEntry">214</td>
+            <td class="headerCovTableEntryLo">40.7 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2015-02-26 14:36:17</td>
+            <td class="headerValue">2015-07-19 20:06:56</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">13</td>
@@ -78,481 +78,491 @@
 <span class="lineNum">       8 </span>            : #include &quot;private.h&quot;
 <span class="lineNum">       9 </span>            : 
 <span class="lineNum">      10 </span>            : 
-<span class="lineNum">      11 </span>            : #define CPARSE_QUERY_LESS_THAN &quot;$lt&quot;
+<span class="lineNum">      11 </span>            : #define CPARSE_QUERY_LESS_THAN  &quot;$lt&quot;
 <span class="lineNum">      12 </span>            : #define CPARSE_QUERY_LESS_THAN_EQUAL &quot;$lte&quot;
 <span class="lineNum">      13 </span>            : #define CPARSE_QUERY_GREATER_THAN &quot;$gt&quot;
 <span class="lineNum">      14 </span>            : #define CPARSE_QUERY_GREATER_THAN_EQUAL &quot;$gte&quot;
-<span class="lineNum">      15 </span>            : #define CPARSE_QUERY_NOT_EQUAL &quot;$ne&quot;
-<span class="lineNum">      16 </span>            : #define CPARSE_QUERY_IN &quot;$in&quot;
-<span class="lineNum">      17 </span>            : #define CPARSE_QUERY_NOT_IN &quot;$nin&quot;
-<span class="lineNum">      18 </span>            : #define CPARSE_QUERY_EXISTS &quot;$exists&quot;
-<span class="lineNum">      19 </span>            : #define CPARSE_QUERY_SELECT &quot;$select&quot;
+<span class="lineNum">      15 </span>            : #define CPARSE_QUERY_NOT_EQUAL  &quot;$ne&quot;
+<span class="lineNum">      16 </span>            : #define CPARSE_QUERY_IN         &quot;$in&quot;
+<span class="lineNum">      17 </span>            : #define CPARSE_QUERY_NOT_IN     &quot;$nin&quot;
+<span class="lineNum">      18 </span>            : #define CPARSE_QUERY_EXISTS     &quot;$exists&quot;
+<span class="lineNum">      19 </span>            : #define CPARSE_QUERY_SELECT     &quot;$select&quot;
 <span class="lineNum">      20 </span>            : #define CPARSE_QUERY_DONT_SELECT &quot;$dontSelect&quot;
-<span class="lineNum">      21 </span>            : #define CPARSE_QUERY_ALL &quot;$all&quot;
+<span class="lineNum">      21 </span>            : #define CPARSE_QUERY_ALL        &quot;$all&quot;
 <span class="lineNum">      22 </span>            : 
-<span class="lineNum">      23 </span>            : #define CPARSE_ARRAY_KEY &quot;arrayKey&quot;
-<a name="24"><span class="lineNum">      24 </span>            : </a>
-<span class="lineNum">      25 </span>            : 
-<span class="lineNum">      26 </span>            : void cparse_query_clear_all_caches()
-<span class="lineNum">      27 </span>            : {
-<span class="lineNum">      28 </span>            : 
-<a name="29"><span class="lineNum">      29 </span><span class="lineNoCov">          0 : }</span></a>
-<span class="lineNum">      30 </span>            : 
-<span class="lineNum">      31 </span>            : cParseQuery *cparse_query_new()
-<span class="lineNum">      32 </span>            : {
-<span class="lineNum">      33 </span><span class="lineCov">          4 :     cParseQuery *query = malloc(sizeof(cParseQuery));</span>
-<span class="lineNum">      34 </span>            : 
-<span class="lineNum">      35 </span><span class="lineCov">          2 :     query-&gt;className = NULL;</span>
-<span class="lineNum">      36 </span><span class="lineCov">          2 :     query-&gt;limit = 0;</span>
-<span class="lineNum">      37 </span><span class="lineCov">          2 :     query-&gt;skip = 0;</span>
-<span class="lineNum">      38 </span><span class="lineCov">          2 :     query-&gt;trace = false;</span>
-<span class="lineNum">      39 </span><span class="lineCov">          2 :     query-&gt;where = NULL;</span>
-<span class="lineNum">      40 </span><span class="lineCov">          2 :     query-&gt;results = NULL;</span>
-<span class="lineNum">      41 </span><span class="lineCov">          2 :     query-&gt;keys = NULL;</span>
-<span class="lineNum">      42 </span><span class="lineCov">          2 :     query-&gt;count = false;</span>
-<span class="lineNum">      43 </span><span class="lineCov">          2 :     query-&gt;size = 0;</span>
-<span class="lineNum">      44 </span>            : 
-<span class="lineNum">      45 </span><span class="lineCov">          2 :     return query;</span>
-<a name="46"><span class="lineNum">      46 </span>            : }</a>
-<span class="lineNum">      47 </span>            : 
-<span class="lineNum">      48 </span><span class="lineCov">          2 : void cparse_query_free(cParseQuery *query)</span>
-<span class="lineNum">      49 </span>            : {
-<span class="lineNum">      50 </span><span class="lineCov">          2 :     if (query-&gt;className)</span>
-<span class="lineNum">      51 </span>            :     {
-<span class="lineNum">      52 </span><span class="lineCov">          2 :         free(query-&gt;className);</span>
-<span class="lineNum">      53 </span><span class="lineCov">          2 :     }</span>
+<span class="lineNum">      23 </span>            : #define CPARSE_QUERY_WHERE      &quot;where&quot;
+<span class="lineNum">      24 </span>            : #define CPARSE_QUERY_SKIP       &quot;skip&quot;
+<span class="lineNum">      25 </span>            : #define CPARSE_QUERY_LIMIT      &quot;limit&quot;
+<span class="lineNum">      26 </span>            : #define CPARSE_QUERY_KEYS       &quot;keys&quot;
+<span class="lineNum">      27 </span>            : #define CPARSE_QUERY_COUNT      &quot;count&quot;
+<span class="lineNum">      28 </span>            : #define CPARSE_QUERY_RESULTS    &quot;results&quot;
+<span class="lineNum">      29 </span>            : 
+<span class="lineNum">      30 </span>            : #define CPARSE_ARRAY_KEY        &quot;arrayKey&quot;
+<a name="31"><span class="lineNum">      31 </span>            : </a>
+<span class="lineNum">      32 </span>            : 
+<span class="lineNum">      33 </span>            : void cparse_query_clear_all_caches()
+<span class="lineNum">      34 </span>            : {
+<span class="lineNum">      35 </span>            : 
+<a name="36"><span class="lineNum">      36 </span><span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">      37 </span>            : 
+<span class="lineNum">      38 </span>            : cParseQuery *cparse_query_new()
+<span class="lineNum">      39 </span>            : {
+<span class="lineNum">      40 </span><span class="lineCov">          2 :     cParseQuery *query = malloc(sizeof(cParseQuery));</span>
+<span class="lineNum">      41 </span>            : 
+<span class="lineNum">      42 </span><span class="lineCov">          2 :     query-&gt;className = NULL;</span>
+<span class="lineNum">      43 </span><span class="lineCov">          2 :     query-&gt;limit = 0;</span>
+<span class="lineNum">      44 </span><span class="lineCov">          2 :     query-&gt;skip = 0;</span>
+<span class="lineNum">      45 </span><span class="lineCov">          2 :     query-&gt;trace = false;</span>
+<span class="lineNum">      46 </span><span class="lineCov">          2 :     query-&gt;where = NULL;</span>
+<span class="lineNum">      47 </span><span class="lineCov">          2 :     query-&gt;results = NULL;</span>
+<span class="lineNum">      48 </span><span class="lineCov">          2 :     query-&gt;keys = NULL;</span>
+<span class="lineNum">      49 </span><span class="lineCov">          2 :     query-&gt;count = false;</span>
+<span class="lineNum">      50 </span><span class="lineCov">          2 :     query-&gt;size = 0;</span>
+<span class="lineNum">      51 </span>            : 
+<span class="lineNum">      52 </span><span class="lineCov">          2 :     return query;</span>
+<a name="53"><span class="lineNum">      53 </span>            : }</a>
 <span class="lineNum">      54 </span>            : 
-<span class="lineNum">      55 </span><span class="lineCov">          2 :     if (query-&gt;keys)</span>
-<span class="lineNum">      56 </span>            :     {
-<span class="lineNum">      57 </span><span class="lineNoCov">          0 :         free(query-&gt;keys);</span>
-<span class="lineNum">      58 </span><span class="lineNoCov">          0 :     }</span>
-<span class="lineNum">      59 </span>            : 
-<span class="lineNum">      60 </span><span class="lineCov">          2 :     if (query-&gt;results)</span>
-<span class="lineNum">      61 </span>            :     {
-<span class="lineNum">      62 </span>            :         /* note: don't delete the objects, just the array */
-<span class="lineNum">      63 </span><span class="lineCov">          2 :         free(query-&gt;results);</span>
-<span class="lineNum">      64 </span><span class="lineCov">          2 :     }</span>
-<span class="lineNum">      65 </span>            : 
-<span class="lineNum">      66 </span><span class="lineCov">          2 :     if (query-&gt;where)</span>
-<span class="lineNum">      67 </span>            :     {
-<span class="lineNum">      68 </span><span class="lineCov">          2 :         cparse_json_free(query-&gt;where);</span>
-<span class="lineNum">      69 </span><span class="lineCov">          2 :     }</span>
-<span class="lineNum">      70 </span>            : 
-<span class="lineNum">      71 </span><span class="lineCov">          2 :     free(query);</span>
-<a name="72"><span class="lineNum">      72 </span><span class="lineCov">          2 : }</span></a>
-<span class="lineNum">      73 </span>            : 
-<span class="lineNum">      74 </span><span class="lineCov">          2 : void cparse_query_free_results(cParseQuery *query)</span>
-<span class="lineNum">      75 </span>            : {
-<span class="lineNum">      76 </span><span class="lineCov">          2 :     size_t i;</span>
+<span class="lineNum">      55 </span>            : void cparse_query_free(cParseQuery *query)
+<span class="lineNum">      56 </span>            : {
+<span class="lineNum">      57 </span><span class="lineCov">          2 :     if (query-&gt;className)</span>
+<span class="lineNum">      58 </span>            :     {
+<span class="lineNum">      59 </span><span class="lineCov">          2 :         free(query-&gt;className);</span>
+<span class="lineNum">      60 </span><span class="lineCov">          2 :     }</span>
+<span class="lineNum">      61 </span>            : 
+<span class="lineNum">      62 </span><span class="lineCov">          2 :     if (query-&gt;keys)</span>
+<span class="lineNum">      63 </span>            :     {
+<span class="lineNum">      64 </span><span class="lineNoCov">          0 :         free(query-&gt;keys);</span>
+<span class="lineNum">      65 </span><span class="lineNoCov">          0 :     }</span>
+<span class="lineNum">      66 </span>            : 
+<span class="lineNum">      67 </span><span class="lineCov">          2 :     if (query-&gt;results)</span>
+<span class="lineNum">      68 </span>            :     {
+<span class="lineNum">      69 </span>            :         /* note: don't delete the objects, just the array */
+<span class="lineNum">      70 </span><span class="lineCov">          2 :         free(query-&gt;results);</span>
+<span class="lineNum">      71 </span><span class="lineCov">          2 :     }</span>
+<span class="lineNum">      72 </span>            : 
+<span class="lineNum">      73 </span><span class="lineCov">          2 :     if (query-&gt;where)</span>
+<span class="lineNum">      74 </span>            :     {
+<span class="lineNum">      75 </span><span class="lineCov">          2 :         cparse_json_free(query-&gt;where);</span>
+<span class="lineNum">      76 </span><span class="lineCov">          2 :     }</span>
 <span class="lineNum">      77 </span>            : 
-<span class="lineNum">      78 </span><span class="lineCov">         21 :     for (i = 0; query &amp;&amp; i &lt; query-&gt;size; i++)</span>
-<span class="lineNum">      79 </span>            :     {
-<span class="lineNum">      80 </span><span class="lineCov">          5 :         cparse_object_free(query-&gt;results[i]);</span>
-<span class="lineNum">      81 </span><span class="lineCov">          5 :         query-&gt;results[i] = NULL;</span>
-<span class="lineNum">      82 </span><span class="lineCov">          5 :     }</span>
-<a name="83"><span class="lineNum">      83 </span><span class="lineCov">          2 : }</span></a>
+<span class="lineNum">      78 </span><span class="lineCov">          2 :     free(query);</span>
+<a name="79"><span class="lineNum">      79 </span><span class="lineCov">          2 : }</span></a>
+<span class="lineNum">      80 </span>            : 
+<span class="lineNum">      81 </span>            : void cparse_query_free_results(cParseQuery *query)
+<span class="lineNum">      82 </span>            : {
+<span class="lineNum">      83 </span><span class="lineCov">          2 :     size_t i = 0;</span>
 <span class="lineNum">      84 </span>            : 
-<span class="lineNum">      85 </span><span class="lineCov">          2 : cParseQuery *cparse_query_with_class_name(const char *className)</span>
-<span class="lineNum">      86 </span>            : {
-<span class="lineNum">      87 </span><span class="lineCov">          2 :     char buf[BUFSIZ + 1] = {0};</span>
-<span class="lineNum">      88 </span><span class="lineCov">          2 :     cParseQuery *query = cparse_query_new();</span>
-<span class="lineNum">      89 </span>            : 
-<span class="lineNum">      90 </span><span class="lineCov">          2 :     snprintf(buf, BUFSIZ, &quot;%s%s&quot;, OBJECTS_PATH, className);</span>
+<span class="lineNum">      85 </span><span class="lineCov">         28 :     for (i = 0; query &amp;&amp; i &lt; query-&gt;size; i++)</span>
+<span class="lineNum">      86 </span>            :     {
+<span class="lineNum">      87 </span><span class="lineCov">          5 :         cparse_object_free(query-&gt;results[i]);</span>
+<span class="lineNum">      88 </span><span class="lineCov">          5 :         query-&gt;results[i] = NULL;</span>
+<span class="lineNum">      89 </span><span class="lineCov">          5 :     }</span>
+<a name="90"><span class="lineNum">      90 </span><span class="lineCov">          2 : }</span></a>
 <span class="lineNum">      91 </span>            : 
-<span class="lineNum">      92 </span><span class="lineCov">          2 :     query-&gt;className = strdup(buf);</span>
-<span class="lineNum">      93 </span>            : 
-<span class="lineNum">      94 </span><span class="lineCov">          2 :     return query;</span>
-<span class="lineNum">      95 </span>            : }
+<span class="lineNum">      92 </span>            : cParseQuery *cparse_query_with_class_name(const char *className)
+<span class="lineNum">      93 </span>            : {
+<span class="lineNum">      94 </span><span class="lineCov">          2 :     char buf[CPARSE_BUF_SIZE + 1] = {0};</span>
+<span class="lineNum">      95 </span><span class="lineCov">          2 :     cParseQuery *query = cparse_query_new();</span>
 <span class="lineNum">      96 </span>            : 
-<a name="97"><span class="lineNum">      97 </span>            : /* getters/setters */</a>
+<span class="lineNum">      97 </span><span class="lineCov">          2 :     snprintf(buf, CPARSE_BUF_SIZE, &quot;%s%s&quot;, CPARSE_OBJECTS_PATH, className);</span>
 <span class="lineNum">      98 </span>            : 
-<span class="lineNum">      99 </span><span class="lineCov">          2 : size_t cparse_query_size(cParseQuery *query)</span>
-<span class="lineNum">     100 </span>            : {
-<span class="lineNum">     101 </span><span class="lineCov">          2 :     return query-&gt;size;</span>
-<a name="102"><span class="lineNum">     102 </span>            : }</a>
+<span class="lineNum">      99 </span><span class="lineCov">          2 :     query-&gt;className = strdup(buf);</span>
+<span class="lineNum">     100 </span>            : 
+<span class="lineNum">     101 </span><span class="lineCov">          2 :     return query;</span>
+<span class="lineNum">     102 </span>            : }
 <span class="lineNum">     103 </span>            : 
-<span class="lineNum">     104 </span><span class="lineCov">          2 : cParseObject *cparse_query_result(cParseQuery *query, size_t index)</span>
-<span class="lineNum">     105 </span>            : {
-<span class="lineNum">     106 </span><span class="lineCov">          6 :     if (!query || !query-&gt;results || index &gt; query-&gt;size)</span>
-<span class="lineNum">     107 </span><span class="lineNoCov">          0 :         return NULL;</span>
-<span class="lineNum">     108 </span>            : 
-<span class="lineNum">     109 </span><span class="lineCov">          2 :     return query-&gt;results[index];</span>
-<a name="110"><span class="lineNum">     110 </span><span class="lineCov">          2 : }</span></a>
-<span class="lineNum">     111 </span>            : 
-<span class="lineNum">     112 </span><span class="lineCov">          2 : bool cparse_query_find_objects(cParseQuery *query, cParseError **error)</span>
-<span class="lineNum">     113 </span>            : {
-<span class="lineNum">     114 </span><span class="lineCov">          2 :     cParseRequest *request;</span>
-<span class="lineNum">     115 </span><span class="lineCov">          2 :     cParseJson *data;</span>
-<span class="lineNum">     116 </span><span class="lineCov">          2 :     char buf[BUFSIZ + 1];</span>
-<span class="lineNum">     117 </span>            : 
-<span class="lineNum">     118 </span>            :     /* build the request */
+<a name="104"><span class="lineNum">     104 </span>            : /* getters/setters */</a>
+<span class="lineNum">     105 </span>            : 
+<span class="lineNum">     106 </span>            : size_t cparse_query_size(cParseQuery *query)
+<span class="lineNum">     107 </span>            : {
+<span class="lineNum">     108 </span><span class="lineCov">          2 :     return query-&gt;size;</span>
+<a name="109"><span class="lineNum">     109 </span>            : }</a>
+<span class="lineNum">     110 </span>            : 
+<span class="lineNum">     111 </span>            : cParseObject *cparse_query_result(cParseQuery *query, size_t index)
+<span class="lineNum">     112 </span>            : {
+<span class="lineNum">     113 </span><span class="lineCov">          6 :     if (!query || !query-&gt;results || index &gt; query-&gt;size) {</span>
+<span class="lineNum">     114 </span><span class="lineNoCov">          0 :         return NULL;</span>
+<span class="lineNum">     115 </span>            :     }
+<span class="lineNum">     116 </span>            : 
+<span class="lineNum">     117 </span><span class="lineCov">          2 :     return query-&gt;results[index];</span>
+<a name="118"><span class="lineNum">     118 </span><span class="lineCov">          2 : }</span></a>
 <span class="lineNum">     119 </span>            : 
-<span class="lineNum">     120 </span><span class="lineCov">          2 :     request = cparse_client_request_with_method_and_path(HttpRequestMethodGet, query-&gt;className);</span>
-<span class="lineNum">     121 </span>            : 
-<span class="lineNum">     122 </span><span class="lineCov">          2 :     if (query-&gt;where)</span>
-<span class="lineNum">     123 </span>            :     {
-<span class="lineNum">     124 </span><span class="lineCov">          2 :         cparse_client_request_add_data(request, &quot;where&quot;, cparse_json_to_json_string(query-&gt;where));</span>
-<span class="lineNum">     125 </span><span class="lineCov">          2 :     }</span>
-<span class="lineNum">     126 </span>            : 
-<span class="lineNum">     127 </span><span class="lineCov">          2 :     if (query-&gt;limit &gt; 0)</span>
-<span class="lineNum">     128 </span>            :     {
-<span class="lineNum">     129 </span><span class="lineNoCov">          0 :         snprintf(buf, BUFSIZ, &quot;%d&quot;, query-&gt;limit);</span>
-<span class="lineNum">     130 </span><span class="lineNoCov">          0 :         cparse_client_request_add_data(request, &quot;limit&quot;, buf);</span>
-<span class="lineNum">     131 </span><span class="lineNoCov">          0 :     }</span>
-<span class="lineNum">     132 </span>            : 
-<span class="lineNum">     133 </span><span class="lineCov">          2 :     if (query-&gt;skip &gt; 0)</span>
-<span class="lineNum">     134 </span>            :     {
-<span class="lineNum">     135 </span><span class="lineNoCov">          0 :         snprintf(buf, BUFSIZ, &quot;%d&quot;, query-&gt;skip);</span>
-<span class="lineNum">     136 </span><span class="lineNoCov">          0 :         cparse_client_request_add_data(request, &quot;skip&quot;, buf);</span>
-<span class="lineNum">     137 </span><span class="lineNoCov">          0 :     }</span>
-<span class="lineNum">     138 </span>            : 
-<span class="lineNum">     139 </span><span class="lineCov">          2 :     if (query-&gt;keys)</span>
-<span class="lineNum">     140 </span>            :     {
-<span class="lineNum">     141 </span><span class="lineNoCov">          0 :         cparse_client_request_add_data(request, &quot;keys&quot;, query-&gt;keys);</span>
-<span class="lineNum">     142 </span><span class="lineNoCov">          0 :     }</span>
-<span class="lineNum">     143 </span>            : 
-<span class="lineNum">     144 </span><span class="lineCov">          2 :     if (query-&gt;count)</span>
-<span class="lineNum">     145 </span>            :     {
-<span class="lineNum">     146 </span><span class="lineNoCov">          0 :         snprintf(buf, BUFSIZ, &quot;%d&quot;, query-&gt;count);</span>
-<span class="lineNum">     147 </span><span class="lineNoCov">          0 :         cparse_client_request_add_data(request, &quot;count&quot;, buf);</span>
-<span class="lineNum">     148 </span><span class="lineNoCov">          0 :     }</span>
-<span class="lineNum">     149 </span>            : 
-<span class="lineNum">     150 </span>            :     /* do the deed */
-<span class="lineNum">     151 </span><span class="lineCov">          2 :     data = cparse_client_request_get_json(request, error);</span>
-<span class="lineNum">     152 </span>            : 
-<span class="lineNum">     153 </span><span class="lineCov">          2 :     cparse_client_request_free(request);</span>
-<span class="lineNum">     154 </span>            : 
-<span class="lineNum">     155 </span><span class="lineCov">          2 :     if (data == NULL)</span>
-<span class="lineNum">     156 </span>            :     {
-<span class="lineNum">     157 </span><span class="lineNoCov">          0 :         return false;</span>
-<span class="lineNum">     158 </span>            :     }
-<span class="lineNum">     159 </span>            : 
-<span class="lineNum">     160 </span><span class="lineCov">          2 :     if (query-&gt;count)</span>
-<span class="lineNum">     161 </span>            :     {
-<span class="lineNum">     162 </span><span class="lineNoCov">          0 :         query-&gt;size = cparse_json_get_number(data, &quot;count&quot;, 0);</span>
-<span class="lineNum">     163 </span><span class="lineNoCov">          0 :     }</span>
-<span class="lineNum">     164 </span>            :     else
-<span class="lineNum">     165 </span>            :     {
-<span class="lineNum">     166 </span><span class="lineCov">          2 :         cParseJson *results = cparse_json_get(data, &quot;results&quot;);</span>
+<span class="lineNum">     120 </span>            : bool cparse_query_find_objects(cParseQuery *query, cParseError **error)
+<span class="lineNum">     121 </span>            : {
+<span class="lineNum">     122 </span><span class="lineCov">          2 :     cParseRequest *request = NULL;</span>
+<span class="lineNum">     123 </span><span class="lineCov">          2 :     cParseJson *data = NULL;</span>
+<span class="lineNum">     124 </span><span class="lineCov">          2 :     char buf[CPARSE_BUF_SIZE + 1] = {0};</span>
+<span class="lineNum">     125 </span>            : 
+<span class="lineNum">     126 </span>            :     /* build the request */
+<span class="lineNum">     127 </span>            : 
+<span class="lineNum">     128 </span><span class="lineCov">          2 :     request = cparse_client_request_with_method_and_path(cParseHttpRequestMethodGet, query-&gt;className);</span>
+<span class="lineNum">     129 </span>            : 
+<span class="lineNum">     130 </span><span class="lineCov">          2 :     if (query-&gt;where)</span>
+<span class="lineNum">     131 </span>            :     {
+<span class="lineNum">     132 </span><span class="lineCov">          2 :         cparse_client_request_add_data(request, CPARSE_QUERY_WHERE, cparse_json_to_json_string(query-&gt;where));</span>
+<span class="lineNum">     133 </span><span class="lineCov">          2 :     }</span>
+<span class="lineNum">     134 </span>            : 
+<span class="lineNum">     135 </span><span class="lineCov">          2 :     if (query-&gt;limit &gt; 0)</span>
+<span class="lineNum">     136 </span>            :     {
+<span class="lineNum">     137 </span><span class="lineNoCov">          0 :         snprintf(buf, CPARSE_BUF_SIZE, &quot;%d&quot;, query-&gt;limit);</span>
+<span class="lineNum">     138 </span><span class="lineNoCov">          0 :         cparse_client_request_add_data(request, CPARSE_QUERY_LIMIT, buf);</span>
+<span class="lineNum">     139 </span><span class="lineNoCov">          0 :     }</span>
+<span class="lineNum">     140 </span>            : 
+<span class="lineNum">     141 </span><span class="lineCov">          2 :     if (query-&gt;skip &gt; 0)</span>
+<span class="lineNum">     142 </span>            :     {
+<span class="lineNum">     143 </span><span class="lineNoCov">          0 :         snprintf(buf, CPARSE_BUF_SIZE, &quot;%d&quot;, query-&gt;skip);</span>
+<span class="lineNum">     144 </span><span class="lineNoCov">          0 :         cparse_client_request_add_data(request, CPARSE_QUERY_SKIP, buf);</span>
+<span class="lineNum">     145 </span><span class="lineNoCov">          0 :     }</span>
+<span class="lineNum">     146 </span>            : 
+<span class="lineNum">     147 </span><span class="lineCov">          2 :     if (query-&gt;keys)</span>
+<span class="lineNum">     148 </span>            :     {
+<span class="lineNum">     149 </span><span class="lineNoCov">          0 :         cparse_client_request_add_data(request, CPARSE_QUERY_KEYS, query-&gt;keys);</span>
+<span class="lineNum">     150 </span><span class="lineNoCov">          0 :     }</span>
+<span class="lineNum">     151 </span>            : 
+<span class="lineNum">     152 </span><span class="lineCov">          2 :     if (query-&gt;count)</span>
+<span class="lineNum">     153 </span>            :     {
+<span class="lineNum">     154 </span><span class="lineNoCov">          0 :         snprintf(buf, CPARSE_BUF_SIZE, &quot;%d&quot;, query-&gt;count);</span>
+<span class="lineNum">     155 </span><span class="lineNoCov">          0 :         cparse_client_request_add_data(request, CPARSE_QUERY_COUNT, buf);</span>
+<span class="lineNum">     156 </span><span class="lineNoCov">          0 :     }</span>
+<span class="lineNum">     157 </span>            : 
+<span class="lineNum">     158 </span>            :     /* do the deed */
+<span class="lineNum">     159 </span><span class="lineCov">          2 :     data = cparse_client_request_get_json(request, error);</span>
+<span class="lineNum">     160 </span>            : 
+<span class="lineNum">     161 </span><span class="lineCov">          2 :     cparse_client_request_free(request);</span>
+<span class="lineNum">     162 </span>            : 
+<span class="lineNum">     163 </span><span class="lineCov">          2 :     if (data == NULL)</span>
+<span class="lineNum">     164 </span>            :     {
+<span class="lineNum">     165 </span><span class="lineNoCov">          0 :         return false;</span>
+<span class="lineNum">     166 </span>            :     }
 <span class="lineNum">     167 </span>            : 
-<span class="lineNum">     168 </span><span class="lineCov">          2 :         query-&gt;size = cparse_json_array_size(results);</span>
-<span class="lineNum">     169 </span>            : 
-<span class="lineNum">     170 </span><span class="lineCov">          2 :         if (query-&gt;size &gt; 0)</span>
-<span class="lineNum">     171 </span>            :         {
-<span class="lineNum">     172 </span><span class="lineCov">          2 :             int i;</span>
-<span class="lineNum">     173 </span>            : 
-<span class="lineNum">     174 </span><span class="lineCov">          2 :             if (query-&gt;results)</span>
-<span class="lineNum">     175 </span>            :             {
-<span class="lineNum">     176 </span>            :                 /* fine, go ahead and cleanup */
-<span class="lineNum">     177 </span><span class="lineNoCov">          0 :                 free(query-&gt;results);</span>
-<span class="lineNum">     178 </span><span class="lineNoCov">          0 :             }</span>
-<span class="lineNum">     179 </span><span class="lineCov">          2 :             query-&gt;results = malloc(cparse_object_sizeof() * query-&gt;size);</span>
-<span class="lineNum">     180 </span>            : 
-<span class="lineNum">     181 </span><span class="lineCov">         14 :             for (i = 0; i &lt; query-&gt;size; i++)</span>
-<span class="lineNum">     182 </span>            :             {
-<span class="lineNum">     183 </span><span class="lineCov">          5 :                 query-&gt;results[i] = cparse_object_with_class_data(query-&gt;className, cparse_json_array_get(results, i));</span>
-<span class="lineNum">     184 </span><span class="lineCov">          5 :             }</span>
-<span class="lineNum">     185 </span><span class="lineCov">          2 :         }</span>
-<span class="lineNum">     186 </span>            :     }
-<span class="lineNum">     187 </span>            : 
-<span class="lineNum">     188 </span><span class="lineCov">          2 :     cparse_json_free(data);</span>
-<span class="lineNum">     189 </span>            : 
-<span class="lineNum">     190 </span><span class="lineCov">          2 :     return true;</span>
-<a name="191"><span class="lineNum">     191 </span><span class="lineCov">          2 : }</span></a>
-<span class="lineNum">     192 </span>            : 
-<span class="lineNum">     193 </span><span class="lineNoCov">          0 : void cparse_query_cancel(cParseQuery *query)</span>
-<span class="lineNum">     194 </span>            : {
+<span class="lineNum">     168 </span><span class="lineCov">          2 :     if (query-&gt;count)</span>
+<span class="lineNum">     169 </span>            :     {
+<span class="lineNum">     170 </span><span class="lineNoCov">          0 :         query-&gt;size = cparse_json_get_number(data, CPARSE_QUERY_COUNT, 0);</span>
+<span class="lineNum">     171 </span><span class="lineNoCov">          0 :     }</span>
+<span class="lineNum">     172 </span>            :     else
+<span class="lineNum">     173 </span>            :     {
+<span class="lineNum">     174 </span><span class="lineCov">          2 :         cParseJson *results = cparse_json_get(data, CPARSE_QUERY_RESULTS);</span>
+<span class="lineNum">     175 </span>            : 
+<span class="lineNum">     176 </span><span class="lineCov">          2 :         query-&gt;size = cparse_json_array_size(results);</span>
+<span class="lineNum">     177 </span>            : 
+<span class="lineNum">     178 </span><span class="lineCov">          2 :         if (query-&gt;size &gt; 0)</span>
+<span class="lineNum">     179 </span>            :         {
+<span class="lineNum">     180 </span>            :             int i;
+<span class="lineNum">     181 </span>            : 
+<span class="lineNum">     182 </span><span class="lineCov">          2 :             if (query-&gt;results)</span>
+<span class="lineNum">     183 </span>            :             {
+<span class="lineNum">     184 </span>            :                 /* fine, go ahead and cleanup */
+<span class="lineNum">     185 </span><span class="lineNoCov">          0 :                 free(query-&gt;results);</span>
+<span class="lineNum">     186 </span><span class="lineNoCov">          0 :             }</span>
+<span class="lineNum">     187 </span><span class="lineCov">          2 :             query-&gt;results = malloc(cparse_object_sizeof() * query-&gt;size);</span>
+<span class="lineNum">     188 </span>            : 
+<span class="lineNum">     189 </span><span class="lineCov">         14 :             for (i = 0; i &lt; query-&gt;size; i++)</span>
+<span class="lineNum">     190 </span>            :             {
+<span class="lineNum">     191 </span><span class="lineCov">          5 :                 query-&gt;results[i] = cparse_object_with_class_data(query-&gt;className, cparse_json_array_get(results, i));</span>
+<span class="lineNum">     192 </span><span class="lineCov">          5 :             }</span>
+<span class="lineNum">     193 </span><span class="lineCov">          2 :         }</span>
+<span class="lineNum">     194 </span>            :     }
 <span class="lineNum">     195 </span>            : 
-<a name="196"><span class="lineNum">     196 </span><span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">     196 </span><span class="lineCov">          2 :     cparse_json_free(data);</span>
 <span class="lineNum">     197 </span>            : 
-<span class="lineNum">     198 </span><span class="lineNoCov">          0 : int cparse_query_count_objects(cParseQuery *query, cParseError **error)</span>
-<span class="lineNum">     199 </span>            : {
-<span class="lineNum">     200 </span><span class="lineNoCov">          0 :     return 0;</span>
-<a name="201"><span class="lineNum">     201 </span>            : }</a>
-<span class="lineNum">     202 </span>            : 
-<span class="lineNum">     203 </span><span class="lineCov">          1 : void cparse_query_set_where(cParseQuery *query, cParseJson *value)</span>
-<span class="lineNum">     204 </span>            : {
-<span class="lineNum">     205 </span><span class="lineCov">          1 :     if (query-&gt;where)</span>
-<span class="lineNum">     206 </span><span class="lineNoCov">          0 :         cparse_json_free(query-&gt;where);</span>
-<span class="lineNum">     207 </span>            : 
-<span class="lineNum">     208 </span><span class="lineCov">          1 :     query-&gt;where = cparse_json_new_reference(value);</span>
-<a name="209"><span class="lineNum">     209 </span><span class="lineCov">          1 : }</span></a>
+<span class="lineNum">     198 </span><span class="lineCov">          2 :     return true;</span>
+<a name="199"><span class="lineNum">     199 </span><span class="lineCov">          2 : }</span></a>
+<span class="lineNum">     200 </span>            : 
+<span class="lineNum">     201 </span>            : void cparse_query_cancel(cParseQuery *query)
+<span class="lineNum">     202 </span>            : {
+<span class="lineNum">     203 </span>            : 
+<a name="204"><span class="lineNum">     204 </span><span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">     205 </span>            : 
+<span class="lineNum">     206 </span>            : int cparse_query_count_objects(cParseQuery *query, cParseError **error)
+<span class="lineNum">     207 </span>            : {
+<span class="lineNum">     208 </span><span class="lineNoCov">          0 :     return 0;</span>
+<a name="209"><span class="lineNum">     209 </span>            : }</a>
 <span class="lineNum">     210 </span>            : 
-<span class="lineNum">     211 </span><span class="lineCov">          1 : void cparse_query_build_where(cParseQuery *query, cParseQueryBuilder *builder)</span>
+<span class="lineNum">     211 </span>            : void cparse_query_set_where(cParseQuery *query, cParseJson *value)
 <span class="lineNum">     212 </span>            : {
-<span class="lineNum">     213 </span><span class="lineCov">          1 :     if (query-&gt;where)</span>
+<span class="lineNum">     213 </span><span class="lineCov">          1 :     if (query-&gt;where) {</span>
 <span class="lineNum">     214 </span><span class="lineNoCov">          0 :         cparse_json_free(query-&gt;where);</span>
-<span class="lineNum">     215 </span>            : 
-<span class="lineNum">     216 </span><span class="lineCov">          1 :     query-&gt;where = cparse_json_new_reference(builder-&gt;json);</span>
-<a name="217"><span class="lineNum">     217 </span><span class="lineCov">          1 : }</span></a>
-<span class="lineNum">     218 </span>            : 
-<span class="lineNum">     219 </span><span class="lineCov">          1 : void cparse_query_where_in(cParseQuery *query, const char *key, cParseJson *inArray)</span>
-<span class="lineNum">     220 </span>            : {
-<span class="lineNum">     221 </span><span class="lineCov">          1 :     cParseQueryBuilder *builder = cparse_query_build_new();</span>
-<span class="lineNum">     222 </span>            : 
-<span class="lineNum">     223 </span><span class="lineCov">          1 :     cparse_query_build_in(builder, key, inArray);</span>
-<span class="lineNum">     224 </span>            : 
-<span class="lineNum">     225 </span><span class="lineCov">          1 :     cparse_query_build_where(query, builder);</span>
-<span class="lineNum">     226 </span>            : 
-<span class="lineNum">     227 </span><span class="lineCov">          1 :     cparse_query_build_free(builder);</span>
-<a name="228"><span class="lineNum">     228 </span><span class="lineCov">          1 : }</span></a>
-<span class="lineNum">     229 </span>            : 
-<span class="lineNum">     230 </span><span class="lineNoCov">          0 : void cparse_query_where_lte(cParseQuery *query, const char *key, cParseJson *value)</span>
-<span class="lineNum">     231 </span>            : {
-<span class="lineNum">     232 </span><span class="lineNoCov">          0 :     cParseQueryBuilder *builder = cparse_query_build_new();</span>
-<span class="lineNum">     233 </span>            : 
-<span class="lineNum">     234 </span><span class="lineNoCov">          0 :     cparse_query_build_lte(builder, key, value);</span>
-<span class="lineNum">     235 </span>            : 
-<span class="lineNum">     236 </span><span class="lineNoCov">          0 :     cparse_query_build_where(query, builder);</span>
-<span class="lineNum">     237 </span>            : 
-<a name="238"><span class="lineNum">     238 </span><span class="lineNoCov">          0 :     cparse_query_build_free(builder);</span></a>
-<span class="lineNum">     239 </span><span class="lineNoCov">          0 : }</span>
-<span class="lineNum">     240 </span><span class="lineNoCov">          0 : void cparse_query_where_lt(cParseQuery *query, const char *key, cParseJson *value)</span>
+<span class="lineNum">     215 </span><span class="lineNoCov">          0 :     }</span>
+<span class="lineNum">     216 </span>            : 
+<span class="lineNum">     217 </span><span class="lineCov">          1 :     query-&gt;where = cparse_json_new_reference(value);</span>
+<a name="218"><span class="lineNum">     218 </span><span class="lineCov">          1 : }</span></a>
+<span class="lineNum">     219 </span>            : 
+<span class="lineNum">     220 </span>            : void cparse_query_build_where(cParseQuery *query, cParseQueryBuilder *builder)
+<span class="lineNum">     221 </span>            : {
+<span class="lineNum">     222 </span><span class="lineCov">          1 :     if (query-&gt;where) {</span>
+<span class="lineNum">     223 </span><span class="lineNoCov">          0 :         cparse_json_free(query-&gt;where);</span>
+<span class="lineNum">     224 </span><span class="lineNoCov">          0 :     }</span>
+<span class="lineNum">     225 </span>            : 
+<span class="lineNum">     226 </span><span class="lineCov">          1 :     query-&gt;where = cparse_json_new_reference(builder-&gt;json);</span>
+<a name="227"><span class="lineNum">     227 </span><span class="lineCov">          1 : }</span></a>
+<span class="lineNum">     228 </span>            : 
+<span class="lineNum">     229 </span>            : void cparse_query_where_in(cParseQuery *query, const char *key, cParseJson *inArray)
+<span class="lineNum">     230 </span>            : {
+<span class="lineNum">     231 </span><span class="lineCov">          1 :     cParseQueryBuilder *builder = cparse_query_build_new();</span>
+<span class="lineNum">     232 </span>            : 
+<span class="lineNum">     233 </span><span class="lineCov">          1 :     cparse_query_build_in(builder, key, inArray);</span>
+<span class="lineNum">     234 </span>            : 
+<span class="lineNum">     235 </span><span class="lineCov">          1 :     cparse_query_build_where(query, builder);</span>
+<span class="lineNum">     236 </span>            : 
+<span class="lineNum">     237 </span><span class="lineCov">          1 :     cparse_query_build_free(builder);</span>
+<a name="238"><span class="lineNum">     238 </span><span class="lineCov">          1 : }</span></a>
+<span class="lineNum">     239 </span>            : 
+<span class="lineNum">     240 </span>            : void cparse_query_where_lte(cParseQuery *query, const char *key, cParseJson *value)
 <span class="lineNum">     241 </span>            : {
 <span class="lineNum">     242 </span><span class="lineNoCov">          0 :     cParseQueryBuilder *builder = cparse_query_build_new();</span>
 <span class="lineNum">     243 </span>            : 
-<span class="lineNum">     244 </span><span class="lineNoCov">          0 :     cparse_query_build_lt(builder, key, value);</span>
+<span class="lineNum">     244 </span><span class="lineNoCov">          0 :     cparse_query_build_lte(builder, key, value);</span>
 <span class="lineNum">     245 </span>            : 
 <span class="lineNum">     246 </span><span class="lineNoCov">          0 :     cparse_query_build_where(query, builder);</span>
 <span class="lineNum">     247 </span>            : 
 <a name="248"><span class="lineNum">     248 </span><span class="lineNoCov">          0 :     cparse_query_build_free(builder);</span></a>
 <span class="lineNum">     249 </span><span class="lineNoCov">          0 : }</span>
-<span class="lineNum">     250 </span><span class="lineNoCov">          0 : void cparse_query_where_gte(cParseQuery *query, const char *key, cParseJson *value)</span>
+<span class="lineNum">     250 </span>            : void cparse_query_where_lt(cParseQuery *query, const char *key, cParseJson *value)
 <span class="lineNum">     251 </span>            : {
 <span class="lineNum">     252 </span><span class="lineNoCov">          0 :     cParseQueryBuilder *builder = cparse_query_build_new();</span>
 <span class="lineNum">     253 </span>            : 
-<span class="lineNum">     254 </span><span class="lineNoCov">          0 :     cparse_query_build_gte(builder, key, value);</span>
+<span class="lineNum">     254 </span><span class="lineNoCov">          0 :     cparse_query_build_lt(builder, key, value);</span>
 <span class="lineNum">     255 </span>            : 
 <span class="lineNum">     256 </span><span class="lineNoCov">          0 :     cparse_query_build_where(query, builder);</span>
 <span class="lineNum">     257 </span>            : 
 <a name="258"><span class="lineNum">     258 </span><span class="lineNoCov">          0 :     cparse_query_build_free(builder);</span></a>
 <span class="lineNum">     259 </span><span class="lineNoCov">          0 : }</span>
-<span class="lineNum">     260 </span><span class="lineNoCov">          0 : void cparse_query_where_gt(cParseQuery *query, const char *key, cParseJson *value)</span>
+<span class="lineNum">     260 </span>            : void cparse_query_where_gte(cParseQuery *query, const char *key, cParseJson *value)
 <span class="lineNum">     261 </span>            : {
 <span class="lineNum">     262 </span><span class="lineNoCov">          0 :     cParseQueryBuilder *builder = cparse_query_build_new();</span>
 <span class="lineNum">     263 </span>            : 
-<span class="lineNum">     264 </span><span class="lineNoCov">          0 :     cparse_query_build_gt(builder, key, value);</span>
+<span class="lineNum">     264 </span><span class="lineNoCov">          0 :     cparse_query_build_gte(builder, key, value);</span>
 <span class="lineNum">     265 </span>            : 
 <span class="lineNum">     266 </span><span class="lineNoCov">          0 :     cparse_query_build_where(query, builder);</span>
 <span class="lineNum">     267 </span>            : 
 <a name="268"><span class="lineNum">     268 </span><span class="lineNoCov">          0 :     cparse_query_build_free(builder);</span></a>
 <span class="lineNum">     269 </span><span class="lineNoCov">          0 : }</span>
-<span class="lineNum">     270 </span><span class="lineNoCov">          0 : void cparse_query_where_ne(cParseQuery *query, const char *key, cParseJson *value)</span>
+<span class="lineNum">     270 </span>            : void cparse_query_where_gt(cParseQuery *query, const char *key, cParseJson *value)
 <span class="lineNum">     271 </span>            : {
 <span class="lineNum">     272 </span><span class="lineNoCov">          0 :     cParseQueryBuilder *builder = cparse_query_build_new();</span>
 <span class="lineNum">     273 </span>            : 
-<span class="lineNum">     274 </span><span class="lineNoCov">          0 :     cparse_query_build_ne(builder, key, value);</span>
+<span class="lineNum">     274 </span><span class="lineNoCov">          0 :     cparse_query_build_gt(builder, key, value);</span>
 <span class="lineNum">     275 </span>            : 
 <span class="lineNum">     276 </span><span class="lineNoCov">          0 :     cparse_query_build_where(query, builder);</span>
 <span class="lineNum">     277 </span>            : 
 <a name="278"><span class="lineNum">     278 </span><span class="lineNoCov">          0 :     cparse_query_build_free(builder);</span></a>
 <span class="lineNum">     279 </span><span class="lineNoCov">          0 : }</span>
-<span class="lineNum">     280 </span><span class="lineNoCov">          0 : void cparse_query_where_nin(cParseQuery *query, const char *key, cParseJson *inArray)</span>
+<span class="lineNum">     280 </span>            : void cparse_query_where_ne(cParseQuery *query, const char *key, cParseJson *value)
 <span class="lineNum">     281 </span>            : {
 <span class="lineNum">     282 </span><span class="lineNoCov">          0 :     cParseQueryBuilder *builder = cparse_query_build_new();</span>
 <span class="lineNum">     283 </span>            : 
-<span class="lineNum">     284 </span><span class="lineNoCov">          0 :     cparse_query_build_nin(builder, key, inArray);</span>
+<span class="lineNum">     284 </span><span class="lineNoCov">          0 :     cparse_query_build_ne(builder, key, value);</span>
 <span class="lineNum">     285 </span>            : 
 <span class="lineNum">     286 </span><span class="lineNoCov">          0 :     cparse_query_build_where(query, builder);</span>
 <span class="lineNum">     287 </span>            : 
 <a name="288"><span class="lineNum">     288 </span><span class="lineNoCov">          0 :     cparse_query_build_free(builder);</span></a>
 <span class="lineNum">     289 </span><span class="lineNoCov">          0 : }</span>
-<span class="lineNum">     290 </span><span class="lineNoCov">          0 : void cparse_query_where_exists(cParseQuery *query, const char *key, cParseJson *value)</span>
+<span class="lineNum">     290 </span>            : void cparse_query_where_nin(cParseQuery *query, const char *key, cParseJson *inArray)
 <span class="lineNum">     291 </span>            : {
 <span class="lineNum">     292 </span><span class="lineNoCov">          0 :     cParseQueryBuilder *builder = cparse_query_build_new();</span>
 <span class="lineNum">     293 </span>            : 
-<span class="lineNum">     294 </span><span class="lineNoCov">          0 :     cparse_query_build_exists(builder, key, value);</span>
+<span class="lineNum">     294 </span><span class="lineNoCov">          0 :     cparse_query_build_nin(builder, key, inArray);</span>
 <span class="lineNum">     295 </span>            : 
 <span class="lineNum">     296 </span><span class="lineNoCov">          0 :     cparse_query_build_where(query, builder);</span>
 <span class="lineNum">     297 </span>            : 
 <a name="298"><span class="lineNum">     298 </span><span class="lineNoCov">          0 :     cparse_query_build_free(builder);</span></a>
 <span class="lineNum">     299 </span><span class="lineNoCov">          0 : }</span>
-<span class="lineNum">     300 </span><span class="lineNoCov">          0 : void cparse_query_where_select(cParseQuery *query, const char *key, cParseJson *value)</span>
+<span class="lineNum">     300 </span>            : void cparse_query_where_exists(cParseQuery *query, const char *key, cParseJson *value)
 <span class="lineNum">     301 </span>            : {
 <span class="lineNum">     302 </span><span class="lineNoCov">          0 :     cParseQueryBuilder *builder = cparse_query_build_new();</span>
 <span class="lineNum">     303 </span>            : 
-<span class="lineNum">     304 </span><span class="lineNoCov">          0 :     cparse_query_build_select(builder, key, value);</span>
+<span class="lineNum">     304 </span><span class="lineNoCov">          0 :     cparse_query_build_exists(builder, key, value);</span>
 <span class="lineNum">     305 </span>            : 
 <span class="lineNum">     306 </span><span class="lineNoCov">          0 :     cparse_query_build_where(query, builder);</span>
 <span class="lineNum">     307 </span>            : 
 <a name="308"><span class="lineNum">     308 </span><span class="lineNoCov">          0 :     cparse_query_build_free(builder);</span></a>
 <span class="lineNum">     309 </span><span class="lineNoCov">          0 : }</span>
-<span class="lineNum">     310 </span><span class="lineNoCov">          0 : void cparse_query_where_nselect(cParseQuery *query, const char *key, cParseJson *value)</span>
+<span class="lineNum">     310 </span>            : void cparse_query_where_select(cParseQuery *query, const char *key, cParseJson *value)
 <span class="lineNum">     311 </span>            : {
 <span class="lineNum">     312 </span><span class="lineNoCov">          0 :     cParseQueryBuilder *builder = cparse_query_build_new();</span>
 <span class="lineNum">     313 </span>            : 
-<span class="lineNum">     314 </span><span class="lineNoCov">          0 :     cparse_query_build_nselect(builder, key, value);</span>
+<span class="lineNum">     314 </span><span class="lineNoCov">          0 :     cparse_query_build_select(builder, key, value);</span>
 <span class="lineNum">     315 </span>            : 
 <span class="lineNum">     316 </span><span class="lineNoCov">          0 :     cparse_query_build_where(query, builder);</span>
 <span class="lineNum">     317 </span>            : 
 <a name="318"><span class="lineNum">     318 </span><span class="lineNoCov">          0 :     cparse_query_build_free(builder);</span></a>
 <span class="lineNum">     319 </span><span class="lineNoCov">          0 : }</span>
-<span class="lineNum">     320 </span><span class="lineNoCov">          0 : void cparse_query_where_all(cParseQuery *query, const char *key, cParseJson *value)</span>
+<span class="lineNum">     320 </span>            : void cparse_query_where_nselect(cParseQuery *query, const char *key, cParseJson *value)
 <span class="lineNum">     321 </span>            : {
 <span class="lineNum">     322 </span><span class="lineNoCov">          0 :     cParseQueryBuilder *builder = cparse_query_build_new();</span>
 <span class="lineNum">     323 </span>            : 
-<span class="lineNum">     324 </span><span class="lineNoCov">          0 :     cparse_query_build_all(builder, key, value);</span>
+<span class="lineNum">     324 </span><span class="lineNoCov">          0 :     cparse_query_build_nselect(builder, key, value);</span>
 <span class="lineNum">     325 </span>            : 
 <span class="lineNum">     326 </span><span class="lineNoCov">          0 :     cparse_query_build_where(query, builder);</span>
 <span class="lineNum">     327 </span>            : 
-<span class="lineNum">     328 </span><span class="lineNoCov">          0 :     cparse_query_build_free(builder);</span>
-<a name="329"><span class="lineNum">     329 </span><span class="lineNoCov">          0 : }</span></a>
-<span class="lineNum">     330 </span>            : 
-<span class="lineNum">     331 </span>            : cParseQueryBuilder *cparse_query_build_new()
-<span class="lineNum">     332 </span>            : {
-<span class="lineNum">     333 </span><span class="lineCov">          2 :     cParseQueryBuilder *builder = malloc(sizeof(cParseQueryBuilder));</span>
-<span class="lineNum">     334 </span>            : 
-<span class="lineNum">     335 </span><span class="lineCov">          1 :     builder-&gt;json = cparse_json_new();</span>
-<span class="lineNum">     336 </span>            : 
-<span class="lineNum">     337 </span><span class="lineCov">          1 :     return builder;</span>
-<a name="338"><span class="lineNum">     338 </span>            : }</a>
-<span class="lineNum">     339 </span>            : 
-<span class="lineNum">     340 </span><span class="lineCov">          1 : cParseQueryBuilder *cparse_query_build_in(cParseQueryBuilder *query, const char *key, cParseJson *inArray)</span>
-<span class="lineNum">     341 </span>            : {
-<span class="lineNum">     342 </span><span class="lineCov">          1 :     cParseJson *in = cparse_json_new();</span>
-<span class="lineNum">     343 </span>            : 
-<span class="lineNum">     344 </span><span class="lineCov">          1 :     cparse_json_set(in, CPARSE_QUERY_IN, inArray);</span>
-<span class="lineNum">     345 </span>            : 
-<span class="lineNum">     346 </span><span class="lineCov">          1 :     cparse_json_set(query-&gt;json, key, in);</span>
-<span class="lineNum">     347 </span>            : 
-<span class="lineNum">     348 </span><span class="lineCov">          1 :     cparse_json_free(in);</span>
+<a name="328"><span class="lineNum">     328 </span><span class="lineNoCov">          0 :     cparse_query_build_free(builder);</span></a>
+<span class="lineNum">     329 </span><span class="lineNoCov">          0 : }</span>
+<span class="lineNum">     330 </span>            : void cparse_query_where_all(cParseQuery *query, const char *key, cParseJson *value)
+<span class="lineNum">     331 </span>            : {
+<span class="lineNum">     332 </span><span class="lineNoCov">          0 :     cParseQueryBuilder *builder = cparse_query_build_new();</span>
+<span class="lineNum">     333 </span>            : 
+<span class="lineNum">     334 </span><span class="lineNoCov">          0 :     cparse_query_build_all(builder, key, value);</span>
+<span class="lineNum">     335 </span>            : 
+<span class="lineNum">     336 </span><span class="lineNoCov">          0 :     cparse_query_build_where(query, builder);</span>
+<span class="lineNum">     337 </span>            : 
+<span class="lineNum">     338 </span><span class="lineNoCov">          0 :     cparse_query_build_free(builder);</span>
+<a name="339"><span class="lineNum">     339 </span><span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">     340 </span>            : 
+<span class="lineNum">     341 </span>            : cParseQueryBuilder *cparse_query_build_new()
+<span class="lineNum">     342 </span>            : {
+<span class="lineNum">     343 </span><span class="lineCov">          1 :     cParseQueryBuilder *builder = malloc(sizeof(cParseQueryBuilder));</span>
+<span class="lineNum">     344 </span>            : 
+<span class="lineNum">     345 </span><span class="lineCov">          1 :     builder-&gt;json = cparse_json_new();</span>
+<span class="lineNum">     346 </span>            : 
+<span class="lineNum">     347 </span><span class="lineCov">          1 :     return builder;</span>
+<a name="348"><span class="lineNum">     348 </span>            : }</a>
 <span class="lineNum">     349 </span>            : 
-<span class="lineNum">     350 </span><span class="lineCov">          1 :     return query;</span>
-<a name="351"><span class="lineNum">     351 </span>            : }</a>
-<span class="lineNum">     352 </span>            : 
-<span class="lineNum">     353 </span><span class="lineNoCov">          0 : cParseQueryBuilder *cparse_query_build_lte(cParseQueryBuilder *query, const char *key, cParseJson *value)</span>
-<span class="lineNum">     354 </span>            : {
-<span class="lineNum">     355 </span><span class="lineNoCov">          0 :     cParseJson *lte = cparse_json_new();</span>
-<span class="lineNum">     356 </span>            : 
-<span class="lineNum">     357 </span><span class="lineNoCov">          0 :     cparse_json_set(lte, CPARSE_QUERY_LESS_THAN_EQUAL, value);</span>
-<span class="lineNum">     358 </span>            : 
-<span class="lineNum">     359 </span><span class="lineNoCov">          0 :     cparse_json_set(query-&gt;json, key, lte);</span>
-<span class="lineNum">     360 </span>            : 
-<span class="lineNum">     361 </span><span class="lineNoCov">          0 :     cparse_json_free(lte);</span>
+<span class="lineNum">     350 </span>            : cParseQueryBuilder *cparse_query_build_in(cParseQueryBuilder *query, const char *key, cParseJson *inArray)
+<span class="lineNum">     351 </span>            : {
+<span class="lineNum">     352 </span><span class="lineCov">          1 :     cParseJson *in = cparse_json_new();</span>
+<span class="lineNum">     353 </span>            : 
+<span class="lineNum">     354 </span><span class="lineCov">          1 :     cparse_json_set(in, CPARSE_QUERY_IN, inArray);</span>
+<span class="lineNum">     355 </span>            : 
+<span class="lineNum">     356 </span><span class="lineCov">          1 :     cparse_json_set(query-&gt;json, key, in);</span>
+<span class="lineNum">     357 </span>            : 
+<span class="lineNum">     358 </span><span class="lineCov">          1 :     cparse_json_free(in);</span>
+<span class="lineNum">     359 </span>            : 
+<span class="lineNum">     360 </span><span class="lineCov">          1 :     return query;</span>
+<a name="361"><span class="lineNum">     361 </span>            : }</a>
 <span class="lineNum">     362 </span>            : 
-<a name="363"><span class="lineNum">     363 </span><span class="lineNoCov">          0 :     return query;</span></a>
-<span class="lineNum">     364 </span>            : }
-<span class="lineNum">     365 </span><span class="lineNoCov">          0 : cParseQueryBuilder *cparse_query_build_lt(cParseQueryBuilder *query, const char *key, cParseJson *value)</span>
-<span class="lineNum">     366 </span>            : {
-<span class="lineNum">     367 </span><span class="lineNoCov">          0 :     cParseJson *inner = cparse_json_new();</span>
+<span class="lineNum">     363 </span>            : cParseQueryBuilder *cparse_query_build_lte(cParseQueryBuilder *query, const char *key, cParseJson *value)
+<span class="lineNum">     364 </span>            : {
+<span class="lineNum">     365 </span><span class="lineNoCov">          0 :     cParseJson *lte = cparse_json_new();</span>
+<span class="lineNum">     366 </span>            : 
+<span class="lineNum">     367 </span><span class="lineNoCov">          0 :     cparse_json_set(lte, CPARSE_QUERY_LESS_THAN_EQUAL, value);</span>
 <span class="lineNum">     368 </span>            : 
-<span class="lineNum">     369 </span><span class="lineNoCov">          0 :     cparse_json_set(inner, CPARSE_QUERY_LESS_THAN, value);</span>
+<span class="lineNum">     369 </span><span class="lineNoCov">          0 :     cparse_json_set(query-&gt;json, key, lte);</span>
 <span class="lineNum">     370 </span>            : 
-<span class="lineNum">     371 </span><span class="lineNoCov">          0 :     cparse_json_set(query-&gt;json, key, inner);</span>
+<span class="lineNum">     371 </span><span class="lineNoCov">          0 :     cparse_json_free(lte);</span>
 <span class="lineNum">     372 </span>            : 
-<span class="lineNum">     373 </span><span class="lineNoCov">          0 :     cparse_json_free(inner);</span>
-<span class="lineNum">     374 </span>            : 
-<a name="375"><span class="lineNum">     375 </span><span class="lineNoCov">          0 :     return query;</span></a>
-<span class="lineNum">     376 </span>            : }
-<span class="lineNum">     377 </span><span class="lineNoCov">          0 : cParseQueryBuilder *cparse_query_build_gte(cParseQueryBuilder *query, const char *key, cParseJson *value)</span>
-<span class="lineNum">     378 </span>            : {
-<span class="lineNum">     379 </span><span class="lineNoCov">          0 :     cParseJson *inner = cparse_json_new();</span>
+<a name="373"><span class="lineNum">     373 </span><span class="lineNoCov">          0 :     return query;</span></a>
+<span class="lineNum">     374 </span>            : }
+<span class="lineNum">     375 </span>            : cParseQueryBuilder *cparse_query_build_lt(cParseQueryBuilder *query, const char *key, cParseJson *value)
+<span class="lineNum">     376 </span>            : {
+<span class="lineNum">     377 </span><span class="lineNoCov">          0 :     cParseJson *inner = cparse_json_new();</span>
+<span class="lineNum">     378 </span>            : 
+<span class="lineNum">     379 </span><span class="lineNoCov">          0 :     cparse_json_set(inner, CPARSE_QUERY_LESS_THAN, value);</span>
 <span class="lineNum">     380 </span>            : 
-<span class="lineNum">     381 </span><span class="lineNoCov">          0 :     cparse_json_set(inner, CPARSE_QUERY_GREATER_THAN_EQUAL, value);</span>
+<span class="lineNum">     381 </span><span class="lineNoCov">          0 :     cparse_json_set(query-&gt;json, key, inner);</span>
 <span class="lineNum">     382 </span>            : 
-<span class="lineNum">     383 </span><span class="lineNoCov">          0 :     cparse_json_set(query-&gt;json, key, inner);</span>
+<span class="lineNum">     383 </span><span class="lineNoCov">          0 :     cparse_json_free(inner);</span>
 <span class="lineNum">     384 </span>            : 
-<span class="lineNum">     385 </span><span class="lineNoCov">          0 :     cparse_json_free(inner);</span>
-<span class="lineNum">     386 </span>            : 
-<a name="387"><span class="lineNum">     387 </span><span class="lineNoCov">          0 :     return query;</span></a>
-<span class="lineNum">     388 </span>            : }
-<span class="lineNum">     389 </span><span class="lineNoCov">          0 : cParseQueryBuilder *cparse_query_build_gt(cParseQueryBuilder *query, const char *key, cParseJson *value)</span>
-<span class="lineNum">     390 </span>            : {
-<span class="lineNum">     391 </span><span class="lineNoCov">          0 :     cParseJson *inner = cparse_json_new();</span>
+<a name="385"><span class="lineNum">     385 </span><span class="lineNoCov">          0 :     return query;</span></a>
+<span class="lineNum">     386 </span>            : }
+<span class="lineNum">     387 </span>            : cParseQueryBuilder *cparse_query_build_gte(cParseQueryBuilder *query, const char *key, cParseJson *value)
+<span class="lineNum">     388 </span>            : {
+<span class="lineNum">     389 </span><span class="lineNoCov">          0 :     cParseJson *inner = cparse_json_new();</span>
+<span class="lineNum">     390 </span>            : 
+<span class="lineNum">     391 </span><span class="lineNoCov">          0 :     cparse_json_set(inner, CPARSE_QUERY_GREATER_THAN_EQUAL, value);</span>
 <span class="lineNum">     392 </span>            : 
-<span class="lineNum">     393 </span><span class="lineNoCov">          0 :     cparse_json_set(inner, CPARSE_QUERY_GREATER_THAN, value);</span>
+<span class="lineNum">     393 </span><span class="lineNoCov">          0 :     cparse_json_set(query-&gt;json, key, inner);</span>
 <span class="lineNum">     394 </span>            : 
-<span class="lineNum">     395 </span><span class="lineNoCov">          0 :     cparse_json_set(query-&gt;json, key, inner);</span>
+<span class="lineNum">     395 </span><span class="lineNoCov">          0 :     cparse_json_free(inner);</span>
 <span class="lineNum">     396 </span>            : 
-<span class="lineNum">     397 </span><span class="lineNoCov">          0 :     cparse_json_free(inner);</span>
-<span class="lineNum">     398 </span>            : 
-<a name="399"><span class="lineNum">     399 </span><span class="lineNoCov">          0 :     return query;</span></a>
-<span class="lineNum">     400 </span>            : }
-<span class="lineNum">     401 </span><span class="lineNoCov">          0 : cParseQueryBuilder *cparse_query_build_ne(cParseQueryBuilder *query, const char *key, cParseJson *value)</span>
-<span class="lineNum">     402 </span>            : {
-<span class="lineNum">     403 </span><span class="lineNoCov">          0 :     cParseJson *inner = cparse_json_new();</span>
+<a name="397"><span class="lineNum">     397 </span><span class="lineNoCov">          0 :     return query;</span></a>
+<span class="lineNum">     398 </span>            : }
+<span class="lineNum">     399 </span>            : cParseQueryBuilder *cparse_query_build_gt(cParseQueryBuilder *query, const char *key, cParseJson *value)
+<span class="lineNum">     400 </span>            : {
+<span class="lineNum">     401 </span><span class="lineNoCov">          0 :     cParseJson *inner = cparse_json_new();</span>
+<span class="lineNum">     402 </span>            : 
+<span class="lineNum">     403 </span><span class="lineNoCov">          0 :     cparse_json_set(inner, CPARSE_QUERY_GREATER_THAN, value);</span>
 <span class="lineNum">     404 </span>            : 
-<span class="lineNum">     405 </span><span class="lineNoCov">          0 :     cparse_json_set(inner, CPARSE_QUERY_NOT_EQUAL, value);</span>
+<span class="lineNum">     405 </span><span class="lineNoCov">          0 :     cparse_json_set(query-&gt;json, key, inner);</span>
 <span class="lineNum">     406 </span>            : 
-<span class="lineNum">     407 </span><span class="lineNoCov">          0 :     cparse_json_set(query-&gt;json, key, inner);</span>
+<span class="lineNum">     407 </span><span class="lineNoCov">          0 :     cparse_json_free(inner);</span>
 <span class="lineNum">     408 </span>            : 
-<span class="lineNum">     409 </span><span class="lineNoCov">          0 :     cparse_json_free(inner);</span>
-<span class="lineNum">     410 </span>            : 
-<a name="411"><span class="lineNum">     411 </span><span class="lineNoCov">          0 :     return query;</span></a>
-<span class="lineNum">     412 </span>            : }
-<span class="lineNum">     413 </span><span class="lineNoCov">          0 : cParseQueryBuilder *cparse_query_build_nin(cParseQueryBuilder *query, const char *key, cParseJson *inArray)</span>
-<span class="lineNum">     414 </span>            : {
-<span class="lineNum">     415 </span><span class="lineNoCov">          0 :     cParseJson *inner = cparse_json_new();</span>
+<a name="409"><span class="lineNum">     409 </span><span class="lineNoCov">          0 :     return query;</span></a>
+<span class="lineNum">     410 </span>            : }
+<span class="lineNum">     411 </span>            : cParseQueryBuilder *cparse_query_build_ne(cParseQueryBuilder *query, const char *key, cParseJson *value)
+<span class="lineNum">     412 </span>            : {
+<span class="lineNum">     413 </span><span class="lineNoCov">          0 :     cParseJson *inner = cparse_json_new();</span>
+<span class="lineNum">     414 </span>            : 
+<span class="lineNum">     415 </span><span class="lineNoCov">          0 :     cparse_json_set(inner, CPARSE_QUERY_NOT_EQUAL, value);</span>
 <span class="lineNum">     416 </span>            : 
-<span class="lineNum">     417 </span><span class="lineNoCov">          0 :     cparse_json_set(inner, CPARSE_QUERY_NOT_IN, inArray);</span>
+<span class="lineNum">     417 </span><span class="lineNoCov">          0 :     cparse_json_set(query-&gt;json, key, inner);</span>
 <span class="lineNum">     418 </span>            : 
-<span class="lineNum">     419 </span><span class="lineNoCov">          0 :     cparse_json_set(query-&gt;json, key, inner);</span>
+<span class="lineNum">     419 </span><span class="lineNoCov">          0 :     cparse_json_free(inner);</span>
 <span class="lineNum">     420 </span>            : 
-<span class="lineNum">     421 </span><span class="lineNoCov">          0 :     cparse_json_free(inner);</span>
-<span class="lineNum">     422 </span>            : 
-<a name="423"><span class="lineNum">     423 </span><span class="lineNoCov">          0 :     return query;</span></a>
-<span class="lineNum">     424 </span>            : }
-<span class="lineNum">     425 </span><span class="lineNoCov">          0 : cParseQueryBuilder *cparse_query_build_exists(cParseQueryBuilder *query, const char *key, cParseJson *value)</span>
-<span class="lineNum">     426 </span>            : {
-<span class="lineNum">     427 </span><span class="lineNoCov">          0 :     cParseJson *inner = cparse_json_new();</span>
+<a name="421"><span class="lineNum">     421 </span><span class="lineNoCov">          0 :     return query;</span></a>
+<span class="lineNum">     422 </span>            : }
+<span class="lineNum">     423 </span>            : cParseQueryBuilder *cparse_query_build_nin(cParseQueryBuilder *query, const char *key, cParseJson *inArray)
+<span class="lineNum">     424 </span>            : {
+<span class="lineNum">     425 </span><span class="lineNoCov">          0 :     cParseJson *inner = cparse_json_new();</span>
+<span class="lineNum">     426 </span>            : 
+<span class="lineNum">     427 </span><span class="lineNoCov">          0 :     cparse_json_set(inner, CPARSE_QUERY_NOT_IN, inArray);</span>
 <span class="lineNum">     428 </span>            : 
-<span class="lineNum">     429 </span><span class="lineNoCov">          0 :     cparse_json_set(inner, CPARSE_QUERY_EXISTS, value);</span>
+<span class="lineNum">     429 </span><span class="lineNoCov">          0 :     cparse_json_set(query-&gt;json, key, inner);</span>
 <span class="lineNum">     430 </span>            : 
-<span class="lineNum">     431 </span><span class="lineNoCov">          0 :     cparse_json_set(query-&gt;json, key, inner);</span>
+<span class="lineNum">     431 </span><span class="lineNoCov">          0 :     cparse_json_free(inner);</span>
 <span class="lineNum">     432 </span>            : 
-<span class="lineNum">     433 </span><span class="lineNoCov">          0 :     cparse_json_free(inner);</span>
-<span class="lineNum">     434 </span>            : 
-<a name="435"><span class="lineNum">     435 </span><span class="lineNoCov">          0 :     return query;</span></a>
-<span class="lineNum">     436 </span>            : }
-<span class="lineNum">     437 </span><span class="lineNoCov">          0 : cParseQueryBuilder *cparse_query_build_select(cParseQueryBuilder *query, const char *key, cParseJson *value)</span>
-<span class="lineNum">     438 </span>            : {
-<span class="lineNum">     439 </span><span class="lineNoCov">          0 :     cParseJson *inner = cparse_json_new();</span>
+<a name="433"><span class="lineNum">     433 </span><span class="lineNoCov">          0 :     return query;</span></a>
+<span class="lineNum">     434 </span>            : }
+<span class="lineNum">     435 </span>            : cParseQueryBuilder *cparse_query_build_exists(cParseQueryBuilder *query, const char *key, cParseJson *value)
+<span class="lineNum">     436 </span>            : {
+<span class="lineNum">     437 </span><span class="lineNoCov">          0 :     cParseJson *inner = cparse_json_new();</span>
+<span class="lineNum">     438 </span>            : 
+<span class="lineNum">     439 </span><span class="lineNoCov">          0 :     cparse_json_set(inner, CPARSE_QUERY_EXISTS, value);</span>
 <span class="lineNum">     440 </span>            : 
-<span class="lineNum">     441 </span><span class="lineNoCov">          0 :     cparse_json_set(inner, CPARSE_QUERY_SELECT, value);</span>
+<span class="lineNum">     441 </span><span class="lineNoCov">          0 :     cparse_json_set(query-&gt;json, key, inner);</span>
 <span class="lineNum">     442 </span>            : 
-<span class="lineNum">     443 </span><span class="lineNoCov">          0 :     cparse_json_set(query-&gt;json, key, inner);</span>
+<span class="lineNum">     443 </span><span class="lineNoCov">          0 :     cparse_json_free(inner);</span>
 <span class="lineNum">     444 </span>            : 
-<span class="lineNum">     445 </span><span class="lineNoCov">          0 :     cparse_json_free(inner);</span>
-<span class="lineNum">     446 </span>            : 
-<a name="447"><span class="lineNum">     447 </span><span class="lineNoCov">          0 :     return query;</span></a>
-<span class="lineNum">     448 </span>            : }
-<span class="lineNum">     449 </span><span class="lineNoCov">          0 : cParseQueryBuilder *cparse_query_build_nselect(cParseQueryBuilder *query, const char *key, cParseJson *value)</span>
-<span class="lineNum">     450 </span>            : {
-<span class="lineNum">     451 </span><span class="lineNoCov">          0 :     cParseJson *inner = cparse_json_new();</span>
+<a name="445"><span class="lineNum">     445 </span><span class="lineNoCov">          0 :     return query;</span></a>
+<span class="lineNum">     446 </span>            : }
+<span class="lineNum">     447 </span>            : cParseQueryBuilder *cparse_query_build_select(cParseQueryBuilder *query, const char *key, cParseJson *value)
+<span class="lineNum">     448 </span>            : {
+<span class="lineNum">     449 </span><span class="lineNoCov">          0 :     cParseJson *inner = cparse_json_new();</span>
+<span class="lineNum">     450 </span>            : 
+<span class="lineNum">     451 </span><span class="lineNoCov">          0 :     cparse_json_set(inner, CPARSE_QUERY_SELECT, value);</span>
 <span class="lineNum">     452 </span>            : 
-<span class="lineNum">     453 </span><span class="lineNoCov">          0 :     cparse_json_set(inner, CPARSE_QUERY_DONT_SELECT, value);</span>
+<span class="lineNum">     453 </span><span class="lineNoCov">          0 :     cparse_json_set(query-&gt;json, key, inner);</span>
 <span class="lineNum">     454 </span>            : 
-<span class="lineNum">     455 </span><span class="lineNoCov">          0 :     cparse_json_set(query-&gt;json, key, inner);</span>
+<span class="lineNum">     455 </span><span class="lineNoCov">          0 :     cparse_json_free(inner);</span>
 <span class="lineNum">     456 </span>            : 
-<span class="lineNum">     457 </span><span class="lineNoCov">          0 :     cparse_json_free(inner);</span>
-<span class="lineNum">     458 </span>            : 
-<a name="459"><span class="lineNum">     459 </span><span class="lineNoCov">          0 :     return query;</span></a>
-<span class="lineNum">     460 </span>            : }
-<span class="lineNum">     461 </span><span class="lineNoCov">          0 : cParseQueryBuilder *cparse_query_build_all(cParseQueryBuilder *query, const char *key, cParseJson *value)</span>
-<span class="lineNum">     462 </span>            : {
-<span class="lineNum">     463 </span><span class="lineNoCov">          0 :     cParseJson *inner = cparse_json_new();</span>
+<a name="457"><span class="lineNum">     457 </span><span class="lineNoCov">          0 :     return query;</span></a>
+<span class="lineNum">     458 </span>            : }
+<span class="lineNum">     459 </span>            : cParseQueryBuilder *cparse_query_build_nselect(cParseQueryBuilder *query, const char *key, cParseJson *value)
+<span class="lineNum">     460 </span>            : {
+<span class="lineNum">     461 </span><span class="lineNoCov">          0 :     cParseJson *inner = cparse_json_new();</span>
+<span class="lineNum">     462 </span>            : 
+<span class="lineNum">     463 </span><span class="lineNoCov">          0 :     cparse_json_set(inner, CPARSE_QUERY_DONT_SELECT, value);</span>
 <span class="lineNum">     464 </span>            : 
-<span class="lineNum">     465 </span><span class="lineNoCov">          0 :     cparse_json_set(inner, CPARSE_QUERY_ALL, value);</span>
+<span class="lineNum">     465 </span><span class="lineNoCov">          0 :     cparse_json_set(query-&gt;json, key, inner);</span>
 <span class="lineNum">     466 </span>            : 
-<span class="lineNum">     467 </span><span class="lineNoCov">          0 :     cparse_json_set(query-&gt;json, key, inner);</span>
+<span class="lineNum">     467 </span><span class="lineNoCov">          0 :     cparse_json_free(inner);</span>
 <span class="lineNum">     468 </span>            : 
-<span class="lineNum">     469 </span><span class="lineNoCov">          0 :     cparse_json_free(inner);</span>
-<span class="lineNum">     470 </span>            : 
-<span class="lineNum">     471 </span><span class="lineNoCov">          0 :     return query;</span>
-<a name="472"><span class="lineNum">     472 </span>            : }</a>
-<span class="lineNum">     473 </span>            : 
-<span class="lineNum">     474 </span><span class="lineNoCov">          0 : cParseJson *cparse_query_build_json(cParseQueryBuilder *query)</span>
-<span class="lineNum">     475 </span>            : {
-<span class="lineNum">     476 </span><span class="lineNoCov">          0 :     return query-&gt;json;</span>
-<a name="477"><span class="lineNum">     477 </span>            : }</a>
+<a name="469"><span class="lineNum">     469 </span><span class="lineNoCov">          0 :     return query;</span></a>
+<span class="lineNum">     470 </span>            : }
+<span class="lineNum">     471 </span>            : cParseQueryBuilder *cparse_query_build_all(cParseQueryBuilder *query, const char *key, cParseJson *value)
+<span class="lineNum">     472 </span>            : {
+<span class="lineNum">     473 </span><span class="lineNoCov">          0 :     cParseJson *inner = cparse_json_new();</span>
+<span class="lineNum">     474 </span>            : 
+<span class="lineNum">     475 </span><span class="lineNoCov">          0 :     cparse_json_set(inner, CPARSE_QUERY_ALL, value);</span>
+<span class="lineNum">     476 </span>            : 
+<span class="lineNum">     477 </span><span class="lineNoCov">          0 :     cparse_json_set(query-&gt;json, key, inner);</span>
 <span class="lineNum">     478 </span>            : 
-<span class="lineNum">     479 </span><span class="lineCov">          1 : void cparse_query_build_free(cParseQueryBuilder *query)</span>
-<span class="lineNum">     480 </span>            : {
-<span class="lineNum">     481 </span><span class="lineCov">          1 :     cparse_json_free(query-&gt;json);</span>
-<span class="lineNum">     482 </span>            : 
-<span class="lineNum">     483 </span><span class="lineCov">          1 :     free(query);</span>
-<span class="lineNum">     484 </span><span class="lineCov">          1 : }</span>
-<span class="lineNum">     485 </span>            : 
+<span class="lineNum">     479 </span><span class="lineNoCov">          0 :     cparse_json_free(inner);</span>
+<span class="lineNum">     480 </span>            : 
+<span class="lineNum">     481 </span><span class="lineNoCov">          0 :     return query;</span>
+<a name="482"><span class="lineNum">     482 </span>            : }</a>
+<span class="lineNum">     483 </span>            : 
+<span class="lineNum">     484 </span>            : cParseJson *cparse_query_build_json(cParseQueryBuilder *query)
+<span class="lineNum">     485 </span>            : {
+<span class="lineNum">     486 </span><span class="lineNoCov">          0 :     return query-&gt;json;</span>
+<a name="487"><span class="lineNum">     487 </span>            : }</a>
+<span class="lineNum">     488 </span>            : 
+<span class="lineNum">     489 </span>            : void cparse_query_build_free(cParseQueryBuilder *query)
+<span class="lineNum">     490 </span>            : {
+<span class="lineNum">     491 </span><span class="lineCov">          1 :     cparse_json_free(query-&gt;json);</span>
+<span class="lineNum">     492 </span>            : 
+<span class="lineNum">     493 </span><span class="lineCov">          1 :     free(query);</span>
+<span class="lineNum">     494 </span><span class="lineCov">          1 : }</span>
+<span class="lineNum">     495 </span>            : 
 </pre>
       </td>
     </tr>
@@ -561,7 +571,7 @@
 
   <table width="100%" border=0 cellspacing=0 cellpadding=0>
     <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
-    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.11</a></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.0</a></td></tr>
   </table>
   <br>
 
