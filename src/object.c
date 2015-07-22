@@ -446,13 +446,15 @@ bool cparse_object_save(cParseObject *obj, cParseError **error)
 
         payload = cparse_json_to_json_string(json);
 
-        cparse_json_free(json);
-
     } else {
         payload = cparse_json_to_json_string(obj->attributes);
     }
 
     cparse_client_request_set_payload(request, payload);
+
+    if (json) {
+        cparse_json_free(json);
+    }
 
     json = cparse_client_request_get_json(request, error);
 
