@@ -26,6 +26,7 @@ static void *cparse_object_background_action(void *argument)
 {
     cParseError *error = NULL;
     cParseObjectThread *arg = NULL;
+    bool rval = false;
 
     if (argument == NULL) {
         cparse_log_debug(strerror(EINVAL));
@@ -40,7 +41,7 @@ static void *cparse_object_background_action(void *argument)
     }
 
     /* cparse_object_save or cparse_object_refresh */
-    bool rval = (*arg->action)(arg->obj, &error);
+    rval = (*arg->action)(arg->obj, &error);
 
     if (arg->callback)
     {
@@ -195,13 +196,14 @@ void cparse_object_copy(cParseObject *obj, cParseObject *other)
 cParseObject *cparse_object_with_class_name(const char *className)
 {
     char buf[CPARSE_BUF_SIZE + 1] = {0};
+    cParseObject *obj = NULL;
 
     if (!className || !*className) {
         cparse_log_debug(strerror(EINVAL));
         return NULL;
     }
 
-    cParseObject *obj = cparse_object_new();
+    obj = cparse_object_new();
 
     snprintf(buf, CPARSE_BUF_SIZE, "%s%s", CPARSE_OBJECTS_PATH, className);
 
@@ -516,7 +518,7 @@ static bool cparse_object_update_object(cParseObject *obj, cParseError **error)
 pthread_t cparse_object_update_in_background(cParseObject *obj, cParseJson *json, cParseObjectCallback callback)
 {
     if (obj == NULL || json == NULL) {
-        return NULL;
+        return 0;
     }
 
     // can't pass to our callback method, so place inside the object for retrieval
