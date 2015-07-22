@@ -40,11 +40,11 @@ cParseACL *cparse_acl_new_with_user(cParseUser *user)
     return acl;
 }
 
-void cparse_acl_copy(cParseACL *orig, cParseACL *other)
+void cparse_acl_copy(cParseACL *this, cParseACL *other)
 {
-    cparse_replace_str(&orig->name, other->name);
-    orig->read = other->read;
-    orig->write = other->write;
+    cparse_replace_str(&this->name, other->name);
+    this->read = other->read;
+    this->write = other->write;
 }
 
 void cparse_set_default_acl(cParseACL *acl, bool currentUserAccess)

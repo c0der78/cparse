@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2015-07-19 20:06:56</td>
+            <td class="headerValue">2015-07-21 23:20:09</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">25</td>
@@ -79,7 +79,7 @@
 <span class="lineNum">       9 </span>            : /*initializers */
 <span class="lineNum">      10 </span>            : cParseJson *cparse_json_new()
 <span class="lineNum">      11 </span>            : {
-<span class="lineNum">      12 </span><span class="lineCov">         36 :     return json_object_new_object();</span>
+<span class="lineNum">      12 </span><span class="lineCov">         51 :     return json_object_new_object();</span>
 <a name="13"><span class="lineNum">      13 </span>            : }</a>
 <span class="lineNum">      14 </span>            : 
 <span class="lineNum">      15 </span>            : cParseJson *cparse_json_new_reference(cParseJson *orig)
@@ -113,28 +113,28 @@
 <span class="lineNum">      43 </span>            : 
 <span class="lineNum">      44 </span>            : cParseJson *cparse_json_tokenize(const char *str)
 <span class="lineNum">      45 </span>            : {
-<span class="lineNum">      46 </span><span class="lineCov">         26 :     return json_tokener_parse(str);</span>
+<span class="lineNum">      46 </span><span class="lineCov">         30 :     return json_tokener_parse(str);</span>
 <a name="47"><span class="lineNum">      47 </span>            : }</a>
 <span class="lineNum">      48 </span>            : 
 <span class="lineNum">      49 </span>            : void cparse_json_copy(cParseJson *orig, cParseJson *other, bool replaceOnConflict)
 <span class="lineNum">      50 </span>            : {
-<span class="lineNum">      51 </span><span class="lineCov">        280 :     cparse_json_foreach_start(other, key, val)</span>
+<span class="lineNum">      51 </span><span class="lineCov">        453 :     cparse_json_foreach_start(other, key, val)</span>
 <span class="lineNum">      52 </span>            :     {
-<span class="lineNum">      53 </span><span class="lineCov">         72 :         if (replaceOnConflict &amp;&amp;</span>
+<span class="lineNum">      53 </span><span class="lineCov">        114 :         if (replaceOnConflict &amp;&amp;</span>
 <span class="lineNum">      54 </span>            : #ifdef HAVE_JSON_EXTENDED
-<span class="lineNum">      55 </span><span class="lineCov">         36 :                 json_object_object_get_ex(orig, key, NULL)</span>
+<span class="lineNum">      55 </span><span class="lineCov">         57 :                 json_object_object_get_ex(orig, key, NULL)</span>
 <span class="lineNum">      56 </span>            : #else
 <span class="lineNum">      57 </span>            :                 json_object_object_get(orig, key) != NULL
 <span class="lineNum">      58 </span>            : #endif
 <span class="lineNum">      59 </span>            :            )
 <span class="lineNum">      60 </span>            :         {
-<span class="lineNum">      61 </span><span class="lineCov">         14 :             json_object_object_del(orig, key);</span>
-<span class="lineNum">      62 </span><span class="lineCov">         14 :         }</span>
+<span class="lineNum">      61 </span><span class="lineCov">         16 :             json_object_object_del(orig, key);</span>
+<span class="lineNum">      62 </span><span class="lineCov">         16 :         }</span>
 <span class="lineNum">      63 </span>            : 
-<span class="lineNum">      64 </span><span class="lineCov">         36 :         json_object_object_add(orig, key, json_object_get(val));</span>
-<span class="lineNum">      65 </span><span class="lineCov">         36 :     }</span>
-<span class="lineNum">      66 </span><span class="lineCov">         25 :     cparse_json_foreach_end;</span>
-<a name="67"><span class="lineNum">      67 </span><span class="lineCov">         25 : }</span></a>
+<span class="lineNum">      64 </span><span class="lineCov">         57 :         json_object_object_add(orig, key, json_object_get(val));</span>
+<span class="lineNum">      65 </span><span class="lineCov">         57 :     }</span>
+<span class="lineNum">      66 </span><span class="lineCov">         42 :     cparse_json_foreach_end;</span>
+<a name="67"><span class="lineNum">      67 </span><span class="lineCov">         42 : }</span></a>
 <span class="lineNum">      68 </span>            : 
 <span class="lineNum">      69 </span>            : cParseJson *cparse_json_new_array()
 <span class="lineNum">      70 </span>            : {
@@ -144,21 +144,21 @@
 <span class="lineNum">      74 </span>            : /* destructors */
 <span class="lineNum">      75 </span>            : void cparse_json_free(cParseJson *value)
 <span class="lineNum">      76 </span>            : {
-<span class="lineNum">      77 </span><span class="lineCov">        155 :     json_object_put(value);</span>
-<span class="lineNum">      78 </span><span class="lineCov">        155 : }</span>
+<span class="lineNum">      77 </span><span class="lineCov">        189 :     json_object_put(value);</span>
+<span class="lineNum">      78 </span><span class="lineCov">        189 : }</span>
 <span class="lineNum">      79 </span>            : 
 <a name="80"><span class="lineNum">      80 </span>            : /* setters */</a>
 <span class="lineNum">      81 </span>            : 
 <span class="lineNum">      82 </span>            : void cparse_json_set_number(cParseJson *obj, const char *key, cParseNumber value)
 <span class="lineNum">      83 </span>            : {
-<span class="lineNum">      84 </span><span class="lineCov">         26 :     json_object_object_add(obj, key,</span>
+<span class="lineNum">      84 </span><span class="lineCov">         38 :     json_object_object_add(obj, key,</span>
 <span class="lineNum">      85 </span>            : #ifdef HAVE_JSON_EXTENDED
-<span class="lineNum">      86 </span><span class="lineCov">         13 :                            json_object_new_int64(value)</span>
+<span class="lineNum">      86 </span><span class="lineCov">         19 :                            json_object_new_int64(value)</span>
 <span class="lineNum">      87 </span>            : #else
 <span class="lineNum">      88 </span>            :                            json_object_new_int(value)
 <span class="lineNum">      89 </span>            : #endif
 <span class="lineNum">      90 </span>            :                           );
-<a name="91"><span class="lineNum">      91 </span><span class="lineCov">         13 : }</span></a>
+<a name="91"><span class="lineNum">      91 </span><span class="lineCov">         19 : }</span></a>
 <span class="lineNum">      92 </span>            : 
 <span class="lineNum">      93 </span>            : void cparse_json_set_real(cParseJson *obj, const char *key, double value)
 <span class="lineNum">      94 </span>            : {
@@ -172,13 +172,13 @@
 <span class="lineNum">     102 </span>            : 
 <span class="lineNum">     103 </span>            : void cparse_json_set_string(cParseJson *obj, const char *key, const char *value)
 <span class="lineNum">     104 </span>            : {
-<span class="lineNum">     105 </span><span class="lineCov">         30 :     json_object_object_add(obj, key, json_object_new_string(value));</span>
-<a name="106"><span class="lineNum">     106 </span><span class="lineCov">         30 : }</span></a>
+<span class="lineNum">     105 </span><span class="lineCov">         34 :     json_object_object_add(obj, key, json_object_new_string(value));</span>
+<a name="106"><span class="lineNum">     106 </span><span class="lineCov">         34 : }</span></a>
 <span class="lineNum">     107 </span>            : 
 <span class="lineNum">     108 </span>            : void cparse_json_set(cParseJson *obj, const char *key, cParseJson *value)
 <span class="lineNum">     109 </span>            : {
-<span class="lineNum">     110 </span><span class="lineCov">          6 :     json_object_object_add(obj, key, json_object_get(value));</span>
-<span class="lineNum">     111 </span><span class="lineCov">          6 : }</span>
+<span class="lineNum">     110 </span><span class="lineCov">          7 :     json_object_object_add(obj, key, json_object_get(value));</span>
+<span class="lineNum">     111 </span><span class="lineCov">          7 : }</span>
 <span class="lineNum">     112 </span>            : 
 <a name="113"><span class="lineNum">     113 </span>            : /* getters */</a>
 <span class="lineNum">     114 </span>            : 
@@ -198,18 +198,18 @@
 <span class="lineNum">     128 </span>            : 
 <span class="lineNum">     129 </span>            : cParseNumber cparse_json_get_number(cParseJson *obj, const char *key, cParseNumber def)
 <span class="lineNum">     130 </span>            : {
-<span class="lineNum">     131 </span><span class="lineCov">          5 :     cParseJson *value = NULL;</span>
+<span class="lineNum">     131 </span><span class="lineCov">          6 :     cParseJson *value = NULL;</span>
 <span class="lineNum">     132 </span>            : 
 <span class="lineNum">     133 </span>            : #ifdef HAVE_JSON_EXTENDED
-<span class="lineNum">     134 </span><span class="lineCov">          5 :     if (json_object_object_get_ex(obj, key, &amp;value))</span>
-<span class="lineNum">     135 </span><span class="lineCov">          5 :         return json_object_get_int64(value);</span>
+<span class="lineNum">     134 </span><span class="lineCov">          6 :     if (json_object_object_get_ex(obj, key, &amp;value))</span>
+<span class="lineNum">     135 </span><span class="lineCov">          6 :         return json_object_get_int64(value);</span>
 <span class="lineNum">     136 </span>            : #else
 <span class="lineNum">     137 </span>            :     if ((value = json_object_object_get(obj, key)) != NULL)
 <span class="lineNum">     138 </span>            :         return json_object_get_int(value);
 <span class="lineNum">     139 </span>            : #endif
 <span class="lineNum">     140 </span>            : 
 <a name="141"><span class="lineNum">     141 </span><span class="lineNoCov">          0 :     return def;</span></a>
-<span class="lineNum">     142 </span><span class="lineCov">          5 : }</span>
+<span class="lineNum">     142 </span><span class="lineCov">          6 : }</span>
 <span class="lineNum">     143 </span>            : double cparse_json_get_real(cParseJson *obj, const char *key, double def)
 <span class="lineNum">     144 </span>            : {
 <span class="lineNum">     145 </span><span class="lineCov">          1 :     cParseJson *value = NULL;</span>
@@ -239,17 +239,17 @@
 <span class="lineNum">     169 </span><span class="lineNoCov">          0 : }</span>
 <span class="lineNum">     170 </span>            : const char *cparse_json_get_string(cParseJson *obj, const char *key)
 <span class="lineNum">     171 </span>            : {
-<span class="lineNum">     172 </span><span class="lineCov">         82 :     cParseJson *value = NULL;</span>
+<span class="lineNum">     172 </span><span class="lineCov">         90 :     cParseJson *value = NULL;</span>
 <span class="lineNum">     173 </span>            : 
 <span class="lineNum">     174 </span>            : #ifdef HAVE_JSON_EXTENDED
-<span class="lineNum">     175 </span><span class="lineCov">         82 :     if (json_object_object_get_ex(obj, key, &amp;value))</span>
+<span class="lineNum">     175 </span><span class="lineCov">         90 :     if (json_object_object_get_ex(obj, key, &amp;value))</span>
 <span class="lineNum">     176 </span>            : #else
 <span class="lineNum">     177 </span>            :     if ((value = json_object_object_get(obj, key)) != NULL)
 <span class="lineNum">     178 </span>            : #endif
-<span class="lineNum">     179 </span><span class="lineCov">         82 :         return json_object_get_string(value);</span>
+<span class="lineNum">     179 </span><span class="lineCov">         90 :         return json_object_get_string(value);</span>
 <span class="lineNum">     180 </span>            : 
 <span class="lineNum">     181 </span><span class="lineNoCov">          0 :     return NULL;</span>
-<span class="lineNum">     182 </span><span class="lineCov">         82 : }</span>
+<span class="lineNum">     182 </span><span class="lineCov">         90 : }</span>
 <a name="183"><span class="lineNum">     183 </span>            : </a>
 <span class="lineNum">     184 </span>            : /* array setters */
 <span class="lineNum">     185 </span>            : void cparse_json_array_add_number(cParseJson *arr, cParseNumber value)
@@ -316,7 +316,7 @@
 <span class="lineNum">     246 </span>            : 
 <span class="lineNum">     247 </span>            : cParseJson *cparse_json_array_get(cParseJson *arr, size_t index)
 <span class="lineNum">     248 </span>            : {
-<span class="lineNum">     249 </span><span class="lineCov">          5 :     return json_object_array_get_idx(arr, index);</span>
+<span class="lineNum">     249 </span><span class="lineCov">          7 :     return json_object_array_get_idx(arr, index);</span>
 <a name="250"><span class="lineNum">     250 </span>            : }</a>
 <span class="lineNum">     251 </span>            : 
 <span class="lineNum">     252 </span>            : bool cparse_json_is_arrau(cParseJson *obj)
@@ -340,19 +340,19 @@
 <span class="lineNum">     270 </span>            : 
 <span class="lineNum">     271 </span>            : cParseJson *cparse_json_remove_and_get(cParseJson *obj, const char *key)
 <span class="lineNum">     272 </span>            : {
-<span class="lineNum">     273 </span><span class="lineCov">        126 :     cParseJson *orig = NULL;</span>
+<span class="lineNum">     273 </span><span class="lineCov">        182 :     cParseJson *orig = NULL;</span>
 <span class="lineNum">     274 </span>            : 
 <span class="lineNum">     275 </span>            : #ifdef HAVE_JSON_EXTENDED
-<span class="lineNum">     276 </span><span class="lineCov">        126 :     if (json_object_object_get_ex(obj, key, &amp;orig))</span>
+<span class="lineNum">     276 </span><span class="lineCov">        182 :     if (json_object_object_get_ex(obj, key, &amp;orig))</span>
 <span class="lineNum">     277 </span>            : #else
 <span class="lineNum">     278 </span>            :     if ((orig = json_object_object_get(obj, key)) != NULL)
 <span class="lineNum">     279 </span>            : #endif
 <span class="lineNum">     280 </span>            :     {
-<span class="lineNum">     281 </span><span class="lineCov">         63 :         orig = json_object_get(orig);</span>
-<span class="lineNum">     282 </span><span class="lineCov">         63 :         json_object_object_del(obj, key);</span>
-<span class="lineNum">     283 </span><span class="lineCov">         63 :     }</span>
+<span class="lineNum">     281 </span><span class="lineCov">         80 :         orig = json_object_get(orig);</span>
+<span class="lineNum">     282 </span><span class="lineCov">         80 :         json_object_object_del(obj, key);</span>
+<span class="lineNum">     283 </span><span class="lineCov">         80 :     }</span>
 <span class="lineNum">     284 </span>            : 
-<span class="lineNum">     285 </span><span class="lineCov">        126 :     return orig;</span>
+<span class="lineNum">     285 </span><span class="lineCov">        182 :     return orig;</span>
 <span class="lineNum">     286 </span>            : }
 <span class="lineNum">     287 </span>            : 
 <span class="lineNum">     288 </span>            : /* converters */
@@ -379,7 +379,7 @@
 <span class="lineNum">     309 </span>            : 
 <span class="lineNum">     310 </span>            : const char *cparse_json_to_string(cParseJson *v)
 <span class="lineNum">     311 </span>            : {
-<span class="lineNum">     312 </span><span class="lineCov">         62 :     return json_object_get_string(v);</span>
+<span class="lineNum">     312 </span><span class="lineCov">         78 :     return json_object_get_string(v);</span>
 <a name="313"><span class="lineNum">     313 </span>            : }</a>
 <span class="lineNum">     314 </span>            : 
 <span class="lineNum">     315 </span>            : cParseJsonType cparse_json_type(cParseJson *v)
@@ -400,7 +400,7 @@
 <span class="lineNum">     330 </span>            : bool cparse_json_contains(cParseJson *obj, const char *key)
 <span class="lineNum">     331 </span>            : {
 <span class="lineNum">     332 </span>            : #ifdef HAVE_JSON_EXTENDED
-<span class="lineNum">     333 </span><span class="lineCov">         81 :     return json_object_object_get_ex(obj, key, NULL);</span>
+<span class="lineNum">     333 </span><span class="lineCov">         95 :     return json_object_object_get_ex(obj, key, NULL);</span>
 <span class="lineNum">     334 </span>            : #else
 <span class="lineNum">     335 </span>            :     return json_object_object_get(obj, key) != NULL;
 <span class="lineNum">     336 </span>            : #endif
@@ -409,7 +409,7 @@
 <span class="lineNum">     339 </span>            : const char *cparse_json_to_json_string(cParseJson *obj)
 <span class="lineNum">     340 </span>            : {
 <span class="lineNum">     341 </span>            : #ifdef HAVE_JSON_EXTENDED
-<span class="lineNum">     342 </span><span class="lineCov">         16 :     return json_object_to_json_string_ext(obj, JSON_C_TO_STRING_PLAIN);</span>
+<span class="lineNum">     342 </span><span class="lineCov">         22 :     return json_object_to_json_string_ext(obj, JSON_C_TO_STRING_PLAIN);</span>
 <span class="lineNum">     343 </span>            : #else
 <span class="lineNum">     344 </span>            :     return json_object_to_json_string(obj);
 <span class="lineNum">     345 </span>            : #endif

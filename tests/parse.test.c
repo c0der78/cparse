@@ -15,6 +15,8 @@ extern bool cparse_offline_messages;
 
 extern bool cparse_error_messages;
 
+extern int cparse_client_request_timeout;
+
 struct obj_list
 {
     struct obj_list *next;
@@ -49,6 +51,8 @@ int cparse_save_test_object(cParseObject *obj)
 {
     cParseError *error = NULL;
 
+    cparse_client_request_timeout = 10;
+
     int rval = cparse_object_save(obj, &error);
 
     if (!rval || error)
@@ -79,18 +83,21 @@ int cparse_cleanup_test_objects()
 
             if (!cparse_object_delete(node->obj, &error))
             {
-                if (error)
+                if (error) {
                     printf("delete error: %s\n", cparse_error_message(error));
+                }
             }
 
             cparse_object_free(node->obj);
         }
         if (node == first_obj)
         {
-            if (next_node)
+            if (next_node) {
                 first_obj = next_node;
-            else
+            }
+            else {
                 first_obj = NULL;
+            }
         }
         free(node);
     }

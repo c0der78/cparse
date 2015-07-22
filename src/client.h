@@ -36,6 +36,8 @@ struct cparse_client_request
 	cParseRequestHeader *headers;
 };
 
+extern int cparse_client_request_timeout;
+
 /*! a parse response */
 struct cparse_client_response
 {

@@ -7,6 +7,8 @@
 #include <cparse/acl.h>
 #include <pthread.h>
 
+typedef void (*cParseObjectAttributeCallback) (cParseObject *obj, const char *key, cParseJson *value, void *arg);
+
 BEGIN_DECL
 
 /* initializers */
@@ -274,8 +276,9 @@ bool cparse_object_contains(cParseObject *obj, const char *key);
 /*! iterates and objects attributes
  * \param obj the object instance
  * \param foreach the callback for each object attribute
+ * \param param an optional parameter for the callback
  */
-void cparse_object_foreach(cParseObject *obj, void (*foreach) (cParseObject *o, cParseJson *attribute));
+void cparse_object_foreach_attribute(cParseObject *obj, cParseObjectAttributeCallback callback, void *param);
 
 /*! gets the number of attributes in an object.  this does not include the common attributes - id, type, create at, or updated at.
  * \param obj the object instance

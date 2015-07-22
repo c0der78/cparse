@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2015-07-19 20:06:56</td>
+            <td class="headerValue">2015-07-21 23:20:09</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">4</td>
@@ -102,14 +102,14 @@
 <span class="lineNum">      32 </span>            : 
 <span class="lineNum">      33 </span>            : Suite *cparse_acl_suite (void)
 <span class="lineNum">      34 </span>            : {
-<span class="lineNum">      35 </span><span class="lineCov">         26 :     Suite *s = suite_create (&quot;ACL&quot;);</span>
+<span class="lineNum">      35 </span><span class="lineCov">         30 :     Suite *s = suite_create (&quot;ACL&quot;);</span>
 <span class="lineNum">      36 </span>            : 
-<span class="lineNum">      37 </span><span class="lineCov">         26 :     TCase *tc = tcase_create(&quot;Assignable&quot;);</span>
-<span class="lineNum">      38 </span><span class="lineCov">         26 :     tcase_add_checked_fixture(tc, cparse_test_setup, cparse_test_teardown);</span>
-<span class="lineNum">      39 </span><span class="lineCov">         26 :     tcase_add_test(tc, test_cparse_acl_set);</span>
-<span class="lineNum">      40 </span><span class="lineCov">         26 :     suite_add_tcase(s, tc);</span>
+<span class="lineNum">      37 </span><span class="lineCov">         30 :     TCase *tc = tcase_create(&quot;Assignable&quot;);</span>
+<span class="lineNum">      38 </span><span class="lineCov">         30 :     tcase_add_checked_fixture(tc, cparse_test_setup, cparse_test_teardown);</span>
+<span class="lineNum">      39 </span><span class="lineCov">         30 :     tcase_add_test(tc, test_cparse_acl_set);</span>
+<span class="lineNum">      40 </span><span class="lineCov">         30 :     suite_add_tcase(s, tc);</span>
 <span class="lineNum">      41 </span>            : 
-<span class="lineNum">      42 </span><span class="lineCov">         26 :     return s;</span>
+<span class="lineNum">      42 </span><span class="lineCov">         30 :     return s;</span>
 <span class="lineNum">      43 </span>            : }
 <span class="lineNum">      44 </span>            : 
 </pre>

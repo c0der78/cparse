@@ -17,6 +17,12 @@ cParseError *cparse_error_new();
  */
 cParseError *cparse_error_with_message(const char *message);
 
+/*!
+ * allocates an error with a code and message
+ * \returns the allocated error
+ */
+cParseError *cparse_error_with_code_and_message(int code, const char *message);
+
 /*! deallocates an error
  * \param error the error instance to deallocate
  */

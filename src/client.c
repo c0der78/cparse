@@ -25,6 +25,8 @@ extern const char *cparse_api_key;
 
 extern const char *cparse_app_id;
 
+int cparse_client_request_timeout = 0;
+
 const char *const cParseHttpRequestMethodNames[] = {
     "GET",
     "POST",
@@ -384,6 +386,8 @@ cParseResponse *cparse_client_request_get_response(cParseRequest *request)
     default:
         break;
     }
+
+    curl_easy_setopt(curl, CURLOPT_TIMEOUT, cparse_client_request_timeout);
 
     if (request->data)
     {

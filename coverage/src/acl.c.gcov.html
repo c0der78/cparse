@@ -31,18 +31,18 @@
             <td class="headerValue">Code Coverage</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">17</td>
+            <td class="headerCovTableEntry">43</td>
             <td class="headerCovTableEntry">100</td>
-            <td class="headerCovTableEntryLo">17.0 %</td>
+            <td class="headerCovTableEntryLo">43.0 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2015-07-19 20:06:56</td>
+            <td class="headerValue">2015-07-21 23:20:09</td>
             <td></td>
             <td class="headerItem">Functions:</td>
-            <td class="headerCovTableEntry">5</td>
+            <td class="headerCovTableEntry">9</td>
             <td class="headerCovTableEntry">15</td>
-            <td class="headerCovTableEntryLo">33.3 %</td>
+            <td class="headerCovTableEntryLo">60.0 %</td>
           </tr>
           <tr>
             <td class="headerItem">Legend:</td>
@@ -84,21 +84,21 @@
 <span class="lineNum">      14 </span>            : 
 <span class="lineNum">      15 </span>            : cParseACL *cparse_acl_new()
 <span class="lineNum">      16 </span>            : {
-<span class="lineNum">      17 </span><span class="lineCov">          1 :     cParseACL *acl = malloc(sizeof(cParseACL));</span>
-<span class="lineNum">      18 </span><span class="lineCov">          1 :     acl-&gt;next = NULL;</span>
-<span class="lineNum">      19 </span><span class="lineCov">          1 :     acl-&gt;name = NULL;</span>
-<span class="lineNum">      20 </span><span class="lineCov">          1 :     acl-&gt;read = false;</span>
-<span class="lineNum">      21 </span><span class="lineCov">          1 :     acl-&gt;write = false;</span>
-<span class="lineNum">      22 </span><span class="lineCov">          1 :     return acl;</span>
+<span class="lineNum">      17 </span><span class="lineCov">          6 :     cParseACL *acl = malloc(sizeof(cParseACL));</span>
+<span class="lineNum">      18 </span><span class="lineCov">          6 :     acl-&gt;next = NULL;</span>
+<span class="lineNum">      19 </span><span class="lineCov">          6 :     acl-&gt;name = NULL;</span>
+<span class="lineNum">      20 </span><span class="lineCov">          6 :     acl-&gt;read = false;</span>
+<span class="lineNum">      21 </span><span class="lineCov">          6 :     acl-&gt;write = false;</span>
+<span class="lineNum">      22 </span><span class="lineCov">          6 :     return acl;</span>
 <a name="23"><span class="lineNum">      23 </span>            : }</a>
 <span class="lineNum">      24 </span>            : 
 <span class="lineNum">      25 </span>            : cParseACL *cparse_acl_with_name(const char *name)
 <span class="lineNum">      26 </span>            : {
-<span class="lineNum">      27 </span><span class="lineNoCov">          0 :     cParseACL *acl = cparse_acl_new();</span>
+<span class="lineNum">      27 </span><span class="lineCov">          4 :     cParseACL *acl = cparse_acl_new();</span>
 <span class="lineNum">      28 </span>            : 
-<span class="lineNum">      29 </span><span class="lineNoCov">          0 :     acl-&gt;name = strdup(name);</span>
+<span class="lineNum">      29 </span><span class="lineCov">          4 :     acl-&gt;name = strdup(name);</span>
 <span class="lineNum">      30 </span>            : 
-<span class="lineNum">      31 </span><span class="lineNoCov">          0 :     return acl;</span>
+<span class="lineNum">      31 </span><span class="lineCov">          4 :     return acl;</span>
 <a name="32"><span class="lineNum">      32 </span>            : }</a>
 <span class="lineNum">      33 </span>            : 
 <span class="lineNum">      34 </span>            : cParseACL *cparse_acl_new_with_user(cParseUser *user)
@@ -110,12 +110,12 @@
 <span class="lineNum">      40 </span><span class="lineNoCov">          0 :     return acl;</span>
 <a name="41"><span class="lineNum">      41 </span>            : }</a>
 <span class="lineNum">      42 </span>            : 
-<span class="lineNum">      43 </span>            : void cparse_acl_copy(cParseACL *orig, cParseACL *other)
+<span class="lineNum">      43 </span>            : void cparse_acl_copy(cParseACL *this, cParseACL *other)
 <span class="lineNum">      44 </span>            : {
-<span class="lineNum">      45 </span><span class="lineNoCov">          0 :     cparse_replace_str(&amp;orig-&gt;name, other-&gt;name);</span>
-<span class="lineNum">      46 </span><span class="lineNoCov">          0 :     orig-&gt;read = other-&gt;read;</span>
-<span class="lineNum">      47 </span><span class="lineNoCov">          0 :     orig-&gt;write = other-&gt;write;</span>
-<a name="48"><span class="lineNum">      48 </span><span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">      45 </span><span class="lineCov">          1 :     cparse_replace_str(&amp;this-&gt;name, other-&gt;name);</span>
+<span class="lineNum">      46 </span><span class="lineCov">          1 :     this-&gt;read = other-&gt;read;</span>
+<span class="lineNum">      47 </span><span class="lineCov">          1 :     this-&gt;write = other-&gt;write;</span>
+<a name="48"><span class="lineNum">      48 </span><span class="lineCov">          1 : }</span></a>
 <span class="lineNum">      49 </span>            : 
 <span class="lineNum">      50 </span>            : void cparse_set_default_acl(cParseACL *acl, bool currentUserAccess)
 <span class="lineNum">      51 </span>            : {
@@ -229,63 +229,63 @@
 <span class="lineNum">     159 </span>            : 
 <span class="lineNum">     160 </span>            : static void cparse_acl_set_acl(cParseACL *acl, const char *name, bool value, void (*funk)(cParseACL *, bool))
 <span class="lineNum">     161 </span>            : {
-<span class="lineNum">     162 </span><span class="lineCov">          2 :     cParseACL *a = NULL, *acl_last = NULL;</span>
+<span class="lineNum">     162 </span><span class="lineCov">          4 :     cParseACL *a = NULL, *acl_last = NULL;</span>
 <span class="lineNum">     163 </span>            : 
-<span class="lineNum">     164 </span><span class="lineCov">          4 :     if (cparse_str_empty(name) || !acl) {</span>
-<span class="lineNum">     165 </span><span class="lineCov">          2 :         return;</span>
+<span class="lineNum">     164 </span><span class="lineCov">          8 :     if (cparse_str_empty(name) || !acl) {</span>
+<span class="lineNum">     165 </span><span class="lineNoCov">          0 :         return;</span>
 <span class="lineNum">     166 </span>            :     }
 <span class="lineNum">     167 </span>            : 
-<span class="lineNum">     168 </span><span class="lineNoCov">          0 :     for (a = acl; a; a = a-&gt;next)</span>
+<span class="lineNum">     168 </span><span class="lineCov">         12 :     for (a = acl; a; a = a-&gt;next)</span>
 <span class="lineNum">     169 </span>            :     {
-<span class="lineNum">     170 </span><span class="lineNoCov">          0 :         acl_last = a;</span>
+<span class="lineNum">     170 </span><span class="lineCov">          4 :         acl_last = a;</span>
 <span class="lineNum">     171 </span>            : 
-<span class="lineNum">     172 </span><span class="lineNoCov">          0 :         if (!cparse_str_cmp(name, a-&gt;name))</span>
+<span class="lineNum">     172 </span><span class="lineCov">          4 :         if (!cparse_str_cmp(name, a-&gt;name))</span>
 <span class="lineNum">     173 </span>            :         {
-<span class="lineNum">     174 </span><span class="lineNoCov">          0 :             (*funk)(a, value);</span>
-<span class="lineNum">     175 </span><span class="lineNoCov">          0 :             break;</span>
+<span class="lineNum">     174 </span><span class="lineCov">          2 :             (*funk)(a, value);</span>
+<span class="lineNum">     175 </span><span class="lineCov">          2 :             break;</span>
 <span class="lineNum">     176 </span>            :         }
-<span class="lineNum">     177 </span><span class="lineNoCov">          0 :     }</span>
+<span class="lineNum">     177 </span><span class="lineCov">          2 :     }</span>
 <span class="lineNum">     178 </span>            : 
-<span class="lineNum">     179 </span><span class="lineNoCov">          0 :     if (a == NULL)</span>
+<span class="lineNum">     179 </span><span class="lineCov">          4 :     if (a == NULL)</span>
 <span class="lineNum">     180 </span>            :     {
-<span class="lineNum">     181 </span><span class="lineNoCov">          0 :         a = cparse_acl_with_name(name);</span>
+<span class="lineNum">     181 </span><span class="lineCov">          2 :         a = cparse_acl_with_name(name);</span>
 <span class="lineNum">     182 </span>            : 
-<span class="lineNum">     183 </span><span class="lineNoCov">          0 :         (*funk)(a, value);</span>
+<span class="lineNum">     183 </span><span class="lineCov">          2 :         (*funk)(a, value);</span>
 <span class="lineNum">     184 </span>            : 
-<span class="lineNum">     185 </span><span class="lineNoCov">          0 :         if (acl_last == NULL)</span>
+<span class="lineNum">     185 </span><span class="lineCov">          2 :         if (acl_last == NULL)</span>
 <span class="lineNum">     186 </span>            :         {
 <span class="lineNum">     187 </span><span class="lineNoCov">          0 :             acl-&gt;next = a;</span>
 <span class="lineNum">     188 </span><span class="lineNoCov">          0 :         }</span>
 <span class="lineNum">     189 </span>            :         else
 <span class="lineNum">     190 </span>            :         {
-<span class="lineNum">     191 </span><span class="lineNoCov">          0 :             acl_last-&gt;next = a;</span>
+<span class="lineNum">     191 </span><span class="lineCov">          2 :             acl_last-&gt;next = a;</span>
 <span class="lineNum">     192 </span>            :         }
-<span class="lineNum">     193 </span><span class="lineNoCov">          0 :     }</span>
-<a name="194"><span class="lineNum">     194 </span><span class="lineCov">          2 : }</span></a>
+<span class="lineNum">     193 </span><span class="lineCov">          2 :     }</span>
+<a name="194"><span class="lineNum">     194 </span><span class="lineCov">          4 : }</span></a>
 <span class="lineNum">     195 </span>            : 
 <span class="lineNum">     196 </span>            : static void cparse_acl_set_this_readable(cParseACL *acl, bool value)
 <span class="lineNum">     197 </span>            : {
-<span class="lineNum">     198 </span><span class="lineNoCov">          0 :     if (acl) {</span>
-<span class="lineNum">     199 </span><span class="lineNoCov">          0 :         acl-&gt;read = value;</span>
-<span class="lineNum">     200 </span><span class="lineNoCov">          0 :     }</span>
-<a name="201"><span class="lineNum">     201 </span><span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">     198 </span><span class="lineCov">          2 :     if (acl) {</span>
+<span class="lineNum">     199 </span><span class="lineCov">          2 :         acl-&gt;read = value;</span>
+<span class="lineNum">     200 </span><span class="lineCov">          2 :     }</span>
+<a name="201"><span class="lineNum">     201 </span><span class="lineCov">          2 : }</span></a>
 <span class="lineNum">     202 </span>            : 
 <span class="lineNum">     203 </span>            : static void cparse_acl_set_this_writable(cParseACL *acl, bool value)
 <span class="lineNum">     204 </span>            : {
-<span class="lineNum">     205 </span><span class="lineNoCov">          0 :     if (acl) {</span>
-<span class="lineNum">     206 </span><span class="lineNoCov">          0 :         acl-&gt;write = value;</span>
-<span class="lineNum">     207 </span><span class="lineNoCov">          0 :     }</span>
-<a name="208"><span class="lineNum">     208 </span><span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">     205 </span><span class="lineCov">          2 :     if (acl) {</span>
+<span class="lineNum">     206 </span><span class="lineCov">          2 :         acl-&gt;write = value;</span>
+<span class="lineNum">     207 </span><span class="lineCov">          2 :     }</span>
+<a name="208"><span class="lineNum">     208 </span><span class="lineCov">          2 : }</span></a>
 <span class="lineNum">     209 </span>            : 
 <span class="lineNum">     210 </span>            : void cparse_acl_set_readable(cParseACL *acl, const char *name, bool value)
 <span class="lineNum">     211 </span>            : {
-<span class="lineNum">     212 </span><span class="lineCov">          1 :     cparse_acl_set_acl(acl, name, value, cparse_acl_set_this_readable);</span>
-<a name="213"><span class="lineNum">     213 </span><span class="lineCov">          1 : }</span></a>
+<span class="lineNum">     212 </span><span class="lineCov">          2 :     cparse_acl_set_acl(acl, name, value, cparse_acl_set_this_readable);</span>
+<a name="213"><span class="lineNum">     213 </span><span class="lineCov">          2 : }</span></a>
 <span class="lineNum">     214 </span>            : 
 <span class="lineNum">     215 </span>            : void cparse_acl_set_writable(cParseACL *acl, const char *name, bool value)
 <span class="lineNum">     216 </span>            : {
-<span class="lineNum">     217 </span><span class="lineCov">          1 :     cparse_acl_set_acl(acl, name, value, cparse_acl_set_this_writable);</span>
-<span class="lineNum">     218 </span><span class="lineCov">          1 : }</span>
+<span class="lineNum">     217 </span><span class="lineCov">          2 :     cparse_acl_set_acl(acl, name, value, cparse_acl_set_this_writable);</span>
+<span class="lineNum">     218 </span><span class="lineCov">          2 : }</span>
 <span class="lineNum">     219 </span>            : 
 <span class="lineNum">     220 </span>            : 
 </pre>

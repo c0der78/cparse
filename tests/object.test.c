@@ -33,8 +33,9 @@ START_TEST(test_cparse_object_save)
 
     rval = cparse_object_save(cp_obj, &error);
 
-    if (!rval)
+    if (!rval) {
         printf("Update error: %s", cparse_error_message(error));
+    }
 
     fail_unless(rval);
 }
@@ -42,6 +43,9 @@ END_TEST
 
 void test_cparse_object_callback(cParseObject *obj, bool success, cParseError *error)
 {
+    if (error) {
+        printf("callback error: %s\n", cparse_error_message(error));
+    }
     fail_unless(success);
 
     fail_unless(cparse_object_id(obj) != NULL);
@@ -62,8 +66,9 @@ START_TEST(test_cparse_object_fetch)
     /* check we fail if no object id */
     fail_if(cparse_object_fetch(obj, &error));
 
-    if (error)
+    if (error) {
         cparse_error_free(error);
+    }
 
     fail_unless(cparse_save_test_object(obj));
 
@@ -112,8 +117,9 @@ START_TEST(test_cparse_object_refresh)
 
     rval = cparse_object_refresh(obj, NULL);
 
-    if (!rval)
+    if (!rval) {
         printf("refresh error: %s\n", cparse_error_message(error));
+    }
 
     fail_unless(rval);
 
@@ -121,8 +127,9 @@ START_TEST(test_cparse_object_refresh)
 
     rval = cparse_object_refresh(obj2, &error);
 
-    if (!rval)
+    if (!rval) {
         printf("Refresh error: %s\n", cparse_error_message(error));
+    }
 
     fail_unless(rval);
 
@@ -162,6 +169,15 @@ START_TEST(test_cparse_object_set_value)
 }
 END_TEST
 
+static void cparse_test_count_callback(cParseObject *obj, const char *key, cParseJson *value, void *param)
+{
+    if (param) {
+        size_t *p = (size_t *) param;
+        ++(*p);
+        param = p;
+    }
+}
+
 START_TEST(test_cparse_object_count_attributes)
 {
     cParseObject *cp_obj = cparse_object_with_class_name(TEST_CLASS);
@@ -171,6 +187,12 @@ START_TEST(test_cparse_object_count_attributes)
     cparse_object_set_real(cp_obj, "testreal", 1234.5678);
 
     fail_unless(cparse_object_attribute_size(cp_obj) == 2);
+
+    size_t count = 0;
+
+    cparse_object_foreach_attribute(cp_obj, cparse_test_count_callback, &count);
+
+    fail_unless(count == 2);
 
     cparse_object_free(cp_obj);
 }
@@ -230,6 +252,98 @@ START_TEST(test_cparse_object_to_json)
 }
 END_TEST
 
+START_TEST(test_cparse_object_update)
+{
+    cParseObject *obj = cparse_new_test_object("blah", 1234);
+
+    fail_unless(cparse_save_test_object(obj));
+
+    cParseJson *updates = cparse_json_new();
+
+    cParseError *error = NULL;
+
+    cparse_json_set_number(updates, "score", 789);
+
+    fail_unless(cparse_object_update(obj, updates, &error));
+}
+END_TEST
+
+START_TEST(test_cparse_object_update_in_background)
+{
+    cParseObject *cp_obj = cparse_new_test_object("user1", 1234);
+
+    fail_unless(cparse_save_test_object(cp_obj));
+
+    cParseJson *updates = cparse_json_new();
+
+    cparse_json_set_number(updates, "score", 987);
+
+    pthread_t thread = cparse_object_update_in_background(cp_obj, updates, test_cparse_object_callback);
+
+    pthread_join(thread, NULL); /* wait for thread */
+
+    fail_unless(cparse_object_get_number(cp_obj, "score", 0) == 987);
+}
+END_TEST
+
+START_TEST(test_cparse_object_copy)
+{
+    cParseObject *cp_obj = cparse_new_test_object("userOrig", 4332);
+
+    cparse_object_set_readable_by(cp_obj, "userReader", true);
+
+    cparse_object_set_writable_by(cp_obj, "publicUser", false);
+
+    fail_unless(cparse_save_test_object(cp_obj));
+
+    cParseObject *copy = cparse_object_with_class_name(TEST_CLASS);
+
+    cparse_object_copy(copy, cp_obj);
+
+    fail_unless(!strcmp(cparse_object_class_name(copy), cparse_object_class_name(cp_obj)));
+
+    fail_unless(cparse_object_created_at(copy) == cparse_object_created_at(cp_obj));
+
+    fail_unless(cparse_object_updated_at(copy) == cparse_object_updated_at(cp_obj));
+
+    cParseACL *copyACL = cparse_object_acl(copy);
+
+    cParseACL *acl = cparse_object_acl(cp_obj);
+
+    while (copyACL != NULL && acl != NULL) {
+        fail_unless(!strcmp(copyACL->name, acl->name));
+
+        fail_unless(copyACL->read == acl->read);
+
+        fail_unless(copyACL->write == acl->write);
+
+        copyACL = copyACL->next;
+        acl = acl->next;
+    }
+
+    cparse_object_free(copy);
+}
+END_TEST
+
+START_TEST(test_cparse_object_delete)
+{
+    cParseObject *obj = cparse_new_test_object("userAbc", 3122);
+
+    cParseError *error = NULL;
+
+    fail_if(cparse_object_delete(obj, &error));
+
+    fail_unless(cparse_save_test_object(obj));
+
+    if (error) {
+        cparse_error_free(error);
+        error = NULL;
+    }
+
+    fail_unless(cparse_object_delete(obj, &error));
+}
+END_TEST
+
 Suite *cparse_object_suite (void)
 {
     Suite *s = suite_create ("Object");
@@ -239,6 +353,8 @@ Suite *cparse_object_suite (void)
     tcase_add_checked_fixture(tc, cparse_test_setup, cparse_test_teardown);
     tcase_add_test(tc, test_cparse_object_save);
     tcase_add_test(tc, test_cparse_object_save_in_background);
+    tcase_add_test(tc, test_cparse_object_update);
+    tcase_add_test(tc, test_cparse_object_update_in_background);
     tcase_set_timeout(tc, 30);
     suite_add_tcase(s, tc);
 
@@ -254,6 +370,13 @@ Suite *cparse_object_suite (void)
     tcase_add_checked_fixture(tc, cparse_test_setup, cparse_test_teardown);
     tcase_add_test(tc, test_cparse_object_fetch);
     tcase_add_test(tc, test_cparse_object_refresh);
+    tcase_set_timeout(tc, 30);
+    suite_add_tcase(s, tc);
+
+    tc = tcase_create("Delete/Copy");
+    tcase_add_checked_fixture(tc, cparse_test_setup, cparse_test_teardown);
+    tcase_add_test(tc, test_cparse_object_delete);
+    tcase_add_test(tc, test_cparse_object_copy);
     tcase_set_timeout(tc, 30);
     suite_add_tcase(s, tc);
 

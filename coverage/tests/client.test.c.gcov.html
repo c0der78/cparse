@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2015-07-19 20:06:56</td>
+            <td class="headerValue">2015-07-21 23:20:09</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">5</td>
@@ -123,15 +123,15 @@
 <span class="lineNum">      53 </span>            : 
 <span class="lineNum">      54 </span>            : Suite *cparse_client_suite (void)
 <span class="lineNum">      55 </span>            : {
-<span class="lineNum">      56 </span><span class="lineCov">         26 :     Suite *s = suite_create (&quot;Client&quot;);</span>
+<span class="lineNum">      56 </span><span class="lineCov">         30 :     Suite *s = suite_create (&quot;Client&quot;);</span>
 <span class="lineNum">      57 </span>            : 
-<span class="lineNum">      58 </span><span class="lineCov">         26 :     TCase *tc = tcase_create(&quot;Request&quot;);</span>
-<span class="lineNum">      59 </span><span class="lineCov">         26 :     tcase_add_checked_fixture(tc, cparse_test_setup, cparse_test_teardown);</span>
-<span class="lineNum">      60 </span><span class="lineCov">         26 :     tcase_add_test(tc, test_cparse_client_payload);</span>
-<span class="lineNum">      61 </span><span class="lineCov">         26 :     tcase_add_test(tc, test_cparse_client_bad_request);</span>
-<span class="lineNum">      62 </span><span class="lineCov">         26 :     suite_add_tcase(s, tc);</span>
+<span class="lineNum">      58 </span><span class="lineCov">         30 :     TCase *tc = tcase_create(&quot;Request&quot;);</span>
+<span class="lineNum">      59 </span><span class="lineCov">         30 :     tcase_add_checked_fixture(tc, cparse_test_setup, cparse_test_teardown);</span>
+<span class="lineNum">      60 </span><span class="lineCov">         30 :     tcase_add_test(tc, test_cparse_client_payload);</span>
+<span class="lineNum">      61 </span><span class="lineCov">         30 :     tcase_add_test(tc, test_cparse_client_bad_request);</span>
+<span class="lineNum">      62 </span><span class="lineCov">         30 :     suite_add_tcase(s, tc);</span>
 <span class="lineNum">      63 </span>            : 
-<span class="lineNum">      64 </span><span class="lineCov">         26 :     return s;</span>
+<span class="lineNum">      64 </span><span class="lineCov">         30 :     return s;</span>
 <span class="lineNum">      65 </span>            : }
 <span class="lineNum">      66 </span>            : 
 </pre>

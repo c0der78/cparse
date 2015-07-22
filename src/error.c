@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include <cparse/error.h>
 #include <string.h>
+#include "log.h"
+#include <errno.h>
 
 struct cparse_error
 {
@@ -15,6 +17,7 @@ cParseError *cparse_error_new()
 
     if (e == NULL)
     {
+        cparse_log_error(strerror(ENOMEM));
         return NULL;
     }
 
@@ -35,8 +38,26 @@ cParseError *cparse_error_with_message(const char *message)
     return e;
 }
 
+cParseError *cparse_error_with_code_and_message(int code, const char *message)
+{
+    cParseError *e = cparse_error_new();
+
+    if (e == NULL) {
+        return NULL;
+    }
+
+    e->code = code;
+    e->message = strdup(message);
+
+    return e;
+}
+
 void cparse_error_free(cParseError *e)
 {
+    if (!e) {
+        return;
+    }
+
     if (e->message) {
         free(e->message);
     }

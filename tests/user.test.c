@@ -31,8 +31,9 @@ START_TEST(test_cparse_user_sign_up)
 
     rval = cparse_user_sign_up(user, "Passw0rd!", &error);
 
-    if (error)
+    if (error) {
         printf("user signup error: %s\n", cparse_error_message(error));
+    }
 
     fail_unless(rval);
 
@@ -44,8 +45,9 @@ START_TEST(test_cparse_user_sign_up)
 
     cparse_user_delete(user, &error);
 
-    if (error)
+    if (error) {
         printf("user delete error: %s\n", cparse_error_message(error));
+    }
 
     cparse_object_free(user);
 }
@@ -53,8 +55,9 @@ END_TEST
 
 void cparse_user_sign_up_callback(cParseObject *obj, bool success, cParseError *error)
 {
-    if (!success)
+    if (!success) {
         printf("callback error: %s\n", cparse_error_message(error));
+    }
 
     fail_unless(success);
 
@@ -88,8 +91,9 @@ START_TEST(test_cparse_user_login)
 
     fail_unless(cparse_user_sign_up(user123, "Passw0rd!", &error));
 
-    if (error)
+    if (error) {
         printf("user signup error: %s\n", cparse_error_message(error));
+    }
 
     fail_unless(error == NULL);
 
@@ -97,8 +101,9 @@ START_TEST(test_cparse_user_login)
 
     user = cparse_user_login("user123", "Passw0rd!", &error);
 
-    if (error)
+    if (error) {
         printf("user login error: %s\n", cparse_error_message(error));
+    }
 
     fail_unless(error == NULL);
 
@@ -110,8 +115,9 @@ START_TEST(test_cparse_user_login)
 
     fail_unless(cparse_user_session_token(user) != NULL);
 
-    if (error)
+    if (error) {
         printf("user delete error: %s\n", cparse_error_message(error));
+    }
 
     cparse_object_free(user);
 
@@ -133,8 +139,9 @@ END_TEST
 
 void cparse_login_callback(cParseObject *obj, bool success, cParseError *error)
 {
-    if (!success)
+    if (!success) {
         printf("login callback error: %s\n", cparse_error_message(error));
+    }
 
     fail_unless(success);
 
@@ -149,8 +156,9 @@ START_TEST(test_cparse_login_in_background)
 
     fail_unless(cparse_user_sign_up(user123, "Passw0rd!", &error));
 
-    if (error)
+    if (error) {
         printf("user signup error: %s\n", cparse_error_message(error));
+    }
 
     fail_unless(error == NULL);
 
