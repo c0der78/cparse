@@ -439,7 +439,7 @@ bool cparse_object_save(cParseObject *obj, cParseError **error)
 
         cparse_json_copy(json, obj->attributes, true);
 
-        cparse_json_copy(json, aclJson, true);
+        cparse_json_set(json, CPARSE_KEY_ACL, aclJson);
 
         cparse_json_free(aclJson);
     } else {
