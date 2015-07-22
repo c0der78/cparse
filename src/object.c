@@ -521,7 +521,7 @@ pthread_t cparse_object_update_in_background(cParseObject *obj, cParseJson *json
         return 0;
     }
 
-    // can't pass to our callback method, so place inside the object for retrieval
+    /* can't pass to our callback method, so place inside the object for retrieval */
     cparse_object_set(obj, CPARSE_OBJECT_UPDATE_ATTRIBUTES, json);
 
     return cparse_object_run_in_background(obj, cparse_object_update_object, callback, NULL);
