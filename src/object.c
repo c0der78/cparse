@@ -230,6 +230,10 @@ void cparse_object_free(cParseObject *obj)
 
     cparse_json_free(obj->attributes);
 
+    if (obj->acl) {
+        cparse_acl_free(obj->acl);
+    }
+
     if (obj->className) {
         free(obj->className);
     }
