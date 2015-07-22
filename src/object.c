@@ -432,7 +432,17 @@ bool cparse_object_save(cParseObject *obj, cParseError **error)
         request = cparse_client_request_with_method_and_path(cParseHttpRequestMethodPut, buf);
     }
 
-    cparse_client_request_set_payload(request, cparse_json_to_json_string(obj->attributes));
+    if (obj->acl != NULL) {
+        json = cparse_json_new();
+
+        cparse_json_copy(json, obj->attributes, true);
+
+        cparse_json_copy(json, cparse_acl_to_json(obj->acl), true);
+    } else {
+        json = obj->attributes;
+    }
+
+    cparse_client_request_set_payload(request, cparse_json_to_json_string(json));
 
     json = cparse_client_request_get_json(request, error);
 
@@ -454,13 +464,13 @@ pthread_t cparse_object_save_in_background(cParseObject *obj, cParseObjectCallba
     return cparse_object_run_in_background(obj, cparse_object_save, callback, NULL);
 }
 
-bool cparse_object_update(cParseObject *obj, cParseJson *json, cParseError **error)
+bool cparse_object_update(cParseObject *obj, cParseJson *attributes, cParseError **error)
 {
     char buf[CPARSE_BUF_SIZE + 1] = {0};
     cParseRequest *request = NULL;
     cParseJson *response = NULL;
 
-    if (!obj || !json) {
+    if (!obj || !attributes) {
         cparse_object_error(error, strerror(EINVAL));
         return false;
     }
@@ -476,7 +486,7 @@ bool cparse_object_update(cParseObject *obj, cParseJson *json, cParseError **err
 
     request = cparse_client_request_with_method_and_path(cParseHttpRequestMethodPut, buf);
 
-    cparse_client_request_set_payload(request, cparse_json_to_json_string(json));
+    cparse_client_request_set_payload(request, cparse_json_to_json_string(attributes));
 
     response = cparse_client_request_get_json(request, error);
 
@@ -484,11 +494,11 @@ bool cparse_object_update(cParseObject *obj, cParseJson *json, cParseError **err
 
     if (response != NULL)
     {
-        cparse_object_merge_json(obj, json);
+        cparse_object_merge_json(obj, attributes);
 
         cparse_object_merge_json(obj, response);
 
-        cparse_json_free(json);
+        cparse_json_free(attributes);
 
         return true;
     }
@@ -740,15 +750,7 @@ cParseObject *cparse_object_from_json(cParseJson *jobj)
 
 const char *cparse_object_to_json_string(cParseObject *obj)
 {
-    cParseJson *json = cparse_json_new();
-
-    cparse_json_copy(json, obj->attributes, true);
-
-    if (obj->acl != NULL) {
-        cparse_json_copy(json, cparse_acl_to_json(obj->acl), true);
-    }
-
-    return cparse_json_to_json_string(json);
+    return !obj ? NULL : cparse_json_to_json_string(obj->attributes);
 }
 
 
