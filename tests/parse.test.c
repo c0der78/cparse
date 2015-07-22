@@ -50,10 +50,11 @@ int cparse_cleanup_test_object(cParseObject *obj)
 int cparse_save_test_object(cParseObject *obj)
 {
     cParseError *error = NULL;
+    bool rval = false;
 
     cparse_client_request_timeout = 10;
 
-    int rval = cparse_object_save(obj, &error);
+    rval = cparse_object_save(obj, &error);
 
     if (!rval || error)
     {
