@@ -438,17 +438,13 @@ bool cparse_object_save(cParseObject *obj, cParseError **error)
     }
 
     if (obj->acl != NULL) {
-        cParseJson *aclJson = cparse_acl_to_json(obj->acl);
-
         json = cparse_json_new();
 
         cparse_json_copy(json, obj->attributes, true);
 
-        cparse_json_set(json, CPARSE_KEY_ACL, aclJson);
+        cparse_json_set(json, CPARSE_KEY_ACL, cparse_acl_to_json(obj->acl));
 
         payload = cparse_json_to_json_string(json);
-
-        cparse_json_free(aclJson);
 
         cparse_json_free(json);
 
