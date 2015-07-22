@@ -180,6 +180,8 @@ static void cparse_test_count_callback(cParseObject *obj, const char *key, cPars
 
 START_TEST(test_cparse_object_count_attributes)
 {
+    size_t count = 0;
+
     cParseObject *cp_obj = cparse_object_with_class_name(TEST_CLASS);
 
     cparse_object_set_string(cp_obj, "teststr", "1234");
@@ -187,8 +189,6 @@ START_TEST(test_cparse_object_count_attributes)
     cparse_object_set_real(cp_obj, "testreal", 1234.5678);
 
     fail_unless(cparse_object_attribute_size(cp_obj) == 2);
-
-    size_t count = 0;
 
     cparse_object_foreach_attribute(cp_obj, cparse_test_count_callback, &count);
 
@@ -255,12 +255,10 @@ END_TEST
 START_TEST(test_cparse_object_update)
 {
     cParseObject *obj = cparse_new_test_object("blah", 1234);
+    cParseJson *updates = cparse_json_new();
+    cParseError *error = NULL;
 
     fail_unless(cparse_save_test_object(obj));
-
-    cParseJson *updates = cparse_json_new();
-
-    cParseError *error = NULL;
 
     cparse_json_set_number(updates, "score", 789);
 
@@ -271,14 +269,14 @@ END_TEST
 START_TEST(test_cparse_object_update_in_background)
 {
     cParseObject *cp_obj = cparse_new_test_object("user1", 1234);
+    cParseJson *updates = cparse_json_new();
+    pthread_t thread;
 
     fail_unless(cparse_save_test_object(cp_obj));
 
-    cParseJson *updates = cparse_json_new();
-
     cparse_json_set_number(updates, "score", 987);
 
-    pthread_t thread = cparse_object_update_in_background(cp_obj, updates, test_cparse_object_callback);
+    thread = cparse_object_update_in_background(cp_obj, updates, test_cparse_object_callback);
 
     pthread_join(thread, NULL); /* wait for thread */
 
@@ -288,6 +286,8 @@ END_TEST
 
 START_TEST(test_cparse_object_copy)
 {
+    cParseObject *copy = NULL;
+    cParseACL *copyACL, *acl;
     cParseObject *cp_obj = cparse_new_test_object("userOrig", 4332);
 
     cparse_object_set_readable_by(cp_obj, "userReader", true);
@@ -296,7 +296,7 @@ START_TEST(test_cparse_object_copy)
 
     fail_unless(cparse_save_test_object(cp_obj));
 
-    cParseObject *copy = cparse_object_with_class_name(TEST_CLASS);
+    copy = cparse_object_with_class_name(TEST_CLASS);
 
     cparse_object_copy(copy, cp_obj);
 
@@ -306,9 +306,9 @@ START_TEST(test_cparse_object_copy)
 
     fail_unless(cparse_object_updated_at(copy) == cparse_object_updated_at(cp_obj));
 
-    cParseACL *copyACL = cparse_object_acl(copy);
+    copyACL = cparse_object_acl(copy);
 
-    cParseACL *acl = cparse_object_acl(cp_obj);
+    acl = cparse_object_acl(cp_obj);
 
     while (copyACL != NULL && acl != NULL) {
         fail_unless(!strcmp(copyACL->name, acl->name));
