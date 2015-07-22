@@ -417,6 +417,7 @@ bool cparse_object_save(cParseObject *obj, cParseError **error)
 {
     cParseRequest *request = NULL;
     cParseJson *json = NULL;
+    const char *payload = NULL;
 
     if (!obj) {
         cparse_object_error(error, strerror(EINVAL));
@@ -445,14 +446,17 @@ bool cparse_object_save(cParseObject *obj, cParseError **error)
 
         cparse_json_set(json, CPARSE_KEY_ACL, aclJson);
 
+        payload = cparse_json_to_json_string(json);
+
         cparse_json_free(aclJson);
+
+        cparse_json_free(json);
+
     } else {
-        json = obj->attributes;
+        payload = cparse_json_to_json_string(obj->attributes);
     }
 
-    cparse_client_request_set_payload(request, cparse_json_to_json_string(json));
-
-    cparse_json_free(json);
+    cparse_client_request_set_payload(request, payload);
 
     json = cparse_client_request_get_json(request, error);
 
