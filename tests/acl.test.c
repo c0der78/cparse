@@ -24,7 +24,7 @@ START_TEST(test_cparse_acl_set)
 
     cparse_object_set_user_acl(obj, user, true, true);
 
-    //fail_unless(cparse_object_save(obj, NULL));
+    fail_unless(cparse_object_save(obj, NULL));
 
     cparse_user_delete(user, NULL);
 
