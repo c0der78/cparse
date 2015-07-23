@@ -746,7 +746,6 @@ static void cparse_object_set_acl_type(cParseObject *obj, const char *type, bool
 
     if (acl == NULL) {
         acl = cparse_json_new();
-        cparse_json_set(obj->attributes, CPARSE_KEY_ACL, acl);
     } else {
         item = cparse_json_get(acl, type);
     }
@@ -760,7 +759,11 @@ static void cparse_object_set_acl_type(cParseObject *obj, const char *type, bool
 
     cparse_json_set(acl, type, item);
 
+    cparse_json_set(obj->attributes, CPARSE_KEY_ACL, acl);
+
     cparse_json_free(item);
+
+    cparse_json_free(acl);
 }
 
 void cparse_object_set_acl(cParseObject *obj, bool read, bool write)
