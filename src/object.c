@@ -491,6 +491,8 @@ bool cparse_object_update(cParseObject *obj, cParseJson *attributes, cParseError
 
         cparse_json_free(attributes);
 
+        cparse_json_free(response);
+
         return true;
     }
 
@@ -751,11 +753,14 @@ static void cparse_object_set_acl_type(cParseObject *obj, const char *type, bool
 
     if (item == NULL) {
         item = cparse_json_new();
-        cparse_json_set(acl, type, item);
     }
 
     cparse_json_set_bool(item, "read", read);
     cparse_json_set_bool(item, "write", write);
+
+    cparse_json_set(acl, type, item);
+
+    cparse_json_free(item);
 }
 
 void cparse_object_set_acl(cParseObject *obj, bool read, bool write)
