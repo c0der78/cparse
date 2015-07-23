@@ -287,12 +287,7 @@ END_TEST
 START_TEST(test_cparse_object_copy)
 {
     cParseObject *copy = NULL;
-    cParseACL *copyACL, *acl;
     cParseObject *cp_obj = cparse_new_test_object("userOrig", 4332);
-
-    cparse_object_set_readable_by(cp_obj, "userReader", true);
-
-    cparse_object_set_writable_by(cp_obj, "publicUser", false);
 
     fail_unless(cparse_save_test_object(cp_obj));
 
@@ -305,21 +300,6 @@ START_TEST(test_cparse_object_copy)
     fail_unless(cparse_object_created_at(copy) == cparse_object_created_at(cp_obj));
 
     fail_unless(cparse_object_updated_at(copy) == cparse_object_updated_at(cp_obj));
-
-    copyACL = cparse_object_acl(copy);
-
-    acl = cparse_object_acl(cp_obj);
-
-    while (copyACL != NULL && acl != NULL) {
-        fail_unless(!strcmp(copyACL->name, acl->name));
-
-        fail_unless(copyACL->read == acl->read);
-
-        fail_unless(copyACL->write == acl->write);
-
-        copyACL = copyACL->next;
-        acl = acl->next;
-    }
 
     cparse_object_free(copy);
 }

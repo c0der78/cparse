@@ -30,7 +30,7 @@ struct cparse_query
 struct cparse_acl
 {
     cParseACL *next;
-    char *name;
+    char *key;
     bool read;
     bool write;
 };

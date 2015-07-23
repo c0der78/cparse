@@ -134,12 +134,12 @@ am__installdirs = "$(DESTDIR)$(libdir)" \
 	"$(DESTDIR)$(subdirheadersdir)"
 LTLIBRARIES = $(lib_LTLIBRARIES)
 libcparse_la_LIBADD =
-am_libcparse_la_OBJECTS = libcparse_la-acl.lo libcparse_la-client.lo \
-	libcparse_la-error.lo libcparse_la-json.lo \
-	libcparse_la-object.lo libcparse_la-parse.lo \
-	libcparse_la-query.lo libcparse_la-types.lo \
-	libcparse_la-user.lo libcparse_la-util.lo \
-	libcparse_la-operators.lo libcparse_la-log.lo
+am_libcparse_la_OBJECTS = libcparse_la-client.lo libcparse_la-error.lo \
+	libcparse_la-json.lo libcparse_la-object.lo \
+	libcparse_la-parse.lo libcparse_la-query.lo \
+	libcparse_la-types.lo libcparse_la-user.lo \
+	libcparse_la-util.lo libcparse_la-operators.lo \
+	libcparse_la-log.lo
 libcparse_la_OBJECTS = $(am_libcparse_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
@@ -337,8 +337,8 @@ top_srcdir = @top_srcdir@
 lib_LTLIBRARIES = libcparse.la
 libcparse_la_LDFLAGS = $(LIBCPARSE_LA_LDFLAGS) -version-info 0:0:0
 subdirheadersdir = $(pkgincludedir)/cparse
-subdirheaders_HEADERS = cparse/acl.h cparse/defines.h cparse/error.h cparse/json.h cparse/object.h cparse/operator.h cparse/parse.h cparse/query.h cparse/types.h cparse/user.h cparse/util.h
-libcparse_la_SOURCES = acl.c client.c error.c json.c object.c parse.c query.c types.c user.c util.c operators.c log.c
+subdirheaders_HEADERS = cparse/defines.h cparse/error.h cparse/json.h cparse/object.h cparse/operator.h cparse/parse.h cparse/query.h cparse/types.h cparse/user.h cparse/util.h
+libcparse_la_SOURCES = client.c error.c json.c object.c parse.c query.c types.c user.c util.c operators.c log.c
 libcparse_la_CFLAGS = $(LIBCPARSE_LA_CFLAGS) @X_CFLAGS@ @COVERAGE_CFLAGS@
 CLEANFILES = *.gcno
 all: all-am
@@ -419,7 +419,6 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcparse_la-acl.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcparse_la-client.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcparse_la-error.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcparse_la-json.Plo@am__quote@
@@ -452,13 +451,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='$<' object='$@' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LTCOMPILE) -c -o $@ $<
-
-libcparse_la-acl.lo: acl.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libcparse_la_CFLAGS) $(CFLAGS) -MT libcparse_la-acl.lo -MD -MP -MF $(DEPDIR)/libcparse_la-acl.Tpo -c -o libcparse_la-acl.lo `test -f 'acl.c' || echo '$(srcdir)/'`acl.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libcparse_la-acl.Tpo $(DEPDIR)/libcparse_la-acl.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='acl.c' object='libcparse_la-acl.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libcparse_la_CFLAGS) $(CFLAGS) -c -o libcparse_la-acl.lo `test -f 'acl.c' || echo '$(srcdir)/'`acl.c
 
 libcparse_la-client.lo: client.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libcparse_la_CFLAGS) $(CFLAGS) -MT libcparse_la-client.lo -MD -MP -MF $(DEPDIR)/libcparse_la-client.Tpo -c -o libcparse_la-client.lo `test -f 'client.c' || echo '$(srcdir)/'`client.c

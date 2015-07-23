@@ -4,7 +4,6 @@
 
 #include <time.h>
 #include <cparse/defines.h>
-#include <cparse/acl.h>
 #include <pthread.h>
 
 typedef void (*cParseObjectAttributeCallback) (cParseObject *obj, const char *key, cParseJson *value, void *arg);
@@ -72,21 +71,7 @@ time_t cparse_object_updated_at(cParseObject *obj);
  * \param obj the object instance
  * \returns the access control list
  */
-cParseACL *cparse_object_acl(cParseObject *obj);
-
-/*! sets the object as readable by another object
- * \param obj the object instance
- * \param name the name of the object to access this object
- * \param value the read value
- */
-void cparse_object_set_readable_by(cParseObject *obj, const char *name, bool value);
-
-/*! sets the object as writable by another object
- * \param obj the object instance
- * \param name the name of the object to access this object
- * \param value the write value
- */
-void cparse_object_set_writable_by(cParseObject *obj, const char *name, bool value);
+cParseJson *cparse_object_acl(cParseObject *obj);
 
 /* client/rest methods */
 
@@ -304,6 +289,12 @@ cParseObject *cparse_object_from_json(cParseJson *json);
 const char *cparse_object_to_json_string(cParseObject *obj);
 
 bool cparse_object_is_object(cParseObject *obj);
+
+void cparse_object_set_acl(cParseObject *obj, bool read, bool write);
+
+void cparse_object_set_user_acl(cParseObject *obj, cParseUser *user, bool read, bool write);
+
+void cparse_object_set_role_acl(cParseObject *obj, const char *role, bool read, bool write);
 
 END_DECL
 

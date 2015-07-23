@@ -12,56 +12,61 @@ cParseACL *first_acl;
 
 cParseACL *default_acl = 0;
 
-cParseACL *cparse_acl_new()
+cParseACL *cparse_acl_for_public(bool read, bool write)
 {
     cParseACL *acl = malloc(sizeof(cParseACL));
     acl->next = NULL;
-    acl->name = NULL;
-    acl->read = false;
-    acl->write = false;
+    acl->key = strdup("*");
+    acl->read = read;
+    acl->write = write;
+
     return acl;
 }
 
-cParseACL *cparse_acl_with_name(const char *name)
+cParseACL *cparse_acl_for_user(cParseUser *obj, bool read, bool write)
 {
-    cParseACL *acl = cparse_acl_new();
-
-    acl->name = strdup(name);
+    cParseACL *acl = malloc(sizeof(cParseACL));
+    acl->next = NULL;
+    acl->key = strdup(obj->objectId);
+    acl->read = read;
+    acl->write = write;
 
     return acl;
 }
 
-cParseACL *cparse_acl_new_with_user(cParseUser *user)
+cParseACL *cparse_acl_for_role(const char *role, bool read, bool write)
 {
-    cParseACL *acl = cparse_acl_new();
+    char buf[CPARSE_BUF_SIZE + 1] = {0};
+    cParseACL *acl = malloc(sizeof(cParseACL));
+    acl->next = NULL;
 
-    acl->name = strdup(cparse_object_id(user));
+    snprintf(buf, CPARSE_BUF_SIZE, "role:%s", role);
+
+    acl->key = strdup(buf);
+    acl->read = read;
+    acl->write = write;
 
     return acl;
 }
+
 
 void cparse_acl_copy(cParseACL *this, cParseACL *other)
 {
-    cparse_replace_str(&this->name, other->name);
+    if (this == NULL || other == NULL) {
+        cparse_log_debug(strerror(EINVAL));
+        return;
+    }
+
+    cparse_replace_str(&this->key, other->key);
     this->read = other->read;
     this->write = other->write;
 }
 
-void cparse_set_default_acl(cParseACL *acl, bool currentUserAccess)
-{
-    default_acl = acl;
-
-    if (currentUserAccess)
-    {
-
-    }
-}
-
 void cparse_acl_free(cParseACL *acl)
 {
-    if (acl->name)
+    if (acl->key)
     {
-        free(acl->name);
+        free(acl->key);
     }
     free(acl);
 }
@@ -79,7 +84,7 @@ cParseACL *cparse_acl_from_json(cParseJson *json)
     {
         cParseACL *newAcl = cparse_acl_new();
 
-        newAcl->name = strdup(key);
+        newAcl->key = strdup(key);
 
         newAcl->read = cparse_json_get_bool(val, "read");
 
@@ -119,42 +124,88 @@ cParseJson *cparse_acl_to_json(cParseACL *acl)
     return json;
 }
 
-bool cparse_acl_is_readable(cParseACL *acl, const char *name)
+static bool cparse_acl_this_readable(cParseACL *acl, const char *key)
 {
     cParseACL *a = NULL;
 
-    if (cparse_str_empty(name)) {
-        return false;
-    }
-
     for (a = acl; a; a = a->next)
     {
-        if (!cparse_str_cmp(name, a->name))
-        {
+        if (!cparse_str_cmp(key, a->key)) {
             return a->read;
         }
     }
-
     return false;
 }
 
-bool cparse_acl_is_writable(cParseACL *acl, const char *name)
+bool cparse_acl_readable(cParseACL *acl)
 {
-    cParseACL *a = NULL;
+    return cparse_acl_this_readable(acl, "*");
+}
 
-    if (cparse_str_empty(name)) {
+bool cparse_acl_user_readable(cParseACL *acl, cParseUser *user)
+{
+    if (user == NULL || cparse_str_empty(user->objectId)) {
         return false;
     }
 
+    return cparse_acl_this_readable(acl, user->objectId);
+}
+
+bool cparse_acl_role_readable(cParseACL *acl, const char *role)
+{
+    char buf[CPARSE_BUF_SIZE + 1] = {0};
+
+    if (!role || !*role) {
+        return false;
+    }
+
+    snprintf(buf, CPARSE_BUF_SIZE, "role:%s", role);
+
+    return cparse_acl_this_readable(acl, buf);
+}
+
+static bool cparse_acl_this_writable(cParseACL *acl, const char *key)
+{
+    cParseACL *a = NULL;
+
     for (a = acl; a; a = a->next)
     {
-        if (!cparse_str_cmp(name, a->name))
+        if (!cparse_str_cmp(key, a->name))
         {
             return a->write;
         }
     }
 
     return false;
+}
+
+bool cparse_acl_writable(cParseACL *acl)
+{
+    return cparse_acl_this_writable(acl, "*");
+}
+
+bool cparse_acl_user_writable(cParseACL *acl, cParseUser *user)
+{
+    cParseACL *a = NULL;
+
+    if (!user || cparse_str_empty(user->objectId)) {
+        return false;
+    }
+
+    return cparse_acl_this_writable(acl, user->objectId);
+}
+
+bool cparse_acl_role_writable(cParseACL *acl, const char *role)
+{
+    char buf[CPARSE_BUF_SIZE + 1] = {0};
+
+    if (cparse_str_empty(role)) {
+        return false;
+    }
+
+    snprintf(buf, CPARSE_BUF_SIZE, "role:%s", role);
+
+    return cparse_acl_this_writable(acl, buf);
 }
 
 static void cparse_acl_set_acl(cParseACL *acl, const char *name, bool value, void (*funk)(cParseACL *, bool))
@@ -207,14 +258,45 @@ static void cparse_acl_set_this_writable(cParseACL *acl, bool value)
     }
 }
 
-void cparse_acl_set_readable(cParseACL *acl, const char *name, bool value)
+void cparse_acl_set_readable(cParseACL *acl, bool value)
 {
-    cparse_acl_set_acl(acl, name, value, cparse_acl_set_this_readable);
+    cparse_acl_set_acl(acl, "*", value, cparse_acl_set_this_readable);
 }
 
-void cparse_acl_set_writable(cParseACL *acl, const char *name, bool value)
+void cparse_acl_set_user_readable(cParseACL *acl, cParseUser *user, bool value)
 {
-    cparse_acl_set_acl(acl, name, value, cparse_acl_set_this_writable);
+    if (user) {
+        cparse_acl_set_acl(acl, cParseUser->objectId, value, cparse_acl_set_this_readable);
+    }
 }
 
+void cparse_acl_set_role_readable(cParseACL *acl, const char *role, bool value)
+{
+    if (!cparse_str_empty(role)) {
+        char buf[CPARSE_BUF_SIZE + 1] = {0};
+
+        snprintf(buf, CPARSE_BUF_SIZE, "role:%s", role);
+
+        cparse_acl_set_acl(acl, buf, value, cparse_acl_set_this_readable)
+    }
+}
+
+void cparse_acl_set_writable(cParseACL *acl, bool value)
+{
+    cparse_acl_set_acl(acl, "*", value, cparse_acl_set_this_readable);
+}
+
+void cparse_acl_set_user_writable(cParseACL *acl, cParseUser *user, bool value)
+{
+    if (user) {
+        cparse_acl_set_acl(acl, user->objectId, value, cparse_acl_set_this_writable);
+    }
+}
+
+void cparse_acl_set_role_writable(cParseACL *acl, const char *role, bool value)
+{
+    if (role & *role) {
+        cparse_acl_set_acl(acl, role, value, cparse_acl_set_this_writable);
+    }
+}
 

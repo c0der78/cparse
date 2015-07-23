@@ -131,11 +131,13 @@ cParseNumber cparse_json_get_number(cParseJson *obj, const char *key, cParseNumb
     cParseJson *value = NULL;
 
 #ifdef HAVE_JSON_EXTENDED
-    if (json_object_object_get_ex(obj, key, &value))
+    if (json_object_object_get_ex(obj, key, &value)) {
         return json_object_get_int64(value);
+    }
 #else
-    if ((value = json_object_object_get(obj, key)) != NULL)
+    if ((value = json_object_object_get(obj, key)) != NULL) {
         return json_object_get_int(value);
+    }
 #endif
 
     return def;
@@ -316,14 +318,21 @@ cParseJsonType cparse_json_type(cParseJson *v)
 {
     switch ( json_object_get_type(v) )
     {
-    case json_type_int: return cParseJsonNumber;
-    case json_type_double: return cParseJsonReal;
-    case json_type_string: return cParseJsonString;
-    case json_type_boolean: return cParseJsonBoolean;
-    case json_type_object: return  cParseJsonObject;
-    case json_type_array: return cParseJsonArray;
+    case json_type_int:
+        return cParseJsonNumber;
+    case json_type_double:
+        return cParseJsonReal;
+    case json_type_string:
+        return cParseJsonString;
+    case json_type_boolean:
+        return cParseJsonBoolean;
+    case json_type_object:
+        return  cParseJsonObject;
+    case json_type_array:
+        return cParseJsonArray;
     default:
-    case json_type_null: return cParseJsonNull;
+    case json_type_null:
+        return cParseJsonNull;
     }
 }
 

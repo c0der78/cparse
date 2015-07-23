@@ -1,7 +1,7 @@
 
 #include <cparse/defines.h>
-#include <cparse/acl.h>
 #include <cparse/object.h>
+#include <cparse/user.h>
 #include <check.h>
 #include "parse.test.h"
 
@@ -16,15 +16,17 @@ static void cparse_test_teardown()
 
 START_TEST(test_cparse_acl_set)
 {
-    cParseACL *acl = cparse_acl_new();
-
     cParseObject *obj = cparse_new_test_object("blah", 2433);
 
-    cparse_object_set_writable_by(obj, "asdf1234", true);
+    cParseUser *user = cparse_user_with_name("user235");
 
-    cparse_object_set_readable_by(obj, "1234knjsdf", true);
+    fail_unless(cparse_user_sign_up(user, "676767", NULL));
 
-    cparse_acl_free(acl);
+    cparse_object_set_user_acl(obj, user, true, true);
+
+    //fail_unless(cparse_object_save(obj, NULL));
+
+    cparse_user_delete(user, NULL);
 
     cparse_object_free(obj);
 }
