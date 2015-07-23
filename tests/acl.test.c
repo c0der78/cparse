@@ -29,6 +29,8 @@ START_TEST(test_cparse_acl_set)
     cparse_user_delete(user, NULL);
 
     cparse_object_free(obj);
+
+    cparse_object_free(user);
 }
 END_TEST
 
