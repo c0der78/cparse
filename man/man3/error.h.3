@@ -1,4 +1,4 @@
-.TH "src/cparse/error.h" 3 "Thu Feb 26 2015" "Version 0.1" "cParse" \" -*- nroff -*-
+.TH "src/cparse/error.h" 3 "Thu Jul 23 2015" "Version 0.1" "cParse" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -13,10 +13,13 @@ src/cparse/error.h \-
 
 .in +1c
 .ti -1c
-.RI "\fBcParseError\fP * \fBcparse_error_new\fP ()"
+.RI "BEGIN_DECL \fBcParseError\fP * \fBcparse_error_new\fP ()"
 .br
 .ti -1c
 .RI "\fBcParseError\fP * \fBcparse_error_with_message\fP (const char *message)"
+.br
+.ti -1c
+.RI "\fBcParseError\fP * \fBcparse_error_with_code_and_message\fP (int code, const char *message)"
 .br
 .ti -1c
 .RI "void \fBcparse_error_free\fP (\fBcParseError\fP *error)"
@@ -73,7 +76,7 @@ the error message or NULL
 .RE
 .PP
 
-.SS "\fBcParseError\fP* cparse_error_new ()"
+.SS "BEGIN_DECL \fBcParseError\fP* cparse_error_new ()"
 allocates a new empty error 
 .PP
 \fBReturns:\fP
@@ -101,6 +104,15 @@ sets the message for an error
 \fIerror\fP the error instance 
 .br
 \fImessage\fP the message to set 
+.RE
+.PP
+
+.SS "\fBcParseError\fP* cparse_error_with_code_and_message (int code, const char * message)"
+allocates an error with a code and message 
+.PP
+\fBReturns:\fP
+.RS 4
+the allocated error 
 .RE
 .PP
 

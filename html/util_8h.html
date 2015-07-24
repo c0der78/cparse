@@ -92,30 +92,42 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &lt;time.h&gt;</code><br />
+<code>#include &lt;<a class="el" href="defines_8h_source.html">cparse/defines.h</a>&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for util.h:</div>
 <div class="dyncontent">
 <div class="center"><img src="util_8h__incl.png" border="0" usemap="#src_2cparse_2util_8h" alt=""/></div>
+<map name="src_2cparse_2util_8h" id="src_2cparse_2util_8h">
+</map>
 </div>
 </div>
 <p><a href="util_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:ad9995d1d1077cb44bec44f6b0baa1951"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad9995d1d1077cb44bec44f6b0baa1951"></a>
+BEGIN_DECL int&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_str_empty</b> (const char *str)</td></tr>
+<tr class="separator:ad9995d1d1077cb44bec44f6b0baa1951"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5f40af393fa230e6f0f828dfb9d099b2"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5f40af393fa230e6f0f828dfb9d099b2"></a>
 time_t&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_date_time</b> (const char *str)</td></tr>
 <tr class="separator:a5f40af393fa230e6f0f828dfb9d099b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0b36523cd00b8786cda4aa91334d7fd8"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0b36523cd00b8786cda4aa91334d7fd8"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>replace_str</b> (char **a, const char *b)</td></tr>
-<tr class="separator:a0b36523cd00b8786cda4aa91334d7fd8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adff4748a1df6418faa51c95230eb5a57"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="adff4748a1df6418faa51c95230eb5a57"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>str_prefix</b> (const char *a, const char *b)</td></tr>
-<tr class="separator:adff4748a1df6418faa51c95230eb5a57"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a359c5734c5424626b8026f3c67b35465"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a359c5734c5424626b8026f3c67b35465"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_replace_str</b> (char **a, const char *b)</td></tr>
+<tr class="separator:a359c5734c5424626b8026f3c67b35465"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9dd06ed4debb6de1119ea24f96eff202"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9dd06ed4debb6de1119ea24f96eff202"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_str_prefix</b> (const char *a, const char *b)</td></tr>
+<tr class="separator:a9dd06ed4debb6de1119ea24f96eff202"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af7db2649599b8ed5c32808ddb80b5a7d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af7db2649599b8ed5c32808ddb80b5a7d"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_str_cmp</b> (const char *a, const char *b)</td></tr>
+<tr class="separator:af7db2649599b8ed5c32808ddb80b5a7d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a706ee6886c6c80c8d4fa38dff194b6ab"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a706ee6886c6c80c8d4fa38dff194b6ab"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_json_add_reference</b> (<a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *data, <a class="el" href="defines_8h.html#a2ccd5051f86d3933c9df2240ac02e912">cParseObject</a> *ref)</td></tr>
+<tr class="separator:a706ee6886c6c80c8d4fa38dff194b6ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Feb 26 2015 14:35:45 for cParse by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Jul 23 2015 22:42:59 for cParse by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>

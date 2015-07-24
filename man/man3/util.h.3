@@ -1,4 +1,4 @@
-.TH "src/cparse/util.h" 3 "Thu Feb 26 2015" "Version 0.1" "cParse" \" -*- nroff -*-
+.TH "src/cparse/util.h" 3 "Thu Jul 23 2015" "Version 0.1" "cParse" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -8,18 +8,29 @@ src/cparse/util.h \-
 .PP
 \fC#include <time\&.h>\fP
 .br
+\fC#include <cparse/defines\&.h>\fP
+.br
 
 .SS "Functions"
 
 .in +1c
 .ti -1c
+.RI "BEGIN_DECL int \fBcparse_str_empty\fP (const char *str)"
+.br
+.ti -1c
 .RI "time_t \fBcparse_date_time\fP (const char *str)"
 .br
 .ti -1c
-.RI "void \fBreplace_str\fP (char **a, const char *b)"
+.RI "void \fBcparse_replace_str\fP (char **a, const char *b)"
 .br
 .ti -1c
-.RI "int \fBstr_prefix\fP (const char *a, const char *b)"
+.RI "int \fBcparse_str_prefix\fP (const char *a, const char *b)"
+.br
+.ti -1c
+.RI "int \fBcparse_str_cmp\fP (const char *a, const char *b)"
+.br
+.ti -1c
+.RI "void \fBcparse_json_add_reference\fP (\fBcParseJson\fP *data, \fBcParseObject\fP *ref)"
 .br
 .in -1c
 .SH "Author"

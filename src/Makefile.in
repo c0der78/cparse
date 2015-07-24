@@ -139,7 +139,7 @@ am_libcparse_la_OBJECTS = libcparse_la-client.lo libcparse_la-error.lo \
 	libcparse_la-parse.lo libcparse_la-query.lo \
 	libcparse_la-types.lo libcparse_la-user.lo \
 	libcparse_la-util.lo libcparse_la-operators.lo \
-	libcparse_la-log.lo
+	libcparse_la-log.lo libcparse_la-list.lo
 libcparse_la_OBJECTS = $(am_libcparse_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
@@ -338,7 +338,7 @@ lib_LTLIBRARIES = libcparse.la
 libcparse_la_LDFLAGS = $(LIBCPARSE_LA_LDFLAGS) -version-info 0:0:0
 subdirheadersdir = $(pkgincludedir)/cparse
 subdirheaders_HEADERS = cparse/defines.h cparse/error.h cparse/json.h cparse/object.h cparse/operator.h cparse/parse.h cparse/query.h cparse/types.h cparse/user.h cparse/util.h
-libcparse_la_SOURCES = client.c error.c json.c object.c parse.c query.c types.c user.c util.c operators.c log.c
+libcparse_la_SOURCES = client.c error.c json.c object.c parse.c query.c types.c user.c util.c operators.c log.c list.c
 libcparse_la_CFLAGS = $(LIBCPARSE_LA_CFLAGS) @X_CFLAGS@ @COVERAGE_CFLAGS@
 CLEANFILES = *.gcno
 all: all-am
@@ -422,6 +422,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcparse_la-client.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcparse_la-error.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcparse_la-json.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcparse_la-list.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcparse_la-log.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcparse_la-object.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcparse_la-operators.Plo@am__quote@
@@ -528,6 +529,13 @@ libcparse_la-log.lo: log.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='log.c' object='libcparse_la-log.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libcparse_la_CFLAGS) $(CFLAGS) -c -o libcparse_la-log.lo `test -f 'log.c' || echo '$(srcdir)/'`log.c
+
+libcparse_la-list.lo: list.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libcparse_la_CFLAGS) $(CFLAGS) -MT libcparse_la-list.lo -MD -MP -MF $(DEPDIR)/libcparse_la-list.Tpo -c -o libcparse_la-list.lo `test -f 'list.c' || echo '$(srcdir)/'`list.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libcparse_la-list.Tpo $(DEPDIR)/libcparse_la-list.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='list.c' object='libcparse_la-list.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libcparse_la_CFLAGS) $(CFLAGS) -c -o libcparse_la-list.lo `test -f 'list.c' || echo '$(srcdir)/'`list.c
 
 mostlyclean-libtool:
 	-rm -f *.lo

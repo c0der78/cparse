@@ -17,7 +17,7 @@ cParseError *cparse_error_new()
 
     if (e == NULL)
     {
-        cparse_log_error(strerror(ENOMEM));
+        cparse_log_errno(ENOMEM);
         return NULL;
     }
 

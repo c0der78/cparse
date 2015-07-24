@@ -1,4 +1,4 @@
-.TH "src/cparse/parse.h" 3 "Thu Feb 26 2015" "Version 0.1" "cParse" \" -*- nroff -*-
+.TH "src/cparse/parse.h" 3 "Thu Jul 23 2015" "Version 0.1" "cParse" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -6,6 +6,9 @@ src/cparse/parse.h \-
 .SH SYNOPSIS
 .br
 .PP
+\fC#include <cparse/defines\&.h>\fP
+.br
+
 .SS "Enumerations"
 
 .in +1c
@@ -17,7 +20,7 @@ src/cparse/parse.h \-
 
 .in +1c
 .ti -1c
-.RI "void \fBcparse_set_application_id\fP (const char *appId)"
+.RI "BEGIN_DECL void \fBcparse_set_application_id\fP (const char *appId)"
 .br
 .ti -1c
 .RI "void \fBcparse_set_api_key\fP (const char *apiKey)"
@@ -62,7 +65,7 @@ sets the parse api key
 .RE
 .PP
 
-.SS "void cparse_set_application_id (const char * appId)"
+.SS "BEGIN_DECL void cparse_set_application_id (const char * appId)"
 sets the parse api application id 
 .PP
 \fBParameters:\fP

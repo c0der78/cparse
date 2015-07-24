@@ -53,7 +53,7 @@ cParseACL *cparse_acl_for_role(const char *role, bool read, bool write)
 void cparse_acl_copy(cParseACL *this, cParseACL *other)
 {
     if (this == NULL || other == NULL) {
-        cparse_log_debug(strerror(EINVAL));
+        cparse_log_errno(EINVAL);
         return;
     }
 

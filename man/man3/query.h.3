@@ -1,4 +1,4 @@
-.TH "src/cparse/query.h" 3 "Thu Feb 26 2015" "Version 0.1" "cParse" \" -*- nroff -*-
+.TH "src/cparse/query.h" 3 "Thu Jul 23 2015" "Version 0.1" "cParse" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -17,7 +17,7 @@ src/cparse/query.h \-
 
 .in +1c
 .ti -1c
-.RI "\fBcParseQuery\fP * \fBcparse_query_with_class_name\fP (const char *className)"
+.RI "BEGIN_DECL \fBcParseQuery\fP * \fBcparse_query_with_class_name\fP (const char *className)"
 .br
 .ti -1c
 .RI "void \fBcparse_query_free\fP (\fBcParseQuery\fP *query)"
@@ -190,7 +190,7 @@ the number of results in the query
 .RE
 .PP
 
-.SS "\fBcParseQuery\fP* cparse_query_with_class_name (const char * className)"
+.SS "BEGIN_DECL \fBcParseQuery\fP* cparse_query_with_class_name (const char * className)"
 creates a new query for an object type 
 .PP
 \fBParameters:\fP

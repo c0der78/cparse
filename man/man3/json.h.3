@@ -1,4 +1,4 @@
-.TH "src/cparse/json.h" 3 "Thu Feb 26 2015" "Version 0.1" "cParse" \" -*- nroff -*-
+.TH "src/cparse/json.h" 3 "Thu Jul 23 2015" "Version 0.1" "cParse" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -15,10 +15,10 @@ src/cparse/json.h \-
 
 .in +1c
 .ti -1c
-.RI "#define \fBcparse_json_object_foreach_start\fP(obj,  key,  val)"
+.RI "#define \fBcparse_json_foreach_start\fP(obj,  key,  val)"
 .br
 .ti -1c
-.RI "#define \fBcparse_json_object_foreach_end\fP   } while(0)"
+.RI "#define \fBcparse_json_foreach_end\fP   } while(0)"
 .br
 .in -1c
 .SS "Enumerations"
@@ -32,7 +32,7 @@ src/cparse/json.h \-
 
 .in +1c
 .ti -1c
-.RI "\fBcParseJson\fP * \fBcparse_json_new\fP ()"
+.RI "BEGIN_DECL \fBcParseJson\fP * \fBcparse_json_new\fP ()"
 .br
 .ti -1c
 .RI "\fBcParseJson\fP * \fBcparse_json_new_reference\fP (\fBcParseJson\fP *orig)"
@@ -160,9 +160,9 @@ src/cparse/json.h \-
 .in -1c
 .SH "Macro Definition Documentation"
 .PP 
-.SS "#define cparse_json_object_foreach_end   } while(0)"
+.SS "#define cparse_json_foreach_end   } while(0)"
 the end block for a json object iterator 
-.SS "#define cparse_json_object_foreach_start(obj, key, val)"
+.SS "#define cparse_json_foreach_start(obj, key, val)"
 \fBValue:\fP
 .PP
 .nf
@@ -447,7 +447,7 @@ true if the object is an array
 .RE
 .PP
 
-.SS "\fBcParseJson\fP* cparse_json_new ()"
+.SS "BEGIN_DECL \fBcParseJson\fP* cparse_json_new ()"
 allocates a new json object 
 .PP
 \fBReturns:\fP

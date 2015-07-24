@@ -6,7 +6,17 @@
 
 BEGIN_DECL
 
-bool cparse_role_save(cParseRole *role, cParseError *error);
+cParseRole *cparse_role_with_name(const char *name);
+
+const char* cparse_role_name(cParseRole *role);
+
+cParseJson *cparse_role_users(cParseRole *role);
+
+cParseJson *cparse_role_roles(cParseRole *role);
+
+bool cparse_role_save(cParseRole *role, cParseError **error);
+
+bool cparse_role_update(cParseRole *role, cParseJson *attributes, cParseError **error);
 
 END_DECL
 

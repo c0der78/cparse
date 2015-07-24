@@ -107,10 +107,10 @@ Include dependency graph for json.h:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:a7e22dd62f88827ab7a5061ffd75c36e9"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="json_8h.html#a7e22dd62f88827ab7a5061ffd75c36e9">cparse_json_object_foreach_start</a>(obj,  key,  val)</td></tr>
-<tr class="separator:a7e22dd62f88827ab7a5061ffd75c36e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adeb8de5cac3b4e1ae05e4707f66f5037"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="json_8h.html#adeb8de5cac3b4e1ae05e4707f66f5037">cparse_json_object_foreach_end</a>&#160;&#160;&#160;} while(0)</td></tr>
-<tr class="separator:adeb8de5cac3b4e1ae05e4707f66f5037"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a08226fd4699446a12bb574aa90041d30"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="json_8h.html#a08226fd4699446a12bb574aa90041d30">cparse_json_foreach_start</a>(obj,  key,  val)</td></tr>
+<tr class="separator:a08226fd4699446a12bb574aa90041d30"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a284cd0bee830367e36d24fadd372b1c3"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="json_8h.html#a284cd0bee830367e36d24fadd372b1c3">cparse_json_foreach_end</a>&#160;&#160;&#160;} while(0)</td></tr>
+<tr class="separator:a284cd0bee830367e36d24fadd372b1c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
 Enumerations</h2></td></tr>
@@ -129,8 +129,8 @@ Enumerations</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ae43201cdec840887a83f2d6db904194e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="json_8h.html#ae43201cdec840887a83f2d6db904194e">cparse_json_new</a> ()</td></tr>
-<tr class="separator:ae43201cdec840887a83f2d6db904194e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4cb5efac00f04c8dc604197fff06fa9a"><td class="memItemLeft" align="right" valign="top">BEGIN_DECL <a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="json_8h.html#a4cb5efac00f04c8dc604197fff06fa9a">cparse_json_new</a> ()</td></tr>
+<tr class="separator:a4cb5efac00f04c8dc604197fff06fa9a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5b27f07edca1dc9c14b2d83ddf2ac980"><td class="memItemLeft" align="right" valign="top"><a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="json_8h.html#a5b27f07edca1dc9c14b2d83ddf2ac980">cparse_json_new_reference</a> (<a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *orig)</td></tr>
 <tr class="separator:a5b27f07edca1dc9c14b2d83ddf2ac980"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5d94245210526017c5803b48b17cff5b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="json_8h.html#a5d94245210526017c5803b48b17cff5b">cparse_json_new_number</a> (<a class="el" href="defines_8h.html#af78276d292256dff61f689f93f2d3f48">cParseNumber</a>)</td></tr>
@@ -217,12 +217,12 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_json_array_s
 <tr class="separator:a94c6d05a76619ff0dee40bae04cc5e62"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
-<a class="anchor" id="adeb8de5cac3b4e1ae05e4707f66f5037"></a>
+<a class="anchor" id="a284cd0bee830367e36d24fadd372b1c3"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define cparse_json_object_foreach_end&#160;&#160;&#160;} while(0)</td>
+          <td class="memname">#define cparse_json_foreach_end&#160;&#160;&#160;} while(0)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -230,12 +230,12 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_json_array_s
 
 </div>
 </div>
-<a class="anchor" id="a7e22dd62f88827ab7a5061ffd75c36e9"></a>
+<a class="anchor" id="a08226fd4699446a12bb574aa90041d30"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define cparse_json_object_foreach_start</td>
+          <td class="memname">#define cparse_json_foreach_start</td>
           <td>(</td>
           <td class="paramtype">&#160;</td>
           <td class="paramname">obj, </td>
@@ -262,11 +262,11 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_json_array_s
 <b>Value:</b><div class="fragment"><div class="line"><span class="keywordflow">do</span> { \</div>
 <div class="line">        char *key; <span class="keyword">struct </span>json_object *val; <span class="keyword">struct </span>lh_entry *entry;\</div>
 <div class="line">        for(entry = json_object_get_object(obj)-&gt;head; entry &amp;&amp; ( ( (key = (<span class="keywordtype">char</span>*)entry-&gt;k)  || entry) &amp;&amp; ( (val = (<span class="keyword">struct</span> json_object*)entry-&gt;v)  || entry)); entry = entry-&gt;next )</div>
-</div><!-- fragment --><p>a start block for a json object iterator <em>example</em>: </p><div class="fragment"><div class="line"><a class="code" href="json_8h.html#a7e22dd62f88827ab7a5061ffd75c36e9">cparse_json_object_foreach_start</a>(obj, myKey, myVar)</div>
+</div><!-- fragment --><p>a start block for a json object iterator <em>example</em>: </p><div class="fragment"><div class="line">cparse_json_object_foreach_start(obj, myKey, myVar)</div>
 <div class="line">{</div>
 <div class="line">    do_something(myKey, myVar);</div>
 <div class="line">}</div>
-<div class="line"><a class="code" href="json_8h.html#adeb8de5cac3b4e1ae05e4707f66f5037">cparse_json_object_foreach_end</a>;</div>
+<div class="line">cparse_json_object_foreach_end;</div>
 </div><!-- fragment --> <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">obj</td><td>the object instance </td></tr>
@@ -912,12 +912,12 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_json_array_s
 
 </div>
 </div>
-<a class="anchor" id="ae43201cdec840887a83f2d6db904194e"></a>
+<a class="anchor" id="a4cb5efac00f04c8dc604197fff06fa9a"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a>* cparse_json_new </td>
+          <td class="memname">BEGIN_DECL <a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a>* cparse_json_new </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -1480,7 +1480,7 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_json_array_s
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Feb 26 2015 14:35:45 for cParse by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Jul 23 2015 22:42:59 for cParse by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>

@@ -2,7 +2,11 @@
 #include <cparse/parse.h>
 #include <stdio.h>
 #include <time.h>
+#include <execinfo.h>
+#include <dlfcn.h>
 #include "log.h"
+#include <stdlib.h>
+#include <string.h>
 
 const char *cParseLogLevelNames[] =
 {
@@ -15,12 +19,30 @@ static void cparse_log_vargs(cParseLogLevel level, const char *const format, va_
 {
     char buf[BUFSIZ + 1] = {0};
 
+    void *callstack[3];
+
     time_t t = time(0);
+
+    int frames = backtrace(callstack, 3);
+
+    const char *last_func = "unk";
+
+    Dl_info info;
+
+    if (frames > 2) {
+
+        if (dladdr(callstack[2], &info) && info.dli_sname) {
+            last_func = info.dli_sname;
+        }
+    }
+
     strftime(buf, BUFSIZ, "%Y-%m-%d %H:%M:%S", localtime(&t));
-    fprintf(stdout, "%s %s: ", buf, cParseLogLevelNames[level]);
+
+    fprintf(stdout, "%s %s: [%s] ", buf, cParseLogLevelNames[level], last_func);
     vfprintf(stdout, format, args);
     fputs("\n", stdout);
     fflush(stdout);
+
 }
 
 void cparse_log_error(const char *const format, ...)
@@ -76,5 +98,9 @@ void cparse_log_trace(const char *const format, ...)
     va_start(args, format);
     cparse_log_vargs(cParseLogTrace, format, args);
     va_end(args);
+}
+
+void cparse_log_errno(int errno) {
+    cparse_log_error("%d: %s", errno, strerror(errno));
 }
 

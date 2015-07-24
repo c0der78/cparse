@@ -17,6 +17,8 @@ int cparse_str_prefix(const char *a, const char *b);
 
 int cparse_str_cmp(const char *a, const char *b);
 
+void cparse_json_add_reference(cParseJson *data, cParseObject *ref);
+
 END_DECL
 
 #endif

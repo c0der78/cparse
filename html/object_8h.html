@@ -86,6 +86,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#typedef-members">Typedefs</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">object.h File Reference</div>  </div>
@@ -93,7 +94,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="contents">
 <div class="textblock"><code>#include &lt;time.h&gt;</code><br />
 <code>#include &lt;<a class="el" href="defines_8h_source.html">cparse/defines.h</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="acl_8h_source.html">cparse/acl.h</a>&gt;</code><br />
 <code>#include &lt;pthread.h&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for object.h:</div>
@@ -112,10 +112,16 @@ This graph shows which files directly or indirectly include this file:</div>
 </div>
 <p><a href="object_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:a1d34f48d404b515efaf31b2f5d993bea"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1d34f48d404b515efaf31b2f5d993bea"></a>
+typedef void(*&#160;</td><td class="memItemRight" valign="bottom"><b>cParseObjectAttributeCallback</b>) (<a class="el" href="defines_8h.html#a2ccd5051f86d3933c9df2240ac02e912">cParseObject</a> *obj, const char *key, <a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *value, void *arg)</td></tr>
+<tr class="separator:a1d34f48d404b515efaf31b2f5d993bea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:aa76013687b4f608d52034ad166caecf8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#aa76013687b4f608d52034ad166caecf8">cparse_object_copy</a> (<a class="el" href="defines_8h.html#a2ccd5051f86d3933c9df2240ac02e912">cParseObject</a> *obj, <a class="el" href="defines_8h.html#a2ccd5051f86d3933c9df2240ac02e912">cParseObject</a> *other)</td></tr>
-<tr class="separator:aa76013687b4f608d52034ad166caecf8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7bfc1075737661c589937ac1093d8a1e"><td class="memItemLeft" align="right" valign="top">BEGIN_DECL void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#a7bfc1075737661c589937ac1093d8a1e">cparse_object_copy</a> (<a class="el" href="defines_8h.html#a2ccd5051f86d3933c9df2240ac02e912">cParseObject</a> *obj, <a class="el" href="defines_8h.html#a2ccd5051f86d3933c9df2240ac02e912">cParseObject</a> *other)</td></tr>
+<tr class="separator:a7bfc1075737661c589937ac1093d8a1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad921c7d3cc1974bb796145b5f73e6b2f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="defines_8h.html#a2ccd5051f86d3933c9df2240ac02e912">cParseObject</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#ad921c7d3cc1974bb796145b5f73e6b2f">cparse_object_with_class_name</a> (const char *className)</td></tr>
 <tr class="separator:ad921c7d3cc1974bb796145b5f73e6b2f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acc0718f909e00991d3cddba1fcb690e8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="defines_8h.html#a2ccd5051f86d3933c9df2240ac02e912">cParseObject</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#acc0718f909e00991d3cddba1fcb690e8">cparse_object_with_class_data</a> (const char *className, <a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *data)</td></tr>
@@ -132,8 +138,8 @@ Functions</h2></td></tr>
 <tr class="separator:aed6f0281756adb5a6df972442d27ca84"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af11334224221be572883c46375363257"><td class="memItemLeft" align="right" valign="top">time_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#af11334224221be572883c46375363257">cparse_object_updated_at</a> (<a class="el" href="defines_8h.html#a2ccd5051f86d3933c9df2240ac02e912">cParseObject</a> *obj)</td></tr>
 <tr class="separator:af11334224221be572883c46375363257"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a30f6104a6e92901d00b0c16eadfdac45"><td class="memItemLeft" align="right" valign="top"><a class="el" href="defines_8h.html#ad06c2046bbea4e397453d3cd332bb5e3">cParseACL</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#a30f6104a6e92901d00b0c16eadfdac45">cparse_object_acl</a> (<a class="el" href="defines_8h.html#a2ccd5051f86d3933c9df2240ac02e912">cParseObject</a> *obj)</td></tr>
-<tr class="separator:a30f6104a6e92901d00b0c16eadfdac45"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a076b7af613b36490d5fb6dd3426fb325"><td class="memItemLeft" align="right" valign="top"><a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#a076b7af613b36490d5fb6dd3426fb325">cparse_object_acl</a> (<a class="el" href="defines_8h.html#a2ccd5051f86d3933c9df2240ac02e912">cParseObject</a> *obj)</td></tr>
+<tr class="separator:a076b7af613b36490d5fb6dd3426fb325"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa4b5fbfb6a129fe60011164f025d849a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#aa4b5fbfb6a129fe60011164f025d849a">cparse_object_save</a> (<a class="el" href="defines_8h.html#a2ccd5051f86d3933c9df2240ac02e912">cParseObject</a> *obj, <a class="el" href="defines_8h.html#ac029144e51f48abfbe57cd20af5b4339">cParseError</a> **error)</td></tr>
 <tr class="separator:aa4b5fbfb6a129fe60011164f025d849a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a416cd8b442986370db2bb7733dd9211c"><td class="memItemLeft" align="right" valign="top">pthread_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#a416cd8b442986370db2bb7733dd9211c">cparse_object_save_in_background</a> (<a class="el" href="defines_8h.html#a2ccd5051f86d3933c9df2240ac02e912">cParseObject</a> *obj, <a class="el" href="defines_8h.html#ab02b024ff456cf891cfe7ed0b881c29a">cParseObjectCallback</a> callback)</td></tr>
@@ -186,8 +192,8 @@ Functions</h2></td></tr>
 <tr class="separator:a692431f70553d17388a9474ec9749f5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a07935f456261fa8fb14b973067f6b491"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#a07935f456261fa8fb14b973067f6b491">cparse_object_contains</a> (<a class="el" href="defines_8h.html#a2ccd5051f86d3933c9df2240ac02e912">cParseObject</a> *obj, const char *key)</td></tr>
 <tr class="separator:a07935f456261fa8fb14b973067f6b491"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad7425b67b3d0c342836a30f089b4c19c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#ad7425b67b3d0c342836a30f089b4c19c">cparse_object_foreach</a> (<a class="el" href="defines_8h.html#a2ccd5051f86d3933c9df2240ac02e912">cParseObject</a> *obj, void(*foreach)(<a class="el" href="defines_8h.html#a2ccd5051f86d3933c9df2240ac02e912">cParseObject</a> *o, <a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *attribute))</td></tr>
-<tr class="separator:ad7425b67b3d0c342836a30f089b4c19c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a06d9619751f1f443328429b93657a3a5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#a06d9619751f1f443328429b93657a3a5">cparse_object_foreach_attribute</a> (<a class="el" href="defines_8h.html#a2ccd5051f86d3933c9df2240ac02e912">cParseObject</a> *obj, cParseObjectAttributeCallback callback, void *param)</td></tr>
+<tr class="separator:a06d9619751f1f443328429b93657a3a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4db24293ec7a211c395534f0b253d367"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#a4db24293ec7a211c395534f0b253d367">cparse_object_attribute_size</a> (<a class="el" href="defines_8h.html#a2ccd5051f86d3933c9df2240ac02e912">cParseObject</a> *)</td></tr>
 <tr class="separator:a4db24293ec7a211c395534f0b253d367"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a186e52fe439226889ba1afe890462dad"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#a186e52fe439226889ba1afe890462dad">cparse_object_merge_json</a> (<a class="el" href="defines_8h.html#a2ccd5051f86d3933c9df2240ac02e912">cParseObject</a> *obj, <a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *json)</td></tr>
@@ -199,14 +205,23 @@ Functions</h2></td></tr>
 <tr class="memitem:ad33d998b909c9f0a88f2723762c37458"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad33d998b909c9f0a88f2723762c37458"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_object_is_object</b> (<a class="el" href="defines_8h.html#a2ccd5051f86d3933c9df2240ac02e912">cParseObject</a> *obj)</td></tr>
 <tr class="separator:ad33d998b909c9f0a88f2723762c37458"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a42164174fb5b5b5fe66a29d461187918"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a42164174fb5b5b5fe66a29d461187918"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_object_set_acl</b> (<a class="el" href="defines_8h.html#a2ccd5051f86d3933c9df2240ac02e912">cParseObject</a> *obj, bool read, bool write)</td></tr>
+<tr class="separator:a42164174fb5b5b5fe66a29d461187918"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a34855fe6cb75ca887bd0612a1be27564"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a34855fe6cb75ca887bd0612a1be27564"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_object_set_user_acl</b> (<a class="el" href="defines_8h.html#a2ccd5051f86d3933c9df2240ac02e912">cParseObject</a> *obj, <a class="el" href="defines_8h.html#a035f288bb4bd21eb0937af2acbf5da9b">cParseUser</a> *user, bool read, bool write)</td></tr>
+<tr class="separator:a34855fe6cb75ca887bd0612a1be27564"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a493b894dadc204dc3376e9f813cda2b5"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a493b894dadc204dc3376e9f813cda2b5"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_object_set_role_acl</b> (<a class="el" href="defines_8h.html#a2ccd5051f86d3933c9df2240ac02e912">cParseObject</a> *obj, const char *role, bool read, bool write)</td></tr>
+<tr class="separator:a493b894dadc204dc3376e9f813cda2b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
-<a class="anchor" id="a30f6104a6e92901d00b0c16eadfdac45"></a>
+<a class="anchor" id="a076b7af613b36490d5fb6dd3426fb325"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="defines_8h.html#ad06c2046bbea4e397453d3cd332bb5e3">cParseACL</a>* cparse_object_acl </td>
+          <td class="memname"><a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a>* cparse_object_acl </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="defines_8h.html#a2ccd5051f86d3933c9df2240ac02e912">cParseObject</a> *&#160;</td>
           <td class="paramname"><em>obj</em></td><td>)</td>
@@ -304,12 +319,12 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_object_is_obje
 
 </div>
 </div>
-<a class="anchor" id="aa76013687b4f608d52034ad166caecf8"></a>
+<a class="anchor" id="a7bfc1075737661c589937ac1093d8a1e"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void cparse_object_copy </td>
+          <td class="memname">BEGIN_DECL void cparse_object_copy </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="defines_8h.html#a2ccd5051f86d3933c9df2240ac02e912">cParseObject</a> *&#160;</td>
           <td class="paramname"><em>obj</em>, </td>
@@ -519,12 +534,12 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_object_is_obje
 
 </div>
 </div>
-<a class="anchor" id="ad7425b67b3d0c342836a30f089b4c19c"></a>
+<a class="anchor" id="a06d9619751f1f443328429b93657a3a5"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void cparse_object_foreach </td>
+          <td class="memname">void cparse_object_foreach_attribute </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="defines_8h.html#a2ccd5051f86d3933c9df2240ac02e912">cParseObject</a> *&#160;</td>
           <td class="paramname"><em>obj</em>, </td>
@@ -532,8 +547,14 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_object_is_obje
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">void(*)(<a class="el" href="defines_8h.html#a2ccd5051f86d3933c9df2240ac02e912">cParseObject</a> *o, <a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *attribute)&#160;</td>
-          <td class="paramname"><em>foreach</em>&#160;</td>
+          <td class="paramtype">cParseObjectAttributeCallback&#160;</td>
+          <td class="paramname"><em>callback</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>param</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -546,6 +567,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_object_is_obje
   <table class="params">
     <tr><td class="paramname">obj</td><td>the object instance </td></tr>
     <tr><td class="paramname">foreach</td><td>the callback for each object attribute </td></tr>
+    <tr><td class="paramname">param</td><td>an optional parameter for the callback </td></tr>
   </table>
   </dd>
 </dl>
@@ -1500,7 +1522,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_object_is_obje
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Feb 26 2015 14:35:45 for cParse by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Jul 23 2015 22:42:59 for cParse by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>

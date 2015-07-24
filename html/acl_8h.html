@@ -99,38 +99,43 @@ Include dependency graph for acl.h:</div>
 <map name="src_2cparse_2acl_8h" id="src_2cparse_2acl_8h">
 <area shape="rect" id="node2" href="defines_8h.html" title="cparse/defines.h" alt="" coords="5,79,125,104"/></map>
 </div>
-</div><div class="textblock"><div class="dynheader">
-This graph shows which files directly or indirectly include this file:</div>
-<div class="dyncontent">
-<div class="center"><img src="acl_8h__dep__incl.png" border="0" usemap="#src_2cparse_2acl_8hdep" alt=""/></div>
-<map name="src_2cparse_2acl_8hdep" id="src_2cparse_2acl_8hdep">
-<area shape="rect" id="node2" href="object_8h.html" title="src/cparse/object.h" alt="" coords="5,79,139,104"/><area shape="rect" id="node4" href="user_8h.html" title="src/cparse/user.h" alt="" coords="63,225,185,251"/><area shape="rect" id="node3" href="query_8h.html" title="src/cparse/query.h" alt="" coords="7,152,137,177"/></map>
-</div>
 </div>
 <p><a href="acl_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a26c7d9ff9577dfb9d453bd366afce112"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a26c7d9ff9577dfb9d453bd366afce112"></a>
-<a class="el" href="defines_8h.html#ad06c2046bbea4e397453d3cd332bb5e3">cParseACL</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_acl_new</b> ()</td></tr>
-<tr class="separator:a26c7d9ff9577dfb9d453bd366afce112"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4db926354dc395d4342cd5e649cb751b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4db926354dc395d4342cd5e649cb751b"></a>
-<a class="el" href="defines_8h.html#ad06c2046bbea4e397453d3cd332bb5e3">cParseACL</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_acl_new_with_user</b> (<a class="el" href="defines_8h.html#a2ccd5051f86d3933c9df2240ac02e912">cParseObject</a> *user)</td></tr>
-<tr class="separator:a4db926354dc395d4342cd5e649cb751b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7aa346aea11ab4f92695b1a0142a39e8"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7aa346aea11ab4f92695b1a0142a39e8"></a>
-<a class="el" href="defines_8h.html#ad06c2046bbea4e397453d3cd332bb5e3">cParseACL</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_acl_copy</b> (<a class="el" href="defines_8h.html#ad06c2046bbea4e397453d3cd332bb5e3">cParseACL</a> *other)</td></tr>
-<tr class="separator:a7aa346aea11ab4f92695b1a0142a39e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a46b4d30d33a3315b6fe93e710fa3fcbf"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a46b4d30d33a3315b6fe93e710fa3fcbf"></a>
+BEGIN_DECL void&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_acl_copy</b> (<a class="el" href="defines_8h.html#ad06c2046bbea4e397453d3cd332bb5e3">cParseACL</a> *orig, <a class="el" href="defines_8h.html#ad06c2046bbea4e397453d3cd332bb5e3">cParseACL</a> *other)</td></tr>
+<tr class="separator:a46b4d30d33a3315b6fe93e710fa3fcbf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac9fc72da523bd87311bdbfbed5261d2a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac9fc72da523bd87311bdbfbed5261d2a"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_set_default_acl</b> (<a class="el" href="defines_8h.html#ad06c2046bbea4e397453d3cd332bb5e3">cParseACL</a> *acl, bool currentUserAccess)</td></tr>
 <tr class="separator:ac9fc72da523bd87311bdbfbed5261d2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af45286c1d013eae7319e99a9532be420"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af45286c1d013eae7319e99a9532be420"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_acl_free</b> (<a class="el" href="defines_8h.html#ad06c2046bbea4e397453d3cd332bb5e3">cParseACL</a> *acl)</td></tr>
 <tr class="separator:af45286c1d013eae7319e99a9532be420"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acb43abe3bd52acdc24a1adad763508fd"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="acb43abe3bd52acdc24a1adad763508fd"></a>
+<a class="el" href="defines_8h.html#ad06c2046bbea4e397453d3cd332bb5e3">cParseACL</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_acl_from_json</b> (<a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *json)</td></tr>
+<tr class="separator:acb43abe3bd52acdc24a1adad763508fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a040f64d2794367e79b673c740f7b7a85"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a040f64d2794367e79b673c740f7b7a85"></a>
+<a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_acl_to_json</b> (<a class="el" href="defines_8h.html#ad06c2046bbea4e397453d3cd332bb5e3">cParseACL</a> *acl)</td></tr>
+<tr class="separator:a040f64d2794367e79b673c740f7b7a85"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8dd43459de868db971e8ef0fa7f91e9d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8dd43459de868db971e8ef0fa7f91e9d"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_acl_is_readable</b> (<a class="el" href="defines_8h.html#ad06c2046bbea4e397453d3cd332bb5e3">cParseACL</a> *acl, const char *name)</td></tr>
+<tr class="separator:a8dd43459de868db971e8ef0fa7f91e9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6e186817569b306eaafb91f0ca017437"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6e186817569b306eaafb91f0ca017437"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_acl_is_writable</b> (<a class="el" href="defines_8h.html#ad06c2046bbea4e397453d3cd332bb5e3">cParseACL</a> *acl, const char *name)</td></tr>
+<tr class="separator:a6e186817569b306eaafb91f0ca017437"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a57c995431dbe20a88eb5d7df281ad6f6"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a57c995431dbe20a88eb5d7df281ad6f6"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_acl_set_readable</b> (<a class="el" href="defines_8h.html#ad06c2046bbea4e397453d3cd332bb5e3">cParseACL</a> *acl, const char *name, bool value)</td></tr>
+<tr class="separator:a57c995431dbe20a88eb5d7df281ad6f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a31f66c7612f59544399e3432ccbccddf"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a31f66c7612f59544399e3432ccbccddf"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_acl_set_writable</b> (<a class="el" href="defines_8h.html#ad06c2046bbea4e397453d3cd332bb5e3">cParseACL</a> *acl, const char *name, bool value)</td></tr>
+<tr class="separator:a31f66c7612f59544399e3432ccbccddf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Feb 26 2015 14:35:45 for cParse by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Jul 23 2015 22:42:59 for cParse by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>

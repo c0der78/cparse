@@ -14,5 +14,7 @@ var searchData=
   ['cparseoperatordecrement',['cParseOperatorDecrement',['../defines_8h.html#a606b41c7d8f1e11daf36ee025cc8d2e0',1,'defines.h']]],
   ['cparseoperatorincrement',['cParseOperatorIncrement',['../defines_8h.html#adf8c5f73d0ccda64b916b5839861fb55',1,'defines.h']]],
   ['cparsepointer',['cParsePointer',['../defines_8h.html#a3f958b612c0c624a94ee1331ad1bfc7f',1,'defines.h']]],
-  ['cparsequery',['cParseQuery',['../defines_8h.html#aaaa2ae5bacca4dcc458d71f7d5f9f150',1,'defines.h']]]
+  ['cparsequery',['cParseQuery',['../defines_8h.html#aaaa2ae5bacca4dcc458d71f7d5f9f150',1,'defines.h']]],
+  ['cparserole',['cParseRole',['../defines_8h.html#af0184417788b2f80de234f6e0f701a52',1,'defines.h']]],
+  ['cparseuser',['cParseUser',['../defines_8h.html#a035f288bb4bd21eb0937af2acbf5da9b',1,'defines.h']]]
 ];
