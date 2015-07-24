@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <time.h>
 #include <execinfo.h>
+#define _GNU_SOURCE
 #include <dlfcn.h>
 #include "log.h"
 #include <stdlib.h>
