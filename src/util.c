@@ -4,7 +4,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <errno.h>
 #include <cparse/util.h>
+#include <cparse/json.h>
+#include <cparse/object.h>
+#include "log.h"
+#include "protocol.h"
+#include "private.h"
 
 inline int cparse_str_empty(const char *str)
 {
@@ -70,5 +76,32 @@ int cparse_str_prefix(const char *astr, const char *bstr)
     }
 
     return 0;
+
+}
+
+void cparse_json_add_reference(cParseJson *data, cParseObject *ref)
+{
+    if (!data || !ref) {
+        cparse_log_errno(EINVAL);
+        return;
+    }
+
+    /* set type to pointer */
+    cparse_json_set_string(data, CPARSE_KEY_TYPE, CPARSE_TYPE_POINTER);
+
+    /* add class name */
+    if (!cparse_str_empty(ref->className))
+    {
+        if (!cparse_str_prefix(CPARSE_OBJECTS_PATH, ref->className)) {
+            cparse_json_set_string(data, CPARSE_KEY_CLASS_NAME, ref->className + strlen(CPARSE_OBJECTS_PATH));
+        } else {
+            cparse_json_set_string(data, CPARSE_KEY_CLASS_NAME, ref->className);
+        }
+    }
+
+    /* add object id */
+    if (!cparse_str_empty(ref->objectId)) {
+        cparse_json_set_string(data, CPARSE_KEY_OBJECT_ID, ref->objectId);
+    }
 
 }

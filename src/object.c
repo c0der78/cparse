@@ -67,6 +67,15 @@ static void *cparse_object_background_action(void *argument)
     return NULL;
 }
 
+static void cparse_object_errno(cParseError **error, int errnum)
+{
+    if (error) {
+        *error = cparse_error_with_message(strerror(errnum));
+        cparse_error_set_code(*error, errnum);
+    }
+
+    cparse_log_errno(errnum);
+}
 static void cparse_object_error(cParseError **error, const char *message)
 {
     if (error) {
@@ -82,7 +91,7 @@ pthread_t cparse_object_run_in_background(cParseObject *obj, cParseObjectAction 
     int rc = 0;
 
     if (obj == NULL || action == NULL) {
-        cparse_log_debug(strerror(EINVAL));
+        cparse_log_errno(EINVAL);
         return 0;
     }
 
@@ -107,7 +116,7 @@ void cparse_object_set_request_includes(cParseObject *obj, cParseRequest *reques
     char types[CPARSE_BUF_SIZE + 1] = {0};
 
     if (obj == NULL || request == NULL) {
-        cparse_log_debug(strerror(EINVAL));
+        cparse_log_errno(EINVAL);
         return;
     }
 
@@ -139,7 +148,7 @@ static cParseRequest *cparse_object_create_request(cParseObject *obj, cParseHttp
     char buf[CPARSE_BUF_SIZE + 1] = {0};
 
     if (!obj) {
-        cparse_object_error(error, strerror(EINVAL));
+        cparse_object_errno(error, EINVAL);
         return NULL;
     }
 
@@ -178,7 +187,7 @@ cParseObject *cparse_object_new()
 void cparse_object_copy(cParseObject *obj, cParseObject *other)
 {
     if (obj == NULL || other == NULL) {
-        cparse_log_debug(strerror(EINVAL));
+        cparse_log_errno(EINVAL);
         return;
     }
 
@@ -196,7 +205,7 @@ cParseObject *cparse_object_with_class_name(const char *className)
     cParseObject *obj = NULL;
 
     if (!className || !*className) {
-        cparse_log_debug(strerror(EINVAL));
+        cparse_log_errno(EINVAL);
         return NULL;
     }
 
@@ -284,7 +293,7 @@ bool cparse_object_delete(cParseObject *obj, cParseError **error)
     bool rval = false;
 
     if (!obj) {
-        cparse_object_error(error, strerror(EINVAL));
+        cparse_object_errno(error, EINVAL);
         return false;
     }
 
@@ -314,7 +323,7 @@ bool cparse_object_fetch(cParseObject *obj, cParseError **error)
     cParseJson *json = NULL;
 
     if (!obj) {
-        cparse_object_error(error, strerror(EINVAL));
+        cparse_object_errno(error, EINVAL);
         return false;
     }
 
@@ -360,7 +369,7 @@ bool cparse_object_refresh(cParseObject *obj, cParseError **error)
     cParseJson *json = NULL;
 
     if (!obj) {
-        cparse_object_error(error, strerror(EINVAL));
+        cparse_object_errno(error, EINVAL);
         return false;
     }
 
@@ -416,7 +425,7 @@ bool cparse_object_save(cParseObject *obj, cParseError **error)
     cParseJson *json = NULL;
 
     if (!obj) {
-        cparse_object_error(error, strerror(EINVAL));
+        cparse_object_errno(error, EINVAL);
         return false;
     }
 
@@ -462,7 +471,7 @@ bool cparse_object_update(cParseObject *obj, cParseJson *attributes, cParseError
     cParseJson *response = NULL;
 
     if (!obj || !attributes) {
-        cparse_object_error(error, strerror(EINVAL));
+        cparse_object_errno(error, EINVAL);
         return false;
     }
 
@@ -505,7 +514,7 @@ static bool cparse_object_update_object(cParseObject *obj, cParseError **error)
     bool rval = false;
 
     if (!obj) {
-        cparse_object_error(error, strerror(EINVAL));
+        cparse_object_errno(error, EINVAL);
         return false;
     }
 
@@ -537,7 +546,7 @@ void cparse_object_set_number(cParseObject *obj, const char *key, cParseNumber v
     if (obj != NULL && obj->attributes) {
         cparse_json_set_number(obj->attributes, key, value);
     } else {
-        cparse_log_error(strerror(EINVAL));
+        cparse_log_errno(EINVAL);
     }
 }
 
@@ -546,7 +555,7 @@ void cparse_object_set_real(cParseObject *obj, const char *key, double value)
     if (obj != NULL && obj->attributes) {
         cparse_json_set_real(obj->attributes, key, value);
     } else {
-        cparse_log_error(strerror(EINVAL));
+        cparse_log_errno(EINVAL);
     }
 }
 void cparse_object_set_bool(cParseObject *obj, const char *key, bool value)
@@ -554,7 +563,7 @@ void cparse_object_set_bool(cParseObject *obj, const char *key, bool value)
     if (obj != NULL && obj->attributes) {
         cparse_json_set_bool(obj->attributes, key, value);
     } else {
-        cparse_log_error(strerror(EINVAL));
+        cparse_log_errno(EINVAL);
     }
 }
 
@@ -563,7 +572,7 @@ void cparse_object_set_string(cParseObject *obj, const char *key, const char *va
     if (obj != NULL && obj->attributes) {
         cparse_json_set_string(obj->attributes, key, value);
     } else {
-        cparse_log_error(strerror(EINVAL));
+        cparse_log_errno(EINVAL);
     }
 }
 
@@ -572,7 +581,7 @@ void cparse_object_set(cParseObject *obj, const char *key, cParseJson *value)
     if (obj != NULL && obj->attributes) {
         cparse_json_set(obj->attributes, key, value);
     } else {
-        cparse_log_error(strerror(EINVAL));
+        cparse_log_errno(EINVAL);
     }
 }
 
@@ -580,7 +589,7 @@ void cparse_object_set(cParseObject *obj, const char *key, cParseJson *value)
 void cparse_object_foreach_attribute(cParseObject *obj, cParseObjectAttributeCallback callback, void *param)
 {
     if (obj == NULL || obj->attributes == NULL || callback == NULL) {
-        cparse_log_error(strerror(EINVAL));
+        cparse_log_errno(EINVAL);
         return;
     }
 
@@ -643,31 +652,14 @@ void cparse_object_set_reference(cParseObject *obj, const char *key, cParseObjec
     cParseJson *data = NULL;
 
     if (!obj || cparse_str_empty(key) || !ref) {
-        cparse_log_error(strerror(EINVAL));
+        cparse_log_errno(EINVAL);
         return;
     }
 
     /* create a data object representing a pointer */
     data = cparse_json_new();
 
-    /* set type to pointer */
-    cparse_json_set_string(data, CPARSE_KEY_TYPE, CPARSE_TYPE_POINTER);
-
-    /* add class name */
-    if (!cparse_str_empty(ref->className))
-    {
-        if (!cparse_str_prefix(CPARSE_OBJECTS_PATH, ref->className)) {
-            cparse_json_set_string(data, CPARSE_KEY_CLASS_NAME, ref->className + strlen(CPARSE_OBJECTS_PATH));
-        }
-        else {
-            cparse_json_set_string(data, CPARSE_KEY_CLASS_NAME, ref->className);
-        }
-    }
-
-    /* add object id */
-    if (!cparse_str_empty(ref->objectId)) {
-        cparse_json_set_string(data, CPARSE_KEY_OBJECT_ID, ref->objectId);
-    }
+    cparse_json_add_reference(data, ref);
 
     /* set key for the object */
     cparse_json_set(obj->attributes, key, data);

@@ -16,4 +16,6 @@ void cparse_log_debug(const char *const format, ...) __attribute__((format(print
 
 void cparse_log_trace(const char *const format, ...) __attribute__((format(printf, 1, 2)));
 
+void cparse_log_errno(int err);
+
 #endif

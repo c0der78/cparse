@@ -1,9 +1,0 @@
-<map id="src/cparse/defines.h" name="src/cparse/defines.h">
-<area shape="rect" id="node2" href="$acl_8h.html" title="src/cparse/acl.h" alt="" coords="31,79,146,104"/>
-<area shape="rect" id="node3" href="$object_8h.html" title="src/cparse/object.h" alt="" coords="22,152,155,177"/>
-<area shape="rect" id="node4" href="$query_8h.html" title="src/cparse/query.h" alt="" coords="177,225,307,251"/>
-<area shape="rect" id="node5" href="$user_8h.html" title="src/cparse/user.h" alt="" coords="181,299,304,324"/>
-<area shape="rect" id="node6" href="$error_8h.html" title="src/cparse/error.h" alt="" coords="180,152,305,177"/>
-<area shape="rect" id="node7" href="$json_8h.html" title="src/cparse/json.h" alt="" coords="430,79,553,104"/>
-<area shape="rect" id="node8" href="$types_8h.html" title="src/cparse/types.h" alt="" coords="576,79,706,104"/>
-</map>
