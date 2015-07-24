@@ -1,4 +1,4 @@
-.TH "src/cparse/object.h" 3 "Thu Feb 26 2015" "Version 0.1" "cParse" \" -*- nroff -*-
+.TH "src/cparse/object.h" 3 "Thu Jul 23 2015" "Version 0.1" "cParse" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -10,16 +10,21 @@ src/cparse/object.h \-
 .br
 \fC#include <cparse/defines\&.h>\fP
 .br
-\fC#include <cparse/acl\&.h>\fP
-.br
 \fC#include <pthread\&.h>\fP
 .br
 
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "typedef void(* \fBcParseObjectAttributeCallback\fP) (\fBcParseObject\fP *obj, const char *key, \fBcParseJson\fP *value, void *arg)"
+.br
+.in -1c
 .SS "Functions"
 
 .in +1c
 .ti -1c
-.RI "void \fBcparse_object_copy\fP (\fBcParseObject\fP *obj, \fBcParseObject\fP *other)"
+.RI "BEGIN_DECL void \fBcparse_object_copy\fP (\fBcParseObject\fP *obj, \fBcParseObject\fP *other)"
 .br
 .ti -1c
 .RI "\fBcParseObject\fP * \fBcparse_object_with_class_name\fP (const char *className)"
@@ -46,7 +51,7 @@ src/cparse/object.h \-
 .RI "time_t \fBcparse_object_updated_at\fP (\fBcParseObject\fP *obj)"
 .br
 .ti -1c
-.RI "\fBcParseACL\fP * \fBcparse_object_acl\fP (\fBcParseObject\fP *obj)"
+.RI "\fBcParseJson\fP * \fBcparse_object_acl\fP (\fBcParseObject\fP *obj)"
 .br
 .ti -1c
 .RI "bool \fBcparse_object_save\fP (\fBcParseObject\fP *obj, \fBcParseError\fP **error)"
@@ -127,7 +132,7 @@ src/cparse/object.h \-
 .RI "bool \fBcparse_object_contains\fP (\fBcParseObject\fP *obj, const char *key)"
 .br
 .ti -1c
-.RI "void \fBcparse_object_foreach\fP (\fBcParseObject\fP *obj, void(*foreach)(\fBcParseObject\fP *o, \fBcParseJson\fP *attribute))"
+.RI "void \fBcparse_object_foreach_attribute\fP (\fBcParseObject\fP *obj, cParseObjectAttributeCallback callback, void *param)"
 .br
 .ti -1c
 .RI "size_t \fBcparse_object_attribute_size\fP (\fBcParseObject\fP *)"
@@ -144,10 +149,19 @@ src/cparse/object.h \-
 .ti -1c
 .RI "bool \fBcparse_object_is_object\fP (\fBcParseObject\fP *obj)"
 .br
+.ti -1c
+.RI "void \fBcparse_object_set_acl\fP (\fBcParseObject\fP *obj, bool read, bool write)"
+.br
+.ti -1c
+.RI "void \fBcparse_object_set_user_acl\fP (\fBcParseObject\fP *obj, \fBcParseUser\fP *user, bool read, bool write)"
+.br
+.ti -1c
+.RI "void \fBcparse_object_set_role_acl\fP (\fBcParseObject\fP *obj, const char *role, bool read, bool write)"
+.br
 .in -1c
 .SH "Function Documentation"
 .PP 
-.SS "\fBcParseACL\fP* cparse_object_acl (\fBcParseObject\fP * obj)"
+.SS "\fBcParseJson\fP* cparse_object_acl (\fBcParseObject\fP * obj)"
 gets the access control list for an object 
 .PP
 \fBParameters:\fP
@@ -205,7 +219,7 @@ true if the object contains the attribute
 .RE
 .PP
 
-.SS "void cparse_object_copy (\fBcParseObject\fP * obj, \fBcParseObject\fP * other)"
+.SS "BEGIN_DECL void cparse_object_copy (\fBcParseObject\fP * obj, \fBcParseObject\fP * other)"
 makes a copy of a parse object 
 .PP
 \fBParameters:\fP
@@ -308,7 +322,7 @@ a background thread identifier
 .RE
 .PP
 
-.SS "void cparse_object_foreach (\fBcParseObject\fP * obj, void(*)(\fBcParseObject\fP *o, \fBcParseJson\fP *attribute) foreach)"
+.SS "void cparse_object_foreach_attribute (\fBcParseObject\fP * obj, cParseObjectAttributeCallback callback, void * param)"
 iterates and objects attributes 
 .PP
 \fBParameters:\fP
@@ -316,6 +330,8 @@ iterates and objects attributes
 \fIobj\fP the object instance 
 .br
 \fIforeach\fP the callback for each object attribute 
+.br
+\fIparam\fP an optional parameter for the callback 
 .RE
 .PP
 

@@ -733,7 +733,7 @@ const char *cparse_object_to_json_string(cParseObject *obj)
 }
 
 
-static void cparse_object_set_acl_type(cParseObject *obj, const char *type, bool read, bool write)
+static void cparse_object_set_acl_type(cParseObject *obj, const char *key, bool read, bool write)
 {
     cParseJson *acl = NULL;
     cParseJson *item = NULL;
@@ -747,7 +747,7 @@ static void cparse_object_set_acl_type(cParseObject *obj, const char *type, bool
     if (acl == NULL) {
         acl = cparse_json_new();
     } else {
-        item = cparse_json_get(acl, type);
+        item = cparse_json_get(acl, key);
     }
 
     if (item == NULL) {
@@ -755,9 +755,10 @@ static void cparse_object_set_acl_type(cParseObject *obj, const char *type, bool
     }
 
     cparse_json_set_bool(item, "read", read);
+
     cparse_json_set_bool(item, "write", write);
 
-    cparse_json_set(acl, type, item);
+    cparse_json_set(acl, key, item);
 
     cparse_json_set(obj->attributes, CPARSE_KEY_ACL, acl);
 

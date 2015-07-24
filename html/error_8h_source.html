@@ -90,47 +90,46 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 <a href="error_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;</div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#ifndef cParseError_H_</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#define cParseError_H_</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#ifndef CPARSE_ERROR_H</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#define CPARSE_ERROR_H</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="defines_8h.html">cparse/defines.h</a>&gt;</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> {</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<a class="code" href="defines_8h.html#ac029144e51f48abfbe57cd20af5b4339">cParseError</a> *<a class="code" href="error_8h.html#afcbf13848906d9fbffb257c4d1c035fc">cparse_error_new</a>();</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<a class="code" href="defines_8h.html#ac029144e51f48abfbe57cd20af5b4339">cParseError</a> *<a class="code" href="error_8h.html#a2df4b1d1b66e17935453893db7d4631d">cparse_error_with_message</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *message);</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="keywordtype">void</span> <a class="code" href="error_8h.html#a6fc56131e9ec73a7abba4e285c7ead56">cparse_error_free</a>(<a class="code" href="defines_8h.html#ac029144e51f48abfbe57cd20af5b4339">cParseError</a> *error);</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="keyword">const</span> <span class="keywordtype">char</span> *<a class="code" href="error_8h.html#a3fc3635634bd1254255e4dbc6b3631d7">cparse_error_message</a>(<a class="code" href="defines_8h.html#ac029144e51f48abfbe57cd20af5b4339">cParseError</a> *error);</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="keywordtype">void</span> <a class="code" href="error_8h.html#a7453c15c6289155e07efef21e0d6db69">cparse_error_set_message</a>(<a class="code" href="defines_8h.html#ac029144e51f48abfbe57cd20af5b4339">cParseError</a> *error, <span class="keyword">const</span> <span class="keywordtype">char</span> *message);</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="keywordtype">int</span> <a class="code" href="error_8h.html#a9eeb3ec857f6a18cf22f8f4f817217b9">cparse_error_code</a>(<a class="code" href="defines_8h.html#ac029144e51f48abfbe57cd20af5b4339">cParseError</a> *error);</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="keywordtype">void</span> <a class="code" href="error_8h.html#a90c8195460da2a3dadb12761414e0231">cparse_error_set_code</a>(<a class="code" href="defines_8h.html#ac029144e51f48abfbe57cd20af5b4339">cParseError</a> *error, <span class="keywordtype">int</span> code);</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;}</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;BEGIN_DECL</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<a class="code" href="defines_8h.html#ac029144e51f48abfbe57cd20af5b4339">cParseError</a> *<a class="code" href="error_8h.html#a42a7a4f43c4372a69eac4ca19b26a9ed">cparse_error_new</a>();</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<a class="code" href="defines_8h.html#ac029144e51f48abfbe57cd20af5b4339">cParseError</a> *<a class="code" href="error_8h.html#a2df4b1d1b66e17935453893db7d4631d">cparse_error_with_message</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *message);</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<a class="code" href="defines_8h.html#ac029144e51f48abfbe57cd20af5b4339">cParseError</a> *<a class="code" href="error_8h.html#aefc8c31d8f4465fc93b6950864dd6df8">cparse_error_with_code_and_message</a>(<span class="keywordtype">int</span> code, <span class="keyword">const</span> <span class="keywordtype">char</span> *message);</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="keywordtype">void</span> <a class="code" href="error_8h.html#a6fc56131e9ec73a7abba4e285c7ead56">cparse_error_free</a>(<a class="code" href="defines_8h.html#ac029144e51f48abfbe57cd20af5b4339">cParseError</a> *error);</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keyword">const</span> <span class="keywordtype">char</span> *<a class="code" href="error_8h.html#a3fc3635634bd1254255e4dbc6b3631d7">cparse_error_message</a>(<a class="code" href="defines_8h.html#ac029144e51f48abfbe57cd20af5b4339">cParseError</a> *error);</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="keywordtype">void</span> <a class="code" href="error_8h.html#a7453c15c6289155e07efef21e0d6db69">cparse_error_set_message</a>(<a class="code" href="defines_8h.html#ac029144e51f48abfbe57cd20af5b4339">cParseError</a> *error, <span class="keyword">const</span> <span class="keywordtype">char</span> *message);</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="keywordtype">int</span> <a class="code" href="error_8h.html#a9eeb3ec857f6a18cf22f8f4f817217b9">cparse_error_code</a>(<a class="code" href="defines_8h.html#ac029144e51f48abfbe57cd20af5b4339">cParseError</a> *error);</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="keywordtype">void</span> <a class="code" href="error_8h.html#a90c8195460da2a3dadb12761414e0231">cparse_error_set_code</a>(<a class="code" href="defines_8h.html#ac029144e51f48abfbe57cd20af5b4339">cParseError</a> *error, <span class="keywordtype">int</span> code);</div>
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="ttc" id="defines_8h_html_ac029144e51f48abfbe57cd20af5b4339"><div class="ttname"><a href="defines_8h.html#ac029144e51f48abfbe57cd20af5b4339">cParseError</a></div><div class="ttdeci">struct cparse_error cParseError</div><div class="ttdef"><b>Definition:</b> defines.h:33</div></div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;END_DECL</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="ttc" id="defines_8h_html_ac029144e51f48abfbe57cd20af5b4339"><div class="ttname"><a href="defines_8h.html#ac029144e51f48abfbe57cd20af5b4339">cParseError</a></div><div class="ttdeci">struct cparse_error cParseError</div><div class="ttdef"><b>Definition:</b> defines.h:41</div></div>
 <div class="ttc" id="error_8h_html_a90c8195460da2a3dadb12761414e0231"><div class="ttname"><a href="error_8h.html#a90c8195460da2a3dadb12761414e0231">cparse_error_set_code</a></div><div class="ttdeci">void cparse_error_set_code(cParseError *error, int code)</div></div>
+<div class="ttc" id="error_8h_html_aefc8c31d8f4465fc93b6950864dd6df8"><div class="ttname"><a href="error_8h.html#aefc8c31d8f4465fc93b6950864dd6df8">cparse_error_with_code_and_message</a></div><div class="ttdeci">cParseError * cparse_error_with_code_and_message(int code, const char *message)</div></div>
 <div class="ttc" id="error_8h_html_a9eeb3ec857f6a18cf22f8f4f817217b9"><div class="ttname"><a href="error_8h.html#a9eeb3ec857f6a18cf22f8f4f817217b9">cparse_error_code</a></div><div class="ttdeci">int cparse_error_code(cParseError *error)</div></div>
 <div class="ttc" id="defines_8h_html"><div class="ttname"><a href="defines_8h.html">defines.h</a></div></div>
+<div class="ttc" id="error_8h_html_a42a7a4f43c4372a69eac4ca19b26a9ed"><div class="ttname"><a href="error_8h.html#a42a7a4f43c4372a69eac4ca19b26a9ed">cparse_error_new</a></div><div class="ttdeci">BEGIN_DECL cParseError * cparse_error_new()</div></div>
 <div class="ttc" id="error_8h_html_a7453c15c6289155e07efef21e0d6db69"><div class="ttname"><a href="error_8h.html#a7453c15c6289155e07efef21e0d6db69">cparse_error_set_message</a></div><div class="ttdeci">void cparse_error_set_message(cParseError *error, const char *message)</div></div>
 <div class="ttc" id="error_8h_html_a2df4b1d1b66e17935453893db7d4631d"><div class="ttname"><a href="error_8h.html#a2df4b1d1b66e17935453893db7d4631d">cparse_error_with_message</a></div><div class="ttdeci">cParseError * cparse_error_with_message(const char *message)</div></div>
-<div class="ttc" id="error_8h_html_afcbf13848906d9fbffb257c4d1c035fc"><div class="ttname"><a href="error_8h.html#afcbf13848906d9fbffb257c4d1c035fc">cparse_error_new</a></div><div class="ttdeci">cParseError * cparse_error_new()</div></div>
 <div class="ttc" id="error_8h_html_a3fc3635634bd1254255e4dbc6b3631d7"><div class="ttname"><a href="error_8h.html#a3fc3635634bd1254255e4dbc6b3631d7">cparse_error_message</a></div><div class="ttdeci">const char * cparse_error_message(cParseError *error)</div></div>
 <div class="ttc" id="error_8h_html_a6fc56131e9ec73a7abba4e285c7ead56"><div class="ttname"><a href="error_8h.html#a6fc56131e9ec73a7abba4e285c7ead56">cparse_error_free</a></div><div class="ttdeci">void cparse_error_free(cParseError *error)</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Feb 26 2015 14:35:45 for cParse by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Jul 23 2015 16:48:05 for cParse by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>

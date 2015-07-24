@@ -16,14 +16,6 @@ Setup
 
 The **unit tests** will require a parse.test.json file or the environment variables **PARSE_APP_ID** and **PARSE_API_KEY** set.
 
-Code style
-==========
-- function names: lower case underscored, prefixed with cparse namespace
-- typedefs and defines: camel case prefix with cParse namespace
-- enums and variables: camel case
-- global variables: lower case underscored, prefixed with cparse namespace
-- structs are private unless absolutely necessary, prefer methods
-
 Dependencies
 ============
 
@@ -61,9 +53,9 @@ cparse_object_free(obj);
 Background Operations
 =====================
 ```C
-void my_nifty_callback(cParseObject *obj, bool success, cParseError *error)
+void my_nifty_callback(cParseObject *obj, cParseError *error)
 {
-	if(!success) {
+	if(error) {
 		puts(cparse_error_message(error));
 		return;
 	}
@@ -94,8 +86,8 @@ if(!cparse_query_find_objects(query, &error))
 }
 
 /* get the second result */
-if(cparse_query_size(query) > 2)
-	obj = cparse_query_get_result(query, 2);
+if(cparse_query_size(query) > 1)
+	obj = cparse_query_get_result(query, 1);
 ```
 
 Building more complex Queries
@@ -125,7 +117,7 @@ cparse_query_build_free(builder);
 Sign up Users
 =============
 ```C
-cParseObject *user = cparse_user_with_name("user123");
+cParseUser *user = cparse_user_with_name("user123");
 
 if(!cparse_user_sign_up(user, "Password!", &error)) {
 	puts(cparse_error_message(error));
@@ -139,7 +131,7 @@ if(!cparse_user_sign_up(user, "Password!", &error)) {
 Log in a User
 =============
 ```C
-cParseObject *user = cparse_user_login("user123", "Password!", &error);
+cParseUser *user = cparse_user_login("user123", "Password!", &error);
 
 if(user == NULL) {
 	puts(cparse_error_message(error));

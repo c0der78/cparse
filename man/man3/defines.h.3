@@ -1,4 +1,4 @@
-.TH "src/cparse/defines.h" 3 "Thu Feb 26 2015" "Version 0.1" "cParse" \" -*- nroff -*-
+.TH "src/cparse/defines.h" 3 "Thu Jul 23 2015" "Version 0.1" "cParse" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -14,6 +14,12 @@ src/cparse/defines.h \-
 .br
 .ti -1c
 .RI "#define \fBfalse\fP   0"
+.br
+.ti -1c
+.RI "#define \fBBEGIN_DECL\fP"
+.br
+.ti -1c
+.RI "#define \fBEND_DECL\fP"
 .br
 .in -1c
 .SS "Typedefs"
@@ -33,6 +39,12 @@ src/cparse/defines.h \-
 .br
 .ti -1c
 .RI "typedef struct cparse_object \fBcParseObject\fP"
+.br
+.ti -1c
+.RI "typedef struct cparse_object \fBcParseUser\fP"
+.br
+.ti -1c
+.RI "typedef struct cparse_object \fBcParseRole\fP"
 .br
 .ti -1c
 .RI "typedef struct cparse_query \fBcParseQuery\fP"
@@ -103,6 +115,10 @@ a increment operator
 a parse pointer structure 
 .SS "typedef struct cparse_query \fBcParseQuery\fP"
 A parse query structure 
+.SS "typedef struct cparse_object \fBcParseRole\fP"
+A parse role structure 
+.SS "typedef struct cparse_object \fBcParseUser\fP"
+A parse user structure 
 .SH "Author"
 .PP 
 Generated automatically by Doxygen for cParse from the source code\&.

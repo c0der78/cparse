@@ -22,7 +22,7 @@ START_TEST(test_cparse_acl_set)
 
     fail_unless(cparse_user_sign_up(user, "676767", NULL));
 
-    cparse_object_set_user_acl(obj, user, true, true);
+    cparse_object_set_user_acl(obj, user, false, false);
 
     fail_unless(cparse_object_save(obj, NULL));
 
