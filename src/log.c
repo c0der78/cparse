@@ -1,9 +1,9 @@
+#include "config.h"
 #include <stdarg.h>
 #include <cparse/parse.h>
 #include <stdio.h>
 #include <time.h>
 #include <execinfo.h>
-#define _GNU_SOURCE
 #include <dlfcn.h>
 #include "log.h"
 #include <stdlib.h>
@@ -20,13 +20,15 @@ static void cparse_log_vargs(cParseLogLevel level, const char *const format, va_
 {
     char buf[BUFSIZ + 1] = {0};
 
-    void *callstack[3];
-
     time_t t = time(0);
 
-    int frames = backtrace(callstack, 3);
+#ifdef HAVE_DLADDR
 
     const char *last_func = "unk";
+
+    void *callstack[3];
+
+    int frames = backtrace(callstack, 3);
 
     Dl_info info;
 
@@ -36,10 +38,16 @@ static void cparse_log_vargs(cParseLogLevel level, const char *const format, va_
             last_func = info.dli_sname;
         }
     }
+#endif
 
     strftime(buf, BUFSIZ, "%Y-%m-%d %H:%M:%S", localtime(&t));
 
+#ifdef HAVE_DLADDR
     fprintf(stdout, "%s %s: [%s] ", buf, cParseLogLevelNames[level], last_func);
+#else
+    fprintf(stdout, "%s %s: ", buf, cParseLogLevelNames[level]);
+#endif
+
     vfprintf(stdout, format, args);
     fputs("\n", stdout);
     fflush(stdout);
