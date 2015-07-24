@@ -22,7 +22,7 @@
 # and reports the executables to the variables LCOV, GCOVR and GENHTML.
 AC_DEFUN([AC_TDD_GCOV],
 [
-  AC_ARG_ENABLE(gcov,
+  AC_ARG_ENABLE(coverage,
   AS_HELP_STRING([--enable-coverage],
 		 [enable coverage testing with gcov]),
   [use_gcov=yes], [use_gcov=no])

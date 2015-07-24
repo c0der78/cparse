@@ -1,0 +1,41 @@
+.TH "src/cparse/types.h" 3 "Fri Jul 24 2015" "Version 0.1" "cParse" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+src/cparse/types.h \- 
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <cparse/defines\&.h>\fP
+.br
+\fC#include <time\&.h>\fP
+.br
+
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "BEGIN_DECL \fBcParsePointer\fP * \fBcparse_pointer_from_json\fP (\fBcParseJson\fP *data)"
+.br
+.ti -1c
+.RI "\fBcParseJson\fP * \fBcparse_pointer_to_json\fP (\fBcParsePointer\fP *p)"
+.br
+.ti -1c
+.RI "void \fBcparse_pointer_free\fP (\fBcParsePointer\fP *pointer)"
+.br
+.ti -1c
+.RI "\fBcParseBytes\fP * \fBcparse_bytes_from_json\fP (\fBcParseJson\fP *data)"
+.br
+.ti -1c
+.RI "void \fBcparse_bytes_free\fP (\fBcParseBytes\fP *bytes)"
+.br
+.ti -1c
+.RI "\fBcParseFile\fP * \fBcparse_file_from_json\fP (\fBcParseJson\fP *data)"
+.br
+.ti -1c
+.RI "void \fBcparse_file_free\fP (\fBcParseFile\fP *file)"
+.br
+.in -1c
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for cParse from the source code\&.

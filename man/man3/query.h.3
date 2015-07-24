@@ -1,0 +1,209 @@
+.TH "src/cparse/query.h" 3 "Fri Jul 24 2015" "Version 0.1" "cParse" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+src/cparse/query.h \- 
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <cparse/defines\&.h>\fP
+.br
+\fC#include <cparse/error\&.h>\fP
+.br
+\fC#include <cparse/object\&.h>\fP
+.br
+
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "BEGIN_DECL \fBcParseQuery\fP * \fBcparse_query_with_class_name\fP (const char *className)"
+.br
+.ti -1c
+.RI "void \fBcparse_query_free\fP (\fBcParseQuery\fP *query)"
+.br
+.ti -1c
+.RI "void \fBcparse_query_free_results\fP (\fBcParseQuery\fP *query)"
+.br
+.ti -1c
+.RI "size_t \fBcparse_query_size\fP (\fBcParseQuery\fP *query)"
+.br
+.ti -1c
+.RI "\fBcParseObject\fP * \fBcparse_query_result\fP (\fBcParseQuery\fP *query, size_t index)"
+.br
+.ti -1c
+.RI "void \fBcparse_query_set_where\fP (\fBcParseQuery\fP *query, \fBcParseJson\fP *where)"
+.br
+.ti -1c
+.RI "void \fBcparse_query_build_where\fP (\fBcParseQuery\fP *query, cParseQueryBuilder *builder)"
+.br
+.ti -1c
+.RI "void \fBcparse_query_cancel\fP (\fBcParseQuery\fP *query)"
+.br
+.ti -1c
+.RI "int \fBcparse_query_count_objects\fP (\fBcParseQuery\fP *query, \fBcParseError\fP **error)"
+.br
+.ti -1c
+.RI "bool \fBcparse_query_find_objects\fP (\fBcParseQuery\fP *query, \fBcParseError\fP **error)"
+.br
+.ti -1c
+.RI "void \fBcparse_query_where_in\fP (\fBcParseQuery\fP *query, const char *key, \fBcParseJson\fP *inArray)"
+.br
+.ti -1c
+.RI "void \fBcparse_query_where_lte\fP (\fBcParseQuery\fP *query, const char *key, \fBcParseJson\fP *value)"
+.br
+.ti -1c
+.RI "void \fBcparse_query_where_lt\fP (\fBcParseQuery\fP *query, const char *key, \fBcParseJson\fP *value)"
+.br
+.ti -1c
+.RI "void \fBcparse_query_where_gte\fP (\fBcParseQuery\fP *query, const char *key, \fBcParseJson\fP *value)"
+.br
+.ti -1c
+.RI "void \fBcparse_query_where_gt\fP (\fBcParseQuery\fP *query, const char *key, \fBcParseJson\fP *value)"
+.br
+.ti -1c
+.RI "void \fBcparse_query_where_ne\fP (\fBcParseQuery\fP *query, const char *key, \fBcParseJson\fP *value)"
+.br
+.ti -1c
+.RI "void \fBcparse_query_where_nin\fP (\fBcParseQuery\fP *query, const char *key, \fBcParseJson\fP *inArray)"
+.br
+.ti -1c
+.RI "void \fBcparse_query_where_exists\fP (\fBcParseQuery\fP *query, const char *key, \fBcParseJson\fP *value)"
+.br
+.ti -1c
+.RI "void \fBcparse_query_where_select\fP (\fBcParseQuery\fP *query, const char *key, \fBcParseJson\fP *value)"
+.br
+.ti -1c
+.RI "void \fBcparse_query_where_nselect\fP (\fBcParseQuery\fP *query, const char *key, \fBcParseJson\fP *value)"
+.br
+.ti -1c
+.RI "void \fBcparse_query_where_all\fP (\fBcParseQuery\fP *query, const char *key, \fBcParseJson\fP *value)"
+.br
+.ti -1c
+.RI "cParseQueryBuilder * \fBcparse_query_build_new\fP ()"
+.br
+.ti -1c
+.RI "cParseQueryBuilder * \fBcparse_query_build_in\fP (cParseQueryBuilder *query, const char *key, \fBcParseJson\fP *inArray)"
+.br
+.ti -1c
+.RI "cParseQueryBuilder * \fBcparse_query_build_lte\fP (cParseQueryBuilder *query, const char *key, \fBcParseJson\fP *value)"
+.br
+.ti -1c
+.RI "cParseQueryBuilder * \fBcparse_query_build_lt\fP (cParseQueryBuilder *query, const char *key, \fBcParseJson\fP *value)"
+.br
+.ti -1c
+.RI "cParseQueryBuilder * \fBcparse_query_build_gte\fP (cParseQueryBuilder *query, const char *key, \fBcParseJson\fP *value)"
+.br
+.ti -1c
+.RI "cParseQueryBuilder * \fBcparse_query_build_gt\fP (cParseQueryBuilder *query, const char *key, \fBcParseJson\fP *value)"
+.br
+.ti -1c
+.RI "cParseQueryBuilder * \fBcparse_query_build_ne\fP (cParseQueryBuilder *query, const char *key, \fBcParseJson\fP *value)"
+.br
+.ti -1c
+.RI "cParseQueryBuilder * \fBcparse_query_build_nin\fP (cParseQueryBuilder *query, const char *key, \fBcParseJson\fP *inArray)"
+.br
+.ti -1c
+.RI "cParseQueryBuilder * \fBcparse_query_build_exists\fP (cParseQueryBuilder *query, const char *key, \fBcParseJson\fP *value)"
+.br
+.ti -1c
+.RI "cParseQueryBuilder * \fBcparse_query_build_select\fP (cParseQueryBuilder *query, const char *key, \fBcParseJson\fP *value)"
+.br
+.ti -1c
+.RI "cParseQueryBuilder * \fBcparse_query_build_nselect\fP (cParseQueryBuilder *query, const char *key, \fBcParseJson\fP *value)"
+.br
+.ti -1c
+.RI "cParseQueryBuilder * \fBcparse_query_build_all\fP (cParseQueryBuilder *query, const char *key, \fBcParseJson\fP *value)"
+.br
+.ti -1c
+.RI "\fBcParseJson\fP * \fBcparse_query_build_json\fP (cParseQueryBuilder *query)"
+.br
+.ti -1c
+.RI "void \fBcparse_query_build_free\fP (cParseQueryBuilder *query)"
+.br
+.in -1c
+.SH "Function Documentation"
+.PP 
+.SS "bool cparse_query_find_objects (\fBcParseQuery\fP * query, \fBcParseError\fP ** error)"
+find objects from a query 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIquery\fP the query instance 
+.br
+\fIerror\fP a pointer to an error object that gets allocated if not successful 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+true if successful 
+.RE
+.PP
+
+.SS "void cparse_query_free (\fBcParseQuery\fP * query)"
+deallocates a query 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIquery\fP the query instance 
+.RE
+.PP
+
+.SS "\fBcParseObject\fP* cparse_query_result (\fBcParseQuery\fP * query, size_t index)"
+gets a result in the query 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIquery\fP the query instance 
+.br
+\fIindex\fP the index of the result 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+the query result object or NULL 
+.RE
+.PP
+
+.SS "void cparse_query_set_where (\fBcParseQuery\fP * query, \fBcParseJson\fP * where)"
+sets the where clause of a query 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIquery\fP the query instance 
+.br
+\fIwhere\fP a json object describing the where clause (see https://parse.com/docs/rest#queries) 
+.RE
+.PP
+
+.SS "size_t cparse_query_size (\fBcParseQuery\fP * query)"
+gets the size of the results in the query 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIquery\fP the query instance 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+the number of results in the query 
+.RE
+.PP
+
+.SS "BEGIN_DECL \fBcParseQuery\fP* cparse_query_with_class_name (const char * className)"
+creates a new query for an object type 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIclassName\fP the type of object 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+the allocated query 
+.RE
+.PP
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for cParse from the source code\&.
