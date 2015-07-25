@@ -9,6 +9,8 @@
 
 const char *const CPARSE_ROLE_CLASS_NAME = "roles";
 
+extern cParseUser *cparse_object_new();
+
 void (*cparse_role_set_public_acl)(cParseRole *role, bool read, bool write) = cparse_object_set_public_acl;
 
 void (*cparse_role_set_user_acl)(cParseRole *role, cParseUser *user, bool read, bool write) = cparse_object_set_user_acl;
@@ -20,7 +22,9 @@ void (*cparse_role_free)(cParseRole *role) = cparse_object_free;
 bool (*cparse_role_save)(cParseRole *role, cParseError **error) = cparse_object_save;
 
 cParseRole *cparse_role_with_name(const char *name) {
-	cParseRole *obj = cparse_object_with_class_name(CPARSE_ROLE_CLASS_NAME);
+	cParseRole *obj = cparse_object_new();
+
+	obj->className = strdup(CPARSE_ROLE_CLASS_NAME);
 
 	cparse_object_set_string(obj, CPARSE_KEY_NAME, name);
 
