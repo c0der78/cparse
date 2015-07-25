@@ -1,4 +1,4 @@
-.TH "src/cparse/user.h" 3 "Fri Jul 24 2015" "Version 0.1" "cParse" \" -*- nroff -*-
+.TH "src/cparse/user.h" 3 "Sat Jul 25 2015" "Version 0.1" "cParse" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -15,7 +15,7 @@ src/cparse/user.h \-
 
 .in +1c
 .ti -1c
-.RI "BEGIN_DECL \fBcParseUser\fP * \fBcparse_current_user\fP ()"
+.RI "BEGIN_DECL \fBcParseUser\fP * \fBcparse_current_user\fP (\fBcParseError\fP **error)"
 .br
 .ti -1c
 .RI "\fBcParseUser\fP * \fBcparse_user_new\fP ()"
@@ -33,9 +33,6 @@ src/cparse/user.h \-
 .RI "void \fBcparse_user_logout\fP ()"
 .br
 .ti -1c
-.RI "bool \fBcparse_user_delete\fP (\fBcParseUser\fP *user, \fBcParseError\fP **error)"
-.br
-.ti -1c
 .RI "\fBcParseQuery\fP * \fBcparse_user_query_new\fP ()"
 .br
 .ti -1c
@@ -48,7 +45,7 @@ src/cparse/user.h \-
 .RI "const char * \fBcparse_user_name\fP (\fBcParseUser\fP *user)"
 .br
 .ti -1c
-.RI "void \fBcparse_user_set_name\fP (\fBcParseUser\fP *user, char *value)"
+.RI "void \fBcparse_user_set_name\fP (\fBcParseUser\fP *user, const char *value)"
 .br
 .ti -1c
 .RI "const char * \fBcparse_user_email\fP (\fBcParseUser\fP *user)"
@@ -57,22 +54,10 @@ src/cparse/user.h \-
 .RI "const char * \fBcparse_user_session_token\fP (\fBcParseUser\fP *user)"
 .br
 .ti -1c
-.RI "bool \fBcparse_user_validate\fP (\fBcParseUser\fP *user, const char *sessionToken, \fBcParseError\fP **error)"
+.RI "\fBcParseUser\fP * \fBcparse_user_validate\fP (const char *sessionToken, \fBcParseError\fP **error)"
 .br
 .ti -1c
 .RI "bool \fBcparse_user_validate_email\fP (\fBcParseUser\fP *user, \fBcParseError\fP **error)"
-.br
-.ti -1c
-.RI "bool \fBcparse_user_refresh\fP (\fBcParseUser\fP *obj, \fBcParseError\fP **error)"
-.br
-.ti -1c
-.RI "pthread_t \fBcparse_user_refresh_in_background\fP (\fBcParseUser\fP *obj, \fBcParseObjectCallback\fP callback)"
-.br
-.ti -1c
-.RI "bool \fBcparse_user_fetch\fP (\fBcParseUser\fP *obj, \fBcParseError\fP **error)"
-.br
-.ti -1c
-.RI "pthread_t \fBcparse_user_fetch_in_background\fP (\fBcParseUser\fP *user, \fBcParseObjectCallback\fP callback)"
 .br
 .ti -1c
 .RI "bool \fBcparse_user_reset_password\fP (\fBcParseUser\fP *user, \fBcParseError\fP **error)"
@@ -80,34 +65,40 @@ src/cparse/user.h \-
 .ti -1c
 .RI "pthread_t \fBcparse_user_reset_password_in_background\fP (\fBcParseUser\fP *user, \fBcParseObjectCallback\fP callback)"
 .br
+.in -1c
+.SS "Variables"
+
+.in +1c
 .ti -1c
-.RI "pthread_t \fBcparse_user_delete_in_background\fP (\fBcParseUser\fP *obj, \fBcParseObjectCallback\fP callback)"
+.RI "void(* \fBcparse_user_free\fP )(\fBcParseUser\fP *user)"
+.br
+.ti -1c
+.RI "bool(* \fBcparse_user_delete\fP )(\fBcParseUser\fP *obj, \fBcParseError\fP **error)"
+.br
+.ti -1c
+.RI "pthread_t(* \fBcparse_user_delete_in_background\fP )(\fBcParseUser\fP *obj, \fBcParseObjectCallback\fP callback)"
+.br
+.ti -1c
+.RI "bool(* \fBcparse_user_fetch\fP )(\fBcParseUser\fP *obj, \fBcParseError\fP **error)"
+.br
+.ti -1c
+.RI "pthread_t(* \fBcparse_user_fetch_in_background\fP )(\fBcParseUser\fP *obj, \fBcParseObjectCallback\fP callback)"
+.br
+.ti -1c
+.RI "bool(* \fBcparse_user_refresh\fP )(\fBcParseUser\fP *obj, \fBcParseError\fP **error)"
+.br
+.ti -1c
+.RI "pthread_t(* \fBcparse_user_refresh_in_background\fP )(\fBcParseUser\fP *user, \fBcParseObjectCallback\fP callback)"
 .br
 .in -1c
 .SH "Function Documentation"
 .PP 
-.SS "BEGIN_DECL \fBcParseUser\fP* cparse_current_user ()"
+.SS "BEGIN_DECL \fBcParseUser\fP* cparse_current_user (\fBcParseError\fP ** error)"
 gets the currently logged in user 
 .PP
 \fBReturns:\fP
 .RS 4
 the current logged in user instance or NULL 
-.RE
-.PP
-
-.SS "bool cparse_user_delete (\fBcParseUser\fP * user, \fBcParseError\fP ** error)"
-deletes a user from the backend 
-.PP
-\fBParameters:\fP
-.RS 4
-\fIuser\fP the user instance 
-.br
-\fIerror\fP a pointer to an error that gets allocated if not successful\&. can be NULL 
-.RE
-.PP
-\fBReturns:\fP
-.RS 4
-true if successful 
 .RE
 .PP
 
@@ -204,7 +195,7 @@ the session token as a string or NULL
 .RE
 .PP
 
-.SS "void cparse_user_set_name (\fBcParseUser\fP * user, char * value)"
+.SS "void cparse_user_set_name (\fBcParseUser\fP * user, const char * value)"
 sets a user's name 
 .PP
 \fBParameters:\fP
@@ -251,7 +242,7 @@ an identifier for the background thread
 .RE
 .PP
 
-.SS "bool cparse_user_validate (\fBcParseUser\fP * user, const char * sessionToken, \fBcParseError\fP ** error)"
+.SS "\fBcParseUser\fP* cparse_user_validate (const char * sessionToken, \fBcParseError\fP ** error)"
 validates a session token against the backend 
 .PP
 \fBParameters:\fP

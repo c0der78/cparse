@@ -290,7 +290,7 @@ const char *cparse_object_to_json_string(cParseObject *obj);
 
 bool cparse_object_is_object(cParseObject *obj);
 
-void cparse_object_set_acl(cParseObject *obj, bool read, bool write);
+void cparse_object_set_public_acl(cParseObject *obj, bool read, bool write);
 
 void cparse_object_set_user_acl(cParseObject *obj, cParseUser *user, bool read, bool write);
 

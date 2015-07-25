@@ -1,4 +1,4 @@
-.TH "src/cparse/acl.h" 3 "Fri Jul 24 2015" "Version 0.1" "cParse" \" -*- nroff -*-
+.TH "src/cparse/acl.h" 3 "Sat Jul 25 2015" "Version 0.1" "cParse" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -13,31 +13,31 @@ src/cparse/acl.h \-
 
 .in +1c
 .ti -1c
-.RI "BEGIN_DECL void \fBcparse_acl_copy\fP (\fBcParseACL\fP *orig, \fBcParseACL\fP *other)"
+.RI "BEGIN_DECL void \fBcparse_acl_copy\fP (cParseACL *orig, cParseACL *other)"
 .br
 .ti -1c
-.RI "void \fBcparse_set_default_acl\fP (\fBcParseACL\fP *acl, bool currentUserAccess)"
+.RI "void \fBcparse_set_default_acl\fP (cParseACL *acl, bool currentUserAccess)"
 .br
 .ti -1c
-.RI "void \fBcparse_acl_free\fP (\fBcParseACL\fP *acl)"
+.RI "void \fBcparse_acl_free\fP (cParseACL *acl)"
 .br
 .ti -1c
-.RI "\fBcParseACL\fP * \fBcparse_acl_from_json\fP (\fBcParseJson\fP *json)"
+.RI "cParseACL * \fBcparse_acl_from_json\fP (\fBcParseJson\fP *json)"
 .br
 .ti -1c
-.RI "\fBcParseJson\fP * \fBcparse_acl_to_json\fP (\fBcParseACL\fP *acl)"
+.RI "\fBcParseJson\fP * \fBcparse_acl_to_json\fP (cParseACL *acl)"
 .br
 .ti -1c
-.RI "bool \fBcparse_acl_is_readable\fP (\fBcParseACL\fP *acl, const char *name)"
+.RI "bool \fBcparse_acl_is_readable\fP (cParseACL *acl, const char *name)"
 .br
 .ti -1c
-.RI "bool \fBcparse_acl_is_writable\fP (\fBcParseACL\fP *acl, const char *name)"
+.RI "bool \fBcparse_acl_is_writable\fP (cParseACL *acl, const char *name)"
 .br
 .ti -1c
-.RI "void \fBcparse_acl_set_readable\fP (\fBcParseACL\fP *acl, const char *name, bool value)"
+.RI "void \fBcparse_acl_set_readable\fP (cParseACL *acl, const char *name, bool value)"
 .br
 .ti -1c
-.RI "void \fBcparse_acl_set_writable\fP (\fBcParseACL\fP *acl, const char *name, bool value)"
+.RI "void \fBcparse_acl_set_writable\fP (cParseACL *acl, const char *name, bool value)"
 .br
 .in -1c
 .SH "Author"

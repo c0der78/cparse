@@ -192,10 +192,10 @@ Functions</h2></td></tr>
 <tr class="separator:a17ede94821f7584f9af68fa4844e3ebc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a29b53a99eb7dd84b0ec9c2deb2ad34cb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="json_8h.html#a29b53a99eb7dd84b0ec9c2deb2ad34cb">cparse_json_array_add</a> (<a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *array, <a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *obj)</td></tr>
 <tr class="separator:a29b53a99eb7dd84b0ec9c2deb2ad34cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa01071935ac3e03f9893e6f144125531"><td class="memItemLeft" align="right" valign="top"><a class="el" href="defines_8h.html#af78276d292256dff61f689f93f2d3f48">cParseNumber</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="json_8h.html#aa01071935ac3e03f9893e6f144125531">cparse_json_array_get_number</a> (<a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *array, size_t index)</td></tr>
-<tr class="separator:aa01071935ac3e03f9893e6f144125531"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2238d56db6dbad3fd42b6b7b1b104be4"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="json_8h.html#a2238d56db6dbad3fd42b6b7b1b104be4">cparse_json_array_get_real</a> (<a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *array, size_t index)</td></tr>
-<tr class="separator:a2238d56db6dbad3fd42b6b7b1b104be4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aacff004b2c81c9a332af0b4216fb9e67"><td class="memItemLeft" align="right" valign="top"><a class="el" href="defines_8h.html#af78276d292256dff61f689f93f2d3f48">cParseNumber</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="json_8h.html#aacff004b2c81c9a332af0b4216fb9e67">cparse_json_array_get_number</a> (<a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *array, size_t index, <a class="el" href="defines_8h.html#af78276d292256dff61f689f93f2d3f48">cParseNumber</a> def)</td></tr>
+<tr class="separator:aacff004b2c81c9a332af0b4216fb9e67"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9fed11cdfbd7c80f1960594a93cf8a99"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="json_8h.html#a9fed11cdfbd7c80f1960594a93cf8a99">cparse_json_array_get_real</a> (<a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *array, size_t index, double def)</td></tr>
+<tr class="separator:a9fed11cdfbd7c80f1960594a93cf8a99"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adefb1920863346f0e0482d2676066595"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="json_8h.html#adefb1920863346f0e0482d2676066595">cparse_json_array_get_string</a> (<a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *array, size_t index)</td></tr>
 <tr class="separator:adefb1920863346f0e0482d2676066595"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acc234d4915d14fb93f3d8b8f0739d49a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="json_8h.html#acc234d4915d14fb93f3d8b8f0739d49a">cparse_json_array_get_bool</a> (<a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *array, size_t index)</td></tr>
@@ -512,7 +512,7 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_json_array_s
 
 </div>
 </div>
-<a class="anchor" id="aa01071935ac3e03f9893e6f144125531"></a>
+<a class="anchor" id="aacff004b2c81c9a332af0b4216fb9e67"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -526,7 +526,13 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_json_array_s
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>index</em>&#160;</td>
+          <td class="paramname"><em>index</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="defines_8h.html#af78276d292256dff61f689f93f2d3f48">cParseNumber</a>&#160;</td>
+          <td class="paramname"><em>def</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -539,6 +545,7 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_json_array_s
   <table class="params">
     <tr><td class="paramname">array</td><td>the array instance </td></tr>
     <tr><td class="paramname">index</td><td>the position in the array </td></tr>
+    <tr><td class="paramname">def</td><td>the default value if non-existent </td></tr>
   </table>
   </dd>
 </dl>
@@ -546,7 +553,7 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_json_array_s
 
 </div>
 </div>
-<a class="anchor" id="a2238d56db6dbad3fd42b6b7b1b104be4"></a>
+<a class="anchor" id="a9fed11cdfbd7c80f1960594a93cf8a99"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -560,7 +567,13 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_json_array_s
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>index</em>&#160;</td>
+          <td class="paramname"><em>index</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>def</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -573,6 +586,7 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_json_array_s
   <table class="params">
     <tr><td class="paramname">array</td><td>the array instance </td></tr>
     <tr><td class="paramname">index</td><td>the position in the array </td></tr>
+    <tr><td class="paramname">def</td><td>the default value if non-existent </td></tr>
   </table>
   </dd>
 </dl>
@@ -1480,7 +1494,7 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_json_array_s
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jul 24 2015 14:01:45 for cParse by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Jul 25 2015 00:55:01 for cParse by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>

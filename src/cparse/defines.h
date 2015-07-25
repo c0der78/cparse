@@ -34,9 +34,6 @@ typedef long long cParseNumber;
 typedef int cParseNumber;
 #endif
 
-/*! A parse Access Control List structure */
-typedef struct cparse_acl cParseACL;
-
 /*! An error structure */
 typedef struct cparse_error cParseError;
 

@@ -1,4 +1,4 @@
-.TH "src/cparse/json.h" 3 "Fri Jul 24 2015" "Version 0.1" "cParse" \" -*- nroff -*-
+.TH "src/cparse/json.h" 3 "Sat Jul 25 2015" "Version 0.1" "cParse" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -125,10 +125,10 @@ src/cparse/json.h \-
 .RI "void \fBcparse_json_array_add\fP (\fBcParseJson\fP *array, \fBcParseJson\fP *obj)"
 .br
 .ti -1c
-.RI "\fBcParseNumber\fP \fBcparse_json_array_get_number\fP (\fBcParseJson\fP *array, size_t index)"
+.RI "\fBcParseNumber\fP \fBcparse_json_array_get_number\fP (\fBcParseJson\fP *array, size_t index, \fBcParseNumber\fP def)"
 .br
 .ti -1c
-.RI "double \fBcparse_json_array_get_real\fP (\fBcParseJson\fP *array, size_t index)"
+.RI "double \fBcparse_json_array_get_real\fP (\fBcParseJson\fP *array, size_t index, double def)"
 .br
 .ti -1c
 .RI "const char * \fBcparse_json_array_get_string\fP (\fBcParseJson\fP *array, size_t index)"
@@ -282,7 +282,7 @@ the boolean value or NULL
 .RE
 .PP
 
-.SS "\fBcParseNumber\fP cparse_json_array_get_number (\fBcParseJson\fP * array, size_t index)"
+.SS "\fBcParseNumber\fP cparse_json_array_get_number (\fBcParseJson\fP * array, size_t index, \fBcParseNumber\fP def)"
 gets a number from a position in a json array\&. if no conversion is possible errno is set to EINVAL\&. 
 .PP
 \fBParameters:\fP
@@ -290,6 +290,8 @@ gets a number from a position in a json array\&. if no conversion is possible er
 \fIarray\fP the array instance 
 .br
 \fIindex\fP the position in the array 
+.br
+\fIdef\fP the default value if non-existent 
 .RE
 .PP
 \fBReturns:\fP
@@ -298,7 +300,7 @@ the number value or zero if no conversion
 .RE
 .PP
 
-.SS "double cparse_json_array_get_real (\fBcParseJson\fP * array, size_t index)"
+.SS "double cparse_json_array_get_real (\fBcParseJson\fP * array, size_t index, double def)"
 gets a floating point from a position in a json array\&. if no conversion is possible errno is set to EINVAL\&. 
 .PP
 \fBParameters:\fP
@@ -306,6 +308,8 @@ gets a floating point from a position in a json array\&. if no conversion is pos
 \fIarray\fP the array instance 
 .br
 \fIindex\fP the position in the array 
+.br
+\fIdef\fP the default value if non-existent 
 .RE
 .PP
 \fBReturns:\fP

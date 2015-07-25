@@ -101,25 +101,34 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">const</span> <span class="keywordtype">char</span>* cparse_role_name(<a class="code" href="defines_8h.html#af0184417788b2f80de234f6e0f701a52">cParseRole</a> *role);</div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<a class="code" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *cparse_role_users(<a class="code" href="defines_8h.html#af0184417788b2f80de234f6e0f701a52">cParseRole</a> *role);</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<a class="code" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *cparse_role_query_users(<a class="code" href="defines_8h.html#af0184417788b2f80de234f6e0f701a52">cParseRole</a> *role);</div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<a class="code" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *cparse_role_roles(<a class="code" href="defines_8h.html#af0184417788b2f80de234f6e0f701a52">cParseRole</a> *role);</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<a class="code" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *cparse_role_query_roles(<a class="code" href="defines_8h.html#af0184417788b2f80de234f6e0f701a52">cParseRole</a> *role);</div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keywordtype">bool</span> cparse_role_save(<a class="code" href="defines_8h.html#af0184417788b2f80de234f6e0f701a52">cParseRole</a> *role, <a class="code" href="defines_8h.html#ac029144e51f48abfbe57cd20af5b4339">cParseError</a> **error);</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keywordtype">bool</span> cparse_role_update(<a class="code" href="defines_8h.html#af0184417788b2f80de234f6e0f701a52">cParseRole</a> *role, <a class="code" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *attributes, <a class="code" href="defines_8h.html#ac029144e51f48abfbe57cd20af5b4339">cParseError</a> **error);</div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keywordtype">bool</span> cparse_role_update(<a class="code" href="defines_8h.html#af0184417788b2f80de234f6e0f701a52">cParseRole</a> *role, <a class="code" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *attributes, <a class="code" href="defines_8h.html#ac029144e51f48abfbe57cd20af5b4339">cParseError</a> **error);</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keyword">extern</span> void (*cparse_role_set_public_acl)(<a class="code" href="defines_8h.html#af0184417788b2f80de234f6e0f701a52">cParseRole</a> *role, <span class="keywordtype">bool</span> read, <span class="keywordtype">bool</span> write);</div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;END_DECL</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="keyword">extern</span> void (*cparse_role_set_user_acl)(<a class="code" href="defines_8h.html#af0184417788b2f80de234f6e0f701a52">cParseRole</a> *role, <a class="code" href="defines_8h.html#a035f288bb4bd21eb0937af2acbf5da9b">cParseUser</a> *user, <span class="keywordtype">bool</span> read, <span class="keywordtype">bool</span> write);</div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="ttc" id="defines_8h_html_ac029144e51f48abfbe57cd20af5b4339"><div class="ttname"><a href="defines_8h.html#ac029144e51f48abfbe57cd20af5b4339">cParseError</a></div><div class="ttdeci">struct cparse_error cParseError</div><div class="ttdef"><b>Definition:</b> defines.h:41</div></div>
-<div class="ttc" id="defines_8h_html_af0184417788b2f80de234f6e0f701a52"><div class="ttname"><a href="defines_8h.html#af0184417788b2f80de234f6e0f701a52">cParseRole</a></div><div class="ttdeci">struct cparse_object cParseRole</div><div class="ttdef"><b>Definition:</b> defines.h:50</div></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="keyword">extern</span> void (*cparse_role_set_role_acl)(<a class="code" href="defines_8h.html#af0184417788b2f80de234f6e0f701a52">cParseRole</a> *role, <span class="keyword">const</span> <span class="keywordtype">char</span> *name, <span class="keywordtype">bool</span> read, <span class="keywordtype">bool</span> write);</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="keyword">extern</span> void (*cparse_role_free)(<a class="code" href="defines_8h.html#af0184417788b2f80de234f6e0f701a52">cParseRole</a> *role);</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keyword">extern</span> bool (*cparse_role_save)(<a class="code" href="defines_8h.html#af0184417788b2f80de234f6e0f701a52">cParseRole</a> *role, <a class="code" href="defines_8h.html#ac029144e51f48abfbe57cd20af5b4339">cParseError</a> **error);</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;END_DECL</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="ttc" id="defines_8h_html_ac029144e51f48abfbe57cd20af5b4339"><div class="ttname"><a href="defines_8h.html#ac029144e51f48abfbe57cd20af5b4339">cParseError</a></div><div class="ttdeci">struct cparse_error cParseError</div><div class="ttdef"><b>Definition:</b> defines.h:38</div></div>
+<div class="ttc" id="defines_8h_html_a035f288bb4bd21eb0937af2acbf5da9b"><div class="ttname"><a href="defines_8h.html#a035f288bb4bd21eb0937af2acbf5da9b">cParseUser</a></div><div class="ttdeci">struct cparse_object cParseUser</div><div class="ttdef"><b>Definition:</b> defines.h:44</div></div>
+<div class="ttc" id="defines_8h_html_af0184417788b2f80de234f6e0f701a52"><div class="ttname"><a href="defines_8h.html#af0184417788b2f80de234f6e0f701a52">cParseRole</a></div><div class="ttdeci">struct cparse_object cParseRole</div><div class="ttdef"><b>Definition:</b> defines.h:47</div></div>
 <div class="ttc" id="defines_8h_html"><div class="ttname"><a href="defines_8h.html">defines.h</a></div></div>
-<div class="ttc" id="defines_8h_html_a0dd69c3d9eb0237c05eaa598df1108a0"><div class="ttname"><a href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a></div><div class="ttdeci">struct json_object cParseJson</div><div class="ttdef"><b>Definition:</b> defines.h:61</div></div>
+<div class="ttc" id="defines_8h_html_a0dd69c3d9eb0237c05eaa598df1108a0"><div class="ttname"><a href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a></div><div class="ttdeci">struct json_object cParseJson</div><div class="ttdef"><b>Definition:</b> defines.h:58</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jul 24 2015 14:01:45 for cParse by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Jul 25 2015 00:55:01 for cParse by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>

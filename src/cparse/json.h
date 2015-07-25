@@ -231,16 +231,18 @@ void cparse_json_array_add(cParseJson *array, cParseJson *obj);
 /*! gets a number from a position in a json array.  if no conversion is possible errno is set to EINVAL.
  * \param array the array instance
  * \param index the position in the array
+ * \param def the default value if non-existent
  * \returns the number value or zero if no conversion
  */
-cParseNumber cparse_json_array_get_number(cParseJson *array, size_t index);
+cParseNumber cparse_json_array_get_number(cParseJson *array, size_t index, cParseNumber def);
 
 /*! gets a floating point from a position in a json array.  if no conversion is possible errno is set to EINVAL.
  * \param array the array instance
  * \param index the position in the array
+ * \param def the default value if non-existent
  * \returns the floating point value or zero if no conversion
  */
-double cparse_json_array_get_real(cParseJson *array, size_t index);
+double cparse_json_array_get_real(cParseJson *array, size_t index, double def);
 
 /*! gets a string from a position in a json array.
  * \param array the array instance

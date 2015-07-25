@@ -113,6 +113,30 @@ int cparse_create_and_save_test_object(const char *name, int score)
     return cparse_save_test_object(obj);
 }
 
+const char* rand_name()
+{
+    static char buf[100];
+
+    int fuzz = rand() % 255;
+
+    switch (rand() % 4) {
+    case 0:
+        snprintf(buf, sizeof(buf), "frank%03d", fuzz);
+        break;
+    case 1:
+        snprintf(buf, sizeof(buf), "bobby%03d", fuzz);
+        break;
+    case 2:
+        snprintf(buf, sizeof(buf), "jenn%03d", fuzz);
+        break;
+    case 3:
+        snprintf(buf, sizeof(buf), "angie%03d", fuzz);
+        break;
+    }
+    return buf;
+}
+
+
 static void cparse_test_setup()
 {
 

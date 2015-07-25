@@ -6,7 +6,6 @@
 struct cparse_object
 {
     cParseJson *attributes;
-    cParseACL *acl;
     char *className;
     char *objectId;
     time_t updatedAt;
@@ -25,14 +24,6 @@ struct cparse_query
     int skip;
     bool trace;
     bool count;
-};
-
-struct cparse_acl
-{
-    cParseACL *next;
-    char *key;
-    bool read;
-    bool write;
 };
 
 struct cparse_query_builder

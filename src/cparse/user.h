@@ -10,7 +10,7 @@ BEGIN_DECL
 /*! gets the currently logged in user
  * \returns the current logged in user instance or NULL
  */
-cParseUser *cparse_current_user();
+cParseUser *cparse_current_user(cParseError **error);
 
 /*! allocates a new user object
  * \returns the allocated user instance
@@ -41,13 +41,6 @@ pthread_t cparse_user_login_in_background(const char *username, const char *pass
 
 /*! logs out the current user */
 void cparse_user_logout();
-
-/*! deletes a user from the backend
- * \param user the user instance
- * \param error a pointer to an error that gets allocated if not successful. can be NULL
- * \returns true if successful
- */
-bool cparse_user_delete(cParseUser *user, cParseError **error);
 
 /*! creates a new query for a user object
  * \returns the query instance
@@ -82,7 +75,7 @@ const char *cparse_user_name(cParseUser *user);
  * \param user the user instance
  * \param value the string value
  */
-void cparse_user_set_name(cParseUser *user, char *value);
+void cparse_user_set_name(cParseUser *user, const char *value);
 
 /*! gets a user's email
  * \param user the user instance
@@ -102,7 +95,7 @@ const char *cparse_user_session_token(cParseUser *user);
  * \param error a pointer to an error that will get allocated if unsuccessful. Can be NULL.
  * \returns true if successful
  */
-bool cparse_user_validate(cParseUser *user, const char *sessionToken, cParseError **error);
+cParseUser * cparse_user_validate(const char *sessionToken, cParseError **error);
 
 /*! tests if the user has an 'emailVerified' parameter and its true. If the parameter
  * does not exists a refresh from the server will be attempted.
@@ -112,21 +105,25 @@ bool cparse_user_validate(cParseUser *user, const char *sessionToken, cParseErro
  */
 bool cparse_user_validate_email(cParseUser *user, cParseError **error);
 
-bool cparse_user_refresh(cParseUser *obj, cParseError **error);
-
-pthread_t cparse_user_refresh_in_background(cParseUser *obj, cParseObjectCallback callback);
-
-bool cparse_user_fetch(cParseUser *obj, cParseError **error);
-
-pthread_t cparse_user_fetch_in_background(cParseUser *user, cParseObjectCallback callback);
-
 bool cparse_user_reset_password(cParseUser *user, cParseError **error);
 
 pthread_t cparse_user_reset_password_in_background(cParseUser *user, cParseObjectCallback callback);
 
-bool cparse_user_delete(cParseUser *obj, cParseError **error);
 
-pthread_t cparse_user_delete_in_background(cParseUser *obj, cParseObjectCallback callback);
+extern void (*cparse_user_free)(cParseUser *user);
+
+extern bool (*cparse_user_delete)(cParseUser *obj, cParseError **error);
+
+extern pthread_t (*cparse_user_delete_in_background)(cParseUser *obj, cParseObjectCallback callback);
+
+extern bool (*cparse_user_fetch)(cParseUser *obj, cParseError **error);
+
+extern pthread_t (*cparse_user_fetch_in_background)(cParseUser *obj, cParseObjectCallback callback);
+
+extern bool (*cparse_user_refresh)(cParseUser *obj, cParseError **error);
+
+extern pthread_t (*cparse_user_refresh_in_background)(cParseUser *user, cParseObjectCallback callback);
+
 
 END_DECL
 

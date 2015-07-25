@@ -11,6 +11,8 @@
 
 #define CPARSE_HEADER_SESSION_TOKEN  "X-Parse-Session-Token"
 
+#define CPARSE_HEADER_REVOCABLE_SESSION "X-Parse-Revocable-Session"
+
 #define CPARSE_KEY_CLASS_NAME   "className"
 
 #define CPARSE_KEY_OBJECT_ID    "objectId"
@@ -29,7 +31,9 @@
 
 #define CPARSE_KEY_USER_PASSWORD "password"
 
-#define CPARSE_KEY_RESULTS  "results"
+#define CPARSE_KEY_NAME			"name"
+
+#define CPARSE_KEY_RESULTS  	"results"
 
 #define CPARSE_KEY_OP           "__op"
 
@@ -69,6 +73,8 @@ extern const char *const CPARSE_RESERVED_KEYS[];
 
 #define CPARSE_CLASS_USER       "_User"
 
+#define CPARSE_CLASS_ROLE		"_Role"
+
 #define CPARSE_CLASS_INSTALLATION  "_Installation"
 
 #define CPARSE_CLOUD_FUNCTIONS_PATH  "functions"
@@ -76,6 +82,8 @@ extern const char *const CPARSE_RESERVED_KEYS[];
 #define CPARSE_OBJECTS_PATH  "classes/"
 
 #define CPARSE_BATCH_REQUEST_URI  "batch"
+
+#define CPARSE_ACL_PUBLIC	"*"
 
 #define CPARSE_ERROR_INTERNAL  1
 #define CPARSE_ERROR_TIMEOUT  124

@@ -1,13 +1,15 @@
 #include "config.h"
 #include <stdarg.h>
+#include <stdlib.h>
+#include <string.h>
 #include <cparse/parse.h>
+#include <cparse/error.h>
 #include <stdio.h>
 #include <time.h>
 #include <execinfo.h>
 #include <dlfcn.h>
 #include "log.h"
-#include <stdlib.h>
-#include <string.h>
+#include "protocol.h"
 
 const char *cParseLogLevelNames[] =
 {
@@ -26,13 +28,13 @@ static void cparse_log_vargs(cParseLogLevel level, const char *const format, va_
 
     const char *last_func = "unk";
 
-    void *callstack[3];
+    void *callstack[4];
 
-    int frames = backtrace(callstack, 3);
+    int frames = backtrace(callstack, 4);
 
     Dl_info info;
 
-    if (frames > 2) {
+    if (frames > 0) {
 
         if (dladdr(callstack[2], &info) && info.dli_sname) {
             last_func = info.dli_sname;
@@ -109,7 +111,35 @@ void cparse_log_trace(const char *const format, ...)
     va_end(args);
 }
 
-void cparse_log_errno(int errno) {
-    cparse_log_error("%d: %s", errno, strerror(errno));
+void cparse_log_set_error(cParseError **error, const char *const format, ...)
+{
+    va_list args;
+
+    va_start(args, format);
+
+    if (error) {
+        char buf[CPARSE_BUF_SIZE + 1] = {0};
+        vsnprintf(buf, CPARSE_BUF_SIZE, format, args);
+        *error = cparse_error_with_message(buf);
+    }
+
+    if (cParseLogError > cparse_current_log_level) {
+        va_end(args);
+        return;
+    }
+
+    cparse_log_vargs(cParseLogError, format, args);
+    va_end(args);
 }
+
+void cparse_log_set_errno(cParseError **error, int errnum)
+{
+    if (error) {
+        *error = cparse_error_with_code_and_message(errnum, strerror(errnum));
+    }
+
+    cparse_log_error("%d: %s", errnum, strerror(errnum));
+}
+
+
 

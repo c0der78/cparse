@@ -109,7 +109,7 @@ am_test_cparse_OBJECTS = test_cparse-cparse.test.$(OBJEXT) \
 	test_cparse-util.test.$(OBJEXT) \
 	test_cparse-user.test.$(OBJEXT) \
 	test_cparse-client.test.$(OBJEXT) \
-	test_cparse-acl.test.$(OBJEXT)
+	test_cparse-acl.test.$(OBJEXT) test_cparse-role.test.$(OBJEXT)
 test_cparse_OBJECTS = $(am_test_cparse_OBJECTS)
 am__DEPENDENCIES_1 =
 test_cparse_DEPENDENCIES = ../src/libcparse.la $(am__DEPENDENCIES_1)
@@ -305,7 +305,7 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-test_cparse_SOURCES = cparse.test.c json.test.c object.test.c parse.test.c query.test.c util.test.c user.test.c client.test.c acl.test.c
+test_cparse_SOURCES = cparse.test.c json.test.c object.test.c parse.test.c query.test.c util.test.c user.test.c client.test.c acl.test.c role.test.c
 test_cparse_CFLAGS = $(TEST_CPARSE_CFLAGS) -I ../src -DROOT_PATH="\".\"" @X_CFLAGS@ @COVERAGE_CFLAGS@
 test_cparse_LDADD = ../src/libcparse.la -lcheck $(LIBS)
 CLEANFILES = *.gcno
@@ -369,6 +369,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_cparse-object.test.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_cparse-parse.test.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_cparse-query.test.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_cparse-role.test.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_cparse-user.test.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_cparse-util.test.Po@am__quote@
 
@@ -518,6 +519,20 @@ test_cparse-acl.test.obj: acl.test.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='acl.test.c' object='test_cparse-acl.test.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_cparse_CFLAGS) $(CFLAGS) -c -o test_cparse-acl.test.obj `if test -f 'acl.test.c'; then $(CYGPATH_W) 'acl.test.c'; else $(CYGPATH_W) '$(srcdir)/acl.test.c'; fi`
+
+test_cparse-role.test.o: role.test.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_cparse_CFLAGS) $(CFLAGS) -MT test_cparse-role.test.o -MD -MP -MF $(DEPDIR)/test_cparse-role.test.Tpo -c -o test_cparse-role.test.o `test -f 'role.test.c' || echo '$(srcdir)/'`role.test.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/test_cparse-role.test.Tpo $(DEPDIR)/test_cparse-role.test.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='role.test.c' object='test_cparse-role.test.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_cparse_CFLAGS) $(CFLAGS) -c -o test_cparse-role.test.o `test -f 'role.test.c' || echo '$(srcdir)/'`role.test.c
+
+test_cparse-role.test.obj: role.test.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_cparse_CFLAGS) $(CFLAGS) -MT test_cparse-role.test.obj -MD -MP -MF $(DEPDIR)/test_cparse-role.test.Tpo -c -o test_cparse-role.test.obj `if test -f 'role.test.c'; then $(CYGPATH_W) 'role.test.c'; else $(CYGPATH_W) '$(srcdir)/role.test.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/test_cparse-role.test.Tpo $(DEPDIR)/test_cparse-role.test.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='role.test.c' object='test_cparse-role.test.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_cparse_CFLAGS) $(CFLAGS) -c -o test_cparse-role.test.obj `if test -f 'role.test.c'; then $(CYGPATH_W) 'role.test.c'; else $(CYGPATH_W) '$(srcdir)/role.test.c'; fi`
 
 mostlyclean-libtool:
 	-rm -f *.lo

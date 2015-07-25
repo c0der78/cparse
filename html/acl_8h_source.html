@@ -97,34 +97,33 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;BEGIN_DECL</div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keywordtype">void</span> cparse_acl_copy(<a class="code" href="defines_8h.html#ad06c2046bbea4e397453d3cd332bb5e3">cParseACL</a> *orig, <a class="code" href="defines_8h.html#ad06c2046bbea4e397453d3cd332bb5e3">cParseACL</a> *other);</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keywordtype">void</span> cparse_acl_copy(cParseACL *orig, cParseACL *other);</div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keywordtype">void</span> cparse_set_default_acl(<a class="code" href="defines_8h.html#ad06c2046bbea4e397453d3cd332bb5e3">cParseACL</a> *acl, <span class="keywordtype">bool</span> currentUserAccess);</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keywordtype">void</span> cparse_set_default_acl(cParseACL *acl, <span class="keywordtype">bool</span> currentUserAccess);</div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keywordtype">void</span> cparse_acl_free(<a class="code" href="defines_8h.html#ad06c2046bbea4e397453d3cd332bb5e3">cParseACL</a> *acl);</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keywordtype">void</span> cparse_acl_free(cParseACL *acl);</div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<a class="code" href="defines_8h.html#ad06c2046bbea4e397453d3cd332bb5e3">cParseACL</a> *cparse_acl_from_json(<a class="code" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *json);</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;cParseACL *cparse_acl_from_json(<a class="code" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *json);</div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<a class="code" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *cparse_acl_to_json(<a class="code" href="defines_8h.html#ad06c2046bbea4e397453d3cd332bb5e3">cParseACL</a> *acl);</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<a class="code" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *cparse_acl_to_json(cParseACL *acl);</div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keywordtype">bool</span> cparse_acl_is_readable(<a class="code" href="defines_8h.html#ad06c2046bbea4e397453d3cd332bb5e3">cParseACL</a> *acl, <span class="keyword">const</span> <span class="keywordtype">char</span> *name);</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keywordtype">bool</span> cparse_acl_is_readable(cParseACL *acl, <span class="keyword">const</span> <span class="keywordtype">char</span> *name);</div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="keywordtype">bool</span> cparse_acl_is_writable(<a class="code" href="defines_8h.html#ad06c2046bbea4e397453d3cd332bb5e3">cParseACL</a> *acl, <span class="keyword">const</span> <span class="keywordtype">char</span> *name);</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="keywordtype">bool</span> cparse_acl_is_writable(cParseACL *acl, <span class="keyword">const</span> <span class="keywordtype">char</span> *name);</div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="keywordtype">void</span> cparse_acl_set_readable(<a class="code" href="defines_8h.html#ad06c2046bbea4e397453d3cd332bb5e3">cParseACL</a> *acl, <span class="keyword">const</span> <span class="keywordtype">char</span> *name, <span class="keywordtype">bool</span> value);</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="keywordtype">void</span> cparse_acl_set_readable(cParseACL *acl, <span class="keyword">const</span> <span class="keywordtype">char</span> *name, <span class="keywordtype">bool</span> value);</div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="keywordtype">void</span> cparse_acl_set_writable(<a class="code" href="defines_8h.html#ad06c2046bbea4e397453d3cd332bb5e3">cParseACL</a> *acl, <span class="keyword">const</span> <span class="keywordtype">char</span> *name, <span class="keywordtype">bool</span> value);</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="keywordtype">void</span> cparse_acl_set_writable(cParseACL *acl, <span class="keyword">const</span> <span class="keywordtype">char</span> *name, <span class="keywordtype">bool</span> value);</div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;END_DECL</div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="ttc" id="defines_8h_html_ad06c2046bbea4e397453d3cd332bb5e3"><div class="ttname"><a href="defines_8h.html#ad06c2046bbea4e397453d3cd332bb5e3">cParseACL</a></div><div class="ttdeci">struct cparse_acl cParseACL</div><div class="ttdef"><b>Definition:</b> defines.h:38</div></div>
 <div class="ttc" id="defines_8h_html"><div class="ttname"><a href="defines_8h.html">defines.h</a></div></div>
-<div class="ttc" id="defines_8h_html_a0dd69c3d9eb0237c05eaa598df1108a0"><div class="ttname"><a href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a></div><div class="ttdeci">struct json_object cParseJson</div><div class="ttdef"><b>Definition:</b> defines.h:61</div></div>
+<div class="ttc" id="defines_8h_html_a0dd69c3d9eb0237c05eaa598df1108a0"><div class="ttname"><a href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a></div><div class="ttdeci">struct json_object cParseJson</div><div class="ttdef"><b>Definition:</b> defines.h:58</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jul 24 2015 14:01:45 for cParse by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Jul 25 2015 00:55:01 for cParse by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>

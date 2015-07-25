@@ -19,7 +19,7 @@
 
 #define CPARSE_OBJECT_UPDATE_ATTRIBUTES "__update_attributes"
 
-extern cParseObject *cparse_current_user_;
+extern cParseUser *__cparse_current_user;
 
 /* this is a background thread. The argument controlls functionality*/
 static void *cparse_object_background_action(void *argument)
@@ -67,24 +67,6 @@ static void *cparse_object_background_action(void *argument)
     return NULL;
 }
 
-static void cparse_object_errno(cParseError **error, int errnum)
-{
-    if (error) {
-        *error = cparse_error_with_message(strerror(errnum));
-        cparse_error_set_code(*error, errnum);
-    }
-
-    cparse_log_errno(errnum);
-}
-static void cparse_object_error(cParseError **error, const char *message)
-{
-    if (error) {
-        *error = cparse_error_with_message(message);
-    }
-
-    cparse_log_error(message);
-}
-
 pthread_t cparse_object_run_in_background(cParseObject *obj, cParseObjectAction action, cParseObjectCallback callback, void (*cleanup)(cParseObject *obj))
 {
     cParseObjectThread *arg = NULL;
@@ -96,6 +78,12 @@ pthread_t cparse_object_run_in_background(cParseObject *obj, cParseObjectAction 
     }
 
     arg = malloc(sizeof(cParseObjectThread));
+
+    if (arg == NULL) {
+        cparse_log_errno(ENOMEM);
+        return 0;
+    }
+
     arg->action = action;
     arg->obj = obj;
     arg->cleanup = cleanup;
@@ -106,6 +94,7 @@ pthread_t cparse_object_run_in_background(cParseObject *obj, cParseObjectAction 
 
     if (rc) {
         cparse_log_error("unable to create background thread");
+        return 0;
     }
 
     return arg->thread;
@@ -143,22 +132,16 @@ void cparse_object_set_request_includes(cParseObject *obj, cParseRequest *reques
     }
 }
 
-static cParseRequest *cparse_object_create_request(cParseObject *obj, cParseHttpRequestMethod method, cParseError **error)
+cParseRequest *cparse_object_create_request(cParseObject *obj, cParseHttpRequestMethod method, cParseError **error)
 {
     char buf[CPARSE_BUF_SIZE + 1] = {0};
 
     if (!obj) {
-        cparse_object_errno(error, EINVAL);
+        cparse_log_set_errno(error, EINVAL);
         return NULL;
     }
 
-    if (!cparse_object_is_object(obj))
-    {
-        cparse_object_error(error, "Cannot create an object request for a non-object");
-        return NULL;
-    }
-
-    if (method != cParseHttpRequestMethodPost && obj->objectId && *obj->objectId)
+    if (method != cParseHttpRequestMethodPost && !cparse_str_empty(obj->objectId))
     {
         snprintf(buf, CPARSE_BUF_SIZE, "%s/%s", obj->className, obj->objectId);
     }
@@ -174,6 +157,11 @@ static cParseRequest *cparse_object_create_request(cParseObject *obj, cParseHttp
 cParseObject *cparse_object_new()
 {
     cParseObject *obj = malloc(sizeof(cParseObject));
+
+    if (obj == NULL) {
+        cparse_log_errno(ENOMEM);
+        return NULL;
+    }
 
     obj->className = NULL;
     obj->objectId = NULL;
@@ -204,7 +192,7 @@ cParseObject *cparse_object_with_class_name(const char *className)
     char buf[CPARSE_BUF_SIZE + 1] = {0};
     cParseObject *obj = NULL;
 
-    if (!className || !*className) {
+    if (cparse_str_empty(className)) {
         cparse_log_errno(EINVAL);
         return NULL;
     }
@@ -220,7 +208,14 @@ cParseObject *cparse_object_with_class_name(const char *className)
 
 cParseObject *cparse_object_with_class_data(const char *className, cParseJson *attributes)
 {
-    cParseObject *obj = cparse_object_with_class_name(className);
+    cParseObject *obj = NULL;
+
+    if (cparse_str_empty(className)) {
+        cparse_log_errno(EINVAL);
+        return NULL;
+    }
+
+    obj = cparse_object_with_class_name(className);
 
     cparse_object_merge_json(obj, attributes);
 
@@ -230,8 +225,12 @@ cParseObject *cparse_object_with_class_data(const char *className, cParseJson *a
 /* cleanup */
 void cparse_object_free(cParseObject *obj)
 {
-    if (cparse_current_user_ == obj) {
-        cparse_current_user_ = NULL;
+    if (obj == NULL) {
+        return;
+    }
+
+    if (__cparse_current_user == obj) {
+        __cparse_current_user = NULL;
     }
 
     cparse_json_free(obj->attributes);
@@ -293,13 +292,13 @@ bool cparse_object_delete(cParseObject *obj, cParseError **error)
     bool rval = false;
 
     if (!obj) {
-        cparse_object_errno(error, EINVAL);
+        cparse_log_set_errno(error, EINVAL);
         return false;
     }
 
     if (!cparse_object_exists(obj))
     {
-        cparse_object_error(error, "Object has no id");
+        cparse_log_set_error(error, "Object has no id");
         return false;
     }
 
@@ -317,19 +316,29 @@ bool cparse_object_delete(cParseObject *obj, cParseError **error)
     return rval;
 }
 
+pthread_t cparse_object_delete_in_background(cParseObject *obj, cParseObjectCallback callback)
+{
+    if (!obj) {
+        cparse_log_errno(EINVAL);
+        return 0;
+    }
+
+    return cparse_object_run_in_background(obj, cparse_object_delete, callback, NULL);
+}
+
 bool cparse_object_fetch(cParseObject *obj, cParseError **error)
 {
     cParseRequest *request = NULL;
     cParseJson *json = NULL;
 
     if (!obj) {
-        cparse_object_errno(error, EINVAL);
+        cparse_log_set_errno(error, EINVAL);
         return false;
     }
 
     if (!cparse_object_exists(obj))
     {
-        cparse_object_error(error, "Object has no id");
+        cparse_log_set_error(error, "Object has no id");
         return false;
     }
 
@@ -360,6 +369,11 @@ bool cparse_object_fetch(cParseObject *obj, cParseError **error)
 
 pthread_t cparse_object_fetch_in_background(cParseObject *obj, cParseObjectCallback callback)
 {
+    if (!obj) {
+        cparse_log_errno(EINVAL);
+        return 0;
+    }
+
     return cparse_object_run_in_background(obj, cparse_object_fetch, callback, NULL);
 }
 
@@ -369,13 +383,13 @@ bool cparse_object_refresh(cParseObject *obj, cParseError **error)
     cParseJson *json = NULL;
 
     if (!obj) {
-        cparse_object_errno(error, EINVAL);
+        cparse_log_set_errno(error, EINVAL);
         return false;
     }
 
     if (cparse_str_empty(obj->objectId))
     {
-        cparse_object_error(error, "Object has no id");
+        cparse_log_set_error(error, "Object has no id");
         return false;
     }
 
@@ -404,6 +418,11 @@ bool cparse_object_refresh(cParseObject *obj, cParseError **error)
 
 pthread_t cparse_object_refresh_in_background(cParseObject *obj, cParseObjectCallback callback)
 {
+    if (!obj) {
+        cparse_log_errno(EINVAL);
+        return 0;
+    }
+
     return cparse_object_run_in_background(obj, cparse_object_refresh, callback, NULL);
 }
 
@@ -425,7 +444,7 @@ bool cparse_object_save(cParseObject *obj, cParseError **error)
     cParseJson *json = NULL;
 
     if (!obj) {
-        cparse_object_errno(error, EINVAL);
+        cparse_log_set_errno(error, EINVAL);
         return false;
     }
 
@@ -433,13 +452,17 @@ bool cparse_object_save(cParseObject *obj, cParseError **error)
     if (cparse_str_empty(obj->objectId))
     {
         request = cparse_client_request_with_method_and_path(cParseHttpRequestMethodPost, obj->className);
-
     }
     else
     {
         char buf[CPARSE_BUF_SIZE + 1] = {0};
         snprintf(buf, CPARSE_BUF_SIZE, "%s/%s", obj->className, obj->objectId);
         request = cparse_client_request_with_method_and_path(cParseHttpRequestMethodPut, buf);
+    }
+
+    if (request == NULL) {
+        cparse_log_set_error(error, "Unable to create request");
+        return false;
     }
 
     cparse_client_request_set_payload(request, cparse_json_to_json_string(obj->attributes));
@@ -459,8 +482,14 @@ bool cparse_object_save(cParseObject *obj, cParseError **error)
 
     return false;
 }
+
 pthread_t cparse_object_save_in_background(cParseObject *obj, cParseObjectCallback callback)
 {
+    if (!obj) {
+        cparse_log_errno(EINVAL);
+        return 0;
+    }
+
     return cparse_object_run_in_background(obj, cparse_object_save, callback, NULL);
 }
 
@@ -471,20 +500,25 @@ bool cparse_object_update(cParseObject *obj, cParseJson *attributes, cParseError
     cParseJson *response = NULL;
 
     if (!obj || !attributes) {
-        cparse_object_errno(error, EINVAL);
+        cparse_log_set_errno(error, EINVAL);
         return false;
     }
 
     /* build the request based on the id */
     if (cparse_str_empty(obj->objectId))
     {
-        cparse_object_error(error, "object has no id");
+        cparse_log_set_error(error, "object has no id");
         return false;
     }
 
     snprintf(buf, CPARSE_BUF_SIZE, "%s/%s", obj->className, obj->objectId);
 
     request = cparse_client_request_with_method_and_path(cParseHttpRequestMethodPut, buf);
+
+    if (request == NULL) {
+        cparse_log_set_error(error, "unable to create request");
+        return false;
+    }
 
     cparse_client_request_set_payload(request, cparse_json_to_json_string(attributes));
 
@@ -514,7 +548,7 @@ static bool cparse_object_update_object(cParseObject *obj, cParseError **error)
     bool rval = false;
 
     if (!obj) {
-        cparse_object_errno(error, EINVAL);
+        cparse_log_set_errno(error, EINVAL);
         return false;
     }
 
@@ -607,6 +641,10 @@ cParseJson *cparse_object_remove_and_get(cParseObject *obj, const char *key)
 
 void cparse_object_remove(cParseObject *obj, const char *key)
 {
+    if (!obj || cparse_str_empty(key) || !obj->attributes) {
+        cparse_log_errno(EINVAL);
+        return;
+    }
     cparse_json_remove(obj->attributes, key);
 }
 
@@ -673,7 +711,14 @@ void cparse_object_merge_json(cParseObject *a, cParseJson *b)
     /* objectId, createdAt, and updatedAt are special attributes
      * we're remove them from the b if they exist and add them to a
      */
-    cParseJson *id = cparse_json_remove_and_get(b, CPARSE_KEY_OBJECT_ID);
+    cParseJson *id = NULL;
+
+    if (!a || !b) {
+        cparse_log_errno(EINVAL);
+        return;
+    }
+
+    id = cparse_json_remove_and_get(b, CPARSE_KEY_OBJECT_ID);
 
     if (id != NULL)
     {
@@ -712,7 +757,14 @@ void cparse_object_merge_json(cParseObject *a, cParseJson *b)
 
 cParseObject *cparse_object_from_json(cParseJson *jobj)
 {
-    cParseObject *obj = cparse_object_new();
+    cParseObject *obj = NULL;
+
+    if (!jobj) {
+        cparse_log_errno(EINVAL);
+        return NULL;
+    }
+
+    obj = cparse_object_new();
 
     cparse_object_merge_json(obj, jobj);
 
@@ -724,13 +776,13 @@ const char *cparse_object_to_json_string(cParseObject *obj)
     return !obj ? NULL : cparse_json_to_json_string(obj->attributes);
 }
 
-
-static void cparse_object_set_acl_type(cParseObject *obj, const char *key, bool read, bool write)
+static void cparse_object_add_acl(cParseObject *obj, const char *key, bool read, bool write)
 {
     cParseJson *acl = NULL;
     cParseJson *item = NULL;
 
-    if (!obj || !obj->attributes) {
+    if (!obj || !obj->attributes || cparse_str_empty(key)) {
+        cparse_log_errno(EINVAL);
         return;
     }
 
@@ -746,6 +798,28 @@ static void cparse_object_set_acl_type(cParseObject *obj, const char *key, bool 
         item = cparse_json_new();
     }
 
+    /* make sure we have a public permission */
+    if (strcmp(key, CPARSE_ACL_PUBLIC)) {
+
+        cParseJson *pub = cparse_json_get(acl, CPARSE_ACL_PUBLIC);
+
+        if (pub == NULL) {
+            cParseJson *perm = cparse_json_new();
+
+            pub = cparse_json_new();
+
+            cparse_json_set_bool(perm, "read", true);
+
+            cparse_json_set(pub, CPARSE_ACL_PUBLIC, perm);
+
+            cparse_json_set(acl, CPARSE_KEY_ACL, pub);
+
+            cparse_json_free(perm);
+        }
+
+        cparse_json_free(pub);
+    }
+
     cparse_json_set_bool(item, "read", read);
 
     cparse_json_set_bool(item, "write", write);
@@ -759,27 +833,36 @@ static void cparse_object_set_acl_type(cParseObject *obj, const char *key, bool 
     cparse_json_free(acl);
 }
 
-void cparse_object_set_acl(cParseObject *obj, bool read, bool write)
+void cparse_object_set_public_acl(cParseObject *obj, bool read, bool write)
 {
-    if (obj) {
-        cparse_object_set_acl_type(obj, "*", read, write);
+    if (!obj) {
+        cparse_log_errno(EINVAL);
+        return;
     }
+    cparse_object_add_acl(obj, CPARSE_ACL_PUBLIC, read, write);
 }
 
 void cparse_object_set_user_acl(cParseObject *obj, cParseUser *user, bool read, bool write)
 {
-    if (obj && user && !cparse_str_empty(user->objectId)) {
-        cparse_object_set_acl_type(obj, user->objectId, read, write);
+    if (!obj || !user || !cparse_object_is_user(user) || cparse_str_empty(user->objectId)) {
+        cparse_log_errno(EINVAL);
+        return;
     }
+
+    cparse_object_add_acl(obj, user->objectId, read, write);
 }
 
 void cparse_object_set_role_acl(cParseObject *obj, const char *role, bool read, bool write)
 {
-    if (obj && !cparse_str_empty(role)) {
-        char buf[CPARSE_BUF_SIZE + 1] = {0};
-        snprintf(buf, CPARSE_BUF_SIZE, "role:%s", role);
-        cparse_object_set_acl_type(obj, buf, read, write);
+    char buf[CPARSE_BUF_SIZE + 1] = {0};
+
+    if (!obj || cparse_str_empty(role) || !cparse_str_prefix("role:", role)) {
+        cparse_log_errno(EINVAL);
+        return;
     }
+
+    snprintf(buf, CPARSE_BUF_SIZE, "role:%s", role);
+    cparse_object_add_acl(obj, buf, read, write);
 }
 
 

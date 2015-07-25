@@ -1,4 +1,4 @@
-
+#include <stdlib.h>
 #include <cparse/defines.h>
 #include <cparse/object.h>
 #include <cparse/user.h>
@@ -7,6 +7,7 @@
 
 static void cparse_test_setup()
 {
+    srand(time(0));
 }
 
 static void cparse_test_teardown()
@@ -18,13 +19,11 @@ START_TEST(test_cparse_acl_set)
 {
     cParseObject *obj = cparse_new_test_object("blah", 2433);
 
-    cParseUser *user = cparse_user_with_name("user235");
+    cParseUser *user = cparse_user_with_name(rand_name());
 
     fail_unless(cparse_user_sign_up(user, "676767", NULL));
 
     cparse_object_set_user_acl(obj, user, false, false);
-
-    fail_unless(cparse_object_save(obj, NULL));
 
     cparse_user_delete(user, NULL);
 

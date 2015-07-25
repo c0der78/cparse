@@ -9,4 +9,6 @@ int cparse_save_test_object(cParseObject *obj);
 int cparse_cleanup_test_objects();
 int cparse_create_and_save_test_object(const char *name, int score);
 
+const char *rand_name();
+
 #endif

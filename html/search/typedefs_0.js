@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['cparseacl',['cParseACL',['../defines_8h.html#ad06c2046bbea4e397453d3cd332bb5e3',1,'defines.h']]],
   ['cparsebytes',['cParseBytes',['../defines_8h.html#ab4fc1edf79747ff79e5ac63143deb837',1,'defines.h']]],
   ['cparsedata',['cParseData',['../defines_8h.html#a298dfa2a0e1b211cc9b44db21cc109ee',1,'defines.h']]],
   ['cparseerror',['cParseError',['../defines_8h.html#ac029144e51f48abfbe57cd20af5b4339',1,'defines.h']]],
