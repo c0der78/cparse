@@ -294,7 +294,7 @@ void cparse_object_set_public_acl(cParseObject *obj, bool read, bool write);
 
 void cparse_object_set_user_acl(cParseObject *obj, cParseUser *user, bool read, bool write);
 
-void cparse_object_set_role_acl(cParseObject *obj, const char *role, bool read, bool write);
+void cparse_object_set_role_acl(cParseObject *obj, cParseRole *role, bool read, bool write);
 
 END_DECL
 

@@ -5,6 +5,7 @@
 #include <cparse/object.h>
 #include <cparse/error.h>
 #include <cparse/json.h>
+#include <cparse/role.h>
 #include <stdio.h>
 #include "client.h"
 #include "protocol.h"
@@ -776,6 +777,30 @@ const char *cparse_object_to_json_string(cParseObject *obj)
     return !obj ? NULL : cparse_json_to_json_string(obj->attributes);
 }
 
+static void cparse_object_add_acl_item(cParseJson *acl, const char *key, bool read, bool write)
+{
+    cParseJson *item = NULL;
+
+    item = cparse_json_get(acl, key);
+
+    if (item == NULL) {
+        item = cparse_json_new();
+
+        cparse_json_set_bool(item, "read", read);
+
+        cparse_json_set_bool(item, "write", write);
+
+        cparse_json_set(acl, key, item);
+
+        cparse_json_free(item);
+    } else {
+
+        cparse_json_set_bool(item, "read", read);
+
+        cparse_json_set_bool(item, "write", write);
+    }
+}
+
 static void cparse_object_add_acl(cParseObject *obj, const char *key, bool read, bool write)
 {
     cParseJson *acl = NULL;
@@ -790,47 +815,17 @@ static void cparse_object_add_acl(cParseObject *obj, const char *key, bool read,
 
     if (acl == NULL) {
         acl = cparse_json_new();
+
+        cparse_object_add_acl_item(acl, key, read, write);
+
+        cparse_json_set(obj->attributes, CPARSE_KEY_ACL, acl);
+
+        cparse_json_free(acl);
     } else {
-        item = cparse_json_get(acl, key);
+
+        cparse_object_add_acl_item(acl, key, read, write);
     }
 
-    if (item == NULL) {
-        item = cparse_json_new();
-    }
-
-    /* make sure we have a public permission */
-    if (strcmp(key, CPARSE_ACL_PUBLIC)) {
-
-        cParseJson *pub = cparse_json_get(acl, CPARSE_ACL_PUBLIC);
-
-        if (pub == NULL) {
-            cParseJson *perm = cparse_json_new();
-
-            pub = cparse_json_new();
-
-            cparse_json_set_bool(perm, "read", true);
-
-            cparse_json_set(pub, CPARSE_ACL_PUBLIC, perm);
-
-            cparse_json_set(acl, CPARSE_KEY_ACL, pub);
-
-            cparse_json_free(perm);
-        }
-
-        cparse_json_free(pub);
-    }
-
-    cparse_json_set_bool(item, "read", read);
-
-    cparse_json_set_bool(item, "write", write);
-
-    cparse_json_set(acl, key, item);
-
-    cparse_json_set(obj->attributes, CPARSE_KEY_ACL, acl);
-
-    cparse_json_free(item);
-
-    cparse_json_free(acl);
 }
 
 void cparse_object_set_public_acl(cParseObject *obj, bool read, bool write)
@@ -852,16 +847,16 @@ void cparse_object_set_user_acl(cParseObject *obj, cParseUser *user, bool read, 
     cparse_object_add_acl(obj, user->objectId, read, write);
 }
 
-void cparse_object_set_role_acl(cParseObject *obj, const char *role, bool read, bool write)
+void cparse_object_set_role_acl(cParseObject *obj, cParseRole *role, bool read, bool write)
 {
     char buf[CPARSE_BUF_SIZE + 1] = {0};
 
-    if (!obj || cparse_str_empty(role) || !cparse_str_prefix("role:", role)) {
+    if (!obj || !role) {
         cparse_log_errno(EINVAL);
         return;
     }
 
-    snprintf(buf, CPARSE_BUF_SIZE, "role:%s", role);
+    snprintf(buf, CPARSE_BUF_SIZE, "role:%s", cparse_role_name(role));
     cparse_object_add_acl(obj, buf, read, write);
 }
 

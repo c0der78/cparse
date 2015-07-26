@@ -19,7 +19,11 @@ static void cparse_test_teardown()
 
 START_TEST(test_cparse_role_add_user)
 {
-    cParseRole *other = NULL, *role = cparse_role_with_name("testing");
+    cParseError *error = NULL;
+
+    bool rval = false;
+
+    cParseRole *other = NULL, *role = cparse_role_with_name(rand_name());
 
     cParseUser *user = cparse_user_with_name(rand_name());
 
@@ -27,23 +31,33 @@ START_TEST(test_cparse_role_add_user)
 
     puts("setting public acl");
 
-    cparse_role_set_public_acl(role, true, false);
+    cparse_role_set_public_acl(role, true, true);
 
-    puts("setting user acl");
+    //cparse_role_set_user_acl(role, user, true, true);
 
-    cparse_role_set_user_acl(role, user, false, false);
+    puts("adding role user");
+
+    cparse_role_add_user(role, user);
 
     puts("saving role");
 
-    fail_unless(cparse_role_save(role, NULL));
+    rval = cparse_role_save(role, &error);
+
+    if (error) {
+        puts(cparse_error_message(error));
+    }
+
+    fail_unless(rval);
 
     puts("creating other role");
 
-    other = cparse_role_with_name("developing");
+    other = cparse_role_with_name(rand_name());
 
     puts("setting role acl");
 
-    cparse_role_set_role_acl(other, cparse_role_name(role), true, false);
+    cparse_role_add_role(other, role);
+
+    cparse_role_set_public_acl(other, true, true);
 
     puts("saving other role");
 
@@ -52,6 +66,10 @@ START_TEST(test_cparse_role_add_user)
     puts("deleting user");
 
     fail_unless(cparse_user_delete(user, NULL));
+
+    fail_unless(cparse_role_delete(role, NULL));
+
+    fail_unless(cparse_role_delete(other, NULL));
 
     cparse_user_free(user);
 
