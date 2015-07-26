@@ -31,18 +31,18 @@
             <td class="headerValue">Code Coverage</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">157</td>
+            <td class="headerCovTableEntry">174</td>
             <td class="headerCovTableEntry">182</td>
-            <td class="headerCovTableEntryMed">86.3 %</td>
+            <td class="headerCovTableEntryHi">95.6 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2015-07-24 14:31:13</td>
+            <td class="headerValue">2015-07-25 17:49:42</td>
             <td></td>
             <td class="headerItem">Functions:</td>
-            <td class="headerCovTableEntry">16</td>
             <td class="headerCovTableEntry">17</td>
-            <td class="headerCovTableEntryHi">94.1 %</td>
+            <td class="headerCovTableEntry">17</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
           </tr>
           <tr>
             <td class="headerItem">Legend:</td>
@@ -82,12 +82,12 @@
 <span class="lineNum">      12 </span>            : 
 <span class="lineNum">      13 </span>            : static void cparse_test_setup()
 <span class="lineNum">      14 </span>            : {
-<a name="15"><span class="lineNum">      15 </span><span class="lineCov">         11 : }</span></a>
+<a name="15"><span class="lineNum">      15 </span><span class="lineCov">         12 : }</span></a>
 <span class="lineNum">      16 </span>            : 
 <span class="lineNum">      17 </span>            : static void cparse_test_teardown()
 <span class="lineNum">      18 </span>            : {
-<span class="lineNum">      19 </span><span class="lineCov">         11 :     cparse_cleanup_test_objects();</span>
-<a name="20"><span class="lineNum">      20 </span><span class="lineCov">         11 : }</span></a>
+<span class="lineNum">      19 </span><span class="lineCov">         12 :     cparse_cleanup_test_objects();</span>
+<a name="20"><span class="lineNum">      20 </span><span class="lineCov">         12 : }</span></a>
 <span class="lineNum">      21 </span>            : 
 <span class="lineNum">      22 </span><span class="lineCov">          1 : START_TEST(test_cparse_object_save)</span>
 <span class="lineNum">      23 </span>            : {
@@ -113,13 +113,13 @@
 <span class="lineNum">      43 </span>            : 
 <span class="lineNum">      44 </span>            : void test_cparse_object_callback(cParseObject *obj, bool success, cParseError *error)
 <span class="lineNum">      45 </span>            : {
-<span class="lineNum">      46 </span><span class="lineCov">          3 :     if (error) {</span>
+<span class="lineNum">      46 </span><span class="lineCov">          4 :     if (error) {</span>
 <span class="lineNum">      47 </span><span class="lineNoCov">          0 :         printf(&quot;callback error: %s\n&quot;, cparse_error_message(error));</span>
 <span class="lineNum">      48 </span><span class="lineNoCov">          0 :     }</span>
-<span class="lineNum">      49 </span><span class="lineCov">          6 :     fail_unless(success);</span>
+<span class="lineNum">      49 </span><span class="lineCov">          8 :     fail_unless(success);</span>
 <span class="lineNum">      50 </span>            : 
-<span class="lineNum">      51 </span><span class="lineCov">          6 :     fail_unless(cparse_object_id(obj) != NULL);</span>
-<a name="52"><span class="lineNum">      52 </span><span class="lineCov">          3 : }</span></a>
+<span class="lineNum">      51 </span><span class="lineCov">          8 :     fail_unless(cparse_object_id(obj) != NULL);</span>
+<a name="52"><span class="lineNum">      52 </span><span class="lineCov">          4 : }</span></a>
 <span class="lineNum">      53 </span>            : 
 <span class="lineNum">      54 </span><span class="lineCov">          1 : START_TEST(test_cparse_object_fetch)</span>
 <span class="lineNum">      55 </span>            : {
@@ -172,45 +172,45 @@
 <span class="lineNum">     102 </span>            : }
 <a name="103"><span class="lineNum">     103 </span><span class="lineCov">          1 : END_TEST</span></a>
 <span class="lineNum">     104 </span>            : 
-<span class="lineNum">     105 </span><span class="lineNoCov">          0 : START_TEST(test_cparse_object_refresh)</span>
+<span class="lineNum">     105 </span><span class="lineCov">          1 : START_TEST(test_cparse_object_refresh)</span>
 <span class="lineNum">     106 </span>            : {
-<span class="lineNum">     107 </span><span class="lineNoCov">          0 :     cParseError *error = NULL;</span>
+<span class="lineNum">     107 </span><span class="lineCov">          1 :     cParseError *error = NULL;</span>
 <span class="lineNum">     108 </span>            :     bool rval;
 <span class="lineNum">     109 </span>            :     pthread_t bg;
-<span class="lineNum">     110 </span><span class="lineNoCov">          0 :     cParseObject *obj = cparse_new_test_object(&quot;user2&quot;, 1444), *obj2;</span>
+<span class="lineNum">     110 </span><span class="lineCov">          1 :     cParseObject *obj = cparse_new_test_object(&quot;user2&quot;, 1444), *obj2;</span>
 <span class="lineNum">     111 </span>            : 
-<span class="lineNum">     112 </span><span class="lineNoCov">          0 :     fail_unless(cparse_save_test_object(obj));</span>
+<span class="lineNum">     112 </span><span class="lineCov">          2 :     fail_unless(cparse_save_test_object(obj));</span>
 <span class="lineNum">     113 </span>            : 
-<span class="lineNum">     114 </span><span class="lineNoCov">          0 :     obj2 = cparse_new_test_object(&quot;user3&quot;, 1234);</span>
+<span class="lineNum">     114 </span><span class="lineCov">          1 :     obj2 = cparse_new_test_object(&quot;user3&quot;, 1234);</span>
 <span class="lineNum">     115 </span>            : 
-<span class="lineNum">     116 </span><span class="lineNoCov">          0 :     cparse_cleanup_test_object(obj2);</span>
+<span class="lineNum">     116 </span><span class="lineCov">          1 :     cparse_cleanup_test_object(obj2);</span>
 <span class="lineNum">     117 </span>            : 
-<span class="lineNum">     118 </span><span class="lineNoCov">          0 :     rval = cparse_object_refresh(obj, NULL);</span>
+<span class="lineNum">     118 </span><span class="lineCov">          1 :     rval = cparse_object_refresh(obj, NULL);</span>
 <span class="lineNum">     119 </span>            : 
-<span class="lineNum">     120 </span><span class="lineNoCov">          0 :     if (!rval) {</span>
+<span class="lineNum">     120 </span><span class="lineCov">          1 :     if (!rval) {</span>
 <span class="lineNum">     121 </span><span class="lineNoCov">          0 :         printf(&quot;refresh error: %s\n&quot;, cparse_error_message(error));</span>
 <span class="lineNum">     122 </span><span class="lineNoCov">          0 :     }</span>
 <span class="lineNum">     123 </span>            : 
-<span class="lineNum">     124 </span><span class="lineNoCov">          0 :     fail_unless(rval);</span>
+<span class="lineNum">     124 </span><span class="lineCov">          2 :     fail_unless(rval);</span>
 <span class="lineNum">     125 </span>            : 
-<span class="lineNum">     126 </span><span class="lineNoCov">          0 :     obj2-&gt;objectId = strdup(obj-&gt;objectId);</span>
+<span class="lineNum">     126 </span><span class="lineCov">          1 :     obj2-&gt;objectId = strdup(obj-&gt;objectId);</span>
 <span class="lineNum">     127 </span>            : 
-<span class="lineNum">     128 </span><span class="lineNoCov">          0 :     rval = cparse_object_refresh(obj2, &amp;error);</span>
+<span class="lineNum">     128 </span><span class="lineCov">          1 :     rval = cparse_object_refresh(obj2, &amp;error);</span>
 <span class="lineNum">     129 </span>            : 
-<span class="lineNum">     130 </span><span class="lineNoCov">          0 :     if (!rval) {</span>
+<span class="lineNum">     130 </span><span class="lineCov">          1 :     if (!rval) {</span>
 <span class="lineNum">     131 </span><span class="lineNoCov">          0 :         printf(&quot;Refresh error: %s\n&quot;, cparse_error_message(error));</span>
 <span class="lineNum">     132 </span><span class="lineNoCov">          0 :     }</span>
 <span class="lineNum">     133 </span>            : 
-<span class="lineNum">     134 </span><span class="lineNoCov">          0 :     fail_unless(rval);</span>
+<span class="lineNum">     134 </span><span class="lineCov">          2 :     fail_unless(rval);</span>
 <span class="lineNum">     135 </span>            : 
-<span class="lineNum">     136 </span><span class="lineNoCov">          0 :     fail_unless(cparse_object_get_number(obj2, &quot;score&quot;, 0) == 1444);</span>
+<span class="lineNum">     136 </span><span class="lineCov">          2 :     fail_unless(cparse_object_get_number(obj2, &quot;score&quot;, 0) == 1444);</span>
 <span class="lineNum">     137 </span>            : 
-<span class="lineNum">     138 </span><span class="lineNoCov">          0 :     bg = cparse_object_refresh_in_background(obj2, test_cparse_object_callback);</span>
+<span class="lineNum">     138 </span><span class="lineCov">          1 :     bg = cparse_object_refresh_in_background(obj2, test_cparse_object_callback);</span>
 <span class="lineNum">     139 </span>            : 
-<span class="lineNum">     140 </span><span class="lineNoCov">          0 :     pthread_join(bg, NULL);</span>
+<span class="lineNum">     140 </span><span class="lineCov">          1 :     pthread_join(bg, NULL);</span>
 <span class="lineNum">     141 </span>            : 
 <span class="lineNum">     142 </span>            : }
-<a name="143"><span class="lineNum">     143 </span><span class="lineNoCov">          0 : END_TEST</span></a>
+<a name="143"><span class="lineNum">     143 </span><span class="lineCov">          1 : END_TEST</span></a>
 <span class="lineNum">     144 </span>            : 
 <span class="lineNum">     145 </span><span class="lineCov">          1 : START_TEST(test_cparse_object_save_in_background)</span>
 <span class="lineNum">     146 </span>            : {
@@ -396,41 +396,41 @@
 <span class="lineNum">     326 </span>            : 
 <span class="lineNum">     327 </span>            : Suite *cparse_object_suite (void)
 <span class="lineNum">     328 </span>            : {
-<span class="lineNum">     329 </span><span class="lineCov">         28 :     Suite *s = suite_create (&quot;Object&quot;);</span>
+<span class="lineNum">     329 </span><span class="lineCov">         31 :     Suite *s = suite_create (&quot;Object&quot;);</span>
 <span class="lineNum">     330 </span>            : 
 <span class="lineNum">     331 </span>            :     /* Core test case */
-<span class="lineNum">     332 </span><span class="lineCov">         28 :     TCase *tc = tcase_create (&quot;Save/Update&quot;);</span>
-<span class="lineNum">     333 </span><span class="lineCov">         28 :     tcase_add_checked_fixture(tc, cparse_test_setup, cparse_test_teardown);</span>
-<span class="lineNum">     334 </span><span class="lineCov">         28 :     tcase_add_test(tc, test_cparse_object_save);</span>
-<span class="lineNum">     335 </span><span class="lineCov">         28 :     tcase_add_test(tc, test_cparse_object_save_in_background);</span>
-<span class="lineNum">     336 </span><span class="lineCov">         28 :     tcase_add_test(tc, test_cparse_object_update);</span>
-<span class="lineNum">     337 </span><span class="lineCov">         28 :     tcase_add_test(tc, test_cparse_object_update_in_background);</span>
-<span class="lineNum">     338 </span><span class="lineCov">         28 :     tcase_set_timeout(tc, 30);</span>
-<span class="lineNum">     339 </span><span class="lineCov">         28 :     suite_add_tcase(s, tc);</span>
+<span class="lineNum">     332 </span><span class="lineCov">         31 :     TCase *tc = tcase_create (&quot;Save/Update&quot;);</span>
+<span class="lineNum">     333 </span><span class="lineCov">         31 :     tcase_add_checked_fixture(tc, cparse_test_setup, cparse_test_teardown);</span>
+<span class="lineNum">     334 </span><span class="lineCov">         31 :     tcase_add_test(tc, test_cparse_object_save);</span>
+<span class="lineNum">     335 </span><span class="lineCov">         31 :     tcase_add_test(tc, test_cparse_object_save_in_background);</span>
+<span class="lineNum">     336 </span><span class="lineCov">         31 :     tcase_add_test(tc, test_cparse_object_update);</span>
+<span class="lineNum">     337 </span><span class="lineCov">         31 :     tcase_add_test(tc, test_cparse_object_update_in_background);</span>
+<span class="lineNum">     338 </span><span class="lineCov">         31 :     tcase_set_timeout(tc, 30);</span>
+<span class="lineNum">     339 </span><span class="lineCov">         31 :     suite_add_tcase(s, tc);</span>
 <span class="lineNum">     340 </span>            : 
-<span class="lineNum">     341 </span><span class="lineCov">         28 :     tc = tcase_create (&quot;Attributes&quot;);</span>
-<span class="lineNum">     342 </span><span class="lineCov">         28 :     tcase_add_checked_fixture(tc, cparse_test_setup, cparse_test_teardown);</span>
-<span class="lineNum">     343 </span><span class="lineCov">         28 :     tcase_add_test(tc, test_cparse_object_set_value);</span>
-<span class="lineNum">     344 </span><span class="lineCov">         28 :     tcase_add_test(tc, test_cparse_object_count_attributes);</span>
-<span class="lineNum">     345 </span><span class="lineCov">         28 :     tcase_add_test(tc, test_cparse_object_remove_attribute);</span>
-<span class="lineNum">     346 </span><span class="lineCov">         28 :     tcase_add_test(tc, test_cparse_object_to_json);</span>
-<span class="lineNum">     347 </span><span class="lineCov">         28 :     suite_add_tcase(s, tc);</span>
+<span class="lineNum">     341 </span><span class="lineCov">         31 :     tc = tcase_create (&quot;Attributes&quot;);</span>
+<span class="lineNum">     342 </span><span class="lineCov">         31 :     tcase_add_checked_fixture(tc, cparse_test_setup, cparse_test_teardown);</span>
+<span class="lineNum">     343 </span><span class="lineCov">         31 :     tcase_add_test(tc, test_cparse_object_set_value);</span>
+<span class="lineNum">     344 </span><span class="lineCov">         31 :     tcase_add_test(tc, test_cparse_object_count_attributes);</span>
+<span class="lineNum">     345 </span><span class="lineCov">         31 :     tcase_add_test(tc, test_cparse_object_remove_attribute);</span>
+<span class="lineNum">     346 </span><span class="lineCov">         31 :     tcase_add_test(tc, test_cparse_object_to_json);</span>
+<span class="lineNum">     347 </span><span class="lineCov">         31 :     suite_add_tcase(s, tc);</span>
 <span class="lineNum">     348 </span>            : 
-<span class="lineNum">     349 </span><span class="lineCov">         28 :     tc = tcase_create(&quot;Refresh/Fetch&quot;);</span>
-<span class="lineNum">     350 </span><span class="lineCov">         28 :     tcase_add_checked_fixture(tc, cparse_test_setup, cparse_test_teardown);</span>
-<span class="lineNum">     351 </span><span class="lineCov">         28 :     tcase_add_test(tc, test_cparse_object_fetch);</span>
-<span class="lineNum">     352 </span><span class="lineCov">         28 :     tcase_add_test(tc, test_cparse_object_refresh);</span>
-<span class="lineNum">     353 </span><span class="lineCov">         28 :     tcase_set_timeout(tc, 30);</span>
-<span class="lineNum">     354 </span><span class="lineCov">         28 :     suite_add_tcase(s, tc);</span>
+<span class="lineNum">     349 </span><span class="lineCov">         31 :     tc = tcase_create(&quot;Refresh/Fetch&quot;);</span>
+<span class="lineNum">     350 </span><span class="lineCov">         31 :     tcase_add_checked_fixture(tc, cparse_test_setup, cparse_test_teardown);</span>
+<span class="lineNum">     351 </span><span class="lineCov">         31 :     tcase_add_test(tc, test_cparse_object_fetch);</span>
+<span class="lineNum">     352 </span><span class="lineCov">         31 :     tcase_add_test(tc, test_cparse_object_refresh);</span>
+<span class="lineNum">     353 </span><span class="lineCov">         31 :     tcase_set_timeout(tc, 30);</span>
+<span class="lineNum">     354 </span><span class="lineCov">         31 :     suite_add_tcase(s, tc);</span>
 <span class="lineNum">     355 </span>            : 
-<span class="lineNum">     356 </span><span class="lineCov">         28 :     tc = tcase_create(&quot;Delete/Copy&quot;);</span>
-<span class="lineNum">     357 </span><span class="lineCov">         28 :     tcase_add_checked_fixture(tc, cparse_test_setup, cparse_test_teardown);</span>
-<span class="lineNum">     358 </span><span class="lineCov">         28 :     tcase_add_test(tc, test_cparse_object_delete);</span>
-<span class="lineNum">     359 </span><span class="lineCov">         28 :     tcase_add_test(tc, test_cparse_object_copy);</span>
-<span class="lineNum">     360 </span><span class="lineCov">         28 :     tcase_set_timeout(tc, 30);</span>
-<span class="lineNum">     361 </span><span class="lineCov">         28 :     suite_add_tcase(s, tc);</span>
+<span class="lineNum">     356 </span><span class="lineCov">         31 :     tc = tcase_create(&quot;Delete/Copy&quot;);</span>
+<span class="lineNum">     357 </span><span class="lineCov">         31 :     tcase_add_checked_fixture(tc, cparse_test_setup, cparse_test_teardown);</span>
+<span class="lineNum">     358 </span><span class="lineCov">         31 :     tcase_add_test(tc, test_cparse_object_delete);</span>
+<span class="lineNum">     359 </span><span class="lineCov">         31 :     tcase_add_test(tc, test_cparse_object_copy);</span>
+<span class="lineNum">     360 </span><span class="lineCov">         31 :     tcase_set_timeout(tc, 30);</span>
+<span class="lineNum">     361 </span><span class="lineCov">         31 :     suite_add_tcase(s, tc);</span>
 <span class="lineNum">     362 </span>            : 
-<span class="lineNum">     363 </span><span class="lineCov">         28 :     return s;</span>
+<span class="lineNum">     363 </span><span class="lineCov">         31 :     return s;</span>
 <span class="lineNum">     364 </span>            : }
 <span class="lineNum">     365 </span>            : 
 </pre>
@@ -441,7 +441,7 @@
 
   <table width="100%" border=0 cellspacing=0 cellpadding=0>
     <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
-    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.11</a></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.0</a></td></tr>
   </table>
   <br>
 

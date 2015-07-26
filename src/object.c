@@ -781,6 +781,11 @@ static void cparse_object_add_acl_item(cParseJson *acl, const char *key, bool re
 {
     cParseJson *item = NULL;
 
+    if (!acl || cparse_str_empty(key)) {
+        cparse_log_errno(EINVAL);
+        return;
+    }
+
     item = cparse_json_get(acl, key);
 
     if (item == NULL) {
@@ -804,7 +809,6 @@ static void cparse_object_add_acl_item(cParseJson *acl, const char *key, bool re
 static void cparse_object_add_acl(cParseObject *obj, const char *key, bool read, bool write)
 {
     cParseJson *acl = NULL;
-    cParseJson *item = NULL;
 
     if (!obj || !obj->attributes || cparse_str_empty(key)) {
         cparse_log_errno(EINVAL);

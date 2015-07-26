@@ -29,17 +29,11 @@ START_TEST(test_cparse_role_add_user)
 
     fail_unless(cparse_user_sign_up(user, "66666", NULL));
 
-    puts("setting public acl");
-
     cparse_role_set_public_acl(role, true, true);
 
     //cparse_role_set_user_acl(role, user, true, true);
 
-    puts("adding role user");
-
     cparse_role_add_user(role, user);
-
-    puts("saving role");
 
     rval = cparse_role_save(role, &error);
 
@@ -49,11 +43,7 @@ START_TEST(test_cparse_role_add_user)
 
     fail_unless(rval);
 
-    puts("creating other role");
-
     other = cparse_role_with_name(rand_name());
-
-    puts("setting role acl");
 
     cparse_role_add_role(other, role);
 

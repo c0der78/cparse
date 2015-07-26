@@ -201,7 +201,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;</div>
 <div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;<span class="keywordtype">void</span> cparse_object_set_user_acl(<a class="code" href="defines_8h.html#a2ccd5051f86d3933c9df2240ac02e912">cParseObject</a> *obj, <a class="code" href="defines_8h.html#a035f288bb4bd21eb0937af2acbf5da9b">cParseUser</a> *user, <span class="keywordtype">bool</span> read, <span class="keywordtype">bool</span> write);</div>
 <div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;</div>
-<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;<span class="keywordtype">void</span> cparse_object_set_role_acl(<a class="code" href="defines_8h.html#a2ccd5051f86d3933c9df2240ac02e912">cParseObject</a> *obj, <span class="keyword">const</span> <span class="keywordtype">char</span> *role, <span class="keywordtype">bool</span> read, <span class="keywordtype">bool</span> write);</div>
+<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;<span class="keywordtype">void</span> cparse_object_set_role_acl(<a class="code" href="defines_8h.html#a2ccd5051f86d3933c9df2240ac02e912">cParseObject</a> *obj, <a class="code" href="defines_8h.html#af0184417788b2f80de234f6e0f701a52">cParseRole</a> *role, <span class="keywordtype">bool</span> read, <span class="keywordtype">bool</span> write);</div>
 <div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;</div>
 <div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;END_DECL</div>
 <div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;</div>
@@ -215,6 +215,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="ttc" id="object_8h_html_ab69710cb1f2d856a1218c81f6e3133eb"><div class="ttname"><a href="object_8h.html#ab69710cb1f2d856a1218c81f6e3133eb">cparse_object_update_in_background</a></div><div class="ttdeci">pthread_t cparse_object_update_in_background(cParseObject *obj, cParseJson *attributes, cParseObjectCallback callback)</div></div>
 <div class="ttc" id="object_8h_html_a37a8e508c3623a0ef17c1f1f4a0774a1"><div class="ttname"><a href="object_8h.html#a37a8e508c3623a0ef17c1f1f4a0774a1">cparse_object_fetch_in_background</a></div><div class="ttdeci">pthread_t cparse_object_fetch_in_background(cParseObject *obj, cParseObjectCallback callback)</div></div>
 <div class="ttc" id="defines_8h_html_a035f288bb4bd21eb0937af2acbf5da9b"><div class="ttname"><a href="defines_8h.html#a035f288bb4bd21eb0937af2acbf5da9b">cParseUser</a></div><div class="ttdeci">struct cparse_object cParseUser</div><div class="ttdef"><b>Definition:</b> defines.h:44</div></div>
+<div class="ttc" id="defines_8h_html_af0184417788b2f80de234f6e0f701a52"><div class="ttname"><a href="defines_8h.html#af0184417788b2f80de234f6e0f701a52">cParseRole</a></div><div class="ttdeci">struct cparse_object cParseRole</div><div class="ttdef"><b>Definition:</b> defines.h:47</div></div>
 <div class="ttc" id="object_8h_html_a4d261a4cbf7c624b226b680ab58853a9"><div class="ttname"><a href="object_8h.html#a4d261a4cbf7c624b226b680ab58853a9">cparse_object_is_user</a></div><div class="ttdeci">bool cparse_object_is_user(cParseObject *obj)</div></div>
 <div class="ttc" id="object_8h_html_a3fdc0da91023d98a7246e353c6be838c"><div class="ttname"><a href="object_8h.html#a3fdc0da91023d98a7246e353c6be838c">cparse_object_refresh</a></div><div class="ttdeci">bool cparse_object_refresh(cParseObject *, cParseError **error)</div></div>
 <div class="ttc" id="object_8h_html_a013c1fcdb0d10abeaca9302866230bce"><div class="ttname"><a href="object_8h.html#a013c1fcdb0d10abeaca9302866230bce">cparse_object_delete</a></div><div class="ttdeci">bool cparse_object_delete(cParseObject *, cParseError **error)</div></div>
@@ -257,7 +258,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Jul 25 2015 00:55:01 for cParse by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Jul 25 2015 17:46:43 for cParse by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>
