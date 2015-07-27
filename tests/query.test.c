@@ -39,8 +39,9 @@ START_TEST(test_cparse_query_objects)
 
     rval = cparse_query_find_objects(query, &error);
 
-    if (!rval)
+    if (!rval) {
         printf("Query error: %s\n", cparse_error_message(error));
+    }
 
     fail_unless(rval);
 
@@ -51,7 +52,6 @@ START_TEST(test_cparse_query_objects)
     fail_unless(!strcmp(cparse_object_get_string(user1, "playerName"), "user1"));
 
     cparse_query_free_results(query);
-
 
     cparse_query_free(query);
 }
@@ -85,8 +85,6 @@ START_TEST(test_cparse_query_where)
 
     /* set the query where clause to the score */
     cparse_query_where_in(query, "score", inArray);
-
-    cparse_json_free(inArray);
 
     /* find the objects */
     fail_unless(cparse_query_find_objects(query, &error));

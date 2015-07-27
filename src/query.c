@@ -4,6 +4,7 @@
 #include <cparse/query.h>
 #include <cparse/util.h>
 #include <cparse/json.h>
+#include <cparse/types.h>
 #include <errno.h>
 #include "client.h"
 #include "protocol.h"
@@ -11,27 +12,30 @@
 #include "log.h"
 
 
-#define CPARSE_QUERY_LESS_THAN  "$lt"
-#define CPARSE_QUERY_LESS_THAN_EQUAL "$lte"
-#define CPARSE_QUERY_GREATER_THAN "$gt"
+#define CPARSE_QUERY_LESS_THAN          "$lt"
+#define CPARSE_QUERY_LESS_THAN_EQUAL    "$lte"
+#define CPARSE_QUERY_GREATER_THAN       "$gt"
 #define CPARSE_QUERY_GREATER_THAN_EQUAL "$gte"
-#define CPARSE_QUERY_NOT_EQUAL  "$ne"
-#define CPARSE_QUERY_IN         "$in"
-#define CPARSE_QUERY_NOT_IN     "$nin"
-#define CPARSE_QUERY_EXISTS     "$exists"
-#define CPARSE_QUERY_SELECT     "$select"
-#define CPARSE_QUERY_DONT_SELECT "$dontSelect"
-#define CPARSE_QUERY_ALL        "$all"
+#define CPARSE_QUERY_NOT_EQUAL          "$ne"
+#define CPARSE_QUERY_IN                 "$in"
+#define CPARSE_QUERY_NOT_IN             "$nin"
+#define CPARSE_QUERY_EXISTS             "$exists"
+#define CPARSE_QUERY_SELECT             "$select"
+#define CPARSE_QUERY_DONT_SELECT        "$dontSelect"
+#define CPARSE_QUERY_ALL                "$all"
+#define CPARSE_QUERY_RELATED_TO         "$relatedTo"
 
-#define CPARSE_QUERY_WHERE      "where"
-#define CPARSE_QUERY_SKIP       "skip"
-#define CPARSE_QUERY_LIMIT      "limit"
-#define CPARSE_QUERY_KEYS       "keys"
-#define CPARSE_QUERY_COUNT      "count"
-#define CPARSE_QUERY_RESULTS    "results"
+#define CPARSE_QUERY_WHERE              "where"
+#define CPARSE_QUERY_SKIP               "skip"
+#define CPARSE_QUERY_LIMIT              "limit"
+#define CPARSE_QUERY_KEYS               "keys"
+#define CPARSE_QUERY_COUNT              "count"
+#define CPARSE_QUERY_RESULTS            "results"
 
-#define CPARSE_ARRAY_KEY        "arrayKey"
+#define CPARSE_ARRAY_KEY                "arrayKey"
 
+
+extern cParseObject *cparse_object_from_query(cParseQuery *query, cParseJson *data);
 
 void cparse_query_clear_all_caches()
 {
@@ -48,6 +52,7 @@ cParseQuery *cparse_query_new()
     }
 
     query->className = NULL;
+    query->urlPath = NULL;
     query->limit = 0;
     query->skip = 0;
     query->trace = false;
@@ -68,6 +73,11 @@ void cparse_query_free(cParseQuery *query)
     if (query->className)
     {
         free(query->className);
+    }
+
+    if (query->urlPath)
+    {
+        free(query->urlPath);
     }
 
     if (query->keys)
@@ -93,7 +103,11 @@ void cparse_query_free_results(cParseQuery *query)
 {
     size_t i = 0;
 
-    for (i = 0; query && i < query->size; i++)
+    if (query == NULL) {
+        return;
+    }
+
+    for (i = 0; i < query->size; i++)
     {
         cparse_object_free(query->results[i]);
         query->results[i] = NULL;
@@ -112,9 +126,27 @@ cParseQuery *cparse_query_with_class_name(const char *className)
 
     query = cparse_query_new();
 
+    query->className = strdup(className);
+
     snprintf(buf, CPARSE_BUF_SIZE, "%s%s", CPARSE_OBJECTS_PATH, className);
 
-    query->className = strdup(buf);
+    query->urlPath = strdup(buf);
+
+    return query;
+}
+
+cParseQuery *cparse_query_for_object(cParseObject *obj) {
+    cParseQuery *query = NULL;
+
+    if (obj == NULL) {
+        cparse_log_errno(EINVAL);
+        return NULL;
+    }
+
+    query = cparse_query_new();
+
+    query->className = strdup(obj->className);
+    query->urlPath = strdup(obj->urlPath);
 
     return query;
 }
@@ -148,7 +180,7 @@ bool cparse_query_find_objects(cParseQuery *query, cParseError **error)
 
     /* build the request */
 
-    request = cparse_client_request_with_method_and_path(cParseHttpRequestMethodGet, query->className);
+    request = cparse_client_request_with_method_and_path(cParseHttpRequestMethodGet, query->urlPath);
 
     if (query->where)
     {
@@ -216,7 +248,7 @@ bool cparse_query_find_objects(cParseQuery *query, cParseError **error)
 
             for (i = 0; i < query->size; i++)
             {
-                query->results[i] = cparse_object_with_class_data(query->className, cparse_json_array_get(results, i));
+                query->results[i] = cparse_object_from_query(query, cparse_json_array_get(results, i));
             }
         }
     }
@@ -299,6 +331,7 @@ void cparse_query_where_lte(cParseQuery *query, const char *key, cParseJson *val
 
     cparse_query_build_free(builder);
 }
+
 void cparse_query_where_lt(cParseQuery *query, const char *key, cParseJson *value)
 {
     cParseQueryBuilder *builder = NULL;
@@ -316,6 +349,7 @@ void cparse_query_where_lt(cParseQuery *query, const char *key, cParseJson *valu
 
     cparse_query_build_free(builder);
 }
+
 void cparse_query_where_gte(cParseQuery *query, const char *key, cParseJson *value)
 {
     cParseQueryBuilder *builder = NULL;
@@ -333,6 +367,7 @@ void cparse_query_where_gte(cParseQuery *query, const char *key, cParseJson *val
 
     cparse_query_build_free(builder);
 }
+
 void cparse_query_where_gt(cParseQuery *query, const char *key, cParseJson *value)
 {
     cParseQueryBuilder *builder = NULL;
@@ -350,6 +385,7 @@ void cparse_query_where_gt(cParseQuery *query, const char *key, cParseJson *valu
 
     cparse_query_build_free(builder);
 }
+
 void cparse_query_where_ne(cParseQuery *query, const char *key, cParseJson *value)
 {
     cParseQueryBuilder *builder = NULL;
@@ -367,6 +403,7 @@ void cparse_query_where_ne(cParseQuery *query, const char *key, cParseJson *valu
 
     cparse_query_build_free(builder);
 }
+
 void cparse_query_where_nin(cParseQuery *query, const char *key, cParseJson *inArray)
 {
     cParseQueryBuilder *builder = NULL;
@@ -384,6 +421,7 @@ void cparse_query_where_nin(cParseQuery *query, const char *key, cParseJson *inA
 
     cparse_query_build_free(builder);
 }
+
 void cparse_query_where_exists(cParseQuery *query, const char *key, cParseJson *value)
 {
     cParseQueryBuilder *builder = NULL;
@@ -401,6 +439,7 @@ void cparse_query_where_exists(cParseQuery *query, const char *key, cParseJson *
 
     cparse_query_build_free(builder);
 }
+
 void cparse_query_where_select(cParseQuery *query, const char *key, cParseJson *value)
 {
     cParseQueryBuilder *builder = NULL;
@@ -418,6 +457,7 @@ void cparse_query_where_select(cParseQuery *query, const char *key, cParseJson *
 
     cparse_query_build_free(builder);
 }
+
 void cparse_query_where_nselect(cParseQuery *query, const char *key, cParseJson *value)
 {
     cParseQueryBuilder *builder = NULL;
@@ -435,6 +475,7 @@ void cparse_query_where_nselect(cParseQuery *query, const char *key, cParseJson 
 
     cparse_query_build_free(builder);
 }
+
 void cparse_query_where_all(cParseQuery *query, const char *key, cParseJson *value)
 {
     cParseQueryBuilder *builder = NULL;
@@ -482,8 +523,6 @@ cParseQueryBuilder *cparse_query_build_in(cParseQueryBuilder *query, const char 
 
     cparse_json_set(query->json, key, in);
 
-    cparse_json_free(in);
-
     return query;
 }
 
@@ -502,8 +541,6 @@ cParseQueryBuilder *cparse_query_build_lte(cParseQueryBuilder *query, const char
 
     cparse_json_set(query->json, key, lte);
 
-    cparse_json_free(lte);
-
     return query;
 }
 cParseQueryBuilder *cparse_query_build_lt(cParseQueryBuilder *query, const char *key, cParseJson *value)
@@ -520,8 +557,6 @@ cParseQueryBuilder *cparse_query_build_lt(cParseQueryBuilder *query, const char 
     cparse_json_set(inner, CPARSE_QUERY_LESS_THAN, value);
 
     cparse_json_set(query->json, key, inner);
-
-    cparse_json_free(inner);
 
     return query;
 }
@@ -540,8 +575,6 @@ cParseQueryBuilder *cparse_query_build_gte(cParseQueryBuilder *query, const char
 
     cparse_json_set(query->json, key, inner);
 
-    cparse_json_free(inner);
-
     return query;
 }
 cParseQueryBuilder *cparse_query_build_gt(cParseQueryBuilder *query, const char *key, cParseJson *value)
@@ -558,8 +591,6 @@ cParseQueryBuilder *cparse_query_build_gt(cParseQueryBuilder *query, const char 
     cparse_json_set(inner, CPARSE_QUERY_GREATER_THAN, value);
 
     cparse_json_set(query->json, key, inner);
-
-    cparse_json_free(inner);
 
     return query;
 }
@@ -578,8 +609,6 @@ cParseQueryBuilder *cparse_query_build_ne(cParseQueryBuilder *query, const char 
 
     cparse_json_set(query->json, key, inner);
 
-    cparse_json_free(inner);
-
     return query;
 }
 cParseQueryBuilder *cparse_query_build_nin(cParseQueryBuilder *query, const char *key, cParseJson *inArray)
@@ -596,8 +625,6 @@ cParseQueryBuilder *cparse_query_build_nin(cParseQueryBuilder *query, const char
     cparse_json_set(inner, CPARSE_QUERY_NOT_IN, inArray);
 
     cparse_json_set(query->json, key, inner);
-
-    cparse_json_free(inner);
 
     return query;
 }
@@ -616,8 +643,6 @@ cParseQueryBuilder *cparse_query_build_exists(cParseQueryBuilder *query, const c
 
     cparse_json_set(query->json, key, inner);
 
-    cparse_json_free(inner);
-
     return query;
 }
 cParseQueryBuilder *cparse_query_build_select(cParseQueryBuilder *query, const char *key, cParseJson *value)
@@ -635,10 +660,9 @@ cParseQueryBuilder *cparse_query_build_select(cParseQueryBuilder *query, const c
 
     cparse_json_set(query->json, key, inner);
 
-    cparse_json_free(inner);
-
     return query;
 }
+
 cParseQueryBuilder *cparse_query_build_nselect(cParseQueryBuilder *query, const char *key, cParseJson *value)
 {
     cParseJson *inner = NULL;
@@ -653,8 +677,6 @@ cParseQueryBuilder *cparse_query_build_nselect(cParseQueryBuilder *query, const 
     cparse_json_set(inner, CPARSE_QUERY_DONT_SELECT, value);
 
     cparse_json_set(query->json, key, inner);
-
-    cparse_json_free(inner);
 
     return query;
 }
@@ -672,8 +694,6 @@ cParseQueryBuilder *cparse_query_build_all(cParseQueryBuilder *query, const char
     cparse_json_set(inner, CPARSE_QUERY_ALL, value);
 
     cparse_json_set(query->json, key, inner);
-
-    cparse_json_free(inner);
 
     return query;
 }
@@ -693,8 +713,33 @@ void cparse_query_build_free(cParseQueryBuilder *query)
         return;
     }
 
-    cparse_json_free(query->json);
+    if (query->json) {
+        cparse_json_free(query->json);
+    }
 
     free(query);
+}
+
+cParseQueryBuilder *cparse_query_build_related_to(cParseQueryBuilder *query, const char *key, cParseObject *obj)
+{
+    cParseJson *inner = NULL;
+    cParseJson *pointer = NULL;
+
+    if (query == NULL || obj == NULL) {
+        cparse_log_errno(EINVAL);
+        return NULL;
+    }
+
+    inner = cparse_json_new();
+
+    pointer = cparse_pointer_from_object(obj);
+
+    cparse_json_set(inner, "object", pointer);
+
+    cparse_json_set_string(inner, "key", key);
+
+    cparse_json_set(query->json, CPARSE_QUERY_RELATED_TO, inner);
+
+    return query;
 }
 

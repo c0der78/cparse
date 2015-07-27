@@ -75,11 +75,19 @@ extern const char *const CPARSE_RESERVED_KEYS[];
 
 #define CPARSE_CLASS_ROLE		"_Role"
 
+#define CPARSE_CLASS_SESSION	"_Session"
+
 #define CPARSE_CLASS_INSTALLATION  "_Installation"
 
 #define CPARSE_CLOUD_FUNCTIONS_PATH  "functions"
 
-#define CPARSE_OBJECTS_PATH  "classes/"
+#define CPARSE_OBJECTS_PATH  	"classes/"
+
+#define CPARSE_USERS_PATH 		"users"
+
+#define CPARSE_ROLES_PATH		"roles"
+
+#define CPARSE_SESSIONS_PATH	"sessions"
 
 #define CPARSE_BATCH_REQUEST_URI  "batch"
 

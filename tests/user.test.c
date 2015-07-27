@@ -174,9 +174,7 @@ START_TEST(test_cparse_is_user)
 {
     cParseObject *obj = cparse_user_new();
 
-    fail_unless(obj->className != NULL && *obj->className);
-
-    fail_unless(cparse_class_name_is_user(obj->className));
+    fail_unless(!cparse_str_empty(obj->className));
 
     fail_unless(cparse_object_is_user(obj));
 

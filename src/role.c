@@ -3,11 +3,14 @@
 #include <cparse/json.h>
 #include <errno.h>
 #include <cparse/util.h>
+#include <cparse/query.h>
+#include <cparse/user.h>
+#include <cparse/list.h>
+#include <cparse/types.h>
 #include "protocol.h"
 #include "log.h"
+#include <stdio.h>
 #include "private.h"
-
-const char *const CPARSE_ROLE_CLASS_NAME = "roles";
 
 extern cParseUser *cparse_object_new();
 
@@ -26,7 +29,9 @@ bool (*cparse_role_delete)(cParseRole *role, cParseError **error) = cparse_objec
 cParseRole *cparse_role_with_name(const char *name) {
 	cParseRole *obj = cparse_object_new();
 
-	obj->className = strdup(CPARSE_ROLE_CLASS_NAME);
+	obj->className = strdup(CPARSE_CLASS_ROLE);
+
+	obj->urlPath = strdup(CPARSE_ROLES_PATH);
 
 	cparse_object_set_string(obj, CPARSE_KEY_NAME, name);
 
@@ -37,24 +42,92 @@ const char *cparse_role_name(cParseRole *role) {
 	return cparse_object_get_string(role, "name");
 }
 
-cParseJson *cparse_role_users(cParseRole *role) {
-	return cparse_object_get(role, "users");
+cParseList *cparse_role_query_users(cParseRole *role, cParseError **error) {
+
+	cParseList *list = NULL;
+
+	cParseQuery *query = NULL;
+
+	cParseQueryBuilder *builder = NULL;
+
+	size_t pos = 0;
+
+	if (role == NULL) {
+		cparse_log_set_errno(error, EINVAL);
+		return NULL;
+	}
+
+	query = cparse_user_query_new();
+
+	builder = cparse_query_build_new();
+
+	cparse_query_build_related_to(builder, "users", role);
+
+	cparse_query_build_where(query, builder);
+
+	if (!cparse_query_find_objects(query, error)) {
+		return NULL;
+	}
+
+	list = cparse_list_new(sizeof(cParseObject), (cParseListFreeFunk) cparse_object_free);
+
+	for (pos = 0; pos < query->size; pos++) {
+		cparse_list_append(list, query->results[pos]);
+	}
+
+	return list;
 }
 
-cParseJson *cparse_role_roles(cParseRole *role) {
-	return cparse_object_get(role, "roles");
+cParseList *cparse_role_query_roles(cParseRole *role, cParseError **error) {
+	cParseQuery *query = NULL;
+
+	cParseQueryBuilder *builder = NULL;
+
+	cParseList *list = NULL;
+
+	size_t pos = 0;
+
+	if (role == NULL) {
+		cparse_log_set_errno(error, EINVAL);
+		return NULL;
+	}
+
+	query = cparse_query_for_object(role);
+
+	builder = cparse_query_build_new();
+
+	cparse_query_build_related_to(builder, "roles", role);
+
+	cparse_query_build_where(query, builder);
+
+	if (!cparse_query_find_objects(query, error)) {
+		return NULL;
+	}
+
+	list = cparse_list_new(sizeof(cParseObject), (cParseListFreeFunk) cparse_object_free);
+
+	for (pos = 0; pos < query->size; pos++) {
+		cparse_list_append(list, query->results[pos]);
+	}
+
+	return list;
 }
 
-static void __cparse_role_add_dependency(cParseRole *role, const char *key, const char *pointerType, const char *id)
+static void __cparse_role_add_dependency(cParseRole *role, const char *key, cParseObject *ref)
 {
 	cParseJson *users = NULL;
 	cParseJson *objects = NULL;
 	cParseJson *pointer = NULL;
 
-	if (!role || cparse_str_empty(id) || cparse_str_empty(key) ||
-	        (strcmp(key, CPARSE_USER_CLASS_NAME) && strcmp(key, CPARSE_ROLE_CLASS_NAME)) ||
-	        (strcmp(pointerType, CPARSE_CLASS_USER) && strcmp(pointerType, CPARSE_CLASS_ROLE))) {
+	if (!role || cparse_str_empty(key) || !ref) {
 		cparse_log_errno(EINVAL);
+		return;
+	}
+
+	/* only allow certain values for key/pointer type */
+	if (strcmp(key, CPARSE_USERS_PATH) && strcmp(key, CPARSE_ROLES_PATH))
+	{
+		cparse_log_error("can only by of type users or roles");
 		return;
 	}
 
@@ -63,38 +136,25 @@ static void __cparse_role_add_dependency(cParseRole *role, const char *key, cons
 	if (users == NULL) {
 		users = cparse_json_new();
 		cparse_json_set_string(users, CPARSE_KEY_OP, CPARSE_KEY_ADD_RELATION);
+		cparse_object_set(role, key, users);
 	}
 
 	objects = cparse_json_get(users, "objects");
 
 	if (objects == NULL) {
 		objects = cparse_json_new_array();
+		cparse_json_set(users, "objects", objects);
 	}
 
 	if (!cparse_json_is_array(objects)) {
 		cparse_log_error("objects is not an array");
-		cparse_json_free(users);
-		cparse_json_free(objects);
 		return;
 	}
 
-	pointer = cparse_json_new();
-
-	cparse_json_set_string(pointer, CPARSE_KEY_TYPE, CPARSE_TYPE_POINTER);
-	cparse_json_set_string(pointer, CPARSE_KEY_CLASS_NAME, pointerType);
-	cparse_json_set_string(pointer, CPARSE_KEY_OBJECT_ID, id);
+	pointer = cparse_pointer_from_object(ref);
 
 	cparse_json_array_add(objects, pointer);
 
-	cparse_json_free(pointer);
-
-	cparse_json_set(users, "objects", objects);
-
-	cparse_json_free(objects);
-
-	cparse_object_set(role, key, users);
-
-	cparse_json_free(users);
 }
 
 
@@ -104,7 +164,7 @@ void cparse_role_add_user(cParseRole *role, cParseUser *user) {
 		return;
 	}
 
-	__cparse_role_add_dependency(role, CPARSE_USER_CLASS_NAME, CPARSE_CLASS_USER, user->objectId);
+	__cparse_role_add_dependency(role, CPARSE_USERS_PATH, user);
 }
 
 void cparse_role_add_role(cParseRole *role, cParseRole *other) {
@@ -113,6 +173,6 @@ void cparse_role_add_role(cParseRole *role, cParseRole *other) {
 		return;
 	}
 
-	__cparse_role_add_dependency(role, CPARSE_ROLE_CLASS_NAME, CPARSE_CLASS_ROLE, other->objectId);
+	__cparse_role_add_dependency(role, CPARSE_ROLES_PATH, other);
 }
 

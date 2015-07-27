@@ -11,6 +11,7 @@
 #include "protocol.h"
 #include <cparse/util.h>
 #include <cparse/parse.h>
+#include <cparse/types.h>
 #include <errno.h>
 #include "private.h"
 #include "json_private.h"
@@ -144,11 +145,11 @@ cParseRequest *cparse_object_create_request(cParseObject *obj, cParseHttpRequest
 
     if (method != cParseHttpRequestMethodPost && !cparse_str_empty(obj->objectId))
     {
-        snprintf(buf, CPARSE_BUF_SIZE, "%s/%s", obj->className, obj->objectId);
+        snprintf(buf, CPARSE_BUF_SIZE, "%s/%s", obj->urlPath, obj->objectId);
     }
     else
     {
-        snprintf(buf, CPARSE_BUF_SIZE, "%s", obj->className);
+        snprintf(buf, CPARSE_BUF_SIZE, "%s", obj->urlPath);
     }
 
     return cparse_client_request_with_method_and_path(method, buf);
@@ -165,6 +166,7 @@ cParseObject *cparse_object_new()
     }
 
     obj->className = NULL;
+    obj->urlPath = NULL;
     obj->objectId = NULL;
     obj->createdAt = 0;
     obj->updatedAt = 0;
@@ -181,6 +183,7 @@ void cparse_object_copy(cParseObject *obj, cParseObject *other)
     }
 
     cparse_replace_str(&obj->className, other->className);
+    cparse_replace_str(&obj->urlPath, other->urlPath);
     cparse_replace_str(&obj->objectId, other->objectId);
     obj->createdAt = other->createdAt;
     obj->updatedAt = other->updatedAt;
@@ -200,9 +203,30 @@ cParseObject *cparse_object_with_class_name(const char *className)
 
     obj = cparse_object_new();
 
+    obj->className = strdup(className);
+
     snprintf(buf, CPARSE_BUF_SIZE, "%s%s", CPARSE_OBJECTS_PATH, className);
 
-    obj->className = strdup(buf);
+    obj->urlPath = strdup(buf);
+
+    return obj;
+}
+
+cParseObject *cparse_object_from_query(cParseQuery *query, cParseJson *json)
+{
+    cParseObject *obj = NULL;
+
+    if (query == NULL || json == NULL) {
+        cparse_log_errno(EINVAL);
+        return NULL;
+    }
+
+    obj = cparse_object_new();
+
+    obj->className = strdup(query->className);
+    obj->urlPath = strdup(query->urlPath);
+
+    cparse_object_merge_json(obj, json);
 
     return obj;
 }
@@ -238,6 +262,9 @@ void cparse_object_free(cParseObject *obj)
 
     if (obj->className) {
         free(obj->className);
+    }
+    if (obj->urlPath) {
+        free(obj->urlPath);
     }
     if (obj->objectId) {
         free(obj->objectId);
@@ -427,16 +454,12 @@ pthread_t cparse_object_refresh_in_background(cParseObject *obj, cParseObjectCal
     return cparse_object_run_in_background(obj, cparse_object_refresh, callback, NULL);
 }
 
-bool cparse_class_name_is_object(const char *className)
-{
-    if (cparse_str_empty(className)) { return false; }
-
-    return !cparse_str_prefix(CPARSE_OBJECTS_PATH, className);
-}
-
 bool cparse_object_is_object(cParseObject *obj)
 {
-    return cparse_class_name_is_object(obj->className);
+    if (obj == NULL) {
+        return false;
+    }
+    return !cparse_str_prefix(CPARSE_OBJECTS_PATH, obj->urlPath);
 }
 
 bool cparse_object_save(cParseObject *obj, cParseError **error)
@@ -452,12 +475,12 @@ bool cparse_object_save(cParseObject *obj, cParseError **error)
     /* build the request based on the id */
     if (cparse_str_empty(obj->objectId))
     {
-        request = cparse_client_request_with_method_and_path(cParseHttpRequestMethodPost, obj->className);
+        request = cparse_client_request_with_method_and_path(cParseHttpRequestMethodPost, obj->urlPath);
     }
     else
     {
         char buf[CPARSE_BUF_SIZE + 1] = {0};
-        snprintf(buf, CPARSE_BUF_SIZE, "%s/%s", obj->className, obj->objectId);
+        snprintf(buf, CPARSE_BUF_SIZE, "%s/%s", obj->urlPath, obj->objectId);
         request = cparse_client_request_with_method_and_path(cParseHttpRequestMethodPut, buf);
     }
 
@@ -512,7 +535,7 @@ bool cparse_object_update(cParseObject *obj, cParseJson *attributes, cParseError
         return false;
     }
 
-    snprintf(buf, CPARSE_BUF_SIZE, "%s/%s", obj->className, obj->objectId);
+    snprintf(buf, CPARSE_BUF_SIZE, "%s/%s", obj->urlPath, obj->objectId);
 
     request = cparse_client_request_with_method_and_path(cParseHttpRequestMethodPut, buf);
 
@@ -696,14 +719,10 @@ void cparse_object_set_reference(cParseObject *obj, const char *key, cParseObjec
     }
 
     /* create a data object representing a pointer */
-    data = cparse_json_new();
-
-    cparse_json_add_reference(data, ref);
+    data = cparse_pointer_from_object(ref);
 
     /* set key for the object */
     cparse_json_set(obj->attributes, key, data);
-
-    cparse_json_free(data);
 }
 
 void cparse_object_merge_json(cParseObject *a, cParseJson *b)
@@ -756,59 +775,15 @@ void cparse_object_merge_json(cParseObject *a, cParseJson *b)
     cparse_json_copy(a->attributes, b, true);
 }
 
-cParseObject *cparse_object_from_json(cParseJson *jobj)
-{
-    cParseObject *obj = NULL;
-
-    if (!jobj) {
-        cparse_log_errno(EINVAL);
-        return NULL;
-    }
-
-    obj = cparse_object_new();
-
-    cparse_object_merge_json(obj, jobj);
-
-    return obj;
-}
-
 const char *cparse_object_to_json_string(cParseObject *obj)
 {
     return !obj ? NULL : cparse_json_to_json_string(obj->attributes);
 }
 
-static void cparse_object_add_acl_item(cParseJson *acl, const char *key, bool read, bool write)
-{
-    cParseJson *item = NULL;
-
-    if (!acl || cparse_str_empty(key)) {
-        cparse_log_errno(EINVAL);
-        return;
-    }
-
-    item = cparse_json_get(acl, key);
-
-    if (item == NULL) {
-        item = cparse_json_new();
-
-        cparse_json_set_bool(item, "read", read);
-
-        cparse_json_set_bool(item, "write", write);
-
-        cparse_json_set(acl, key, item);
-
-        cparse_json_free(item);
-    } else {
-
-        cparse_json_set_bool(item, "read", read);
-
-        cparse_json_set_bool(item, "write", write);
-    }
-}
-
 static void cparse_object_add_acl(cParseObject *obj, const char *key, bool read, bool write)
 {
     cParseJson *acl = NULL;
+    cParseJson *item = NULL;
 
     if (!obj || !obj->attributes || cparse_str_empty(key)) {
         cparse_log_errno(EINVAL);
@@ -818,18 +793,24 @@ static void cparse_object_add_acl(cParseObject *obj, const char *key, bool read,
     acl = cparse_json_get(obj->attributes, CPARSE_KEY_ACL);
 
     if (acl == NULL) {
+
         acl = cparse_json_new();
 
-        cparse_object_add_acl_item(acl, key, read, write);
-
         cparse_json_set(obj->attributes, CPARSE_KEY_ACL, acl);
-
-        cparse_json_free(acl);
-    } else {
-
-        cparse_object_add_acl_item(acl, key, read, write);
     }
 
+    item = cparse_json_get(acl, key);
+
+    if (item == NULL) {
+
+        item = cparse_json_new();
+
+        cparse_json_set(acl, key, item);
+    }
+
+    cparse_json_set_bool(item, "read", read);
+
+    cparse_json_set_bool(item, "write", write);
 }
 
 void cparse_object_set_public_acl(cParseObject *obj, bool read, bool write)
@@ -861,6 +842,7 @@ void cparse_object_set_role_acl(cParseObject *obj, cParseRole *role, bool read, 
     }
 
     snprintf(buf, CPARSE_BUF_SIZE, "role:%s", cparse_role_name(role));
+
     cparse_object_add_acl(obj, buf, read, write);
 }
 

@@ -10,9 +10,9 @@ cParseRole *cparse_role_with_name(const char *name);
 
 const char* cparse_role_name(cParseRole *role);
 
-cParseJson *cparse_role_query_users(cParseRole *role);
+cParseList *cparse_role_query_users(cParseRole *role, cParseError **error);
 
-cParseJson *cparse_role_query_roles(cParseRole *role);
+cParseList *cparse_role_query_roles(cParseRole *role, cParseError **error);
 
 bool cparse_role_update(cParseRole *role, cParseJson *attributes, cParseError **error);
 

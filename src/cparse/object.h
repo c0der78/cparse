@@ -277,12 +277,6 @@ size_t cparse_object_attribute_size(cParseObject *);
  */
 void cparse_object_merge_json(cParseObject *obj, cParseJson *json);
 
-/*! creates a parse object from a json object as attributes
- * \param json the json object to create from
- * \returns the allocated object
- */
-cParseObject *cparse_object_from_json(cParseJson *json);
-
 /*! formats an object into a json string
  * \param obj the object instance
  */

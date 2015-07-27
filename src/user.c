@@ -12,11 +12,11 @@
 #include "private.h"
 #include "log.h"
 
-const char *const CPARSE_USER_CLASS_NAME = "users";
-
 cParseUser *__cparse_current_user = NULL;
 
 extern cParseUser *cparse_object_new();
+
+extern cParseQuery *cparse_query_new();
 
 extern void cparse_object_set_request_includes(cParseObject *obj, cParseRequest *request);
 
@@ -44,7 +44,9 @@ cParseUser * cparse_user_new()
 {
     cParseUser *obj = cparse_object_new();
 
-    obj->className = strdup(CPARSE_USER_CLASS_NAME);
+    obj->className = strdup(CPARSE_CLASS_USER);
+
+    obj->urlPath = strdup(CPARSE_USERS_PATH);
 
     return obj;
 }
@@ -53,7 +55,9 @@ cParseUser *cparse_user_with_name(const char *username)
 {
     cParseUser *obj = cparse_object_new();
 
-    obj->className = strdup(CPARSE_USER_CLASS_NAME);
+    obj->className = strdup(CPARSE_CLASS_USER);
+
+    obj->urlPath = strdup(CPARSE_USERS_PATH);
 
     cparse_object_set_string(obj, CPARSE_KEY_USER_NAME, username);
 
@@ -80,18 +84,11 @@ cParseUser *cparse_current_user(cParseError **error)
 
 bool cparse_object_is_user(cParseObject *obj)
 {
-    if (!obj) { return false; }
-
-    return cparse_class_name_is_user(obj->className);
-}
-
-bool cparse_class_name_is_user(const char *className)
-{
-    if (cparse_str_empty(className)) {
+    if (!obj) {
         return false;
     }
 
-    return !strcmp(className, CPARSE_USER_CLASS_NAME);
+    return !cparse_str_cmp(obj->className, CPARSE_CLASS_USER);
 }
 
 const char *cparse_user_name(cParseUser *user)
@@ -249,7 +246,11 @@ void cparse_user_logout()
 
 cParseQuery *cparse_user_query_new()
 {
-    cParseQuery *query = cparse_query_with_class_name(CPARSE_USER_CLASS_NAME);
+    cParseQuery *query = cparse_query_new();
+
+    query->className = strdup(CPARSE_CLASS_USER);
+
+    query->urlPath = strdup(CPARSE_USERS_PATH);
 
     return query;
 }
@@ -348,7 +349,7 @@ cParseUser * cparse_user_validate(const char *sessionToken, cParseError **error)
         return NULL;
     }
 
-    snprintf(buf, CPARSE_BUF_SIZE, "%s/me", CPARSE_USER_CLASS_NAME);
+    snprintf(buf, CPARSE_BUF_SIZE, "%s/me", CPARSE_USERS_PATH);
 
     request = cparse_client_request_with_method_and_path(cParseHttpRequestMethodGet, buf);
 

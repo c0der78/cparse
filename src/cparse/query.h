@@ -15,6 +15,9 @@ BEGIN_DECL
  */
 cParseQuery *cparse_query_with_class_name(const char *className);
 
+cParseQuery *cparse_query_for_object(cParseObject *obj);
+
+
 /*! deallocates a query
  * \param query the query instance
  */
@@ -85,6 +88,8 @@ cParseQueryBuilder *cparse_query_build_exists(cParseQueryBuilder *query, const c
 cParseQueryBuilder *cparse_query_build_select(cParseQueryBuilder *query, const char *key, cParseJson *value);
 cParseQueryBuilder *cparse_query_build_nselect(cParseQueryBuilder *query, const char *key, cParseJson *value);
 cParseQueryBuilder *cparse_query_build_all(cParseQueryBuilder *query, const char *key, cParseJson *value);
+
+cParseQueryBuilder *cparse_query_build_related_to(cParseQueryBuilder *query, const char *key, cParseObject *obj);
 
 cParseJson *cparse_query_build_json(cParseQueryBuilder *query);
 

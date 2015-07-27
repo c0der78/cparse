@@ -57,33 +57,14 @@ typedef void (*cParseObjectCallback)(cParseObject *obj, bool success, cParseErro
 /*! a json structure */
 typedef struct json_object cParseJson;
 
-/* types */
+/*! frees a node in a list */
+typedef void (*cParseListFreeFunk)(void *);
 
-/*! a parse bytes structure */
-typedef struct cparse_type_bytes cParseBytes;
+/*! a node in a list */
+typedef struct cparse_list_node cParseListNode;
 
-/*! a parse data structure */
-typedef struct cparse_type_data cParseData;
-
-/*! a parse file structure */
-typedef struct cparse_type_file cParseFile;
-
-/*! a parse geo point structure */
-typedef struct cparse_type_geopoint cParseGeoPoint;
-
-/*! a parse pointer structure */
-typedef struct cparse_type_pointer cParsePointer;
-
-/* operators */
-
-/*! an array operator */
-typedef struct cparse_op_array cParseOperatorArray;
-
-/*! a decrement operator */
-typedef struct cparse_op_decrement cParseOperatorDecrement;
-
-/*! a increment operator */
-typedef struct cparse_op_increment cParseOperatorIncrement;
+/*! a list of a type */
+typedef struct cparse_list cParseList;
 
 
 #endif

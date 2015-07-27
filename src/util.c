@@ -92,11 +92,7 @@ void cparse_json_add_reference(cParseJson *data, cParseObject *ref)
     /* add class name */
     if (!cparse_str_empty(ref->className))
     {
-        if (!cparse_str_prefix(CPARSE_OBJECTS_PATH, ref->className)) {
-            cparse_json_set_string(data, CPARSE_KEY_CLASS_NAME, ref->className + strlen(CPARSE_OBJECTS_PATH));
-        } else {
-            cparse_json_set_string(data, CPARSE_KEY_CLASS_NAME, ref->className);
-        }
+        cparse_json_set_string(data, CPARSE_KEY_CLASS_NAME, ref->className);
     }
 
     /* add object id */

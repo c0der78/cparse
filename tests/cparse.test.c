@@ -47,6 +47,8 @@ int main(void)
 
 #ifdef DEBUG
     cparse_set_log_level(cParseLogTrace);
+#else
+    cparse_set_log_level(cParseLogError);
 #endif
 
     sr = srunner_create(cparse_parse_suite());

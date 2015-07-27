@@ -7,6 +7,7 @@ struct cparse_object
 {
     cParseJson *attributes;
     char *className;
+    char *urlPath;
     char *objectId;
     time_t updatedAt;
     time_t createdAt;
@@ -18,6 +19,7 @@ struct cparse_query
     cParseJson *where;
     cParseObject **results;
     char *className;
+    char *urlPath;
     char *keys;
     size_t size;
     int limit;
@@ -100,15 +102,25 @@ typedef struct
     void (*cleanup)(cParseObject *);
 } cParseObjectThread;
 
+struct cparse_list_node
+{
+    void *data;
+    struct cparse_list_node *next;
+};
+
+struct cparse_list
+{
+    cParseListNode *head;
+    cParseListNode *tail;
+    cParseListFreeFunk free_fn;
+    size_t node_size;
+    size_t length;
+};
+
 /* this runs a object action in the background */
 pthread_t cparse_object_run_in_background(cParseObject *obj, cParseObjectAction action, cParseObjectCallback callback, void (*cleanup)(cParseObject *));
 
-extern const char *const CPARSE_USER_CLASS_NAME;
-
 BEGIN_DECL
-
-bool cparse_class_name_is_user(const char *className);
-bool cparse_class_name_is_object(const char *className);
 
 END_DECL
 

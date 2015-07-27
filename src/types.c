@@ -1,55 +1,49 @@
 #include <cparse/types.h>
 #include <cparse/json.h>
+#include <cparse/util.h>
+#include <errno.h>
 #include "protocol.h"
+#include "log.h"
 #include <string.h>
 #include "private.h"
 
-cParsePointer *cparse_pointer_from_json(cParseJson *data)
+
+cParseJson *cparse_pointer_from_object(cParseObject *obj)
 {
-    cParsePointer *p = NULL;
-    const char *type = NULL;
+    cParseJson *data = NULL;
 
-    if (data == NULL) { return NULL; }
-
-    type = cparse_json_get_string(data, CPARSE_KEY_TYPE);
-
-    if (strcmp(type, CPARSE_TYPE_POINTER)) {
+    if (obj == NULL || cparse_str_empty(obj->className) || cparse_str_empty(obj->objectId)) {
+        cparse_log_errno(EINVAL);
         return NULL;
     }
 
-    p = malloc(sizeof(cParsePointer));
+    data = cparse_json_new();
 
-    p->className = strdup(cparse_json_get_string(data, CPARSE_KEY_CLASS_NAME));
+    cparse_json_set_string(data, CPARSE_KEY_CLASS_NAME, obj->className);
 
-    p->objectId = strdup(cparse_json_get_string(data, CPARSE_KEY_OBJECT_ID));
-
-    return p;
-}
-
-cParseJson *cparse_pointer_to_json(cParsePointer *p)
-{
-    cParseJson *data = cparse_json_new();
-
-    cparse_json_set_string(data, CPARSE_KEY_CLASS_NAME, p->className);
-
-    cparse_json_set_string(data, CPARSE_KEY_OBJECT_ID, p->objectId);
+    cparse_json_set_string(data, CPARSE_KEY_OBJECT_ID, obj->objectId);
 
     cparse_json_set_string(data, CPARSE_KEY_TYPE, CPARSE_TYPE_POINTER);
 
     return data;
 }
 
-void cparse_pointer_free(cParsePointer *p)
+bool cparse_json_is_pointer(cParseJson *json)
 {
-    if (p->className) {
-        free(p->className);
+    if (json == NULL) {
+        return false;
     }
 
-    if (p->objectId) {
-        free(p->objectId);
+    if (!cparse_json_contains(json, CPARSE_KEY_TYPE)) {
+        return false;
     }
 
-    free(p);
+    if (!cparse_str_cmp(cparse_json_get_string(json, CPARSE_KEY_TYPE), CPARSE_TYPE_POINTER)) {
+        return false;
+    }
+
+    return true;
 }
+
 
 

@@ -157,7 +157,7 @@ void cparse_json_set(cParseJson *obj, const char *key, cParseJson *value)
         cparse_log_errno(EINVAL);
         return;
     }
-    json_object_object_add(obj, key, json_object_get(value));
+    json_object_object_add(obj, key, value);
 }
 
 /* getters */

@@ -7,19 +7,14 @@
 
 BEGIN_DECL
 
-cParsePointer *cparse_pointer_from_json(cParseJson *data);
 
-cParseJson *cparse_pointer_to_json(cParsePointer *p);
+cParseJson *cparse_pointer_from_object(cParseObject *obj);
 
-void cparse_pointer_free(cParsePointer *pointer);
+bool cparse_json_is_pointer(cParseJson *json);
 
-cParseBytes *cparse_bytes_from_json(cParseJson *data);
+bool cparse_json_is_bytes(cParseJson *json);
 
-void cparse_bytes_free(cParseBytes *bytes);
-
-cParseFile *cparse_file_from_json(cParseJson *data);
-
-void cparse_file_free(cParseFile *file);
+bool cparse_json_is_file(cParseJson *json);
 
 END_DECL
 
