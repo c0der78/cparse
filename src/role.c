@@ -75,6 +75,8 @@ cParseList *cparse_role_query_users(cParseRole *role, cParseError **error) {
 		cparse_list_append(list, query->results[pos]);
 	}
 
+	cparse_query_free(query);
+
 	return list;
 }
 
@@ -109,6 +111,8 @@ cParseList *cparse_role_query_roles(cParseRole *role, cParseError **error) {
 	for (pos = 0; pos < query->size; pos++) {
 		cparse_list_append(list, query->results[pos]);
 	}
+
+	cparse_query_free(query);
 
 	return list;
 }
