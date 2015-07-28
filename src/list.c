@@ -99,8 +99,7 @@ void cparse_list_append(cParseList *list, void *element)
 
 	if (list->tail == NULL) {
 		list->head = list->tail = node;
-	}
-	else {
+	} else {
 		list->tail->next = node;
 		list->tail = node;
 	}

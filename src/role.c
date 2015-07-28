@@ -154,7 +154,6 @@ static void __cparse_role_add_dependency(cParseRole *role, const char *key, cPar
 	pointer = cparse_pointer_from_object(ref);
 
 	cparse_json_array_add(objects, pointer);
-
 }
 
 

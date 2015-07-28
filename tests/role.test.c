@@ -32,8 +32,6 @@ START_TEST(test_cparse_role_add_user)
 
     cparse_role_set_public_acl(role, true, true);
 
-    //cparse_role_set_user_acl(role, user, true, true);
-
     cparse_role_add_user(role, user);
 
     rval = cparse_role_save(role, &error);
@@ -105,8 +103,6 @@ START_TEST(test_cparse_role_query)
     }
 
     fail_unless(cparse_list_size(list) == 1);
-
-    //cparse_list_free(list);
 
     other = cparse_role_with_name(rand_name());
 
