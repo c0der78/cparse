@@ -216,8 +216,6 @@ START_TEST(test_cparse_object_remove_attribute)
 
     cparse_json_free(value);
 
-    cparse_json_free(removed);
-
     fail_unless(cparse_object_attribute_size(cp_obj) == 0);
 
     cparse_object_free(cp_obj);

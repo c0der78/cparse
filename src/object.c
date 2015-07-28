@@ -556,8 +556,6 @@ bool cparse_object_update(cParseObject *obj, cParseJson *attributes, cParseError
 
         cparse_object_merge_json(obj, response);
 
-        cparse_json_free(attributes);
-
         cparse_json_free(response);
 
         return true;
