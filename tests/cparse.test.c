@@ -40,7 +40,6 @@ int main(void)
         die("application id not set");
     }
 
-
     if (cparse_api_key == NULL) {
         die("api key not set");
     }
@@ -63,6 +62,9 @@ int main(void)
     srunner_run_all (sr, CK_NORMAL);
     number_failed = srunner_ntests_failed (sr);
     srunner_free (sr);
+
+    free(cparse_app_id);
+    free(cparse_api_key);
 
     return (number_failed == 0) ? EXIT_SUCCESS : EXIT_FAILURE;
 }

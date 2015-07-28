@@ -40,6 +40,7 @@ START_TEST(test_cparse_acl_set)
 
     if (error) {
         puts(cparse_error_message(error));
+        cparse_error_free(error);
     }
 
     fail_unless(rval);

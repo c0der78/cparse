@@ -35,6 +35,7 @@ START_TEST(test_cparse_user_sign_up)
 
     if (error) {
         printf("user signup error1: %s\n", cparse_error_message(error));
+        cparse_error_free(error);
     }
 
     fail_unless(rval);
@@ -153,20 +154,23 @@ START_TEST(test_cparse_login_in_background)
 {
     pthread_t bg;
     cParseError *error = NULL;
+    bool rval = false;
     const char *userName = rand_name();
     cParseObject *user123 = cparse_user_with_name(userName);
 
-    fail_unless(cparse_user_sign_up(user123, "Passw0rd!", &error));
+    rval = cparse_user_sign_up(user123, "Passw0rd!", &error);
 
-    fail_unless(error == NULL);
+    if (error) {
+        puts(cparse_error_message(error));
+        cparse_error_free(error);
+    }
+    fail_unless(rval);
 
     cparse_user_free(user123);
 
     bg = cparse_user_login_in_background(userName, "Passw0rd!", cparse_login_callback);
 
     pthread_join(bg, NULL);
-
-    /*cparse_object_free(user123);*/
 }
 END_TEST
 
