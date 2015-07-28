@@ -65,7 +65,10 @@ cParseList *cparse_role_query_users(cParseRole *role, cParseError **error) {
 
 	cparse_query_build_where(query, builder);
 
+	cparse_query_build_free(builder);
+
 	if (!cparse_query_find_objects(query, error)) {
+		cparse_query_free(query);
 		return NULL;
 	}
 
@@ -102,7 +105,10 @@ cParseList *cparse_role_query_roles(cParseRole *role, cParseError **error) {
 
 	cparse_query_build_where(query, builder);
 
+	cparse_query_build_free(builder);
+
 	if (!cparse_query_find_objects(query, error)) {
+		cparse_query_free(query);
 		return NULL;
 	}
 
