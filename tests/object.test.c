@@ -261,6 +261,8 @@ START_TEST(test_cparse_object_update)
     cparse_json_set_number(updates, "score", 789);
 
     fail_unless(cparse_object_update(obj, updates, &error));
+
+    cparse_json_free(updates);
 }
 END_TEST
 
