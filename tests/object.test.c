@@ -255,14 +255,23 @@ START_TEST(test_cparse_object_update)
     cParseObject *obj = cparse_new_test_object("blah", 1234);
     cParseJson *updates = cparse_json_new();
     cParseError *error = NULL;
+    bool rval = false;
 
     fail_unless(cparse_save_test_object(obj));
 
     cparse_json_set_number(updates, "score", 789);
 
-    fail_unless(cparse_object_update(obj, updates, &error));
+    rval = cparse_object_update(obj, updates, &error);
+
+    if (error) {
+        puts(cparse_error_message(error));
+        cparse_error_free(error);
+    }
 
     cparse_json_free(updates);
+    
+    fail_unless(rval);
+
 }
 END_TEST
 
