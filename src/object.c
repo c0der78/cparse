@@ -41,8 +41,8 @@ static void *cparse_object_background_action(void *argument)
         return NULL;
     }
 
-    /* cparse_object_save or cparse_object_refresh */
-    rval = (*arg->action)(arg->obj, &error);
+    /* cparse_object_save or cparse_object_refresh for example */
+    (*arg->action)(arg->obj, &error);
 
     if (arg->callback)
     {
