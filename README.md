@@ -3,6 +3,10 @@ cParse
 
 [![Build Status](https://travis-ci.org/c0der78/arg3json.svg?branch=master)](https://travis-ci.org/c0der78/arg3json)
 
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/c0der78/cparse?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+
+[![Coverage Status](https://coveralls.io/repos/c0der78/cparse/badge.svg?branch=master&service=github)](https://coveralls.io/github/c0der78/cparse?branch=master)
+
 A C library to use the REST API at [parse.com](http://parse.com).
 
 [View Testing Code Coverage](http://htmlpreview.github.com/?https://github.com/c0der78/cparse/blob/master/coverage/index.html)

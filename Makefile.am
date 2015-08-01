@@ -10,8 +10,9 @@ include $(top_srcdir)/Makefile.am.coverage
 test: check
 	tests/test_cparse
 
-memcheck: check
+memcheck: check clean-gcda
 	CK_FORK=no $(top_srcdir)/libtool --mode=execute valgrind --leak-check=yes --show-reachable=yes --suppressions=suppression.map --error-exitcode=5 --track-origins=yes tests/test_cparse
-
+	$(MAKE) $(AM_MAKEFLAGS) generate-coverage-html
+	
 docs:
 	doxygen Doxyfile
