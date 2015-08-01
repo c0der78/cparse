@@ -264,6 +264,12 @@ cparse_object_set_user_acl(obj, user, cParseAccessWrite, true);
 cparse_object_set_role_acl(obj, role, cParseAccessWrite, true);
 ```
 
+About the Author
+================
+
+If you like the library or have improvements/questions, [drop me a line](mailto:c0der78@gmail.com) and let me know!
+
+My [blog](http://www.arg3.com) has more information.
 
 TODO
 ====
