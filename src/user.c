@@ -38,6 +38,8 @@ pthread_t (*cparse_user_refresh_in_background)(cParseUser *user, cParseObjectCal
 
 extern char cparse_client_session_token[];
 
+extern bool cparse_revocable_sessions;
+
 /* initializers */
 
 cParseUser * cparse_user_new()
@@ -164,7 +166,9 @@ static bool cparse_user_login_user(cParseUser *user, cParseError **error)
 
     request = cparse_client_request_with_method_and_path(cParseHttpRequestMethodGet, "login");
 
-    cparse_client_request_add_header(request, CPARSE_HEADER_REVOCABLE_SESSION, "1");
+    if (cparse_revocable_sessions) {
+        cparse_client_request_add_header(request, CPARSE_HEADER_REVOCABLE_SESSION, "1");
+    }
 
     cparse_client_request_add_data(request, "username", username);
     cparse_client_request_add_data(request, "password", password);

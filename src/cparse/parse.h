@@ -38,6 +38,12 @@ void cparse_set_api_key(const char *apiKey);
  */
 void cparse_set_log_level(cParseLogLevel level);
 
+
+/*! enables revocable sessions
+ * \param the value to set
+ */
+void cparse_enable_revocable_sessions(bool value);
+
 END_DECL
 
 #endif

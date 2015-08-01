@@ -13,6 +13,8 @@ const char *cparse_api_key = NULL;
 
 extern cParseLogLevel cparse_current_log_level;
 
+bool cparse_revocable_sessions = false;
+
 const char *const CPARSE_RESERVED_KEYS[] =
 {
 	CPARSE_KEY_CLASS_NAME, CPARSE_KEY_CREATED_AT, CPARSE_KEY_OBJECT_ID,
@@ -34,3 +36,7 @@ void cparse_set_log_level(cParseLogLevel value)
 	cparse_current_log_level = value;
 }
 
+
+void cparse_enable_revocable_sessions(bool value) {
+	cparse_revocable_sessions = value;
+}
