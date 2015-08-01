@@ -31,18 +31,18 @@
             <td class="headerValue">Code Coverage</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">291</td>
-            <td class="headerCovTableEntry">410</td>
-            <td class="headerCovTableEntryLo">71.0 %</td>
+            <td class="headerCovTableEntry">293</td>
+            <td class="headerCovTableEntry">408</td>
+            <td class="headerCovTableEntryLo">71.8 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2015-07-25 17:49:42</td>
+            <td class="headerValue">2015-08-01 09:59:13</td>
             <td></td>
             <td class="headerItem">Functions:</td>
-            <td class="headerCovTableEntry">44</td>
-            <td class="headerCovTableEntry">53</td>
-            <td class="headerCovTableEntryMed">83.0 %</td>
+            <td class="headerCovTableEntry">43</td>
+            <td class="headerCovTableEntry">51</td>
+            <td class="headerCovTableEntryMed">84.3 %</td>
           </tr>
           <tr>
             <td class="headerItem">Legend:</td>
@@ -81,860 +81,845 @@
 <span class="lineNum">      11 </span>            : #include &quot;protocol.h&quot;
 <span class="lineNum">      12 </span>            : #include &lt;cparse/util.h&gt;
 <span class="lineNum">      13 </span>            : #include &lt;cparse/parse.h&gt;
-<span class="lineNum">      14 </span>            : #include &lt;errno.h&gt;
-<span class="lineNum">      15 </span>            : #include &quot;private.h&quot;
-<span class="lineNum">      16 </span>            : #include &quot;json_private.h&quot;
-<span class="lineNum">      17 </span>            : #include &quot;log.h&quot;
-<span class="lineNum">      18 </span>            : 
-<span class="lineNum">      19 </span>            : /* internals */
-<span class="lineNum">      20 </span>            : 
-<span class="lineNum">      21 </span>            : #define CPARSE_OBJECT_UPDATE_ATTRIBUTES &quot;__update_attributes&quot;
-<span class="lineNum">      22 </span>            : 
-<span class="lineNum">      23 </span>            : extern cParseUser *__cparse_current_user;
-<a name="24"><span class="lineNum">      24 </span>            : </a>
-<span class="lineNum">      25 </span>            : /* this is a background thread. The argument controlls functionality*/
-<span class="lineNum">      26 </span>            : static void *cparse_object_background_action(void *argument)
-<span class="lineNum">      27 </span>            : {
-<span class="lineNum">      28 </span><span class="lineCov">          6 :     cParseError *error = NULL;</span>
-<span class="lineNum">      29 </span><span class="lineCov">          6 :     cParseObjectThread *arg = NULL;</span>
-<span class="lineNum">      30 </span><span class="lineCov">          6 :     bool rval = false;</span>
-<span class="lineNum">      31 </span>            : 
-<span class="lineNum">      32 </span><span class="lineCov">          6 :     if (argument == NULL) {</span>
-<span class="lineNum">      33 </span><span class="lineNoCov">          0 :         cparse_log_debug(strerror(EINVAL));</span>
-<span class="lineNum">      34 </span><span class="lineNoCov">          0 :         return NULL;</span>
-<span class="lineNum">      35 </span>            :     }
-<span class="lineNum">      36 </span>            : 
-<span class="lineNum">      37 </span><span class="lineCov">          6 :     arg = (cParseObjectThread *) argument;</span>
-<span class="lineNum">      38 </span>            : 
-<span class="lineNum">      39 </span><span class="lineCov">          6 :     if (arg-&gt;action == NULL) {</span>
-<span class="lineNum">      40 </span><span class="lineNoCov">          0 :         cparse_log_error(&quot;object background action has no method&quot;);</span>
-<span class="lineNum">      41 </span><span class="lineNoCov">          0 :         return NULL;</span>
-<span class="lineNum">      42 </span>            :     }
-<span class="lineNum">      43 </span>            : 
-<span class="lineNum">      44 </span>            :     /* cparse_object_save or cparse_object_refresh */
-<span class="lineNum">      45 </span><span class="lineCov">          6 :     rval = (*arg-&gt;action)(arg-&gt;obj, &amp;error);</span>
-<span class="lineNum">      46 </span>            : 
-<span class="lineNum">      47 </span><span class="lineCov">          6 :     if (arg-&gt;callback)</span>
-<span class="lineNum">      48 </span>            :     {
-<span class="lineNum">      49 </span><span class="lineCov">          6 :         (*arg-&gt;callback)(arg-&gt;obj, rval, error);</span>
-<span class="lineNum">      50 </span><span class="lineCov">          6 :     }</span>
-<span class="lineNum">      51 </span>            : 
-<span class="lineNum">      52 </span><span class="lineCov">          6 :     if (error)</span>
-<span class="lineNum">      53 </span>            :     {
-<span class="lineNum">      54 </span><span class="lineNoCov">          0 :         cparse_log_warn(cparse_error_message(error));</span>
-<span class="lineNum">      55 </span>            : 
-<span class="lineNum">      56 </span><span class="lineNoCov">          0 :         cparse_error_free(error);</span>
-<span class="lineNum">      57 </span><span class="lineNoCov">          0 :     }</span>
-<span class="lineNum">      58 </span>            : 
-<span class="lineNum">      59 </span><span class="lineCov">          6 :     if (arg-&gt;cleanup)</span>
-<span class="lineNum">      60 </span>            :     {
-<span class="lineNum">      61 </span><span class="lineCov">          1 :         (*arg-&gt;cleanup)(arg-&gt;obj);</span>
-<span class="lineNum">      62 </span><span class="lineCov">          1 :     }</span>
-<span class="lineNum">      63 </span>            : 
-<span class="lineNum">      64 </span><span class="lineCov">          6 :     pthread_detach(arg-&gt;thread);</span>
-<span class="lineNum">      65 </span>            : 
-<span class="lineNum">      66 </span><span class="lineCov">          6 :     free(arg);</span>
-<span class="lineNum">      67 </span>            : 
-<span class="lineNum">      68 </span><span class="lineCov">          6 :     return NULL;</span>
-<a name="69"><span class="lineNum">      69 </span><span class="lineCov">          6 : }</span></a>
-<span class="lineNum">      70 </span>            : 
-<span class="lineNum">      71 </span>            : pthread_t cparse_object_run_in_background(cParseObject *obj, cParseObjectAction action, cParseObjectCallback callback, void (*cleanup)(cParseObject *obj))
-<span class="lineNum">      72 </span>            : {
-<span class="lineNum">      73 </span><span class="lineCov">          6 :     cParseObjectThread *arg = NULL;</span>
-<span class="lineNum">      74 </span><span class="lineCov">          6 :     int rc = 0;</span>
-<span class="lineNum">      75 </span>            : 
-<span class="lineNum">      76 </span><span class="lineCov">         12 :     if (obj == NULL || action == NULL) {</span>
-<span class="lineNum">      77 </span><span class="lineNoCov">          0 :         cparse_log_errno(EINVAL);</span>
-<span class="lineNum">      78 </span><span class="lineNoCov">          0 :         return 0;</span>
-<span class="lineNum">      79 </span>            :     }
-<span class="lineNum">      80 </span>            : 
-<span class="lineNum">      81 </span><span class="lineCov">          6 :     arg = malloc(sizeof(cParseObjectThread));</span>
-<span class="lineNum">      82 </span>            : 
-<span class="lineNum">      83 </span><span class="lineCov">          6 :     if (arg == NULL) {</span>
-<span class="lineNum">      84 </span><span class="lineNoCov">          0 :         cparse_log_errno(ENOMEM);</span>
-<span class="lineNum">      85 </span><span class="lineNoCov">          0 :         return 0;</span>
-<span class="lineNum">      86 </span>            :     }
-<span class="lineNum">      87 </span>            : 
-<span class="lineNum">      88 </span><span class="lineCov">          6 :     arg-&gt;action = action;</span>
-<span class="lineNum">      89 </span><span class="lineCov">          6 :     arg-&gt;obj = obj;</span>
-<span class="lineNum">      90 </span><span class="lineCov">          6 :     arg-&gt;cleanup = cleanup;</span>
-<span class="lineNum">      91 </span><span class="lineCov">          6 :     arg-&gt;callback = callback;</span>
-<span class="lineNum">      92 </span><span class="lineCov">          6 :     arg-&gt;thread = 0;</span>
-<span class="lineNum">      93 </span>            : 
-<span class="lineNum">      94 </span><span class="lineCov">          6 :     rc = pthread_create(&amp;arg-&gt;thread, NULL, cparse_object_background_action, arg);</span>
-<span class="lineNum">      95 </span>            : 
-<span class="lineNum">      96 </span><span class="lineCov">          6 :     if (rc) {</span>
-<span class="lineNum">      97 </span><span class="lineNoCov">          0 :         cparse_log_error(&quot;unable to create background thread&quot;);</span>
-<span class="lineNum">      98 </span><span class="lineNoCov">          0 :         return 0;</span>
-<span class="lineNum">      99 </span>            :     }
-<span class="lineNum">     100 </span>            : 
-<span class="lineNum">     101 </span><span class="lineCov">          6 :     return arg-&gt;thread;</span>
-<a name="102"><span class="lineNum">     102 </span><span class="lineCov">          6 : }</span></a>
-<span class="lineNum">     103 </span>            : 
-<span class="lineNum">     104 </span>            : void cparse_object_set_request_includes(cParseObject *obj, cParseRequest *request)
-<span class="lineNum">     105 </span>            : {
-<span class="lineNum">     106 </span><span class="lineCov">          2 :     char types[CPARSE_BUF_SIZE + 1] = {0};</span>
-<span class="lineNum">     107 </span>            : 
-<span class="lineNum">     108 </span><span class="lineCov">          4 :     if (obj == NULL || request == NULL) {</span>
-<span class="lineNum">     109 </span><span class="lineNoCov">          0 :         cparse_log_errno(EINVAL);</span>
-<span class="lineNum">     110 </span><span class="lineNoCov">          0 :         return;</span>
-<span class="lineNum">     111 </span>            :     }
-<span class="lineNum">     112 </span>            : 
-<span class="lineNum">     113 </span>            :     /* parse some pointers to include */
-<span class="lineNum">     114 </span><span class="lineCov">         38 :     cparse_json_foreach_start(obj-&gt;attributes, key, val)</span>
-<span class="lineNum">     115 </span>            :     {
-<span class="lineNum">     116 </span><span class="lineCov">          6 :         const char *typeVal = NULL;</span>
-<span class="lineNum">     117 </span>            : 
-<span class="lineNum">     118 </span><span class="lineCov">         10 :         if (cparse_json_type(val) != cParseJsonObject) { continue; }</span>
-<span class="lineNum">     119 </span>            : 
-<span class="lineNum">     120 </span><span class="lineCov">          2 :         typeVal = cparse_json_get_string(val, CPARSE_KEY_TYPE);</span>
-<span class="lineNum">     121 </span>            : 
-<span class="lineNum">     122 </span><span class="lineCov">          4 :         if (typeVal &amp;&amp; !strcmp(typeVal, CPARSE_TYPE_POINTER))</span>
-<span class="lineNum">     123 </span>            :         {
-<span class="lineNum">     124 </span><span class="lineCov">          1 :             strncat(types, &quot;,&quot;, CPARSE_BUF_SIZE);</span>
-<span class="lineNum">     125 </span><span class="lineCov">          1 :             strncat(types, key, CPARSE_BUF_SIZE);</span>
-<span class="lineNum">     126 </span><span class="lineCov">          1 :         }</span>
-<span class="lineNum">     127 </span><span class="lineCov">          2 :     }</span>
-<span class="lineNum">     128 </span><span class="lineCov">          2 :     cparse_json_foreach_end;</span>
-<span class="lineNum">     129 </span>            : 
-<span class="lineNum">     130 </span><span class="lineCov">          2 :     if (types[0] != 0)</span>
-<span class="lineNum">     131 </span>            :     {
-<span class="lineNum">     132 </span><span class="lineCov">          1 :         cparse_client_request_add_data(request, &quot;include&quot;, &amp;types[1]);</span>
-<span class="lineNum">     133 </span><span class="lineCov">          1 :     }</span>
-<a name="134"><span class="lineNum">     134 </span><span class="lineCov">          2 : }</span></a>
-<span class="lineNum">     135 </span>            : 
-<span class="lineNum">     136 </span>            : cParseRequest *cparse_object_create_request(cParseObject *obj, cParseHttpRequestMethod method, cParseError **error)
-<span class="lineNum">     137 </span>            : {
-<span class="lineNum">     138 </span><span class="lineCov">         32 :     char buf[CPARSE_BUF_SIZE + 1] = {0};</span>
-<span class="lineNum">     139 </span>            : 
-<span class="lineNum">     140 </span><span class="lineCov">         32 :     if (!obj) {</span>
-<span class="lineNum">     141 </span><span class="lineNoCov">          0 :         cparse_log_set_errno(error, EINVAL);</span>
-<span class="lineNum">     142 </span><span class="lineNoCov">          0 :         return NULL;</span>
-<span class="lineNum">     143 </span>            :     }
-<span class="lineNum">     144 </span>            : 
-<span class="lineNum">     145 </span><span class="lineCov">         58 :     if (method != cParseHttpRequestMethodPost &amp;&amp; !cparse_str_empty(obj-&gt;objectId))</span>
-<span class="lineNum">     146 </span>            :     {
-<span class="lineNum">     147 </span><span class="lineCov">         26 :         snprintf(buf, CPARSE_BUF_SIZE, &quot;%s/%s&quot;, obj-&gt;className, obj-&gt;objectId);</span>
-<span class="lineNum">     148 </span><span class="lineCov">         26 :     }</span>
-<span class="lineNum">     149 </span>            :     else
-<span class="lineNum">     150 </span>            :     {
-<span class="lineNum">     151 </span><span class="lineCov">          6 :         snprintf(buf, CPARSE_BUF_SIZE, &quot;%s&quot;, obj-&gt;className);</span>
-<span class="lineNum">     152 </span>            :     }
-<span class="lineNum">     153 </span>            : 
-<span class="lineNum">     154 </span><span class="lineCov">         32 :     return cparse_client_request_with_method_and_path(method, buf);</span>
-<span class="lineNum">     155 </span><span class="lineCov">         32 : }</span>
-<a name="156"><span class="lineNum">     156 </span>            : </a>
-<span class="lineNum">     157 </span>            : /* initializers */
-<span class="lineNum">     158 </span>            : cParseObject *cparse_object_new()
-<span class="lineNum">     159 </span>            : {
-<span class="lineNum">     160 </span><span class="lineCov">         34 :     cParseObject *obj = malloc(sizeof(cParseObject));</span>
-<span class="lineNum">     161 </span>            : 
-<span class="lineNum">     162 </span><span class="lineCov">         34 :     if (obj == NULL) {</span>
-<span class="lineNum">     163 </span><span class="lineNoCov">          0 :         cparse_log_errno(ENOMEM);</span>
-<span class="lineNum">     164 </span><span class="lineNoCov">          0 :         return NULL;</span>
-<span class="lineNum">     165 </span>            :     }
-<span class="lineNum">     166 </span>            : 
-<span class="lineNum">     167 </span><span class="lineCov">         34 :     obj-&gt;className = NULL;</span>
-<span class="lineNum">     168 </span><span class="lineCov">         34 :     obj-&gt;objectId = NULL;</span>
-<span class="lineNum">     169 </span><span class="lineCov">         34 :     obj-&gt;createdAt = 0;</span>
-<span class="lineNum">     170 </span><span class="lineCov">         34 :     obj-&gt;updatedAt = 0;</span>
-<span class="lineNum">     171 </span><span class="lineCov">         34 :     obj-&gt;attributes = cparse_json_new();</span>
-<span class="lineNum">     172 </span>            : 
-<span class="lineNum">     173 </span><span class="lineCov">         34 :     return obj;</span>
-<a name="174"><span class="lineNum">     174 </span><span class="lineCov">         34 : }</span></a>
-<span class="lineNum">     175 </span>            : 
-<span class="lineNum">     176 </span>            : void cparse_object_copy(cParseObject *obj, cParseObject *other)
-<span class="lineNum">     177 </span>            : {
-<span class="lineNum">     178 </span><span class="lineCov">          2 :     if (obj == NULL || other == NULL) {</span>
-<span class="lineNum">     179 </span><span class="lineNoCov">          0 :         cparse_log_errno(EINVAL);</span>
-<span class="lineNum">     180 </span><span class="lineNoCov">          0 :         return;</span>
-<span class="lineNum">     181 </span>            :     }
-<span class="lineNum">     182 </span>            : 
-<span class="lineNum">     183 </span><span class="lineCov">          1 :     cparse_replace_str(&amp;obj-&gt;className, other-&gt;className);</span>
-<span class="lineNum">     184 </span><span class="lineCov">          1 :     cparse_replace_str(&amp;obj-&gt;objectId, other-&gt;objectId);</span>
-<span class="lineNum">     185 </span><span class="lineCov">          1 :     obj-&gt;createdAt = other-&gt;createdAt;</span>
-<span class="lineNum">     186 </span><span class="lineCov">          1 :     obj-&gt;updatedAt = other-&gt;updatedAt;</span>
-<span class="lineNum">     187 </span>            : 
-<span class="lineNum">     188 </span><span class="lineCov">          1 :     cparse_object_merge_json(obj, other-&gt;attributes);</span>
-<a name="189"><span class="lineNum">     189 </span><span class="lineCov">          2 : }</span></a>
+<span class="lineNum">      14 </span>            : #include &lt;cparse/types.h&gt;
+<span class="lineNum">      15 </span>            : #include &lt;errno.h&gt;
+<span class="lineNum">      16 </span>            : #include &quot;private.h&quot;
+<span class="lineNum">      17 </span>            : #include &quot;json_private.h&quot;
+<span class="lineNum">      18 </span>            : #include &quot;log.h&quot;
+<span class="lineNum">      19 </span>            : 
+<span class="lineNum">      20 </span>            : /* internals */
+<span class="lineNum">      21 </span>            : 
+<span class="lineNum">      22 </span>            : #define CPARSE_OBJECT_UPDATE_ATTRIBUTES &quot;__update_attributes&quot;
+<span class="lineNum">      23 </span>            : 
+<span class="lineNum">      24 </span>            : extern cParseUser *__cparse_current_user;
+<a name="25"><span class="lineNum">      25 </span>            : </a>
+<span class="lineNum">      26 </span>            : /* this is a background thread. The argument controlls functionality*/
+<span class="lineNum">      27 </span>            : static void *cparse_object_background_action(void *argument)
+<span class="lineNum">      28 </span>            : {
+<span class="lineNum">      29 </span><span class="lineCov">          6 :     cParseError *error = NULL;</span>
+<span class="lineNum">      30 </span><span class="lineCov">          6 :     cParseObjectThread *arg = NULL;</span>
+<span class="lineNum">      31 </span><span class="lineCov">          6 :     bool rval = false;</span>
+<span class="lineNum">      32 </span>            : 
+<span class="lineNum">      33 </span><span class="lineCov">          6 :     if (argument == NULL) {</span>
+<span class="lineNum">      34 </span><span class="lineNoCov">          0 :         cparse_log_debug(strerror(EINVAL));</span>
+<span class="lineNum">      35 </span><span class="lineNoCov">          0 :         return NULL;</span>
+<span class="lineNum">      36 </span>            :     }
+<span class="lineNum">      37 </span>            : 
+<span class="lineNum">      38 </span><span class="lineCov">          6 :     arg = (cParseObjectThread *) argument;</span>
+<span class="lineNum">      39 </span>            : 
+<span class="lineNum">      40 </span><span class="lineCov">          6 :     if (arg-&gt;action == NULL) {</span>
+<span class="lineNum">      41 </span><span class="lineNoCov">          0 :         cparse_log_error(&quot;object background action has no method&quot;);</span>
+<span class="lineNum">      42 </span><span class="lineNoCov">          0 :         return NULL;</span>
+<span class="lineNum">      43 </span>            :     }
+<span class="lineNum">      44 </span>            : 
+<span class="lineNum">      45 </span>            :     /* cparse_object_save or cparse_object_refresh */
+<span class="lineNum">      46 </span><span class="lineCov">          6 :     rval = (*arg-&gt;action)(arg-&gt;obj, &amp;error);</span>
+<span class="lineNum">      47 </span>            : 
+<span class="lineNum">      48 </span><span class="lineCov">          6 :     if (arg-&gt;callback)</span>
+<span class="lineNum">      49 </span>            :     {
+<span class="lineNum">      50 </span><span class="lineCov">          6 :         (*arg-&gt;callback)(arg-&gt;obj, rval, error);</span>
+<span class="lineNum">      51 </span><span class="lineCov">          6 :     }</span>
+<span class="lineNum">      52 </span>            : 
+<span class="lineNum">      53 </span><span class="lineCov">          6 :     if (error)</span>
+<span class="lineNum">      54 </span>            :     {
+<span class="lineNum">      55 </span><span class="lineNoCov">          0 :         cparse_log_warn(cparse_error_message(error));</span>
+<span class="lineNum">      56 </span>            : 
+<span class="lineNum">      57 </span><span class="lineNoCov">          0 :         cparse_error_free(error);</span>
+<span class="lineNum">      58 </span><span class="lineNoCov">          0 :     }</span>
+<span class="lineNum">      59 </span>            : 
+<span class="lineNum">      60 </span><span class="lineCov">          6 :     if (arg-&gt;cleanup)</span>
+<span class="lineNum">      61 </span>            :     {
+<span class="lineNum">      62 </span><span class="lineCov">          1 :         (*arg-&gt;cleanup)(arg-&gt;obj);</span>
+<span class="lineNum">      63 </span><span class="lineCov">          1 :     }</span>
+<span class="lineNum">      64 </span>            : 
+<span class="lineNum">      65 </span><span class="lineCov">          6 :     pthread_detach(arg-&gt;thread);</span>
+<span class="lineNum">      66 </span>            : 
+<span class="lineNum">      67 </span><span class="lineCov">          6 :     free(arg);</span>
+<span class="lineNum">      68 </span>            : 
+<span class="lineNum">      69 </span><span class="lineCov">          6 :     return NULL;</span>
+<a name="70"><span class="lineNum">      70 </span><span class="lineCov">          6 : }</span></a>
+<span class="lineNum">      71 </span>            : 
+<span class="lineNum">      72 </span>            : pthread_t cparse_object_run_in_background(cParseObject *obj, cParseObjectAction action, cParseObjectCallback callback, void (*cleanup)(cParseObject *obj))
+<span class="lineNum">      73 </span>            : {
+<span class="lineNum">      74 </span><span class="lineCov">          6 :     cParseObjectThread *arg = NULL;</span>
+<span class="lineNum">      75 </span><span class="lineCov">          6 :     int rc = 0;</span>
+<span class="lineNum">      76 </span>            : 
+<span class="lineNum">      77 </span><span class="lineCov">         12 :     if (obj == NULL || action == NULL) {</span>
+<span class="lineNum">      78 </span><span class="lineNoCov">          0 :         cparse_log_errno(EINVAL);</span>
+<span class="lineNum">      79 </span><span class="lineNoCov">          0 :         return 0;</span>
+<span class="lineNum">      80 </span>            :     }
+<span class="lineNum">      81 </span>            : 
+<span class="lineNum">      82 </span><span class="lineCov">          6 :     arg = malloc(sizeof(cParseObjectThread));</span>
+<span class="lineNum">      83 </span>            : 
+<span class="lineNum">      84 </span><span class="lineCov">          6 :     if (arg == NULL) {</span>
+<span class="lineNum">      85 </span><span class="lineNoCov">          0 :         cparse_log_errno(ENOMEM);</span>
+<span class="lineNum">      86 </span><span class="lineNoCov">          0 :         return 0;</span>
+<span class="lineNum">      87 </span>            :     }
+<span class="lineNum">      88 </span>            : 
+<span class="lineNum">      89 </span><span class="lineCov">          6 :     arg-&gt;action = action;</span>
+<span class="lineNum">      90 </span><span class="lineCov">          6 :     arg-&gt;obj = obj;</span>
+<span class="lineNum">      91 </span><span class="lineCov">          6 :     arg-&gt;cleanup = cleanup;</span>
+<span class="lineNum">      92 </span><span class="lineCov">          6 :     arg-&gt;callback = callback;</span>
+<span class="lineNum">      93 </span><span class="lineCov">          6 :     arg-&gt;thread = 0;</span>
+<span class="lineNum">      94 </span>            : 
+<span class="lineNum">      95 </span><span class="lineCov">          6 :     rc = pthread_create(&amp;arg-&gt;thread, NULL, cparse_object_background_action, arg);</span>
+<span class="lineNum">      96 </span>            : 
+<span class="lineNum">      97 </span><span class="lineCov">          6 :     if (rc) {</span>
+<span class="lineNum">      98 </span><span class="lineNoCov">          0 :         cparse_log_error(&quot;unable to create background thread&quot;);</span>
+<span class="lineNum">      99 </span><span class="lineNoCov">          0 :         return 0;</span>
+<span class="lineNum">     100 </span>            :     }
+<span class="lineNum">     101 </span>            : 
+<span class="lineNum">     102 </span><span class="lineCov">          6 :     return arg-&gt;thread;</span>
+<a name="103"><span class="lineNum">     103 </span><span class="lineCov">          6 : }</span></a>
+<span class="lineNum">     104 </span>            : 
+<span class="lineNum">     105 </span>            : void cparse_object_set_request_includes(cParseObject *obj, cParseRequest *request)
+<span class="lineNum">     106 </span>            : {
+<span class="lineNum">     107 </span><span class="lineCov">          2 :     char types[CPARSE_BUF_SIZE + 1] = {0};</span>
+<span class="lineNum">     108 </span>            : 
+<span class="lineNum">     109 </span><span class="lineCov">          4 :     if (obj == NULL || request == NULL) {</span>
+<span class="lineNum">     110 </span><span class="lineNoCov">          0 :         cparse_log_errno(EINVAL);</span>
+<span class="lineNum">     111 </span><span class="lineNoCov">          0 :         return;</span>
+<span class="lineNum">     112 </span>            :     }
+<span class="lineNum">     113 </span>            : 
+<span class="lineNum">     114 </span>            :     /* parse some pointers to include */
+<span class="lineNum">     115 </span><span class="lineCov">         38 :     cparse_json_foreach_start(obj-&gt;attributes, key, val)</span>
+<span class="lineNum">     116 </span>            :     {
+<span class="lineNum">     117 </span><span class="lineCov">          6 :         const char *typeVal = NULL;</span>
+<span class="lineNum">     118 </span>            : 
+<span class="lineNum">     119 </span><span class="lineCov">         10 :         if (cparse_json_type(val) != cParseJsonObject) { continue; }</span>
+<span class="lineNum">     120 </span>            : 
+<span class="lineNum">     121 </span><span class="lineCov">          2 :         typeVal = cparse_json_get_string(val, CPARSE_KEY_TYPE);</span>
+<span class="lineNum">     122 </span>            : 
+<span class="lineNum">     123 </span><span class="lineCov">          4 :         if (typeVal &amp;&amp; !strcmp(typeVal, CPARSE_TYPE_POINTER))</span>
+<span class="lineNum">     124 </span>            :         {
+<span class="lineNum">     125 </span><span class="lineCov">          1 :             strncat(types, &quot;,&quot;, CPARSE_BUF_SIZE);</span>
+<span class="lineNum">     126 </span><span class="lineCov">          1 :             strncat(types, key, CPARSE_BUF_SIZE);</span>
+<span class="lineNum">     127 </span><span class="lineCov">          1 :         }</span>
+<span class="lineNum">     128 </span><span class="lineCov">          2 :     }</span>
+<span class="lineNum">     129 </span><span class="lineCov">          2 :     cparse_json_foreach_end;</span>
+<span class="lineNum">     130 </span>            : 
+<span class="lineNum">     131 </span><span class="lineCov">          2 :     if (types[0] != 0)</span>
+<span class="lineNum">     132 </span>            :     {
+<span class="lineNum">     133 </span><span class="lineCov">          1 :         cparse_client_request_add_data(request, &quot;include&quot;, &amp;types[1]);</span>
+<span class="lineNum">     134 </span><span class="lineCov">          1 :     }</span>
+<a name="135"><span class="lineNum">     135 </span><span class="lineCov">          2 : }</span></a>
+<span class="lineNum">     136 </span>            : 
+<span class="lineNum">     137 </span>            : cParseRequest *cparse_object_create_request(cParseObject *obj, cParseHttpRequestMethod method, cParseError **error)
+<span class="lineNum">     138 </span>            : {
+<span class="lineNum">     139 </span><span class="lineCov">         36 :     char buf[CPARSE_BUF_SIZE + 1] = {0};</span>
+<span class="lineNum">     140 </span>            : 
+<span class="lineNum">     141 </span><span class="lineCov">         36 :     if (!obj) {</span>
+<span class="lineNum">     142 </span><span class="lineNoCov">          0 :         cparse_log_set_errno(error, EINVAL);</span>
+<span class="lineNum">     143 </span><span class="lineNoCov">          0 :         return NULL;</span>
+<span class="lineNum">     144 </span>            :     }
+<span class="lineNum">     145 </span>            : 
+<span class="lineNum">     146 </span><span class="lineCov">         65 :     if (method != cParseHttpRequestMethodPost &amp;&amp; !cparse_str_empty(obj-&gt;objectId))</span>
+<span class="lineNum">     147 </span>            :     {
+<span class="lineNum">     148 </span><span class="lineCov">         29 :         snprintf(buf, CPARSE_BUF_SIZE, &quot;%s/%s&quot;, obj-&gt;urlPath, obj-&gt;objectId);</span>
+<span class="lineNum">     149 </span><span class="lineCov">         29 :     }</span>
+<span class="lineNum">     150 </span>            :     else
+<span class="lineNum">     151 </span>            :     {
+<span class="lineNum">     152 </span><span class="lineCov">          7 :         snprintf(buf, CPARSE_BUF_SIZE, &quot;%s&quot;, obj-&gt;urlPath);</span>
+<span class="lineNum">     153 </span>            :     }
+<span class="lineNum">     154 </span>            : 
+<span class="lineNum">     155 </span><span class="lineCov">         36 :     return cparse_client_request_with_method_and_path(method, buf);</span>
+<span class="lineNum">     156 </span><span class="lineCov">         36 : }</span>
+<a name="157"><span class="lineNum">     157 </span>            : </a>
+<span class="lineNum">     158 </span>            : /* initializers */
+<span class="lineNum">     159 </span>            : cParseObject *cparse_object_new()
+<span class="lineNum">     160 </span>            : {
+<span class="lineNum">     161 </span><span class="lineCov">         37 :     cParseObject *obj = malloc(sizeof(cParseObject));</span>
+<span class="lineNum">     162 </span>            : 
+<span class="lineNum">     163 </span><span class="lineCov">         37 :     if (obj == NULL) {</span>
+<span class="lineNum">     164 </span><span class="lineNoCov">          0 :         cparse_log_errno(ENOMEM);</span>
+<span class="lineNum">     165 </span><span class="lineNoCov">          0 :         return NULL;</span>
+<span class="lineNum">     166 </span>            :     }
+<span class="lineNum">     167 </span>            : 
+<span class="lineNum">     168 </span><span class="lineCov">         37 :     obj-&gt;className = NULL;</span>
+<span class="lineNum">     169 </span><span class="lineCov">         37 :     obj-&gt;urlPath = NULL;</span>
+<span class="lineNum">     170 </span><span class="lineCov">         37 :     obj-&gt;objectId = NULL;</span>
+<span class="lineNum">     171 </span><span class="lineCov">         37 :     obj-&gt;createdAt = 0;</span>
+<span class="lineNum">     172 </span><span class="lineCov">         37 :     obj-&gt;updatedAt = 0;</span>
+<span class="lineNum">     173 </span><span class="lineCov">         37 :     obj-&gt;attributes = cparse_json_new();</span>
+<span class="lineNum">     174 </span>            : 
+<span class="lineNum">     175 </span><span class="lineCov">         37 :     return obj;</span>
+<a name="176"><span class="lineNum">     176 </span><span class="lineCov">         37 : }</span></a>
+<span class="lineNum">     177 </span>            : 
+<span class="lineNum">     178 </span>            : void cparse_object_copy(cParseObject *obj, cParseObject *other)
+<span class="lineNum">     179 </span>            : {
+<span class="lineNum">     180 </span><span class="lineCov">          2 :     if (obj == NULL || other == NULL) {</span>
+<span class="lineNum">     181 </span><span class="lineNoCov">          0 :         cparse_log_errno(EINVAL);</span>
+<span class="lineNum">     182 </span><span class="lineNoCov">          0 :         return;</span>
+<span class="lineNum">     183 </span>            :     }
+<span class="lineNum">     184 </span>            : 
+<span class="lineNum">     185 </span><span class="lineCov">          1 :     cparse_replace_str(&amp;obj-&gt;className, other-&gt;className);</span>
+<span class="lineNum">     186 </span><span class="lineCov">          1 :     cparse_replace_str(&amp;obj-&gt;urlPath, other-&gt;urlPath);</span>
+<span class="lineNum">     187 </span><span class="lineCov">          1 :     cparse_replace_str(&amp;obj-&gt;objectId, other-&gt;objectId);</span>
+<span class="lineNum">     188 </span><span class="lineCov">          1 :     obj-&gt;createdAt = other-&gt;createdAt;</span>
+<span class="lineNum">     189 </span><span class="lineCov">          1 :     obj-&gt;updatedAt = other-&gt;updatedAt;</span>
 <span class="lineNum">     190 </span>            : 
-<span class="lineNum">     191 </span>            : cParseObject *cparse_object_with_class_name(const char *className)
-<span class="lineNum">     192 </span>            : {
-<span class="lineNum">     193 </span><span class="lineCov">         22 :     char buf[CPARSE_BUF_SIZE + 1] = {0};</span>
-<span class="lineNum">     194 </span><span class="lineCov">         22 :     cParseObject *obj = NULL;</span>
-<span class="lineNum">     195 </span>            : 
-<span class="lineNum">     196 </span><span class="lineCov">         22 :     if (cparse_str_empty(className)) {</span>
-<span class="lineNum">     197 </span><span class="lineNoCov">          0 :         cparse_log_errno(EINVAL);</span>
-<span class="lineNum">     198 </span><span class="lineNoCov">          0 :         return NULL;</span>
-<span class="lineNum">     199 </span>            :     }
-<span class="lineNum">     200 </span>            : 
-<span class="lineNum">     201 </span><span class="lineCov">         22 :     obj = cparse_object_new();</span>
-<span class="lineNum">     202 </span>            : 
-<span class="lineNum">     203 </span><span class="lineCov">         22 :     snprintf(buf, CPARSE_BUF_SIZE, &quot;%s%s&quot;, CPARSE_OBJECTS_PATH, className);</span>
-<span class="lineNum">     204 </span>            : 
-<span class="lineNum">     205 </span><span class="lineCov">         22 :     obj-&gt;className = strdup(buf);</span>
-<span class="lineNum">     206 </span>            : 
-<span class="lineNum">     207 </span><span class="lineCov">         22 :     return obj;</span>
-<a name="208"><span class="lineNum">     208 </span><span class="lineCov">         22 : }</span></a>
+<span class="lineNum">     191 </span><span class="lineCov">          1 :     cparse_object_merge_json(obj, other-&gt;attributes);</span>
+<a name="192"><span class="lineNum">     192 </span><span class="lineCov">          2 : }</span></a>
+<span class="lineNum">     193 </span>            : 
+<span class="lineNum">     194 </span>            : cParseObject *cparse_object_with_class_name(const char *className)
+<span class="lineNum">     195 </span>            : {
+<span class="lineNum">     196 </span><span class="lineCov">         18 :     char buf[CPARSE_BUF_SIZE + 1] = {0};</span>
+<span class="lineNum">     197 </span><span class="lineCov">         18 :     cParseObject *obj = NULL;</span>
+<span class="lineNum">     198 </span>            : 
+<span class="lineNum">     199 </span><span class="lineCov">         18 :     if (cparse_str_empty(className)) {</span>
+<span class="lineNum">     200 </span><span class="lineNoCov">          0 :         cparse_log_errno(EINVAL);</span>
+<span class="lineNum">     201 </span><span class="lineNoCov">          0 :         return NULL;</span>
+<span class="lineNum">     202 </span>            :     }
+<span class="lineNum">     203 </span>            : 
+<span class="lineNum">     204 </span><span class="lineCov">         18 :     obj = cparse_object_new();</span>
+<span class="lineNum">     205 </span>            : 
+<span class="lineNum">     206 </span><span class="lineCov">         18 :     obj-&gt;className = strdup(className);</span>
+<span class="lineNum">     207 </span>            : 
+<span class="lineNum">     208 </span><span class="lineCov">         18 :     snprintf(buf, CPARSE_BUF_SIZE, &quot;%s%s&quot;, CPARSE_OBJECTS_PATH, className);</span>
 <span class="lineNum">     209 </span>            : 
-<span class="lineNum">     210 </span>            : cParseObject *cparse_object_with_class_data(const char *className, cParseJson *attributes)
-<span class="lineNum">     211 </span>            : {
-<span class="lineNum">     212 </span><span class="lineCov">          4 :     cParseObject *obj = NULL;</span>
-<span class="lineNum">     213 </span>            : 
-<span class="lineNum">     214 </span><span class="lineCov">          4 :     if (cparse_str_empty(className)) {</span>
-<span class="lineNum">     215 </span><span class="lineNoCov">          0 :         cparse_log_errno(EINVAL);</span>
-<span class="lineNum">     216 </span><span class="lineNoCov">          0 :         return NULL;</span>
-<span class="lineNum">     217 </span>            :     }
+<span class="lineNum">     210 </span><span class="lineCov">         18 :     obj-&gt;urlPath = strdup(buf);</span>
+<span class="lineNum">     211 </span>            : 
+<span class="lineNum">     212 </span><span class="lineCov">         18 :     return obj;</span>
+<a name="213"><span class="lineNum">     213 </span><span class="lineCov">         18 : }</span></a>
+<span class="lineNum">     214 </span>            : 
+<span class="lineNum">     215 </span>            : cParseObject *cparse_object_from_query(cParseQuery *query, cParseJson *json)
+<span class="lineNum">     216 </span>            : {
+<span class="lineNum">     217 </span><span class="lineCov">          4 :     cParseObject *obj = NULL;</span>
 <span class="lineNum">     218 </span>            : 
-<span class="lineNum">     219 </span><span class="lineCov">          4 :     obj = cparse_object_with_class_name(className);</span>
-<span class="lineNum">     220 </span>            : 
-<span class="lineNum">     221 </span><span class="lineCov">          4 :     cparse_object_merge_json(obj, attributes);</span>
-<span class="lineNum">     222 </span>            : 
-<span class="lineNum">     223 </span><span class="lineCov">          4 :     return obj;</span>
-<span class="lineNum">     224 </span><span class="lineCov">          4 : }</span>
-<a name="225"><span class="lineNum">     225 </span>            : </a>
-<span class="lineNum">     226 </span>            : /* cleanup */
-<span class="lineNum">     227 </span>            : void cparse_object_free(cParseObject *obj)
-<span class="lineNum">     228 </span>            : {
-<span class="lineNum">     229 </span><span class="lineCov">         34 :     if (obj == NULL) {</span>
-<span class="lineNum">     230 </span><span class="lineNoCov">          0 :         return;</span>
-<span class="lineNum">     231 </span>            :     }
-<span class="lineNum">     232 </span>            : 
-<span class="lineNum">     233 </span><span class="lineCov">         34 :     if (__cparse_current_user == obj) {</span>
-<span class="lineNum">     234 </span><span class="lineCov">          8 :         __cparse_current_user = NULL;</span>
-<span class="lineNum">     235 </span><span class="lineCov">          8 :     }</span>
-<span class="lineNum">     236 </span>            : 
-<span class="lineNum">     237 </span><span class="lineCov">         34 :     cparse_json_free(obj-&gt;attributes);</span>
-<span class="lineNum">     238 </span>            : 
-<span class="lineNum">     239 </span><span class="lineCov">         34 :     if (obj-&gt;className) {</span>
-<span class="lineNum">     240 </span><span class="lineCov">         34 :         free(obj-&gt;className);</span>
-<span class="lineNum">     241 </span><span class="lineCov">         34 :     }</span>
-<span class="lineNum">     242 </span><span class="lineCov">         34 :     if (obj-&gt;objectId) {</span>
-<span class="lineNum">     243 </span><span class="lineCov">         29 :         free(obj-&gt;objectId);</span>
-<span class="lineNum">     244 </span><span class="lineCov">         29 :     }</span>
-<span class="lineNum">     245 </span><span class="lineCov">         34 :     free(obj);</span>
-<span class="lineNum">     246 </span><span class="lineCov">         68 : }</span>
-<span class="lineNum">     247 </span>            : 
-<a name="248"><span class="lineNum">     248 </span>            : /* getters/setters */</a>
-<span class="lineNum">     249 </span>            : 
-<span class="lineNum">     250 </span>            : size_t cparse_object_sizeof()
-<span class="lineNum">     251 </span>            : {
-<span class="lineNum">     252 </span><span class="lineCov">          2 :     return sizeof(cParseObject);</span>
-<a name="253"><span class="lineNum">     253 </span>            : }</a>
-<span class="lineNum">     254 </span>            : 
-<span class="lineNum">     255 </span>            : const char *cparse_object_id(cParseObject *obj)
-<span class="lineNum">     256 </span>            : {
-<span class="lineNum">     257 </span><span class="lineCov">         18 :     return !obj ? NULL : obj-&gt;objectId;</span>
-<a name="258"><span class="lineNum">     258 </span>            : }</a>
-<span class="lineNum">     259 </span>            : 
-<span class="lineNum">     260 </span>            : const char *cparse_object_class_name(cParseObject *obj)
-<span class="lineNum">     261 </span>            : {
-<span class="lineNum">     262 </span><span class="lineCov">          6 :     return !obj ? NULL : obj-&gt;className;</span>
-<a name="263"><span class="lineNum">     263 </span>            : }</a>
-<span class="lineNum">     264 </span>            : 
-<span class="lineNum">     265 </span>            : time_t cparse_object_created_at(cParseObject *obj)
-<span class="lineNum">     266 </span>            : {
-<a name="267"><span class="lineNum">     267 </span><span class="lineCov">          6 :     return !obj ? 0 : obj-&gt;createdAt;</span></a>
-<span class="lineNum">     268 </span>            : }
-<span class="lineNum">     269 </span>            : time_t cparse_object_updated_at(cParseObject *obj)
-<span class="lineNum">     270 </span>            : {
-<span class="lineNum">     271 </span><span class="lineCov">          6 :     return !obj ? 0 : obj-&gt;updatedAt;</span>
-<a name="272"><span class="lineNum">     272 </span>            : }</a>
-<span class="lineNum">     273 </span>            : 
-<span class="lineNum">     274 </span>            : cParseJson *cparse_object_acl(cParseObject *obj)
-<span class="lineNum">     275 </span>            : {
-<span class="lineNum">     276 </span><span class="lineNoCov">          0 :     if (obj == NULL || obj-&gt;attributes == NULL) {</span>
-<span class="lineNum">     277 </span><span class="lineNoCov">          0 :         return NULL;</span>
-<span class="lineNum">     278 </span>            :     }
-<span class="lineNum">     279 </span>            : 
-<span class="lineNum">     280 </span><span class="lineNoCov">          0 :     return cparse_json_get(obj-&gt;attributes, CPARSE_KEY_ACL);</span>
-<a name="281"><span class="lineNum">     281 </span><span class="lineNoCov">          0 : }</span></a>
-<span class="lineNum">     282 </span>            : 
-<span class="lineNum">     283 </span>            : bool cparse_object_exists(cParseObject *obj)
-<span class="lineNum">     284 </span>            : {
-<span class="lineNum">     285 </span><span class="lineCov">         75 :     return obj &amp;&amp; !cparse_str_empty(obj-&gt;objectId);</span>
-<span class="lineNum">     286 </span>            : }
-<span class="lineNum">     287 </span>            : 
-<a name="288"><span class="lineNum">     288 </span>            : /* client related functions */</a>
-<span class="lineNum">     289 </span>            : 
-<span class="lineNum">     290 </span>            : bool cparse_object_delete(cParseObject *obj, cParseError **error)
-<span class="lineNum">     291 </span>            : {
-<span class="lineNum">     292 </span><span class="lineCov">         22 :     cParseRequest *request = NULL;</span>
-<span class="lineNum">     293 </span><span class="lineCov">         22 :     bool rval = false;</span>
-<span class="lineNum">     294 </span>            : 
-<span class="lineNum">     295 </span><span class="lineCov">         22 :     if (!obj) {</span>
-<span class="lineNum">     296 </span><span class="lineNoCov">          0 :         cparse_log_set_errno(error, EINVAL);</span>
-<span class="lineNum">     297 </span><span class="lineNoCov">          0 :         return false;</span>
-<span class="lineNum">     298 </span>            :     }
-<span class="lineNum">     299 </span>            : 
-<span class="lineNum">     300 </span><span class="lineCov">         22 :     if (!cparse_object_exists(obj))</span>
-<span class="lineNum">     301 </span>            :     {
-<span class="lineNum">     302 </span><span class="lineCov">          1 :         cparse_log_set_error(error, &quot;Object has no id&quot;);</span>
-<span class="lineNum">     303 </span><span class="lineCov">          1 :         return false;</span>
-<span class="lineNum">     304 </span>            :     }
-<span class="lineNum">     305 </span>            : 
-<span class="lineNum">     306 </span><span class="lineCov">         21 :     request = cparse_object_create_request(obj, cParseHttpRequestMethodDelete, error);</span>
-<span class="lineNum">     307 </span>            : 
-<span class="lineNum">     308 </span><span class="lineCov">         21 :     if (!request)</span>
-<span class="lineNum">     309 </span>            :     {
-<span class="lineNum">     310 </span><span class="lineNoCov">          0 :         return false;</span>
-<span class="lineNum">     311 </span>            :     }
-<span class="lineNum">     312 </span>            : 
-<span class="lineNum">     313 </span><span class="lineCov">         21 :     rval = cparse_client_request_perform(request, error);</span>
+<span class="lineNum">     219 </span><span class="lineCov">          8 :     if (query == NULL || json == NULL) {</span>
+<span class="lineNum">     220 </span><span class="lineNoCov">          0 :         cparse_log_errno(EINVAL);</span>
+<span class="lineNum">     221 </span><span class="lineNoCov">          0 :         return NULL;</span>
+<span class="lineNum">     222 </span>            :     }
+<span class="lineNum">     223 </span>            : 
+<span class="lineNum">     224 </span><span class="lineCov">          4 :     obj = cparse_object_new();</span>
+<span class="lineNum">     225 </span>            : 
+<span class="lineNum">     226 </span><span class="lineCov">          4 :     obj-&gt;className = strdup(query-&gt;className);</span>
+<span class="lineNum">     227 </span><span class="lineCov">          4 :     obj-&gt;urlPath = strdup(query-&gt;urlPath);</span>
+<span class="lineNum">     228 </span>            : 
+<span class="lineNum">     229 </span><span class="lineCov">          4 :     cparse_object_merge_json(obj, json);</span>
+<span class="lineNum">     230 </span>            : 
+<span class="lineNum">     231 </span><span class="lineCov">          4 :     return obj;</span>
+<a name="232"><span class="lineNum">     232 </span><span class="lineCov">          4 : }</span></a>
+<span class="lineNum">     233 </span>            : 
+<span class="lineNum">     234 </span>            : cParseObject *cparse_object_with_class_data(const char *className, cParseJson *attributes)
+<span class="lineNum">     235 </span>            : {
+<span class="lineNum">     236 </span><span class="lineNoCov">          0 :     cParseObject *obj = NULL;</span>
+<span class="lineNum">     237 </span>            : 
+<span class="lineNum">     238 </span><span class="lineNoCov">          0 :     if (cparse_str_empty(className)) {</span>
+<span class="lineNum">     239 </span><span class="lineNoCov">          0 :         cparse_log_errno(EINVAL);</span>
+<span class="lineNum">     240 </span><span class="lineNoCov">          0 :         return NULL;</span>
+<span class="lineNum">     241 </span>            :     }
+<span class="lineNum">     242 </span>            : 
+<span class="lineNum">     243 </span><span class="lineNoCov">          0 :     obj = cparse_object_with_class_name(className);</span>
+<span class="lineNum">     244 </span>            : 
+<span class="lineNum">     245 </span><span class="lineNoCov">          0 :     cparse_object_merge_json(obj, attributes);</span>
+<span class="lineNum">     246 </span>            : 
+<span class="lineNum">     247 </span><span class="lineNoCov">          0 :     return obj;</span>
+<span class="lineNum">     248 </span><span class="lineNoCov">          0 : }</span>
+<a name="249"><span class="lineNum">     249 </span>            : </a>
+<span class="lineNum">     250 </span>            : /* cleanup */
+<span class="lineNum">     251 </span>            : void cparse_object_free(cParseObject *obj)
+<span class="lineNum">     252 </span>            : {
+<span class="lineNum">     253 </span><span class="lineCov">         37 :     if (obj == NULL) {</span>
+<span class="lineNum">     254 </span><span class="lineNoCov">          0 :         return;</span>
+<span class="lineNum">     255 </span>            :     }
+<span class="lineNum">     256 </span>            : 
+<span class="lineNum">     257 </span><span class="lineCov">         37 :     if (__cparse_current_user == obj) {</span>
+<span class="lineNum">     258 </span><span class="lineCov">          9 :         __cparse_current_user = NULL;</span>
+<span class="lineNum">     259 </span><span class="lineCov">          9 :     }</span>
+<span class="lineNum">     260 </span>            : 
+<span class="lineNum">     261 </span><span class="lineCov">         37 :     cparse_json_free(obj-&gt;attributes);</span>
+<span class="lineNum">     262 </span>            : 
+<span class="lineNum">     263 </span><span class="lineCov">         37 :     if (obj-&gt;className) {</span>
+<span class="lineNum">     264 </span><span class="lineCov">         37 :         free(obj-&gt;className);</span>
+<span class="lineNum">     265 </span><span class="lineCov">         37 :     }</span>
+<span class="lineNum">     266 </span><span class="lineCov">         37 :     if (obj-&gt;urlPath) {</span>
+<span class="lineNum">     267 </span><span class="lineCov">         37 :         free(obj-&gt;urlPath);</span>
+<span class="lineNum">     268 </span><span class="lineCov">         37 :     }</span>
+<span class="lineNum">     269 </span><span class="lineCov">         37 :     if (obj-&gt;objectId) {</span>
+<span class="lineNum">     270 </span><span class="lineCov">         32 :         free(obj-&gt;objectId);</span>
+<span class="lineNum">     271 </span><span class="lineCov">         32 :     }</span>
+<span class="lineNum">     272 </span><span class="lineCov">         37 :     free(obj);</span>
+<span class="lineNum">     273 </span><span class="lineCov">         74 : }</span>
+<span class="lineNum">     274 </span>            : 
+<a name="275"><span class="lineNum">     275 </span>            : /* getters/setters */</a>
+<span class="lineNum">     276 </span>            : 
+<span class="lineNum">     277 </span>            : size_t cparse_object_sizeof()
+<span class="lineNum">     278 </span>            : {
+<span class="lineNum">     279 </span><span class="lineCov">          4 :     return sizeof(cParseObject);</span>
+<a name="280"><span class="lineNum">     280 </span>            : }</a>
+<span class="lineNum">     281 </span>            : 
+<span class="lineNum">     282 </span>            : const char *cparse_object_id(cParseObject *obj)
+<span class="lineNum">     283 </span>            : {
+<span class="lineNum">     284 </span><span class="lineCov">         18 :     return !obj ? NULL : obj-&gt;objectId;</span>
+<a name="285"><span class="lineNum">     285 </span>            : }</a>
+<span class="lineNum">     286 </span>            : 
+<span class="lineNum">     287 </span>            : const char *cparse_object_class_name(cParseObject *obj)
+<span class="lineNum">     288 </span>            : {
+<span class="lineNum">     289 </span><span class="lineCov">          6 :     return !obj ? NULL : obj-&gt;className;</span>
+<a name="290"><span class="lineNum">     290 </span>            : }</a>
+<span class="lineNum">     291 </span>            : 
+<span class="lineNum">     292 </span>            : time_t cparse_object_created_at(cParseObject *obj)
+<span class="lineNum">     293 </span>            : {
+<a name="294"><span class="lineNum">     294 </span><span class="lineCov">          6 :     return !obj ? 0 : obj-&gt;createdAt;</span></a>
+<span class="lineNum">     295 </span>            : }
+<span class="lineNum">     296 </span>            : time_t cparse_object_updated_at(cParseObject *obj)
+<span class="lineNum">     297 </span>            : {
+<span class="lineNum">     298 </span><span class="lineCov">          6 :     return !obj ? 0 : obj-&gt;updatedAt;</span>
+<a name="299"><span class="lineNum">     299 </span>            : }</a>
+<span class="lineNum">     300 </span>            : 
+<span class="lineNum">     301 </span>            : cParseJson *cparse_object_acl(cParseObject *obj)
+<span class="lineNum">     302 </span>            : {
+<span class="lineNum">     303 </span><span class="lineNoCov">          0 :     if (obj == NULL || obj-&gt;attributes == NULL) {</span>
+<span class="lineNum">     304 </span><span class="lineNoCov">          0 :         return NULL;</span>
+<span class="lineNum">     305 </span>            :     }
+<span class="lineNum">     306 </span>            : 
+<span class="lineNum">     307 </span><span class="lineNoCov">          0 :     return cparse_json_get(obj-&gt;attributes, CPARSE_KEY_ACL);</span>
+<a name="308"><span class="lineNum">     308 </span><span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">     309 </span>            : 
+<span class="lineNum">     310 </span>            : bool cparse_object_exists(cParseObject *obj)
+<span class="lineNum">     311 </span>            : {
+<span class="lineNum">     312 </span><span class="lineCov">         84 :     return obj &amp;&amp; !cparse_str_empty(obj-&gt;objectId);</span>
+<span class="lineNum">     313 </span>            : }
 <span class="lineNum">     314 </span>            : 
-<span class="lineNum">     315 </span><span class="lineCov">         21 :     cparse_client_request_free(request);</span>
+<a name="315"><span class="lineNum">     315 </span>            : /* client related functions */</a>
 <span class="lineNum">     316 </span>            : 
-<span class="lineNum">     317 </span><span class="lineCov">         21 :     return rval;</span>
-<a name="318"><span class="lineNum">     318 </span><span class="lineCov">         22 : }</span></a>
-<span class="lineNum">     319 </span>            : 
-<span class="lineNum">     320 </span>            : pthread_t cparse_object_delete_in_background(cParseObject *obj, cParseObjectCallback callback)
-<span class="lineNum">     321 </span>            : {
-<span class="lineNum">     322 </span><span class="lineNoCov">          0 :     if (!obj) {</span>
-<span class="lineNum">     323 </span><span class="lineNoCov">          0 :         cparse_log_errno(EINVAL);</span>
-<span class="lineNum">     324 </span><span class="lineNoCov">          0 :         return 0;</span>
+<span class="lineNum">     317 </span>            : bool cparse_object_delete(cParseObject *obj, cParseError **error)
+<span class="lineNum">     318 </span>            : {
+<span class="lineNum">     319 </span><span class="lineCov">         25 :     cParseRequest *request = NULL;</span>
+<span class="lineNum">     320 </span><span class="lineCov">         25 :     bool rval = false;</span>
+<span class="lineNum">     321 </span>            : 
+<span class="lineNum">     322 </span><span class="lineCov">         25 :     if (!obj) {</span>
+<span class="lineNum">     323 </span><span class="lineNoCov">          0 :         cparse_log_set_errno(error, EINVAL);</span>
+<span class="lineNum">     324 </span><span class="lineNoCov">          0 :         return false;</span>
 <span class="lineNum">     325 </span>            :     }
 <span class="lineNum">     326 </span>            : 
-<span class="lineNum">     327 </span><span class="lineNoCov">          0 :     return cparse_object_run_in_background(obj, cparse_object_delete, callback, NULL);</span>
-<a name="328"><span class="lineNum">     328 </span><span class="lineNoCov">          0 : }</span></a>
-<span class="lineNum">     329 </span>            : 
-<span class="lineNum">     330 </span>            : bool cparse_object_fetch(cParseObject *obj, cParseError **error)
-<span class="lineNum">     331 </span>            : {
-<span class="lineNum">     332 </span><span class="lineCov">          3 :     cParseRequest *request = NULL;</span>
-<span class="lineNum">     333 </span><span class="lineCov">          3 :     cParseJson *json = NULL;</span>
+<span class="lineNum">     327 </span><span class="lineCov">         25 :     if (!cparse_object_exists(obj))</span>
+<span class="lineNum">     328 </span>            :     {
+<span class="lineNum">     329 </span><span class="lineCov">          1 :         cparse_log_set_error(error, &quot;Object has no id&quot;);</span>
+<span class="lineNum">     330 </span><span class="lineCov">          1 :         return false;</span>
+<span class="lineNum">     331 </span>            :     }
+<span class="lineNum">     332 </span>            : 
+<span class="lineNum">     333 </span><span class="lineCov">         24 :     request = cparse_object_create_request(obj, cParseHttpRequestMethodDelete, error);</span>
 <span class="lineNum">     334 </span>            : 
-<span class="lineNum">     335 </span><span class="lineCov">          3 :     if (!obj) {</span>
-<span class="lineNum">     336 </span><span class="lineNoCov">          0 :         cparse_log_set_errno(error, EINVAL);</span>
+<span class="lineNum">     335 </span><span class="lineCov">         24 :     if (!request)</span>
+<span class="lineNum">     336 </span>            :     {
 <span class="lineNum">     337 </span><span class="lineNoCov">          0 :         return false;</span>
 <span class="lineNum">     338 </span>            :     }
 <span class="lineNum">     339 </span>            : 
-<span class="lineNum">     340 </span><span class="lineCov">          3 :     if (!cparse_object_exists(obj))</span>
-<span class="lineNum">     341 </span>            :     {
-<span class="lineNum">     342 </span><span class="lineCov">          1 :         cparse_log_set_error(error, &quot;Object has no id&quot;);</span>
-<span class="lineNum">     343 </span><span class="lineCov">          1 :         return false;</span>
-<span class="lineNum">     344 </span>            :     }
-<span class="lineNum">     345 </span>            : 
-<span class="lineNum">     346 </span><span class="lineCov">          2 :     request = cparse_object_create_request(obj, cParseHttpRequestMethodGet, error);</span>
-<span class="lineNum">     347 </span>            : 
-<span class="lineNum">     348 </span><span class="lineCov">          2 :     if (!request)</span>
-<span class="lineNum">     349 </span>            :     {
-<span class="lineNum">     350 </span><span class="lineNoCov">          0 :         return false;</span>
-<span class="lineNum">     351 </span>            :     }
-<span class="lineNum">     352 </span>            : 
-<span class="lineNum">     353 </span><span class="lineCov">          2 :     cparse_object_set_request_includes(obj, request);</span>
-<span class="lineNum">     354 </span>            : 
-<span class="lineNum">     355 </span><span class="lineCov">          2 :     json = cparse_client_request_get_json(request, error);</span>
+<span class="lineNum">     340 </span><span class="lineCov">         24 :     rval = cparse_client_request_perform(request, error);</span>
+<span class="lineNum">     341 </span>            : 
+<span class="lineNum">     342 </span><span class="lineCov">         24 :     cparse_client_request_free(request);</span>
+<span class="lineNum">     343 </span>            : 
+<span class="lineNum">     344 </span><span class="lineCov">         24 :     return rval;</span>
+<a name="345"><span class="lineNum">     345 </span><span class="lineCov">         25 : }</span></a>
+<span class="lineNum">     346 </span>            : 
+<span class="lineNum">     347 </span>            : pthread_t cparse_object_delete_in_background(cParseObject *obj, cParseObjectCallback callback)
+<span class="lineNum">     348 </span>            : {
+<span class="lineNum">     349 </span><span class="lineNoCov">          0 :     if (!obj) {</span>
+<span class="lineNum">     350 </span><span class="lineNoCov">          0 :         cparse_log_errno(EINVAL);</span>
+<span class="lineNum">     351 </span><span class="lineNoCov">          0 :         return 0;</span>
+<span class="lineNum">     352 </span>            :     }
+<span class="lineNum">     353 </span>            : 
+<span class="lineNum">     354 </span><span class="lineNoCov">          0 :     return cparse_object_run_in_background(obj, cparse_object_delete, callback, NULL);</span>
+<a name="355"><span class="lineNum">     355 </span><span class="lineNoCov">          0 : }</span></a>
 <span class="lineNum">     356 </span>            : 
-<span class="lineNum">     357 </span><span class="lineCov">          2 :     cparse_client_request_free(request);</span>
-<span class="lineNum">     358 </span>            : 
-<span class="lineNum">     359 </span><span class="lineCov">          2 :     if (json)</span>
-<span class="lineNum">     360 </span>            :     {
-<span class="lineNum">     361 </span><span class="lineCov">          2 :         cparse_object_merge_json(obj, json);</span>
-<span class="lineNum">     362 </span>            : 
-<span class="lineNum">     363 </span><span class="lineCov">          2 :         cparse_json_free(json);</span>
-<span class="lineNum">     364 </span>            : 
-<span class="lineNum">     365 </span><span class="lineCov">          2 :         return true;</span>
-<span class="lineNum">     366 </span>            :     }
-<span class="lineNum">     367 </span>            : 
-<span class="lineNum">     368 </span><span class="lineNoCov">          0 :     return false;</span>
-<a name="369"><span class="lineNum">     369 </span><span class="lineCov">          3 : }</span></a>
-<span class="lineNum">     370 </span>            : 
-<span class="lineNum">     371 </span>            : pthread_t cparse_object_fetch_in_background(cParseObject *obj, cParseObjectCallback callback)
-<span class="lineNum">     372 </span>            : {
-<span class="lineNum">     373 </span><span class="lineCov">          1 :     if (!obj) {</span>
-<span class="lineNum">     374 </span><span class="lineNoCov">          0 :         cparse_log_errno(EINVAL);</span>
-<span class="lineNum">     375 </span><span class="lineNoCov">          0 :         return 0;</span>
-<span class="lineNum">     376 </span>            :     }
-<span class="lineNum">     377 </span>            : 
-<span class="lineNum">     378 </span><span class="lineCov">          1 :     return cparse_object_run_in_background(obj, cparse_object_fetch, callback, NULL);</span>
-<a name="379"><span class="lineNum">     379 </span><span class="lineCov">          1 : }</span></a>
-<span class="lineNum">     380 </span>            : 
-<span class="lineNum">     381 </span>            : bool cparse_object_refresh(cParseObject *obj, cParseError **error)
-<span class="lineNum">     382 </span>            : {
-<span class="lineNum">     383 </span><span class="lineCov">          3 :     cParseRequest *request = NULL;</span>
-<span class="lineNum">     384 </span><span class="lineCov">          3 :     cParseJson *json = NULL;</span>
+<span class="lineNum">     357 </span>            : bool cparse_object_fetch(cParseObject *obj, cParseError **error)
+<span class="lineNum">     358 </span>            : {
+<span class="lineNum">     359 </span><span class="lineCov">          3 :     cParseRequest *request = NULL;</span>
+<span class="lineNum">     360 </span><span class="lineCov">          3 :     cParseJson *json = NULL;</span>
+<span class="lineNum">     361 </span>            : 
+<span class="lineNum">     362 </span><span class="lineCov">          3 :     if (!obj) {</span>
+<span class="lineNum">     363 </span><span class="lineNoCov">          0 :         cparse_log_set_errno(error, EINVAL);</span>
+<span class="lineNum">     364 </span><span class="lineNoCov">          0 :         return false;</span>
+<span class="lineNum">     365 </span>            :     }
+<span class="lineNum">     366 </span>            : 
+<span class="lineNum">     367 </span><span class="lineCov">          3 :     if (!cparse_object_exists(obj))</span>
+<span class="lineNum">     368 </span>            :     {
+<span class="lineNum">     369 </span><span class="lineCov">          1 :         cparse_log_set_error(error, &quot;Object has no id&quot;);</span>
+<span class="lineNum">     370 </span><span class="lineCov">          1 :         return false;</span>
+<span class="lineNum">     371 </span>            :     }
+<span class="lineNum">     372 </span>            : 
+<span class="lineNum">     373 </span><span class="lineCov">          2 :     request = cparse_object_create_request(obj, cParseHttpRequestMethodGet, error);</span>
+<span class="lineNum">     374 </span>            : 
+<span class="lineNum">     375 </span><span class="lineCov">          2 :     if (!request)</span>
+<span class="lineNum">     376 </span>            :     {
+<span class="lineNum">     377 </span><span class="lineNoCov">          0 :         return false;</span>
+<span class="lineNum">     378 </span>            :     }
+<span class="lineNum">     379 </span>            : 
+<span class="lineNum">     380 </span><span class="lineCov">          2 :     cparse_object_set_request_includes(obj, request);</span>
+<span class="lineNum">     381 </span>            : 
+<span class="lineNum">     382 </span><span class="lineCov">          2 :     json = cparse_client_request_get_json(request, error);</span>
+<span class="lineNum">     383 </span>            : 
+<span class="lineNum">     384 </span><span class="lineCov">          2 :     cparse_client_request_free(request);</span>
 <span class="lineNum">     385 </span>            : 
-<span class="lineNum">     386 </span><span class="lineCov">          3 :     if (!obj) {</span>
-<span class="lineNum">     387 </span><span class="lineNoCov">          0 :         cparse_log_set_errno(error, EINVAL);</span>
-<span class="lineNum">     388 </span><span class="lineNoCov">          0 :         return false;</span>
-<span class="lineNum">     389 </span>            :     }
-<span class="lineNum">     390 </span>            : 
-<span class="lineNum">     391 </span><span class="lineCov">          3 :     if (cparse_str_empty(obj-&gt;objectId))</span>
-<span class="lineNum">     392 </span>            :     {
-<span class="lineNum">     393 </span><span class="lineNoCov">          0 :         cparse_log_set_error(error, &quot;Object has no id&quot;);</span>
-<span class="lineNum">     394 </span><span class="lineNoCov">          0 :         return false;</span>
-<span class="lineNum">     395 </span>            :     }
-<span class="lineNum">     396 </span>            : 
-<span class="lineNum">     397 </span><span class="lineCov">          3 :     request = cparse_object_create_request(obj, cParseHttpRequestMethodGet, error);</span>
-<span class="lineNum">     398 </span>            : 
-<span class="lineNum">     399 </span><span class="lineCov">          3 :     if (!request)</span>
-<span class="lineNum">     400 </span>            :     {
-<span class="lineNum">     401 </span><span class="lineNoCov">          0 :         return false;</span>
-<span class="lineNum">     402 </span>            :     }
-<span class="lineNum">     403 </span>            : 
-<span class="lineNum">     404 </span><span class="lineCov">          3 :     json = cparse_client_request_get_json(request, error);</span>
-<span class="lineNum">     405 </span>            : 
-<span class="lineNum">     406 </span><span class="lineCov">          3 :     cparse_client_request_free(request);</span>
+<span class="lineNum">     386 </span><span class="lineCov">          2 :     if (json)</span>
+<span class="lineNum">     387 </span>            :     {
+<span class="lineNum">     388 </span><span class="lineCov">          2 :         cparse_object_merge_json(obj, json);</span>
+<span class="lineNum">     389 </span>            : 
+<span class="lineNum">     390 </span><span class="lineCov">          2 :         cparse_json_free(json);</span>
+<span class="lineNum">     391 </span>            : 
+<span class="lineNum">     392 </span><span class="lineCov">          2 :         return true;</span>
+<span class="lineNum">     393 </span>            :     }
+<span class="lineNum">     394 </span>            : 
+<span class="lineNum">     395 </span><span class="lineNoCov">          0 :     return false;</span>
+<a name="396"><span class="lineNum">     396 </span><span class="lineCov">          3 : }</span></a>
+<span class="lineNum">     397 </span>            : 
+<span class="lineNum">     398 </span>            : pthread_t cparse_object_fetch_in_background(cParseObject *obj, cParseObjectCallback callback)
+<span class="lineNum">     399 </span>            : {
+<span class="lineNum">     400 </span><span class="lineCov">          1 :     if (!obj) {</span>
+<span class="lineNum">     401 </span><span class="lineNoCov">          0 :         cparse_log_errno(EINVAL);</span>
+<span class="lineNum">     402 </span><span class="lineNoCov">          0 :         return 0;</span>
+<span class="lineNum">     403 </span>            :     }
+<span class="lineNum">     404 </span>            : 
+<span class="lineNum">     405 </span><span class="lineCov">          1 :     return cparse_object_run_in_background(obj, cparse_object_fetch, callback, NULL);</span>
+<a name="406"><span class="lineNum">     406 </span><span class="lineCov">          1 : }</span></a>
 <span class="lineNum">     407 </span>            : 
-<span class="lineNum">     408 </span><span class="lineCov">          3 :     if (json)</span>
-<span class="lineNum">     409 </span>            :     {
-<span class="lineNum">     410 </span><span class="lineCov">          3 :         cparse_object_merge_json(obj, json);</span>
-<span class="lineNum">     411 </span>            : 
-<span class="lineNum">     412 </span><span class="lineCov">          3 :         cparse_json_free(json);</span>
-<span class="lineNum">     413 </span>            : 
-<span class="lineNum">     414 </span><span class="lineCov">          3 :         return true;</span>
-<span class="lineNum">     415 </span>            : 
+<span class="lineNum">     408 </span>            : bool cparse_object_refresh(cParseObject *obj, cParseError **error)
+<span class="lineNum">     409 </span>            : {
+<span class="lineNum">     410 </span><span class="lineCov">          3 :     cParseRequest *request = NULL;</span>
+<span class="lineNum">     411 </span><span class="lineCov">          3 :     cParseJson *json = NULL;</span>
+<span class="lineNum">     412 </span>            : 
+<span class="lineNum">     413 </span><span class="lineCov">          3 :     if (!obj) {</span>
+<span class="lineNum">     414 </span><span class="lineNoCov">          0 :         cparse_log_set_errno(error, EINVAL);</span>
+<span class="lineNum">     415 </span><span class="lineNoCov">          0 :         return false;</span>
 <span class="lineNum">     416 </span>            :     }
-<span class="lineNum">     417 </span><span class="lineNoCov">          0 :     return false;</span>
-<a name="418"><span class="lineNum">     418 </span><span class="lineCov">          3 : }</span></a>
-<span class="lineNum">     419 </span>            : 
-<span class="lineNum">     420 </span>            : pthread_t cparse_object_refresh_in_background(cParseObject *obj, cParseObjectCallback callback)
-<span class="lineNum">     421 </span>            : {
-<span class="lineNum">     422 </span><span class="lineCov">          1 :     if (!obj) {</span>
-<span class="lineNum">     423 </span><span class="lineNoCov">          0 :         cparse_log_errno(EINVAL);</span>
-<span class="lineNum">     424 </span><span class="lineNoCov">          0 :         return 0;</span>
-<span class="lineNum">     425 </span>            :     }
-<span class="lineNum">     426 </span>            : 
-<span class="lineNum">     427 </span><span class="lineCov">          1 :     return cparse_object_run_in_background(obj, cparse_object_refresh, callback, NULL);</span>
-<a name="428"><span class="lineNum">     428 </span><span class="lineCov">          1 : }</span></a>
-<span class="lineNum">     429 </span>            : 
-<span class="lineNum">     430 </span>            : bool cparse_class_name_is_object(const char *className)
-<span class="lineNum">     431 </span>            : {
-<span class="lineNum">     432 </span><span class="lineNoCov">          0 :     if (cparse_str_empty(className)) { return false; }</span>
-<span class="lineNum">     433 </span>            : 
-<span class="lineNum">     434 </span><span class="lineNoCov">          0 :     return !cparse_str_prefix(CPARSE_OBJECTS_PATH, className);</span>
-<a name="435"><span class="lineNum">     435 </span><span class="lineNoCov">          0 : }</span></a>
-<span class="lineNum">     436 </span>            : 
-<span class="lineNum">     437 </span>            : bool cparse_object_is_object(cParseObject *obj)
-<span class="lineNum">     438 </span>            : {
-<span class="lineNum">     439 </span><span class="lineNoCov">          0 :     return cparse_class_name_is_object(obj-&gt;className);</span>
-<a name="440"><span class="lineNum">     440 </span>            : }</a>
-<span class="lineNum">     441 </span>            : 
-<span class="lineNum">     442 </span>            : bool cparse_object_save(cParseObject *obj, cParseError **error)
-<span class="lineNum">     443 </span>            : {
-<span class="lineNum">     444 </span><span class="lineCov">         15 :     cParseRequest *request = NULL;</span>
-<span class="lineNum">     445 </span><span class="lineCov">         15 :     cParseJson *json = NULL;</span>
+<span class="lineNum">     417 </span>            : 
+<span class="lineNum">     418 </span><span class="lineCov">          3 :     if (cparse_str_empty(obj-&gt;objectId))</span>
+<span class="lineNum">     419 </span>            :     {
+<span class="lineNum">     420 </span><span class="lineNoCov">          0 :         cparse_log_set_error(error, &quot;Object has no id&quot;);</span>
+<span class="lineNum">     421 </span><span class="lineNoCov">          0 :         return false;</span>
+<span class="lineNum">     422 </span>            :     }
+<span class="lineNum">     423 </span>            : 
+<span class="lineNum">     424 </span><span class="lineCov">          3 :     request = cparse_object_create_request(obj, cParseHttpRequestMethodGet, error);</span>
+<span class="lineNum">     425 </span>            : 
+<span class="lineNum">     426 </span><span class="lineCov">          3 :     if (!request)</span>
+<span class="lineNum">     427 </span>            :     {
+<span class="lineNum">     428 </span><span class="lineNoCov">          0 :         return false;</span>
+<span class="lineNum">     429 </span>            :     }
+<span class="lineNum">     430 </span>            : 
+<span class="lineNum">     431 </span><span class="lineCov">          3 :     json = cparse_client_request_get_json(request, error);</span>
+<span class="lineNum">     432 </span>            : 
+<span class="lineNum">     433 </span><span class="lineCov">          3 :     cparse_client_request_free(request);</span>
+<span class="lineNum">     434 </span>            : 
+<span class="lineNum">     435 </span><span class="lineCov">          3 :     if (json)</span>
+<span class="lineNum">     436 </span>            :     {
+<span class="lineNum">     437 </span><span class="lineCov">          3 :         cparse_object_merge_json(obj, json);</span>
+<span class="lineNum">     438 </span>            : 
+<span class="lineNum">     439 </span><span class="lineCov">          3 :         cparse_json_free(json);</span>
+<span class="lineNum">     440 </span>            : 
+<span class="lineNum">     441 </span><span class="lineCov">          3 :         return true;</span>
+<span class="lineNum">     442 </span>            : 
+<span class="lineNum">     443 </span>            :     }
+<span class="lineNum">     444 </span><span class="lineNoCov">          0 :     return false;</span>
+<a name="445"><span class="lineNum">     445 </span><span class="lineCov">          3 : }</span></a>
 <span class="lineNum">     446 </span>            : 
-<span class="lineNum">     447 </span><span class="lineCov">         15 :     if (!obj) {</span>
-<span class="lineNum">     448 </span><span class="lineNoCov">          0 :         cparse_log_set_errno(error, EINVAL);</span>
-<span class="lineNum">     449 </span><span class="lineNoCov">          0 :         return false;</span>
-<span class="lineNum">     450 </span>            :     }
-<span class="lineNum">     451 </span>            : 
-<span class="lineNum">     452 </span>            :     /* build the request based on the id */
-<span class="lineNum">     453 </span><span class="lineCov">         15 :     if (cparse_str_empty(obj-&gt;objectId))</span>
-<span class="lineNum">     454 </span>            :     {
-<span class="lineNum">     455 </span><span class="lineCov">         14 :         request = cparse_client_request_with_method_and_path(cParseHttpRequestMethodPost, obj-&gt;className);</span>
-<span class="lineNum">     456 </span><span class="lineCov">         14 :     }</span>
-<span class="lineNum">     457 </span>            :     else
-<span class="lineNum">     458 </span>            :     {
-<span class="lineNum">     459 </span><span class="lineCov">          1 :         char buf[CPARSE_BUF_SIZE + 1] = {0};</span>
-<span class="lineNum">     460 </span><span class="lineCov">          1 :         snprintf(buf, CPARSE_BUF_SIZE, &quot;%s/%s&quot;, obj-&gt;className, obj-&gt;objectId);</span>
-<span class="lineNum">     461 </span><span class="lineCov">          1 :         request = cparse_client_request_with_method_and_path(cParseHttpRequestMethodPut, buf);</span>
-<span class="lineNum">     462 </span>            :     }
-<span class="lineNum">     463 </span>            : 
-<span class="lineNum">     464 </span><span class="lineCov">         15 :     if (request == NULL) {</span>
-<span class="lineNum">     465 </span><span class="lineNoCov">          0 :         cparse_log_set_error(error, &quot;Unable to create request&quot;);</span>
-<span class="lineNum">     466 </span><span class="lineNoCov">          0 :         return false;</span>
-<span class="lineNum">     467 </span>            :     }
-<span class="lineNum">     468 </span>            : 
-<span class="lineNum">     469 </span><span class="lineCov">         15 :     cparse_client_request_set_payload(request, cparse_json_to_json_string(obj-&gt;attributes));</span>
-<span class="lineNum">     470 </span>            : 
-<span class="lineNum">     471 </span><span class="lineCov">         15 :     json = cparse_client_request_get_json(request, error);</span>
-<span class="lineNum">     472 </span>            : 
-<span class="lineNum">     473 </span><span class="lineCov">         15 :     cparse_client_request_free(request);</span>
+<span class="lineNum">     447 </span>            : pthread_t cparse_object_refresh_in_background(cParseObject *obj, cParseObjectCallback callback)
+<span class="lineNum">     448 </span>            : {
+<span class="lineNum">     449 </span><span class="lineCov">          1 :     if (!obj) {</span>
+<span class="lineNum">     450 </span><span class="lineNoCov">          0 :         cparse_log_errno(EINVAL);</span>
+<span class="lineNum">     451 </span><span class="lineNoCov">          0 :         return 0;</span>
+<span class="lineNum">     452 </span>            :     }
+<span class="lineNum">     453 </span>            : 
+<span class="lineNum">     454 </span><span class="lineCov">          1 :     return cparse_object_run_in_background(obj, cparse_object_refresh, callback, NULL);</span>
+<a name="455"><span class="lineNum">     455 </span><span class="lineCov">          1 : }</span></a>
+<span class="lineNum">     456 </span>            : 
+<span class="lineNum">     457 </span>            : bool cparse_object_is_object(cParseObject *obj)
+<span class="lineNum">     458 </span>            : {
+<span class="lineNum">     459 </span><span class="lineNoCov">          0 :     if (obj == NULL) {</span>
+<span class="lineNum">     460 </span><span class="lineNoCov">          0 :         return false;</span>
+<span class="lineNum">     461 </span>            :     }
+<span class="lineNum">     462 </span><span class="lineNoCov">          0 :     return !cparse_str_prefix(CPARSE_OBJECTS_PATH, obj-&gt;urlPath);</span>
+<a name="463"><span class="lineNum">     463 </span><span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">     464 </span>            : 
+<span class="lineNum">     465 </span>            : bool cparse_object_save(cParseObject *obj, cParseError **error)
+<span class="lineNum">     466 </span>            : {
+<span class="lineNum">     467 </span><span class="lineCov">         17 :     cParseRequest *request = NULL;</span>
+<span class="lineNum">     468 </span><span class="lineCov">         17 :     cParseJson *json = NULL;</span>
+<span class="lineNum">     469 </span>            : 
+<span class="lineNum">     470 </span><span class="lineCov">         17 :     if (!obj) {</span>
+<span class="lineNum">     471 </span><span class="lineNoCov">          0 :         cparse_log_set_errno(error, EINVAL);</span>
+<span class="lineNum">     472 </span><span class="lineNoCov">          0 :         return false;</span>
+<span class="lineNum">     473 </span>            :     }
 <span class="lineNum">     474 </span>            : 
-<span class="lineNum">     475 </span><span class="lineCov">         15 :     if (json != NULL)</span>
-<span class="lineNum">     476 </span>            :     {
-<span class="lineNum">     477 </span><span class="lineCov">         15 :         cparse_object_merge_json(obj, json);</span>
-<span class="lineNum">     478 </span>            : 
-<span class="lineNum">     479 </span><span class="lineCov">         15 :         cparse_json_free(json);</span>
-<span class="lineNum">     480 </span>            : 
-<span class="lineNum">     481 </span><span class="lineCov">         15 :         return true;</span>
-<span class="lineNum">     482 </span>            :     }
-<span class="lineNum">     483 </span>            : 
-<span class="lineNum">     484 </span><span class="lineNoCov">          0 :     return false;</span>
-<a name="485"><span class="lineNum">     485 </span><span class="lineCov">         15 : }</span></a>
+<span class="lineNum">     475 </span>            :     /* build the request based on the id */
+<span class="lineNum">     476 </span><span class="lineCov">         17 :     if (cparse_str_empty(obj-&gt;objectId))</span>
+<span class="lineNum">     477 </span>            :     {
+<span class="lineNum">     478 </span><span class="lineCov">         16 :         request = cparse_client_request_with_method_and_path(cParseHttpRequestMethodPost, obj-&gt;urlPath);</span>
+<span class="lineNum">     479 </span><span class="lineCov">         16 :     }</span>
+<span class="lineNum">     480 </span>            :     else
+<span class="lineNum">     481 </span>            :     {
+<span class="lineNum">     482 </span><span class="lineCov">          1 :         char buf[CPARSE_BUF_SIZE + 1] = {0};</span>
+<span class="lineNum">     483 </span><span class="lineCov">          1 :         snprintf(buf, CPARSE_BUF_SIZE, &quot;%s/%s&quot;, obj-&gt;urlPath, obj-&gt;objectId);</span>
+<span class="lineNum">     484 </span><span class="lineCov">          1 :         request = cparse_client_request_with_method_and_path(cParseHttpRequestMethodPut, buf);</span>
+<span class="lineNum">     485 </span>            :     }
 <span class="lineNum">     486 </span>            : 
-<span class="lineNum">     487 </span>            : pthread_t cparse_object_save_in_background(cParseObject *obj, cParseObjectCallback callback)
-<span class="lineNum">     488 </span>            : {
-<span class="lineNum">     489 </span><span class="lineCov">          1 :     if (!obj) {</span>
-<span class="lineNum">     490 </span><span class="lineNoCov">          0 :         cparse_log_errno(EINVAL);</span>
-<span class="lineNum">     491 </span><span class="lineNoCov">          0 :         return 0;</span>
-<span class="lineNum">     492 </span>            :     }
+<span class="lineNum">     487 </span><span class="lineCov">         17 :     if (request == NULL) {</span>
+<span class="lineNum">     488 </span><span class="lineNoCov">          0 :         cparse_log_set_error(error, &quot;Unable to create request&quot;);</span>
+<span class="lineNum">     489 </span><span class="lineNoCov">          0 :         return false;</span>
+<span class="lineNum">     490 </span>            :     }
+<span class="lineNum">     491 </span>            : 
+<span class="lineNum">     492 </span><span class="lineCov">         17 :     cparse_client_request_set_payload(request, cparse_json_to_json_string(obj-&gt;attributes));</span>
 <span class="lineNum">     493 </span>            : 
-<span class="lineNum">     494 </span><span class="lineCov">          1 :     return cparse_object_run_in_background(obj, cparse_object_save, callback, NULL);</span>
-<a name="495"><span class="lineNum">     495 </span><span class="lineCov">          1 : }</span></a>
-<span class="lineNum">     496 </span>            : 
-<span class="lineNum">     497 </span>            : bool cparse_object_update(cParseObject *obj, cParseJson *attributes, cParseError **error)
-<span class="lineNum">     498 </span>            : {
-<span class="lineNum">     499 </span><span class="lineCov">          2 :     char buf[CPARSE_BUF_SIZE + 1] = {0};</span>
-<span class="lineNum">     500 </span><span class="lineCov">          2 :     cParseRequest *request = NULL;</span>
-<span class="lineNum">     501 </span><span class="lineCov">          2 :     cParseJson *response = NULL;</span>
-<span class="lineNum">     502 </span>            : 
-<span class="lineNum">     503 </span><span class="lineCov">          4 :     if (!obj || !attributes) {</span>
-<span class="lineNum">     504 </span><span class="lineNoCov">          0 :         cparse_log_set_errno(error, EINVAL);</span>
-<span class="lineNum">     505 </span><span class="lineNoCov">          0 :         return false;</span>
-<span class="lineNum">     506 </span>            :     }
-<span class="lineNum">     507 </span>            : 
-<span class="lineNum">     508 </span>            :     /* build the request based on the id */
-<span class="lineNum">     509 </span><span class="lineCov">          2 :     if (cparse_str_empty(obj-&gt;objectId))</span>
-<span class="lineNum">     510 </span>            :     {
-<span class="lineNum">     511 </span><span class="lineNoCov">          0 :         cparse_log_set_error(error, &quot;object has no id&quot;);</span>
-<span class="lineNum">     512 </span><span class="lineNoCov">          0 :         return false;</span>
-<span class="lineNum">     513 </span>            :     }
-<span class="lineNum">     514 </span>            : 
-<span class="lineNum">     515 </span><span class="lineCov">          2 :     snprintf(buf, CPARSE_BUF_SIZE, &quot;%s/%s&quot;, obj-&gt;className, obj-&gt;objectId);</span>
+<span class="lineNum">     494 </span><span class="lineCov">         17 :     json = cparse_client_request_get_json(request, error);</span>
+<span class="lineNum">     495 </span>            : 
+<span class="lineNum">     496 </span><span class="lineCov">         17 :     cparse_client_request_free(request);</span>
+<span class="lineNum">     497 </span>            : 
+<span class="lineNum">     498 </span><span class="lineCov">         17 :     if (json != NULL)</span>
+<span class="lineNum">     499 </span>            :     {
+<span class="lineNum">     500 </span><span class="lineCov">         17 :         cparse_object_merge_json(obj, json);</span>
+<span class="lineNum">     501 </span>            : 
+<span class="lineNum">     502 </span><span class="lineCov">         17 :         cparse_json_free(json);</span>
+<span class="lineNum">     503 </span>            : 
+<span class="lineNum">     504 </span><span class="lineCov">         17 :         return true;</span>
+<span class="lineNum">     505 </span>            :     }
+<span class="lineNum">     506 </span>            : 
+<span class="lineNum">     507 </span><span class="lineNoCov">          0 :     return false;</span>
+<a name="508"><span class="lineNum">     508 </span><span class="lineCov">         17 : }</span></a>
+<span class="lineNum">     509 </span>            : 
+<span class="lineNum">     510 </span>            : pthread_t cparse_object_save_in_background(cParseObject *obj, cParseObjectCallback callback)
+<span class="lineNum">     511 </span>            : {
+<span class="lineNum">     512 </span><span class="lineCov">          1 :     if (!obj) {</span>
+<span class="lineNum">     513 </span><span class="lineNoCov">          0 :         cparse_log_errno(EINVAL);</span>
+<span class="lineNum">     514 </span><span class="lineNoCov">          0 :         return 0;</span>
+<span class="lineNum">     515 </span>            :     }
 <span class="lineNum">     516 </span>            : 
-<span class="lineNum">     517 </span><span class="lineCov">          2 :     request = cparse_client_request_with_method_and_path(cParseHttpRequestMethodPut, buf);</span>
-<span class="lineNum">     518 </span>            : 
-<span class="lineNum">     519 </span><span class="lineCov">          2 :     if (request == NULL) {</span>
-<span class="lineNum">     520 </span><span class="lineNoCov">          0 :         cparse_log_set_error(error, &quot;unable to create request&quot;);</span>
-<span class="lineNum">     521 </span><span class="lineNoCov">          0 :         return false;</span>
-<span class="lineNum">     522 </span>            :     }
-<span class="lineNum">     523 </span>            : 
-<span class="lineNum">     524 </span><span class="lineCov">          2 :     cparse_client_request_set_payload(request, cparse_json_to_json_string(attributes));</span>
+<span class="lineNum">     517 </span><span class="lineCov">          1 :     return cparse_object_run_in_background(obj, cparse_object_save, callback, NULL);</span>
+<a name="518"><span class="lineNum">     518 </span><span class="lineCov">          1 : }</span></a>
+<span class="lineNum">     519 </span>            : 
+<span class="lineNum">     520 </span>            : bool cparse_object_update(cParseObject *obj, cParseJson *attributes, cParseError **error)
+<span class="lineNum">     521 </span>            : {
+<span class="lineNum">     522 </span><span class="lineCov">          2 :     char buf[CPARSE_BUF_SIZE + 1] = {0};</span>
+<span class="lineNum">     523 </span><span class="lineCov">          2 :     cParseRequest *request = NULL;</span>
+<span class="lineNum">     524 </span><span class="lineCov">          2 :     cParseJson *response = NULL;</span>
 <span class="lineNum">     525 </span>            : 
-<span class="lineNum">     526 </span><span class="lineCov">          2 :     response = cparse_client_request_get_json(request, error);</span>
-<span class="lineNum">     527 </span>            : 
-<span class="lineNum">     528 </span><span class="lineCov">          2 :     cparse_client_request_free(request);</span>
-<span class="lineNum">     529 </span>            : 
-<span class="lineNum">     530 </span><span class="lineCov">          2 :     if (response != NULL)</span>
-<span class="lineNum">     531 </span>            :     {
-<span class="lineNum">     532 </span><span class="lineCov">          2 :         cparse_object_merge_json(obj, attributes);</span>
-<span class="lineNum">     533 </span>            : 
-<span class="lineNum">     534 </span><span class="lineCov">          2 :         cparse_object_merge_json(obj, response);</span>
-<span class="lineNum">     535 </span>            : 
-<span class="lineNum">     536 </span><span class="lineCov">          2 :         cparse_json_free(attributes);</span>
+<span class="lineNum">     526 </span><span class="lineCov">          4 :     if (!obj || !attributes) {</span>
+<span class="lineNum">     527 </span><span class="lineNoCov">          0 :         cparse_log_set_errno(error, EINVAL);</span>
+<span class="lineNum">     528 </span><span class="lineNoCov">          0 :         return false;</span>
+<span class="lineNum">     529 </span>            :     }
+<span class="lineNum">     530 </span>            : 
+<span class="lineNum">     531 </span>            :     /* build the request based on the id */
+<span class="lineNum">     532 </span><span class="lineCov">          2 :     if (cparse_str_empty(obj-&gt;objectId))</span>
+<span class="lineNum">     533 </span>            :     {
+<span class="lineNum">     534 </span><span class="lineNoCov">          0 :         cparse_log_set_error(error, &quot;object has no id&quot;);</span>
+<span class="lineNum">     535 </span><span class="lineNoCov">          0 :         return false;</span>
+<span class="lineNum">     536 </span>            :     }
 <span class="lineNum">     537 </span>            : 
-<span class="lineNum">     538 </span><span class="lineCov">          2 :         cparse_json_free(response);</span>
+<span class="lineNum">     538 </span><span class="lineCov">          2 :     snprintf(buf, CPARSE_BUF_SIZE, &quot;%s/%s&quot;, obj-&gt;urlPath, obj-&gt;objectId);</span>
 <span class="lineNum">     539 </span>            : 
-<span class="lineNum">     540 </span><span class="lineCov">          2 :         return true;</span>
-<span class="lineNum">     541 </span>            :     }
-<span class="lineNum">     542 </span>            : 
-<span class="lineNum">     543 </span><span class="lineNoCov">          0 :     return false;</span>
-<a name="544"><span class="lineNum">     544 </span><span class="lineCov">          2 : }</span></a>
-<span class="lineNum">     545 </span>            : 
-<span class="lineNum">     546 </span>            : static bool cparse_object_update_object(cParseObject *obj, cParseError **error)
-<span class="lineNum">     547 </span>            : {
-<span class="lineNum">     548 </span><span class="lineCov">          1 :     cParseJson *json = NULL;</span>
-<span class="lineNum">     549 </span><span class="lineCov">          1 :     bool rval = false;</span>
+<span class="lineNum">     540 </span><span class="lineCov">          2 :     request = cparse_client_request_with_method_and_path(cParseHttpRequestMethodPut, buf);</span>
+<span class="lineNum">     541 </span>            : 
+<span class="lineNum">     542 </span><span class="lineCov">          2 :     if (request == NULL) {</span>
+<span class="lineNum">     543 </span><span class="lineNoCov">          0 :         cparse_log_set_error(error, &quot;unable to create request&quot;);</span>
+<span class="lineNum">     544 </span><span class="lineNoCov">          0 :         return false;</span>
+<span class="lineNum">     545 </span>            :     }
+<span class="lineNum">     546 </span>            : 
+<span class="lineNum">     547 </span><span class="lineCov">          2 :     cparse_client_request_set_payload(request, cparse_json_to_json_string(attributes));</span>
+<span class="lineNum">     548 </span>            : 
+<span class="lineNum">     549 </span><span class="lineCov">          2 :     response = cparse_client_request_get_json(request, error);</span>
 <span class="lineNum">     550 </span>            : 
-<span class="lineNum">     551 </span><span class="lineCov">          1 :     if (!obj) {</span>
-<span class="lineNum">     552 </span><span class="lineNoCov">          0 :         cparse_log_set_errno(error, EINVAL);</span>
-<span class="lineNum">     553 </span><span class="lineNoCov">          0 :         return false;</span>
-<span class="lineNum">     554 </span>            :     }
-<span class="lineNum">     555 </span>            : 
-<span class="lineNum">     556 </span><span class="lineCov">          1 :     json = cparse_object_remove_and_get(obj, CPARSE_OBJECT_UPDATE_ATTRIBUTES);</span>
-<span class="lineNum">     557 </span>            : 
-<span class="lineNum">     558 </span><span class="lineCov">          1 :     rval = cparse_object_update(obj, json, error);</span>
-<span class="lineNum">     559 </span>            : 
-<span class="lineNum">     560 </span><span class="lineCov">          1 :     cparse_json_free(json);</span>
-<span class="lineNum">     561 </span>            : 
-<span class="lineNum">     562 </span><span class="lineCov">          1 :     return rval;</span>
-<a name="563"><span class="lineNum">     563 </span><span class="lineCov">          1 : }</span></a>
-<span class="lineNum">     564 </span>            : 
-<span class="lineNum">     565 </span>            : pthread_t cparse_object_update_in_background(cParseObject *obj, cParseJson *json, cParseObjectCallback callback)
-<span class="lineNum">     566 </span>            : {
-<span class="lineNum">     567 </span><span class="lineCov">          2 :     if (obj == NULL || json == NULL) {</span>
-<span class="lineNum">     568 </span><span class="lineNoCov">          0 :         return 0;</span>
-<span class="lineNum">     569 </span>            :     }
-<span class="lineNum">     570 </span>            : 
-<span class="lineNum">     571 </span>            :     /* can't pass to our callback method, so place inside the object for retrieval */
-<span class="lineNum">     572 </span><span class="lineCov">          1 :     cparse_object_set(obj, CPARSE_OBJECT_UPDATE_ATTRIBUTES, json);</span>
-<span class="lineNum">     573 </span>            : 
-<span class="lineNum">     574 </span><span class="lineCov">          1 :     return cparse_object_run_in_background(obj, cparse_object_update_object, callback, NULL);</span>
-<span class="lineNum">     575 </span><span class="lineCov">          1 : }</span>
+<span class="lineNum">     551 </span><span class="lineCov">          2 :     cparse_client_request_free(request);</span>
+<span class="lineNum">     552 </span>            : 
+<span class="lineNum">     553 </span><span class="lineCov">          2 :     if (response != NULL)</span>
+<span class="lineNum">     554 </span>            :     {
+<span class="lineNum">     555 </span><span class="lineCov">          2 :         cparse_object_merge_json(obj, attributes);</span>
+<span class="lineNum">     556 </span>            : 
+<span class="lineNum">     557 </span><span class="lineCov">          2 :         cparse_object_merge_json(obj, response);</span>
+<span class="lineNum">     558 </span>            : 
+<span class="lineNum">     559 </span><span class="lineCov">          2 :         cparse_json_free(response);</span>
+<span class="lineNum">     560 </span>            : 
+<span class="lineNum">     561 </span><span class="lineCov">          2 :         return true;</span>
+<span class="lineNum">     562 </span>            :     }
+<span class="lineNum">     563 </span>            : 
+<span class="lineNum">     564 </span><span class="lineNoCov">          0 :     return false;</span>
+<a name="565"><span class="lineNum">     565 </span><span class="lineCov">          2 : }</span></a>
+<span class="lineNum">     566 </span>            : 
+<span class="lineNum">     567 </span>            : static bool cparse_object_update_object(cParseObject *obj, cParseError **error)
+<span class="lineNum">     568 </span>            : {
+<span class="lineNum">     569 </span><span class="lineCov">          1 :     cParseJson *json = NULL;</span>
+<span class="lineNum">     570 </span><span class="lineCov">          1 :     bool rval = false;</span>
+<span class="lineNum">     571 </span>            : 
+<span class="lineNum">     572 </span><span class="lineCov">          1 :     if (!obj) {</span>
+<span class="lineNum">     573 </span><span class="lineNoCov">          0 :         cparse_log_set_errno(error, EINVAL);</span>
+<span class="lineNum">     574 </span><span class="lineNoCov">          0 :         return false;</span>
+<span class="lineNum">     575 </span>            :     }
 <span class="lineNum">     576 </span>            : 
-<a name="577"><span class="lineNum">     577 </span>            : /* setters */</a>
+<span class="lineNum">     577 </span><span class="lineCov">          1 :     json = cparse_object_remove_and_get(obj, CPARSE_OBJECT_UPDATE_ATTRIBUTES);</span>
 <span class="lineNum">     578 </span>            : 
-<span class="lineNum">     579 </span>            : void cparse_object_set_number(cParseObject *obj, const char *key, cParseNumber value)
-<span class="lineNum">     580 </span>            : {
-<span class="lineNum">     581 </span><span class="lineCov">         32 :     if (obj != NULL &amp;&amp; obj-&gt;attributes) {</span>
-<span class="lineNum">     582 </span><span class="lineCov">         16 :         cparse_json_set_number(obj-&gt;attributes, key, value);</span>
-<span class="lineNum">     583 </span><span class="lineCov">         16 :     } else {</span>
-<span class="lineNum">     584 </span><span class="lineNoCov">          0 :         cparse_log_errno(EINVAL);</span>
-<span class="lineNum">     585 </span>            :     }
-<a name="586"><span class="lineNum">     586 </span><span class="lineCov">         16 : }</span></a>
-<span class="lineNum">     587 </span>            : 
-<span class="lineNum">     588 </span>            : void cparse_object_set_real(cParseObject *obj, const char *key, double value)
-<span class="lineNum">     589 </span>            : {
-<span class="lineNum">     590 </span><span class="lineCov">          2 :     if (obj != NULL &amp;&amp; obj-&gt;attributes) {</span>
-<span class="lineNum">     591 </span><span class="lineCov">          1 :         cparse_json_set_real(obj-&gt;attributes, key, value);</span>
-<span class="lineNum">     592 </span><span class="lineCov">          1 :     } else {</span>
-<span class="lineNum">     593 </span><span class="lineNoCov">          0 :         cparse_log_errno(EINVAL);</span>
-<a name="594"><span class="lineNum">     594 </span>            :     }</a>
-<span class="lineNum">     595 </span><span class="lineCov">          1 : }</span>
-<span class="lineNum">     596 </span>            : void cparse_object_set_bool(cParseObject *obj, const char *key, bool value)
-<span class="lineNum">     597 </span>            : {
-<span class="lineNum">     598 </span><span class="lineNoCov">          0 :     if (obj != NULL &amp;&amp; obj-&gt;attributes) {</span>
-<span class="lineNum">     599 </span><span class="lineNoCov">          0 :         cparse_json_set_bool(obj-&gt;attributes, key, value);</span>
-<span class="lineNum">     600 </span><span class="lineNoCov">          0 :     } else {</span>
-<span class="lineNum">     601 </span><span class="lineNoCov">          0 :         cparse_log_errno(EINVAL);</span>
-<span class="lineNum">     602 </span>            :     }
-<a name="603"><span class="lineNum">     603 </span><span class="lineNoCov">          0 : }</span></a>
-<span class="lineNum">     604 </span>            : 
-<span class="lineNum">     605 </span>            : void cparse_object_set_string(cParseObject *obj, const char *key, const char *value)
-<span class="lineNum">     606 </span>            : {
-<span class="lineNum">     607 </span><span class="lineCov">         70 :     if (obj != NULL &amp;&amp; obj-&gt;attributes) {</span>
-<span class="lineNum">     608 </span><span class="lineCov">         35 :         cparse_json_set_string(obj-&gt;attributes, key, value);</span>
-<span class="lineNum">     609 </span><span class="lineCov">         35 :     } else {</span>
-<span class="lineNum">     610 </span><span class="lineNoCov">          0 :         cparse_log_errno(EINVAL);</span>
-<span class="lineNum">     611 </span>            :     }
-<a name="612"><span class="lineNum">     612 </span><span class="lineCov">         35 : }</span></a>
-<span class="lineNum">     613 </span>            : 
-<span class="lineNum">     614 </span>            : void cparse_object_set(cParseObject *obj, const char *key, cParseJson *value)
-<span class="lineNum">     615 </span>            : {
-<span class="lineNum">     616 </span><span class="lineCov">          8 :     if (obj != NULL &amp;&amp; obj-&gt;attributes) {</span>
-<span class="lineNum">     617 </span><span class="lineCov">          4 :         cparse_json_set(obj-&gt;attributes, key, value);</span>
-<span class="lineNum">     618 </span><span class="lineCov">          4 :     } else {</span>
-<span class="lineNum">     619 </span><span class="lineNoCov">          0 :         cparse_log_errno(EINVAL);</span>
-<span class="lineNum">     620 </span>            :     }
-<span class="lineNum">     621 </span><span class="lineCov">          4 : }</span>
-<a name="622"><span class="lineNum">     622 </span>            : </a>
-<span class="lineNum">     623 </span>            : 
-<span class="lineNum">     624 </span>            : void cparse_object_foreach_attribute(cParseObject *obj, cParseObjectAttributeCallback callback, void *param)
-<span class="lineNum">     625 </span>            : {
-<span class="lineNum">     626 </span><span class="lineCov">          3 :     if (obj == NULL || obj-&gt;attributes == NULL || callback == NULL) {</span>
-<span class="lineNum">     627 </span><span class="lineNoCov">          0 :         cparse_log_errno(EINVAL);</span>
-<span class="lineNum">     628 </span><span class="lineNoCov">          0 :         return;</span>
-<span class="lineNum">     629 </span>            :     }
-<span class="lineNum">     630 </span>            : 
-<span class="lineNum">     631 </span><span class="lineCov">         14 :     cparse_json_foreach_start(obj-&gt;attributes, key, val)</span>
-<span class="lineNum">     632 </span>            :     {
-<span class="lineNum">     633 </span><span class="lineCov">          2 :         callback(obj, key, val, param);</span>
-<span class="lineNum">     634 </span><span class="lineCov">          2 :     }</span>
-<span class="lineNum">     635 </span><span class="lineCov">          1 :     cparse_json_foreach_end;</span>
-<a name="636"><span class="lineNum">     636 </span><span class="lineCov">          1 : }</span></a>
-<span class="lineNum">     637 </span>            : 
-<span class="lineNum">     638 </span>            : cParseJson *cparse_object_remove_and_get(cParseObject *obj, const char *key)
-<span class="lineNum">     639 </span>            : {
-<span class="lineNum">     640 </span><span class="lineCov">          2 :     return cparse_json_remove_and_get(obj-&gt;attributes, key);</span>
-<a name="641"><span class="lineNum">     641 </span>            : }</a>
-<span class="lineNum">     642 </span>            : 
-<span class="lineNum">     643 </span>            : void cparse_object_remove(cParseObject *obj, const char *key)
-<span class="lineNum">     644 </span>            : {
-<span class="lineNum">     645 </span><span class="lineCov">         24 :     if (!obj || cparse_str_empty(key) || !obj-&gt;attributes) {</span>
-<span class="lineNum">     646 </span><span class="lineNoCov">          0 :         cparse_log_errno(EINVAL);</span>
-<span class="lineNum">     647 </span><span class="lineNoCov">          0 :         return;</span>
-<span class="lineNum">     648 </span>            :     }
-<span class="lineNum">     649 </span><span class="lineCov">          8 :     cparse_json_remove(obj-&gt;attributes, key);</span>
-<span class="lineNum">     650 </span><span class="lineCov">         16 : }</span>
+<span class="lineNum">     579 </span><span class="lineCov">          1 :     rval = cparse_object_update(obj, json, error);</span>
+<span class="lineNum">     580 </span>            : 
+<span class="lineNum">     581 </span><span class="lineCov">          1 :     cparse_json_free(json);</span>
+<span class="lineNum">     582 </span>            : 
+<span class="lineNum">     583 </span><span class="lineCov">          1 :     return rval;</span>
+<a name="584"><span class="lineNum">     584 </span><span class="lineCov">          1 : }</span></a>
+<span class="lineNum">     585 </span>            : 
+<span class="lineNum">     586 </span>            : pthread_t cparse_object_update_in_background(cParseObject *obj, cParseJson *json, cParseObjectCallback callback)
+<span class="lineNum">     587 </span>            : {
+<span class="lineNum">     588 </span><span class="lineCov">          2 :     if (obj == NULL || json == NULL) {</span>
+<span class="lineNum">     589 </span><span class="lineNoCov">          0 :         return 0;</span>
+<span class="lineNum">     590 </span>            :     }
+<span class="lineNum">     591 </span>            : 
+<span class="lineNum">     592 </span>            :     /* can't pass to our callback method, so place inside the object for retrieval */
+<span class="lineNum">     593 </span><span class="lineCov">          1 :     cparse_object_set(obj, CPARSE_OBJECT_UPDATE_ATTRIBUTES, json);</span>
+<span class="lineNum">     594 </span>            : 
+<span class="lineNum">     595 </span><span class="lineCov">          1 :     return cparse_object_run_in_background(obj, cparse_object_update_object, callback, NULL);</span>
+<span class="lineNum">     596 </span><span class="lineCov">          1 : }</span>
+<span class="lineNum">     597 </span>            : 
+<a name="598"><span class="lineNum">     598 </span>            : /* setters */</a>
+<span class="lineNum">     599 </span>            : 
+<span class="lineNum">     600 </span>            : void cparse_object_set_number(cParseObject *obj, const char *key, cParseNumber value)
+<span class="lineNum">     601 </span>            : {
+<span class="lineNum">     602 </span><span class="lineCov">         32 :     if (obj != NULL &amp;&amp; obj-&gt;attributes) {</span>
+<span class="lineNum">     603 </span><span class="lineCov">         16 :         cparse_json_set_number(obj-&gt;attributes, key, value);</span>
+<span class="lineNum">     604 </span><span class="lineCov">         16 :     } else {</span>
+<span class="lineNum">     605 </span><span class="lineNoCov">          0 :         cparse_log_errno(EINVAL);</span>
+<span class="lineNum">     606 </span>            :     }
+<a name="607"><span class="lineNum">     607 </span><span class="lineCov">         16 : }</span></a>
+<span class="lineNum">     608 </span>            : 
+<span class="lineNum">     609 </span>            : void cparse_object_set_real(cParseObject *obj, const char *key, double value)
+<span class="lineNum">     610 </span>            : {
+<span class="lineNum">     611 </span><span class="lineCov">          2 :     if (obj != NULL &amp;&amp; obj-&gt;attributes) {</span>
+<span class="lineNum">     612 </span><span class="lineCov">          1 :         cparse_json_set_real(obj-&gt;attributes, key, value);</span>
+<span class="lineNum">     613 </span><span class="lineCov">          1 :     } else {</span>
+<span class="lineNum">     614 </span><span class="lineNoCov">          0 :         cparse_log_errno(EINVAL);</span>
+<a name="615"><span class="lineNum">     615 </span>            :     }</a>
+<span class="lineNum">     616 </span><span class="lineCov">          1 : }</span>
+<span class="lineNum">     617 </span>            : void cparse_object_set_bool(cParseObject *obj, const char *key, bool value)
+<span class="lineNum">     618 </span>            : {
+<span class="lineNum">     619 </span><span class="lineNoCov">          0 :     if (obj != NULL &amp;&amp; obj-&gt;attributes) {</span>
+<span class="lineNum">     620 </span><span class="lineNoCov">          0 :         cparse_json_set_bool(obj-&gt;attributes, key, value);</span>
+<span class="lineNum">     621 </span><span class="lineNoCov">          0 :     } else {</span>
+<span class="lineNum">     622 </span><span class="lineNoCov">          0 :         cparse_log_errno(EINVAL);</span>
+<span class="lineNum">     623 </span>            :     }
+<a name="624"><span class="lineNum">     624 </span><span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">     625 </span>            : 
+<span class="lineNum">     626 </span>            : void cparse_object_set_string(cParseObject *obj, const char *key, const char *value)
+<span class="lineNum">     627 </span>            : {
+<span class="lineNum">     628 </span><span class="lineCov">         78 :     if (obj != NULL &amp;&amp; obj-&gt;attributes) {</span>
+<span class="lineNum">     629 </span><span class="lineCov">         39 :         cparse_json_set_string(obj-&gt;attributes, key, value);</span>
+<span class="lineNum">     630 </span><span class="lineCov">         39 :     } else {</span>
+<span class="lineNum">     631 </span><span class="lineNoCov">          0 :         cparse_log_errno(EINVAL);</span>
+<span class="lineNum">     632 </span>            :     }
+<a name="633"><span class="lineNum">     633 </span><span class="lineCov">         39 : }</span></a>
+<span class="lineNum">     634 </span>            : 
+<span class="lineNum">     635 </span>            : void cparse_object_set(cParseObject *obj, const char *key, cParseJson *value)
+<span class="lineNum">     636 </span>            : {
+<span class="lineNum">     637 </span><span class="lineCov">         12 :     if (obj != NULL &amp;&amp; obj-&gt;attributes) {</span>
+<span class="lineNum">     638 </span><span class="lineCov">          6 :         cparse_json_set(obj-&gt;attributes, key, value);</span>
+<span class="lineNum">     639 </span><span class="lineCov">          6 :     } else {</span>
+<span class="lineNum">     640 </span><span class="lineNoCov">          0 :         cparse_log_errno(EINVAL);</span>
+<span class="lineNum">     641 </span>            :     }
+<span class="lineNum">     642 </span><span class="lineCov">          6 : }</span>
+<a name="643"><span class="lineNum">     643 </span>            : </a>
+<span class="lineNum">     644 </span>            : 
+<span class="lineNum">     645 </span>            : void cparse_object_foreach_attribute(cParseObject *obj, cParseObjectAttributeCallback callback, void *param)
+<span class="lineNum">     646 </span>            : {
+<span class="lineNum">     647 </span><span class="lineCov">          3 :     if (obj == NULL || obj-&gt;attributes == NULL || callback == NULL) {</span>
+<span class="lineNum">     648 </span><span class="lineNoCov">          0 :         cparse_log_errno(EINVAL);</span>
+<span class="lineNum">     649 </span><span class="lineNoCov">          0 :         return;</span>
+<span class="lineNum">     650 </span>            :     }
 <span class="lineNum">     651 </span>            : 
-<a name="652"><span class="lineNum">     652 </span>            : /* getters */</a>
-<span class="lineNum">     653 </span>            : 
-<span class="lineNum">     654 </span>            : cParseJson *cparse_object_get(cParseObject *obj, const char *key)
-<span class="lineNum">     655 </span>            : {
-<span class="lineNum">     656 </span><span class="lineCov">         12 :     return !obj ? NULL : cparse_json_get(obj-&gt;attributes, key);</span>
-<a name="657"><span class="lineNum">     657 </span>            : }</a>
+<span class="lineNum">     652 </span><span class="lineCov">         14 :     cparse_json_foreach_start(obj-&gt;attributes, key, val)</span>
+<span class="lineNum">     653 </span>            :     {
+<span class="lineNum">     654 </span><span class="lineCov">          2 :         callback(obj, key, val, param);</span>
+<span class="lineNum">     655 </span><span class="lineCov">          2 :     }</span>
+<span class="lineNum">     656 </span><span class="lineCov">          1 :     cparse_json_foreach_end;</span>
+<a name="657"><span class="lineNum">     657 </span><span class="lineCov">          1 : }</span></a>
 <span class="lineNum">     658 </span>            : 
-<span class="lineNum">     659 </span>            : cParseNumber cparse_object_get_number(cParseObject *obj, const char *key, cParseNumber def)
+<span class="lineNum">     659 </span>            : cParseJson *cparse_object_remove_and_get(cParseObject *obj, const char *key)
 <span class="lineNum">     660 </span>            : {
-<span class="lineNum">     661 </span><span class="lineCov">         12 :     return !obj ? def : cparse_json_get_number(obj-&gt;attributes, key, def);</span>
+<span class="lineNum">     661 </span><span class="lineCov">          2 :     return cparse_json_remove_and_get(obj-&gt;attributes, key);</span>
 <a name="662"><span class="lineNum">     662 </span>            : }</a>
 <span class="lineNum">     663 </span>            : 
-<span class="lineNum">     664 </span>            : double cparse_object_get_real(cParseObject *obj, const char *key, double def)
+<span class="lineNum">     664 </span>            : void cparse_object_remove(cParseObject *obj, const char *key)
 <span class="lineNum">     665 </span>            : {
-<span class="lineNum">     666 </span><span class="lineNoCov">          0 :     return !obj ? def : cparse_json_get_real(obj-&gt;attributes, key, def);</span>
-<a name="667"><span class="lineNum">     667 </span>            : }</a>
-<span class="lineNum">     668 </span>            : 
-<span class="lineNum">     669 </span>            : bool cparse_object_get_bool(cParseObject *obj, const char *key)
-<span class="lineNum">     670 </span>            : {
-<span class="lineNum">     671 </span><span class="lineNoCov">          0 :     return !obj ? false : cparse_json_get_bool(obj-&gt;attributes, key);</span>
-<a name="672"><span class="lineNum">     672 </span>            : }</a>
-<span class="lineNum">     673 </span>            : 
-<span class="lineNum">     674 </span>            : const char *cparse_object_get_string(cParseObject *obj, const char *key)
-<span class="lineNum">     675 </span>            : {
-<span class="lineNum">     676 </span><span class="lineCov">         84 :     return !obj ? NULL : cparse_json_get_string(obj-&gt;attributes, key);</span>
-<a name="677"><span class="lineNum">     677 </span>            : }</a>
-<span class="lineNum">     678 </span>            : 
-<span class="lineNum">     679 </span>            : size_t cparse_object_attribute_size(cParseObject *obj)
-<span class="lineNum">     680 </span>            : {
-<span class="lineNum">     681 </span><span class="lineCov">         12 :     return !obj ? 0 : cparse_json_num_keys(obj-&gt;attributes);</span>
-<a name="682"><span class="lineNum">     682 </span>            : }</a>
-<span class="lineNum">     683 </span>            : 
-<span class="lineNum">     684 </span>            : bool cparse_object_contains(cParseObject *obj, const char *key)
-<span class="lineNum">     685 </span>            : {
-<span class="lineNum">     686 </span><span class="lineCov">         24 :     return !obj ? false : cparse_json_contains(obj-&gt;attributes, key);</span>
-<a name="687"><span class="lineNum">     687 </span>            : }</a>
-<span class="lineNum">     688 </span>            : 
-<span class="lineNum">     689 </span>            : void cparse_object_set_reference(cParseObject *obj, const char *key, cParseObject *ref)
-<span class="lineNum">     690 </span>            : {
-<span class="lineNum">     691 </span><span class="lineCov">          1 :     cParseJson *data = NULL;</span>
-<span class="lineNum">     692 </span>            : 
-<span class="lineNum">     693 </span><span class="lineCov">          3 :     if (!obj || cparse_str_empty(key) || !ref) {</span>
-<span class="lineNum">     694 </span><span class="lineNoCov">          0 :         cparse_log_errno(EINVAL);</span>
-<span class="lineNum">     695 </span><span class="lineNoCov">          0 :         return;</span>
-<span class="lineNum">     696 </span>            :     }
-<span class="lineNum">     697 </span>            : 
-<span class="lineNum">     698 </span>            :     /* create a data object representing a pointer */
-<span class="lineNum">     699 </span><span class="lineCov">          1 :     data = cparse_json_new();</span>
-<span class="lineNum">     700 </span>            : 
-<span class="lineNum">     701 </span><span class="lineCov">          1 :     cparse_json_add_reference(data, ref);</span>
-<span class="lineNum">     702 </span>            : 
-<span class="lineNum">     703 </span>            :     /* set key for the object */
-<span class="lineNum">     704 </span><span class="lineCov">          1 :     cparse_json_set(obj-&gt;attributes, key, data);</span>
-<span class="lineNum">     705 </span>            : 
-<span class="lineNum">     706 </span><span class="lineCov">          1 :     cparse_json_free(data);</span>
-<a name="707"><span class="lineNum">     707 </span><span class="lineCov">          2 : }</span></a>
-<span class="lineNum">     708 </span>            : 
-<span class="lineNum">     709 </span>            : void cparse_object_merge_json(cParseObject *a, cParseJson *b)
-<span class="lineNum">     710 </span>            : {
-<span class="lineNum">     711 </span>            : 
-<span class="lineNum">     712 </span>            :     /* objectId, createdAt, and updatedAt are special attributes
-<span class="lineNum">     713 </span>            :      * we're remove them from the b if they exist and add them to a
-<span class="lineNum">     714 </span>            :      */
-<span class="lineNum">     715 </span><span class="lineCov">         38 :     cParseJson *id = NULL;</span>
-<span class="lineNum">     716 </span>            : 
-<span class="lineNum">     717 </span><span class="lineCov">         76 :     if (!a || !b) {</span>
-<span class="lineNum">     718 </span><span class="lineNoCov">          0 :         cparse_log_errno(EINVAL);</span>
-<span class="lineNum">     719 </span><span class="lineNoCov">          0 :         return;</span>
-<span class="lineNum">     720 </span>            :     }
+<span class="lineNum">     666 </span><span class="lineCov">         27 :     if (!obj || cparse_str_empty(key) || !obj-&gt;attributes) {</span>
+<span class="lineNum">     667 </span><span class="lineNoCov">          0 :         cparse_log_errno(EINVAL);</span>
+<span class="lineNum">     668 </span><span class="lineNoCov">          0 :         return;</span>
+<span class="lineNum">     669 </span>            :     }
+<span class="lineNum">     670 </span><span class="lineCov">          9 :     cparse_json_remove(obj-&gt;attributes, key);</span>
+<span class="lineNum">     671 </span><span class="lineCov">         18 : }</span>
+<span class="lineNum">     672 </span>            : 
+<a name="673"><span class="lineNum">     673 </span>            : /* getters */</a>
+<span class="lineNum">     674 </span>            : 
+<span class="lineNum">     675 </span>            : cParseJson *cparse_object_get(cParseObject *obj, const char *key)
+<span class="lineNum">     676 </span>            : {
+<span class="lineNum">     677 </span><span class="lineCov">         18 :     return !obj ? NULL : cparse_json_get(obj-&gt;attributes, key);</span>
+<a name="678"><span class="lineNum">     678 </span>            : }</a>
+<span class="lineNum">     679 </span>            : 
+<span class="lineNum">     680 </span>            : cParseNumber cparse_object_get_number(cParseObject *obj, const char *key, cParseNumber def)
+<span class="lineNum">     681 </span>            : {
+<span class="lineNum">     682 </span><span class="lineCov">         12 :     return !obj ? def : cparse_json_get_number(obj-&gt;attributes, key, def);</span>
+<a name="683"><span class="lineNum">     683 </span>            : }</a>
+<span class="lineNum">     684 </span>            : 
+<span class="lineNum">     685 </span>            : double cparse_object_get_real(cParseObject *obj, const char *key, double def)
+<span class="lineNum">     686 </span>            : {
+<span class="lineNum">     687 </span><span class="lineNoCov">          0 :     return !obj ? def : cparse_json_get_real(obj-&gt;attributes, key, def);</span>
+<a name="688"><span class="lineNum">     688 </span>            : }</a>
+<span class="lineNum">     689 </span>            : 
+<span class="lineNum">     690 </span>            : bool cparse_object_get_bool(cParseObject *obj, const char *key)
+<span class="lineNum">     691 </span>            : {
+<span class="lineNum">     692 </span><span class="lineNoCov">          0 :     return !obj ? false : cparse_json_get_bool(obj-&gt;attributes, key);</span>
+<a name="693"><span class="lineNum">     693 </span>            : }</a>
+<span class="lineNum">     694 </span>            : 
+<span class="lineNum">     695 </span>            : const char *cparse_object_get_string(cParseObject *obj, const char *key)
+<span class="lineNum">     696 </span>            : {
+<span class="lineNum">     697 </span><span class="lineCov">         93 :     return !obj ? NULL : cparse_json_get_string(obj-&gt;attributes, key);</span>
+<a name="698"><span class="lineNum">     698 </span>            : }</a>
+<span class="lineNum">     699 </span>            : 
+<span class="lineNum">     700 </span>            : size_t cparse_object_attribute_size(cParseObject *obj)
+<span class="lineNum">     701 </span>            : {
+<span class="lineNum">     702 </span><span class="lineCov">         12 :     return !obj ? 0 : cparse_json_num_keys(obj-&gt;attributes);</span>
+<a name="703"><span class="lineNum">     703 </span>            : }</a>
+<span class="lineNum">     704 </span>            : 
+<span class="lineNum">     705 </span>            : bool cparse_object_contains(cParseObject *obj, const char *key)
+<span class="lineNum">     706 </span>            : {
+<span class="lineNum">     707 </span><span class="lineCov">         27 :     return !obj ? false : cparse_json_contains(obj-&gt;attributes, key);</span>
+<a name="708"><span class="lineNum">     708 </span>            : }</a>
+<span class="lineNum">     709 </span>            : 
+<span class="lineNum">     710 </span>            : void cparse_object_set_reference(cParseObject *obj, const char *key, cParseObject *ref)
+<span class="lineNum">     711 </span>            : {
+<span class="lineNum">     712 </span><span class="lineCov">          1 :     cParseJson *data = NULL;</span>
+<span class="lineNum">     713 </span>            : 
+<span class="lineNum">     714 </span><span class="lineCov">          3 :     if (!obj || cparse_str_empty(key) || !ref) {</span>
+<span class="lineNum">     715 </span><span class="lineNoCov">          0 :         cparse_log_errno(EINVAL);</span>
+<span class="lineNum">     716 </span><span class="lineNoCov">          0 :         return;</span>
+<span class="lineNum">     717 </span>            :     }
+<span class="lineNum">     718 </span>            : 
+<span class="lineNum">     719 </span>            :     /* create a data object representing a pointer */
+<span class="lineNum">     720 </span><span class="lineCov">          1 :     data = cparse_pointer_from_object(ref);</span>
 <span class="lineNum">     721 </span>            : 
-<span class="lineNum">     722 </span><span class="lineCov">         38 :     id = cparse_json_remove_and_get(b, CPARSE_KEY_OBJECT_ID);</span>
-<span class="lineNum">     723 </span>            : 
-<span class="lineNum">     724 </span><span class="lineCov">         38 :     if (id != NULL)</span>
-<span class="lineNum">     725 </span>            :     {
-<span class="lineNum">     726 </span><span class="lineCov">         32 :         cparse_replace_str(&amp;a-&gt;objectId, cparse_json_to_string(id));</span>
-<span class="lineNum">     727 </span>            : 
-<span class="lineNum">     728 </span><span class="lineCov">         32 :         cparse_json_free(id);</span>
-<span class="lineNum">     729 </span><span class="lineCov">         32 :     }</span>
-<span class="lineNum">     730 </span>            : 
-<span class="lineNum">     731 </span><span class="lineCov">         38 :     id = cparse_json_remove_and_get(b, CPARSE_KEY_CREATED_AT);</span>
-<span class="lineNum">     732 </span>            : 
-<span class="lineNum">     733 </span><span class="lineCov">         38 :     if (id != NULL)</span>
-<span class="lineNum">     734 </span>            :     {
-<span class="lineNum">     735 </span><span class="lineCov">         32 :         a-&gt;createdAt = cparse_date_time(cparse_json_to_string(id));</span>
-<span class="lineNum">     736 </span>            : 
-<span class="lineNum">     737 </span><span class="lineCov">         32 :         cparse_json_free(id);</span>
-<span class="lineNum">     738 </span><span class="lineCov">         32 :     }</span>
-<span class="lineNum">     739 </span>            : 
-<span class="lineNum">     740 </span><span class="lineCov">         38 :     id = cparse_json_remove_and_get(b, CPARSE_KEY_UPDATED_AT);</span>
-<span class="lineNum">     741 </span>            : 
-<span class="lineNum">     742 </span><span class="lineCov">         38 :     if (id != NULL)</span>
-<span class="lineNum">     743 </span>            :     {
-<span class="lineNum">     744 </span><span class="lineCov">         15 :         a-&gt;updatedAt = cparse_date_time(cparse_json_to_string(id));</span>
-<span class="lineNum">     745 </span>            : 
-<span class="lineNum">     746 </span><span class="lineCov">         15 :         cparse_json_free(id);</span>
-<span class="lineNum">     747 </span><span class="lineCov">         15 :     }</span>
-<span class="lineNum">     748 </span>            : 
-<span class="lineNum">     749 </span><span class="lineCov">         38 :     id = cparse_json_remove_and_get(b, CPARSE_KEY_CLASS_NAME);</span>
-<span class="lineNum">     750 </span>            : 
-<span class="lineNum">     751 </span><span class="lineCov">         38 :     if (id != NULL)</span>
-<span class="lineNum">     752 </span>            :     {
-<span class="lineNum">     753 </span><span class="lineNoCov">          0 :         cparse_json_free(id);</span>
-<span class="lineNum">     754 </span><span class="lineNoCov">          0 :     }</span>
-<span class="lineNum">     755 </span>            : 
-<span class="lineNum">     756 </span><span class="lineCov">         38 :     cparse_json_copy(a-&gt;attributes, b, true);</span>
-<a name="757"><span class="lineNum">     757 </span><span class="lineCov">         76 : }</span></a>
+<span class="lineNum">     722 </span>            :     /* set key for the object */
+<span class="lineNum">     723 </span><span class="lineCov">          1 :     cparse_json_set(obj-&gt;attributes, key, data);</span>
+<a name="724"><span class="lineNum">     724 </span><span class="lineCov">          2 : }</span></a>
+<span class="lineNum">     725 </span>            : 
+<span class="lineNum">     726 </span>            : void cparse_object_merge_json(cParseObject *a, cParseJson *b)
+<span class="lineNum">     727 </span>            : {
+<span class="lineNum">     728 </span>            : 
+<span class="lineNum">     729 </span>            :     /* objectId, createdAt, and updatedAt are special attributes
+<span class="lineNum">     730 </span>            :      * we're remove them from the b if they exist and add them to a
+<span class="lineNum">     731 </span>            :      */
+<span class="lineNum">     732 </span><span class="lineCov">         41 :     cParseJson *id = NULL;</span>
+<span class="lineNum">     733 </span>            : 
+<span class="lineNum">     734 </span><span class="lineCov">         82 :     if (!a || !b) {</span>
+<span class="lineNum">     735 </span><span class="lineNoCov">          0 :         cparse_log_errno(EINVAL);</span>
+<span class="lineNum">     736 </span><span class="lineNoCov">          0 :         return;</span>
+<span class="lineNum">     737 </span>            :     }
+<span class="lineNum">     738 </span>            : 
+<span class="lineNum">     739 </span><span class="lineCov">         41 :     id = cparse_json_remove_and_get(b, CPARSE_KEY_OBJECT_ID);</span>
+<span class="lineNum">     740 </span>            : 
+<span class="lineNum">     741 </span><span class="lineCov">         41 :     if (id != NULL)</span>
+<span class="lineNum">     742 </span>            :     {
+<span class="lineNum">     743 </span><span class="lineCov">         35 :         cparse_replace_str(&amp;a-&gt;objectId, cparse_json_to_string(id));</span>
+<span class="lineNum">     744 </span>            : 
+<span class="lineNum">     745 </span><span class="lineCov">         35 :         cparse_json_free(id);</span>
+<span class="lineNum">     746 </span><span class="lineCov">         35 :     }</span>
+<span class="lineNum">     747 </span>            : 
+<span class="lineNum">     748 </span><span class="lineCov">         41 :     id = cparse_json_remove_and_get(b, CPARSE_KEY_CREATED_AT);</span>
+<span class="lineNum">     749 </span>            : 
+<span class="lineNum">     750 </span><span class="lineCov">         41 :     if (id != NULL)</span>
+<span class="lineNum">     751 </span>            :     {
+<span class="lineNum">     752 </span><span class="lineCov">         35 :         a-&gt;createdAt = cparse_date_time(cparse_json_to_string(id));</span>
+<span class="lineNum">     753 </span>            : 
+<span class="lineNum">     754 </span><span class="lineCov">         35 :         cparse_json_free(id);</span>
+<span class="lineNum">     755 </span><span class="lineCov">         35 :     }</span>
+<span class="lineNum">     756 </span>            : 
+<span class="lineNum">     757 </span><span class="lineCov">         41 :     id = cparse_json_remove_and_get(b, CPARSE_KEY_UPDATED_AT);</span>
 <span class="lineNum">     758 </span>            : 
-<span class="lineNum">     759 </span>            : cParseObject *cparse_object_from_json(cParseJson *jobj)
-<span class="lineNum">     760 </span>            : {
-<span class="lineNum">     761 </span><span class="lineNoCov">          0 :     cParseObject *obj = NULL;</span>
+<span class="lineNum">     759 </span><span class="lineCov">         41 :     if (id != NULL)</span>
+<span class="lineNum">     760 </span>            :     {
+<span class="lineNum">     761 </span><span class="lineCov">         15 :         a-&gt;updatedAt = cparse_date_time(cparse_json_to_string(id));</span>
 <span class="lineNum">     762 </span>            : 
-<span class="lineNum">     763 </span><span class="lineNoCov">          0 :     if (!jobj) {</span>
-<span class="lineNum">     764 </span><span class="lineNoCov">          0 :         cparse_log_errno(EINVAL);</span>
-<span class="lineNum">     765 </span><span class="lineNoCov">          0 :         return NULL;</span>
-<span class="lineNum">     766 </span>            :     }
+<span class="lineNum">     763 </span><span class="lineCov">         15 :         cparse_json_free(id);</span>
+<span class="lineNum">     764 </span><span class="lineCov">         15 :     }</span>
+<span class="lineNum">     765 </span>            : 
+<span class="lineNum">     766 </span><span class="lineCov">         41 :     id = cparse_json_remove_and_get(b, CPARSE_KEY_CLASS_NAME);</span>
 <span class="lineNum">     767 </span>            : 
-<span class="lineNum">     768 </span><span class="lineNoCov">          0 :     obj = cparse_object_new();</span>
-<span class="lineNum">     769 </span>            : 
-<span class="lineNum">     770 </span><span class="lineNoCov">          0 :     cparse_object_merge_json(obj, jobj);</span>
-<span class="lineNum">     771 </span>            : 
-<span class="lineNum">     772 </span><span class="lineNoCov">          0 :     return obj;</span>
-<a name="773"><span class="lineNum">     773 </span><span class="lineNoCov">          0 : }</span></a>
-<span class="lineNum">     774 </span>            : 
-<span class="lineNum">     775 </span>            : const char *cparse_object_to_json_string(cParseObject *obj)
-<span class="lineNum">     776 </span>            : {
-<span class="lineNum">     777 </span><span class="lineCov">         24 :     return !obj ? NULL : cparse_json_to_json_string(obj-&gt;attributes);</span>
-<a name="778"><span class="lineNum">     778 </span>            : }</a>
-<span class="lineNum">     779 </span>            : 
-<span class="lineNum">     780 </span>            : static void cparse_object_add_acl_item(cParseJson *acl, const char *key, bool read, bool write)
-<span class="lineNum">     781 </span>            : {
-<span class="lineNum">     782 </span><span class="lineCov">          4 :     cParseJson *item = NULL;</span>
-<span class="lineNum">     783 </span>            : 
-<span class="lineNum">     784 </span><span class="lineCov">          8 :     if (!acl || cparse_str_empty(key)) {</span>
-<span class="lineNum">     785 </span><span class="lineNoCov">          0 :         cparse_log_errno(EINVAL);</span>
-<span class="lineNum">     786 </span><span class="lineNoCov">          0 :         return;</span>
-<span class="lineNum">     787 </span>            :     }
-<span class="lineNum">     788 </span>            : 
-<span class="lineNum">     789 </span><span class="lineCov">          4 :     item = cparse_json_get(acl, key);</span>
+<span class="lineNum">     768 </span><span class="lineCov">         41 :     if (id != NULL)</span>
+<span class="lineNum">     769 </span>            :     {
+<span class="lineNum">     770 </span><span class="lineNoCov">          0 :         cparse_json_free(id);</span>
+<span class="lineNum">     771 </span><span class="lineNoCov">          0 :     }</span>
+<span class="lineNum">     772 </span>            : 
+<span class="lineNum">     773 </span><span class="lineCov">         41 :     cparse_json_copy(a-&gt;attributes, b, true);</span>
+<a name="774"><span class="lineNum">     774 </span><span class="lineCov">         82 : }</span></a>
+<span class="lineNum">     775 </span>            : 
+<span class="lineNum">     776 </span>            : const char *cparse_object_to_json_string(cParseObject *obj)
+<span class="lineNum">     777 </span>            : {
+<span class="lineNum">     778 </span><span class="lineCov">         27 :     return !obj ? NULL : cparse_json_to_json_string(obj-&gt;attributes);</span>
+<a name="779"><span class="lineNum">     779 </span>            : }</a>
+<span class="lineNum">     780 </span>            : 
+<span class="lineNum">     781 </span>            : static void cparse_object_add_acl(cParseObject *obj, const char *key, cParseAccess access, bool value)
+<span class="lineNum">     782 </span>            : {
+<span class="lineNum">     783 </span><span class="lineCov">         10 :     cParseJson *acl = NULL;</span>
+<span class="lineNum">     784 </span><span class="lineCov">         10 :     cParseJson *item = NULL;</span>
+<span class="lineNum">     785 </span>            : 
+<span class="lineNum">     786 </span><span class="lineCov">         30 :     if (!obj || !obj-&gt;attributes || cparse_str_empty(key)) {</span>
+<span class="lineNum">     787 </span><span class="lineNoCov">          0 :         cparse_log_errno(EINVAL);</span>
+<span class="lineNum">     788 </span><span class="lineNoCov">          0 :         return;</span>
+<span class="lineNum">     789 </span>            :     }
 <span class="lineNum">     790 </span>            : 
-<span class="lineNum">     791 </span><span class="lineCov">          4 :     if (item == NULL) {</span>
-<span class="lineNum">     792 </span><span class="lineCov">          4 :         item = cparse_json_new();</span>
-<span class="lineNum">     793 </span>            : 
-<span class="lineNum">     794 </span><span class="lineCov">          4 :         cparse_json_set_bool(item, &quot;read&quot;, read);</span>
-<span class="lineNum">     795 </span>            : 
-<span class="lineNum">     796 </span><span class="lineCov">          4 :         cparse_json_set_bool(item, &quot;write&quot;, write);</span>
-<span class="lineNum">     797 </span>            : 
-<span class="lineNum">     798 </span><span class="lineCov">          4 :         cparse_json_set(acl, key, item);</span>
+<span class="lineNum">     791 </span><span class="lineCov">         10 :     acl = cparse_json_get(obj-&gt;attributes, CPARSE_KEY_ACL);</span>
+<span class="lineNum">     792 </span>            : 
+<span class="lineNum">     793 </span><span class="lineCov">         10 :     if (acl == NULL) {</span>
+<span class="lineNum">     794 </span>            : 
+<span class="lineNum">     795 </span><span class="lineCov">          5 :         acl = cparse_json_new();</span>
+<span class="lineNum">     796 </span>            : 
+<span class="lineNum">     797 </span><span class="lineCov">          5 :         cparse_json_set(obj-&gt;attributes, CPARSE_KEY_ACL, acl);</span>
+<span class="lineNum">     798 </span><span class="lineCov">          5 :     }</span>
 <span class="lineNum">     799 </span>            : 
-<span class="lineNum">     800 </span><span class="lineCov">          4 :         cparse_json_free(item);</span>
-<span class="lineNum">     801 </span><span class="lineCov">          4 :     } else {</span>
-<span class="lineNum">     802 </span>            : 
-<span class="lineNum">     803 </span><span class="lineNoCov">          0 :         cparse_json_set_bool(item, &quot;read&quot;, read);</span>
-<span class="lineNum">     804 </span>            : 
-<span class="lineNum">     805 </span><span class="lineNoCov">          0 :         cparse_json_set_bool(item, &quot;write&quot;, write);</span>
-<span class="lineNum">     806 </span>            :     }
-<a name="807"><span class="lineNum">     807 </span><span class="lineCov">          4 : }</span></a>
+<span class="lineNum">     800 </span><span class="lineCov">         10 :     item = cparse_json_get(acl, key);</span>
+<span class="lineNum">     801 </span>            : 
+<span class="lineNum">     802 </span><span class="lineCov">         10 :     if (item == NULL) {</span>
+<span class="lineNum">     803 </span>            : 
+<span class="lineNum">     804 </span><span class="lineCov">          6 :         item = cparse_json_new();</span>
+<span class="lineNum">     805 </span>            : 
+<span class="lineNum">     806 </span><span class="lineCov">          6 :         cparse_json_set(acl, key, item);</span>
+<span class="lineNum">     807 </span><span class="lineCov">          6 :     }</span>
 <span class="lineNum">     808 </span>            : 
-<span class="lineNum">     809 </span>            : static void cparse_object_add_acl(cParseObject *obj, const char *key, bool read, bool write)
-<span class="lineNum">     810 </span>            : {
-<span class="lineNum">     811 </span><span class="lineCov">          4 :     cParseJson *acl = NULL;</span>
-<span class="lineNum">     812 </span>            : 
-<span class="lineNum">     813 </span><span class="lineCov">         12 :     if (!obj || !obj-&gt;attributes || cparse_str_empty(key)) {</span>
-<span class="lineNum">     814 </span><span class="lineNoCov">          0 :         cparse_log_errno(EINVAL);</span>
-<span class="lineNum">     815 </span><span class="lineNoCov">          0 :         return;</span>
+<span class="lineNum">     809 </span><span class="lineCov">         20 :     switch (access) {</span>
+<span class="lineNum">     810 </span>            :     case cParseAccessRead:
+<span class="lineNum">     811 </span><span class="lineCov">          4 :         cparse_json_set_bool(item, &quot;read&quot;, value);</span>
+<span class="lineNum">     812 </span><span class="lineCov">          4 :         break;</span>
+<span class="lineNum">     813 </span>            :     case cParseAccessWrite:
+<span class="lineNum">     814 </span><span class="lineCov">          6 :         cparse_json_set_bool(item, &quot;write&quot;, value);</span>
+<span class="lineNum">     815 </span><span class="lineCov">          6 :         break;</span>
 <span class="lineNum">     816 </span>            :     }
-<span class="lineNum">     817 </span>            : 
-<span class="lineNum">     818 </span><span class="lineCov">          4 :     acl = cparse_json_get(obj-&gt;attributes, CPARSE_KEY_ACL);</span>
-<span class="lineNum">     819 </span>            : 
-<span class="lineNum">     820 </span><span class="lineCov">          4 :     if (acl == NULL) {</span>
-<span class="lineNum">     821 </span><span class="lineCov">          3 :         acl = cparse_json_new();</span>
-<span class="lineNum">     822 </span>            : 
-<span class="lineNum">     823 </span><span class="lineCov">          3 :         cparse_object_add_acl_item(acl, key, read, write);</span>
-<span class="lineNum">     824 </span>            : 
-<span class="lineNum">     825 </span><span class="lineCov">          3 :         cparse_json_set(obj-&gt;attributes, CPARSE_KEY_ACL, acl);</span>
-<span class="lineNum">     826 </span>            : 
-<span class="lineNum">     827 </span><span class="lineCov">          3 :         cparse_json_free(acl);</span>
-<span class="lineNum">     828 </span><span class="lineCov">          3 :     } else {</span>
-<span class="lineNum">     829 </span>            : 
-<span class="lineNum">     830 </span><span class="lineCov">          1 :         cparse_object_add_acl_item(acl, key, read, write);</span>
-<span class="lineNum">     831 </span>            :     }
-<span class="lineNum">     832 </span>            : 
-<a name="833"><span class="lineNum">     833 </span><span class="lineCov">          4 : }</span></a>
+<a name="817"><span class="lineNum">     817 </span><span class="lineCov">         10 : }</span></a>
+<span class="lineNum">     818 </span>            : 
+<span class="lineNum">     819 </span>            : void cparse_object_set_public_acl(cParseObject *obj, cParseAccess access, bool value)
+<span class="lineNum">     820 </span>            : {
+<span class="lineNum">     821 </span><span class="lineCov">          9 :     if (!obj) {</span>
+<span class="lineNum">     822 </span><span class="lineNoCov">          0 :         cparse_log_errno(EINVAL);</span>
+<span class="lineNum">     823 </span><span class="lineNoCov">          0 :         return;</span>
+<span class="lineNum">     824 </span>            :     }
+<span class="lineNum">     825 </span><span class="lineCov">          9 :     cparse_object_add_acl(obj, CPARSE_ACL_PUBLIC, access, value);</span>
+<a name="826"><span class="lineNum">     826 </span><span class="lineCov">         18 : }</span></a>
+<span class="lineNum">     827 </span>            : 
+<span class="lineNum">     828 </span>            : void cparse_object_set_user_acl(cParseObject *obj, cParseUser *user, cParseAccess access, bool value)
+<span class="lineNum">     829 </span>            : {
+<span class="lineNum">     830 </span><span class="lineCov">          4 :     if (!obj || !user || !cparse_object_is_user(user) || cparse_str_empty(user-&gt;objectId)) {</span>
+<span class="lineNum">     831 </span><span class="lineNoCov">          0 :         cparse_log_errno(EINVAL);</span>
+<span class="lineNum">     832 </span><span class="lineNoCov">          0 :         return;</span>
+<span class="lineNum">     833 </span>            :     }
 <span class="lineNum">     834 </span>            : 
-<span class="lineNum">     835 </span>            : void cparse_object_set_public_acl(cParseObject *obj, bool read, bool write)
-<span class="lineNum">     836 </span>            : {
-<span class="lineNum">     837 </span><span class="lineCov">          3 :     if (!obj) {</span>
-<span class="lineNum">     838 </span><span class="lineNoCov">          0 :         cparse_log_errno(EINVAL);</span>
-<span class="lineNum">     839 </span><span class="lineNoCov">          0 :         return;</span>
-<span class="lineNum">     840 </span>            :     }
-<span class="lineNum">     841 </span><span class="lineCov">          3 :     cparse_object_add_acl(obj, CPARSE_ACL_PUBLIC, read, write);</span>
-<a name="842"><span class="lineNum">     842 </span><span class="lineCov">          6 : }</span></a>
-<span class="lineNum">     843 </span>            : 
-<span class="lineNum">     844 </span>            : void cparse_object_set_user_acl(cParseObject *obj, cParseUser *user, bool read, bool write)
-<span class="lineNum">     845 </span>            : {
-<span class="lineNum">     846 </span><span class="lineCov">          4 :     if (!obj || !user || !cparse_object_is_user(user) || cparse_str_empty(user-&gt;objectId)) {</span>
-<span class="lineNum">     847 </span><span class="lineNoCov">          0 :         cparse_log_errno(EINVAL);</span>
-<span class="lineNum">     848 </span><span class="lineNoCov">          0 :         return;</span>
-<span class="lineNum">     849 </span>            :     }
-<span class="lineNum">     850 </span>            : 
-<span class="lineNum">     851 </span><span class="lineCov">          1 :     cparse_object_add_acl(obj, user-&gt;objectId, read, write);</span>
-<a name="852"><span class="lineNum">     852 </span><span class="lineCov">          2 : }</span></a>
-<span class="lineNum">     853 </span>            : 
-<span class="lineNum">     854 </span>            : void cparse_object_set_role_acl(cParseObject *obj, cParseRole *role, bool read, bool write)
-<span class="lineNum">     855 </span>            : {
-<span class="lineNum">     856 </span><span class="lineNoCov">          0 :     char buf[CPARSE_BUF_SIZE + 1] = {0};</span>
-<span class="lineNum">     857 </span>            : 
-<span class="lineNum">     858 </span><span class="lineNoCov">          0 :     if (!obj || !role) {</span>
-<span class="lineNum">     859 </span><span class="lineNoCov">          0 :         cparse_log_errno(EINVAL);</span>
-<span class="lineNum">     860 </span><span class="lineNoCov">          0 :         return;</span>
-<span class="lineNum">     861 </span>            :     }
-<span class="lineNum">     862 </span>            : 
-<span class="lineNum">     863 </span><span class="lineNoCov">          0 :     snprintf(buf, CPARSE_BUF_SIZE, &quot;role:%s&quot;, cparse_role_name(role));</span>
-<span class="lineNum">     864 </span><span class="lineNoCov">          0 :     cparse_object_add_acl(obj, buf, read, write);</span>
-<span class="lineNum">     865 </span><span class="lineNoCov">          0 : }</span>
-<span class="lineNum">     866 </span>            : 
-<span class="lineNum">     867 </span>            : 
+<span class="lineNum">     835 </span><span class="lineCov">          1 :     cparse_object_add_acl(obj, user-&gt;objectId, access, value);</span>
+<a name="836"><span class="lineNum">     836 </span><span class="lineCov">          2 : }</span></a>
+<span class="lineNum">     837 </span>            : 
+<span class="lineNum">     838 </span>            : void cparse_object_set_role_acl(cParseObject *obj, cParseRole *role, cParseAccess access, bool value)
+<span class="lineNum">     839 </span>            : {
+<span class="lineNum">     840 </span><span class="lineNoCov">          0 :     char buf[CPARSE_BUF_SIZE + 1] = {0};</span>
+<span class="lineNum">     841 </span>            : 
+<span class="lineNum">     842 </span><span class="lineNoCov">          0 :     if (!obj || !role) {</span>
+<span class="lineNum">     843 </span><span class="lineNoCov">          0 :         cparse_log_errno(EINVAL);</span>
+<span class="lineNum">     844 </span><span class="lineNoCov">          0 :         return;</span>
+<span class="lineNum">     845 </span>            :     }
+<span class="lineNum">     846 </span>            : 
+<span class="lineNum">     847 </span><span class="lineNoCov">          0 :     snprintf(buf, CPARSE_BUF_SIZE, &quot;role:%s&quot;, cparse_role_name(role));</span>
+<span class="lineNum">     848 </span>            : 
+<span class="lineNum">     849 </span><span class="lineNoCov">          0 :     cparse_object_add_acl(obj, buf, access, value);</span>
+<span class="lineNum">     850 </span><span class="lineNoCov">          0 : }</span>
+<span class="lineNum">     851 </span>            : 
+<span class="lineNum">     852 </span>            : 
 </pre>
       </td>
     </tr>

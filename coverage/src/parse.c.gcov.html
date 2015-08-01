@@ -31,18 +31,18 @@
             <td class="headerValue">Code Coverage</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">4</td>
             <td class="headerCovTableEntry">6</td>
-            <td class="headerCovTableEntryLo">66.7 %</td>
+            <td class="headerCovTableEntry">8</td>
+            <td class="headerCovTableEntryMed">75.0 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2015-07-25 17:49:42</td>
+            <td class="headerValue">2015-08-01 09:59:13</td>
             <td></td>
             <td class="headerItem">Functions:</td>
-            <td class="headerCovTableEntry">2</td>
             <td class="headerCovTableEntry">3</td>
-            <td class="headerCovTableEntryLo">66.7 %</td>
+            <td class="headerCovTableEntry">4</td>
+            <td class="headerCovTableEntryMed">75.0 %</td>
           </tr>
           <tr>
             <td class="headerItem">Legend:</td>
@@ -83,27 +83,33 @@
 <span class="lineNum">      13 </span>            : 
 <span class="lineNum">      14 </span>            : extern cParseLogLevel cparse_current_log_level;
 <span class="lineNum">      15 </span>            : 
-<span class="lineNum">      16 </span>            : const char *const CPARSE_RESERVED_KEYS[] =
-<span class="lineNum">      17 </span>            : {
-<span class="lineNum">      18 </span>            :         CPARSE_KEY_CLASS_NAME, CPARSE_KEY_CREATED_AT, CPARSE_KEY_OBJECT_ID,
-<span class="lineNum">      19 </span>            :         CPARSE_KEY_UPDATED_AT, CPARSE_KEY_USER_SESSION_TOKEN
-<a name="20"><span class="lineNum">      20 </span>            : };</a>
-<span class="lineNum">      21 </span>            : 
-<span class="lineNum">      22 </span>            : void cparse_set_application_id(const char *appId)
-<span class="lineNum">      23 </span>            : {
-<span class="lineNum">      24 </span><span class="lineCov">         31 :         cparse_app_id = strdup(appId);</span>
-<a name="25"><span class="lineNum">      25 </span><span class="lineCov">         31 : }</span></a>
-<span class="lineNum">      26 </span>            : 
-<span class="lineNum">      27 </span>            : void cparse_set_api_key(const char *apiKey)
-<span class="lineNum">      28 </span>            : {
-<span class="lineNum">      29 </span><span class="lineCov">         31 :         cparse_api_key = strdup(apiKey);</span>
-<a name="30"><span class="lineNum">      30 </span><span class="lineCov">         31 : }</span></a>
-<span class="lineNum">      31 </span>            : 
-<span class="lineNum">      32 </span>            : void cparse_set_log_level(cParseLogLevel value)
-<span class="lineNum">      33 </span>            : {
-<span class="lineNum">      34 </span><span class="lineNoCov">          0 :         cparse_current_log_level = value;</span>
-<span class="lineNum">      35 </span><span class="lineNoCov">          0 : }</span>
-<span class="lineNum">      36 </span>            : 
+<span class="lineNum">      16 </span>            : bool cparse_revocable_sessions = false;
+<span class="lineNum">      17 </span>            : 
+<span class="lineNum">      18 </span>            : const char *const CPARSE_RESERVED_KEYS[] =
+<span class="lineNum">      19 </span>            : {
+<span class="lineNum">      20 </span>            :         CPARSE_KEY_CLASS_NAME, CPARSE_KEY_CREATED_AT, CPARSE_KEY_OBJECT_ID,
+<span class="lineNum">      21 </span>            :         CPARSE_KEY_UPDATED_AT, CPARSE_KEY_USER_SESSION_TOKEN
+<a name="22"><span class="lineNum">      22 </span>            : };</a>
+<span class="lineNum">      23 </span>            : 
+<span class="lineNum">      24 </span>            : void cparse_set_application_id(const char *appId)
+<span class="lineNum">      25 </span>            : {
+<span class="lineNum">      26 </span><span class="lineCov">         32 :         cparse_app_id = strdup(appId);</span>
+<a name="27"><span class="lineNum">      27 </span><span class="lineCov">         32 : }</span></a>
+<span class="lineNum">      28 </span>            : 
+<span class="lineNum">      29 </span>            : void cparse_set_api_key(const char *apiKey)
+<span class="lineNum">      30 </span>            : {
+<span class="lineNum">      31 </span><span class="lineCov">         32 :         cparse_api_key = strdup(apiKey);</span>
+<a name="32"><span class="lineNum">      32 </span><span class="lineCov">         32 : }</span></a>
+<span class="lineNum">      33 </span>            : 
+<span class="lineNum">      34 </span>            : void cparse_set_log_level(cParseLogLevel value)
+<span class="lineNum">      35 </span>            : {
+<span class="lineNum">      36 </span><span class="lineCov">         32 :         cparse_current_log_level = value;</span>
+<span class="lineNum">      37 </span><span class="lineCov">         32 : }</span>
+<a name="38"><span class="lineNum">      38 </span>            : </a>
+<span class="lineNum">      39 </span>            : 
+<span class="lineNum">      40 </span>            : void cparse_enable_revocable_sessions(bool value) {
+<span class="lineNum">      41 </span><span class="lineNoCov">          0 :         cparse_revocable_sessions = value;</span>
+<span class="lineNum">      42 </span><span class="lineNoCov">          0 : }</span>
 </pre>
       </td>
     </tr>
