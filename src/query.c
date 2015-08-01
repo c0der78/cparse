@@ -90,7 +90,7 @@ void cparse_query_free(cParseQuery *query)
         size_t i = 0;
 
         for (; i < query->size; i++) {
-            // may have been freed already
+            /* may have been freed already */
             if (query->results[i]) {
                 cparse_object_free(query->results[i]);
             }
