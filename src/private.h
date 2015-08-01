@@ -98,27 +98,13 @@ typedef struct
     cParseObject *obj;
     cParseObjectCallback callback; /* the callback passed by user */
     cParseObjectAction action; /* the method to call in thread */
+    void *param; /* user defined parameter */
     pthread_t thread;
     void (*cleanup)(cParseObject *);
 } cParseObjectThread;
 
-struct cparse_list_node
-{
-    void *data;
-    struct cparse_list_node *next;
-};
-
-struct cparse_list
-{
-    cParseListNode *head;
-    cParseListNode *tail;
-    cParseListFreeFunk free_fn;
-    size_t node_size;
-    size_t length;
-};
-
 /* this runs a object action in the background */
-pthread_t cparse_object_run_in_background(cParseObject *obj, cParseObjectAction action, cParseObjectCallback callback, void (*cleanup)(cParseObject *));
+pthread_t cparse_object_run_in_background(cParseObject *obj, cParseObjectAction action, cParseObjectCallback callback, void *param, void (*cleanup)(cParseObject *));
 
 BEGIN_DECL
 

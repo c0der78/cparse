@@ -1,4 +1,4 @@
-.TH "src/cparse/defines.h" 3 "Sat Jul 25 2015" "Version 0.1" "cParse" \" -*- nroff -*-
+.TH "src/cparse/defines.h" 3 "Sat Aug 1 2015" "Version 0.1" "cParse" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -50,70 +50,56 @@ src/cparse/defines.h \-
 .RI "typedef struct cparse_query_builder \fBcParseQueryBuilder\fP"
 .br
 .ti -1c
-.RI "typedef void(* \fBcParseObjectCallback\fP) (\fBcParseObject\fP *obj, bool success, \fBcParseError\fP *error)"
+.RI "typedef void(* \fBcParseObjectCallback\fP) (\fBcParseObject\fP *obj, \fBcParseError\fP *error, void *param)"
 .br
 .ti -1c
 .RI "typedef struct json_object \fBcParseJson\fP"
 .br
 .ti -1c
-.RI "typedef struct cparse_type_bytes \fBcParseBytes\fP"
+.RI "typedef void(* \fBcParseListFreeFunk\fP) (void *)"
 .br
 .ti -1c
-.RI "typedef struct cparse_type_data \fBcParseData\fP"
+.RI "typedef struct cparse_list_node \fBcParseListNode\fP"
 .br
 .ti -1c
-.RI "typedef struct cparse_type_file \fBcParseFile\fP"
+.RI "typedef struct cparse_list \fBcParseList\fP"
 .br
+.in -1c
+.SS "Enumerations"
+
+.in +1c
 .ti -1c
-.RI "typedef struct cparse_type_geopoint \fBcParseGeoPoint\fP"
-.br
-.ti -1c
-.RI "typedef struct cparse_type_pointer \fBcParsePointer\fP"
-.br
-.ti -1c
-.RI "typedef struct cparse_op_array \fBcParseOperatorArray\fP"
-.br
-.ti -1c
-.RI "typedef struct cparse_op_decrement \fBcParseOperatorDecrement\fP"
-.br
-.ti -1c
-.RI "typedef struct cparse_op_increment \fBcParseOperatorIncrement\fP"
+.RI "enum \fBcParseAccess\fP { \fBcParseAccessRead\fP, \fBcParseAccessWrite\fP }"
 .br
 .in -1c
 .SH "Typedef Documentation"
 .PP 
-.SS "typedef struct cparse_type_bytes \fBcParseBytes\fP"
-a parse bytes structure 
-.SS "typedef struct cparse_type_data \fBcParseData\fP"
-a parse data structure 
 .SS "typedef struct cparse_error \fBcParseError\fP"
 An error structure 
-.SS "typedef struct cparse_type_file \fBcParseFile\fP"
-a parse file structure 
-.SS "typedef struct cparse_type_geopoint \fBcParseGeoPoint\fP"
-a parse geo point structure 
 .SS "typedef struct json_object \fBcParseJson\fP"
 a json structure 
+.SS "typedef struct cparse_list \fBcParseList\fP"
+a list of a type 
+.SS "typedef void(* cParseListFreeFunk) (void *)"
+frees a node in a list 
+.SS "typedef struct cparse_list_node \fBcParseListNode\fP"
+a node in a list 
 .SS "typedef int \fBcParseNumber\fP"
 a type representing an integral number 
 .SS "typedef struct cparse_object \fBcParseObject\fP"
 A parse object structure 
-.SS "typedef void(* cParseObjectCallback) (\fBcParseObject\fP *obj, bool success, \fBcParseError\fP *error)"
+.SS "typedef void(* cParseObjectCallback) (\fBcParseObject\fP *obj, \fBcParseError\fP *error, void *param)"
 An object callback function 
-.SS "typedef struct cparse_op_array \fBcParseOperatorArray\fP"
-an array operator 
-.SS "typedef struct cparse_op_decrement \fBcParseOperatorDecrement\fP"
-a decrement operator 
-.SS "typedef struct cparse_op_increment \fBcParseOperatorIncrement\fP"
-a increment operator 
-.SS "typedef struct cparse_type_pointer \fBcParsePointer\fP"
-a parse pointer structure 
 .SS "typedef struct cparse_query \fBcParseQuery\fP"
 A parse query structure 
 .SS "typedef struct cparse_object \fBcParseRole\fP"
 A parse role structure 
 .SS "typedef struct cparse_object \fBcParseUser\fP"
 A parse user structure 
+.SH "Enumeration Type Documentation"
+.PP 
+.SS "enum \fBcParseAccess\fP"
+types of access for an object 
 .SH "Author"
 .PP 
 Generated automatically by Doxygen for cParse from the source code\&.

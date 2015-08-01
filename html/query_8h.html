@@ -115,10 +115,12 @@ This graph shows which files directly or indirectly include this file:</div>
 Functions</h2></td></tr>
 <tr class="memitem:a4c14f2e9bb0b8ed13e80b72478934b3c"><td class="memItemLeft" align="right" valign="top">BEGIN_DECL <a class="el" href="defines_8h.html#aaaa2ae5bacca4dcc458d71f7d5f9f150">cParseQuery</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="query_8h.html#a4c14f2e9bb0b8ed13e80b72478934b3c">cparse_query_with_class_name</a> (const char *className)</td></tr>
 <tr class="separator:a4c14f2e9bb0b8ed13e80b72478934b3c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a68792bc938715163a160e7f40a20e8b0"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a68792bc938715163a160e7f40a20e8b0"></a>
+<a class="el" href="defines_8h.html#aaaa2ae5bacca4dcc458d71f7d5f9f150">cParseQuery</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_query_for_object</b> (<a class="el" href="defines_8h.html#a2ccd5051f86d3933c9df2240ac02e912">cParseObject</a> *obj)</td></tr>
+<tr class="separator:a68792bc938715163a160e7f40a20e8b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa8433fc8a2ac6df8082a63f13dcc2cd1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="query_8h.html#aa8433fc8a2ac6df8082a63f13dcc2cd1">cparse_query_free</a> (<a class="el" href="defines_8h.html#aaaa2ae5bacca4dcc458d71f7d5f9f150">cParseQuery</a> *query)</td></tr>
 <tr class="separator:aa8433fc8a2ac6df8082a63f13dcc2cd1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a86e9cde04976c5a35058dc0446b19fc4"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a86e9cde04976c5a35058dc0446b19fc4"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_query_free_results</b> (<a class="el" href="defines_8h.html#aaaa2ae5bacca4dcc458d71f7d5f9f150">cParseQuery</a> *query)</td></tr>
+<tr class="memitem:a86e9cde04976c5a35058dc0446b19fc4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="query_8h.html#a86e9cde04976c5a35058dc0446b19fc4">cparse_query_free_results</a> (<a class="el" href="defines_8h.html#aaaa2ae5bacca4dcc458d71f7d5f9f150">cParseQuery</a> *query)</td></tr>
 <tr class="separator:a86e9cde04976c5a35058dc0446b19fc4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae9ec5091fcd28a1bba4ea5cf8e5fb306"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="query_8h.html#ae9ec5091fcd28a1bba4ea5cf8e5fb306">cparse_query_size</a> (<a class="el" href="defines_8h.html#aaaa2ae5bacca4dcc458d71f7d5f9f150">cParseQuery</a> *query)</td></tr>
 <tr class="separator:ae9ec5091fcd28a1bba4ea5cf8e5fb306"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -206,6 +208,9 @@ cParseQueryBuilder *&#160;</td><td class="memItemRight" valign="bottom"><b>cpars
 <tr class="memitem:a6510e63de9b96ae0567f95fe762705f7"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6510e63de9b96ae0567f95fe762705f7"></a>
 cParseQueryBuilder *&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_query_build_all</b> (cParseQueryBuilder *query, const char *key, <a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *value)</td></tr>
 <tr class="separator:a6510e63de9b96ae0567f95fe762705f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6948a861a3d8fefee91e5665861d73c7"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6948a861a3d8fefee91e5665861d73c7"></a>
+cParseQueryBuilder *&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_query_build_related_to</b> (cParseQueryBuilder *query, const char *key, <a class="el" href="defines_8h.html#a2ccd5051f86d3933c9df2240ac02e912">cParseObject</a> *obj)</td></tr>
+<tr class="separator:a6948a861a3d8fefee91e5665861d73c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a91a34400180ec6a95f0fa44f04863d75"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a91a34400180ec6a95f0fa44f04863d75"></a>
 <a class="el" href="defines_8h.html#a0dd69c3d9eb0237c05eaa598df1108a0">cParseJson</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_query_build_json</b> (cParseQueryBuilder *query)</td></tr>
 <tr class="separator:a91a34400180ec6a95f0fa44f04863d75"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -262,6 +267,28 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_query_build_fr
       </table>
 </div><div class="memdoc">
 <p>deallocates a query </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">query</td><td>the query instance </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a86e9cde04976c5a35058dc0446b19fc4"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void cparse_query_free_results </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="defines_8h.html#aaaa2ae5bacca4dcc458d71f7d5f9f150">cParseQuery</a> *&#160;</td>
+          <td class="paramname"><em>query</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>frees the results of a query </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">query</td><td>the query instance </td></tr>
   </table>
@@ -386,7 +413,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>cparse_query_build_fr
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Jul 25 2015 17:46:43 for cParse by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Aug 1 2015 11:43:11 for cParse by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>

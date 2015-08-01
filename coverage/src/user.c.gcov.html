@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2015-08-01 10:56:26</td>
+            <td class="headerValue">2015-08-01 11:44:21</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">14</td>
@@ -96,15 +96,15 @@
 <span class="lineNum">      26 </span>            : 
 <span class="lineNum">      27 </span>            : bool (*cparse_user_delete)(cParseUser *obj, cParseError **error) = cparse_object_delete;
 <span class="lineNum">      28 </span>            : 
-<span class="lineNum">      29 </span>            : pthread_t (*cparse_user_delete_in_background)(cParseUser *obj, cParseObjectCallback callback) = cparse_object_delete_in_background;
+<span class="lineNum">      29 </span>            : cparse_thread (*cparse_user_delete_in_background)(cParseUser *obj, cParseObjectCallback callback, void *param) = cparse_object_delete_in_background;
 <span class="lineNum">      30 </span>            : 
 <span class="lineNum">      31 </span>            : bool (*cparse_user_fetch)(cParseUser *obj, cParseError **error) = cparse_object_fetch;
 <span class="lineNum">      32 </span>            : 
-<span class="lineNum">      33 </span>            : pthread_t (*cparse_user_fetch_in_background)(cParseUser *obj, cParseObjectCallback callback) = cparse_object_fetch_in_background;
+<span class="lineNum">      33 </span>            : cparse_thread (*cparse_user_fetch_in_background)(cParseUser *obj, cParseObjectCallback callback, void *param) = cparse_object_fetch_in_background;
 <span class="lineNum">      34 </span>            : 
 <span class="lineNum">      35 </span>            : bool (*cparse_user_refresh)(cParseUser *obj, cParseError **error) = cparse_object_refresh;
 <span class="lineNum">      36 </span>            : 
-<span class="lineNum">      37 </span>            : pthread_t (*cparse_user_refresh_in_background)(cParseUser *user, cParseObjectCallback callback) = cparse_object_refresh_in_background;
+<span class="lineNum">      37 </span>            : cparse_thread (*cparse_user_refresh_in_background)(cParseUser *user, cParseObjectCallback callback, void *param) = cparse_object_refresh_in_background;
 <span class="lineNum">      38 </span>            : 
 <span class="lineNum">      39 </span>            : extern char cparse_client_session_token[];
 <span class="lineNum">      40 </span>            : 
@@ -295,7 +295,7 @@
 <span class="lineNum">     225 </span><span class="lineCov">          1 :     return user;</span>
 <a name="226"><span class="lineNum">     226 </span><span class="lineCov">          1 : }</span></a>
 <span class="lineNum">     227 </span>            : 
-<span class="lineNum">     228 </span>            : pthread_t cparse_user_login_in_background(const char *username, const char *password, cParseObjectCallback callback)
+<span class="lineNum">     228 </span>            : cparse_thread cparse_user_login_in_background(const char *username, const char *password, cParseObjectCallback callback, void *param)
 <span class="lineNum">     229 </span>            : {
 <span class="lineNum">     230 </span><span class="lineCov">          1 :     cParseUser *obj = NULL;</span>
 <span class="lineNum">     231 </span>            : 
@@ -308,7 +308,7 @@
 <span class="lineNum">     238 </span>            : 
 <span class="lineNum">     239 </span><span class="lineCov">          1 :     cparse_object_set_string(obj, CPARSE_KEY_USER_PASSWORD, password);</span>
 <span class="lineNum">     240 </span>            : 
-<span class="lineNum">     241 </span><span class="lineCov">          1 :     return cparse_object_run_in_background(obj, cparse_user_login_user, callback, cparse_object_free);</span>
+<span class="lineNum">     241 </span><span class="lineCov">          1 :     return cparse_object_run_in_background(obj, cparse_user_login_user, callback, param, cparse_object_free);</span>
 <a name="242"><span class="lineNum">     242 </span><span class="lineCov">          1 : }</span></a>
 <span class="lineNum">     243 </span>            : 
 <span class="lineNum">     244 </span>            : void cparse_user_logout()
@@ -401,13 +401,13 @@
 <span class="lineNum">     331 </span><span class="lineCov">          5 :     return cparse_user_sign_up_user(user, error);</span>
 <a name="332"><span class="lineNum">     332 </span>            : }</a>
 <span class="lineNum">     333 </span>            : 
-<span class="lineNum">     334 </span>            : pthread_t cparse_user_sign_up_in_background(cParseUser *user, const char *password, cParseObjectCallback callback)
+<span class="lineNum">     334 </span>            : cparse_thread cparse_user_sign_up_in_background(cParseUser *user, const char *password, cParseObjectCallback callback, void *param)
 <span class="lineNum">     335 </span>            : {
 <span class="lineNum">     336 </span><span class="lineCov">          1 :     if (!cparse_str_empty(password)) {</span>
 <span class="lineNum">     337 </span><span class="lineCov">          1 :         cparse_object_set_string(user, CPARSE_KEY_USER_PASSWORD, password);</span>
 <span class="lineNum">     338 </span><span class="lineCov">          1 :     }</span>
 <span class="lineNum">     339 </span>            : 
-<span class="lineNum">     340 </span><span class="lineCov">          1 :     return cparse_object_run_in_background(user, cparse_user_sign_up_user, callback, NULL);</span>
+<span class="lineNum">     340 </span><span class="lineCov">          1 :     return cparse_object_run_in_background(user, cparse_user_sign_up_user, callback, param, NULL);</span>
 <a name="341"><span class="lineNum">     341 </span>            : }</a>
 <span class="lineNum">     342 </span>            : 
 <span class="lineNum">     343 </span>            : cParseUser * cparse_user_validate(const char *sessionToken, cParseError **error)
@@ -462,19 +462,19 @@
 <span class="lineNum">     392 </span><span class="lineNoCov">          0 :         return false;</span>
 <span class="lineNum">     393 </span>            :     }
 <span class="lineNum">     394 </span>            : 
-<span class="lineNum">     395 </span><span class="lineNoCov">          0 :     if (!cparse_object_contains(user, &quot;emailVerified&quot;))</span>
+<span class="lineNum">     395 </span><span class="lineNoCov">          0 :     if (!cparse_object_contains(user, CPARSE_KEY_EMAIL_VERIFIED))</span>
 <span class="lineNum">     396 </span>            :     {
 <span class="lineNum">     397 </span><span class="lineNoCov">          0 :         return false;</span>
 <span class="lineNum">     398 </span>            :     }
 <span class="lineNum">     399 </span>            : 
-<span class="lineNum">     400 </span><span class="lineNoCov">          0 :     if (!cparse_object_get_bool(user, &quot;emailVerified&quot;))</span>
+<span class="lineNum">     400 </span><span class="lineNoCov">          0 :     if (!cparse_object_get_bool(user, CPARSE_KEY_EMAIL_VERIFIED))</span>
 <span class="lineNum">     401 </span>            :     {
 <span class="lineNum">     402 </span><span class="lineNoCov">          0 :         if (!cparse_user_refresh(user, error))</span>
 <span class="lineNum">     403 </span>            :         {
 <span class="lineNum">     404 </span><span class="lineNoCov">          0 :             return false;</span>
 <span class="lineNum">     405 </span>            :         }
 <span class="lineNum">     406 </span>            : 
-<span class="lineNum">     407 </span><span class="lineNoCov">          0 :         return cparse_object_get_bool(user, &quot;emailVerified&quot;);</span>
+<span class="lineNum">     407 </span><span class="lineNoCov">          0 :         return cparse_object_get_bool(user, CPARSE_KEY_EMAIL_VERIFIED);</span>
 <span class="lineNum">     408 </span>            :     }
 <span class="lineNum">     409 </span>            : 
 <span class="lineNum">     410 </span><span class="lineNoCov">          0 :     return true;</span>
@@ -526,9 +526,9 @@
 <span class="lineNum">     456 </span><span class="lineNoCov">          0 :     return true;</span>
 <a name="457"><span class="lineNum">     457 </span><span class="lineNoCov">          0 : }</span></a>
 <span class="lineNum">     458 </span>            : 
-<span class="lineNum">     459 </span>            : pthread_t cparse_user_reset_password_in_background(cParseUser *user, cParseObjectCallback callback)
+<span class="lineNum">     459 </span>            : cparse_thread cparse_user_reset_password_in_background(cParseUser *user, cParseObjectCallback callback, void *param)
 <span class="lineNum">     460 </span>            : {
-<span class="lineNum">     461 </span><span class="lineNoCov">          0 :     return cparse_object_run_in_background(user, cparse_user_reset_password, callback, NULL);</span>
+<span class="lineNum">     461 </span><span class="lineNoCov">          0 :     return cparse_object_run_in_background(user, cparse_user_reset_password, callback, param, NULL);</span>
 <span class="lineNum">     462 </span>            : }
 <span class="lineNum">     463 </span>            : 
 </pre>

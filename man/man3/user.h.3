@@ -1,4 +1,4 @@
-.TH "src/cparse/user.h" 3 "Sat Jul 25 2015" "Version 0.1" "cParse" \" -*- nroff -*-
+.TH "src/cparse/user.h" 3 "Sat Aug 1 2015" "Version 0.1" "cParse" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -27,7 +27,7 @@ src/cparse/user.h \-
 .RI "\fBcParseUser\fP * \fBcparse_user_login\fP (const char *username, const char *password, \fBcParseError\fP **error)"
 .br
 .ti -1c
-.RI "pthread_t \fBcparse_user_login_in_background\fP (const char *username, const char *password, \fBcParseObjectCallback\fP callback)"
+.RI "\fBcparse_thread\fP \fBcparse_user_login_in_background\fP (const char *username, const char *password, \fBcParseObjectCallback\fP callback, void *param)"
 .br
 .ti -1c
 .RI "void \fBcparse_user_logout\fP ()"
@@ -39,7 +39,7 @@ src/cparse/user.h \-
 .RI "bool \fBcparse_user_sign_up\fP (\fBcParseUser\fP *user, const char *password, \fBcParseError\fP **error)"
 .br
 .ti -1c
-.RI "pthread_t \fBcparse_user_sign_up_in_background\fP (\fBcParseUser\fP *user, const char *password, \fBcParseObjectCallback\fP callback)"
+.RI "\fBcparse_thread\fP \fBcparse_user_sign_up_in_background\fP (\fBcParseUser\fP *user, const char *password, \fBcParseObjectCallback\fP callback, void *param)"
 .br
 .ti -1c
 .RI "const char * \fBcparse_user_name\fP (\fBcParseUser\fP *user)"
@@ -63,7 +63,7 @@ src/cparse/user.h \-
 .RI "bool \fBcparse_user_reset_password\fP (\fBcParseUser\fP *user, \fBcParseError\fP **error)"
 .br
 .ti -1c
-.RI "pthread_t \fBcparse_user_reset_password_in_background\fP (\fBcParseUser\fP *user, \fBcParseObjectCallback\fP callback)"
+.RI "\fBcparse_thread\fP \fBcparse_user_reset_password_in_background\fP (\fBcParseUser\fP *user, \fBcParseObjectCallback\fP callback, void *param)"
 .br
 .in -1c
 .SS "Variables"
@@ -76,19 +76,19 @@ src/cparse/user.h \-
 .RI "bool(* \fBcparse_user_delete\fP )(\fBcParseUser\fP *obj, \fBcParseError\fP **error)"
 .br
 .ti -1c
-.RI "pthread_t(* \fBcparse_user_delete_in_background\fP )(\fBcParseUser\fP *obj, \fBcParseObjectCallback\fP callback)"
+.RI "\fBcparse_thread\fP(* \fBcparse_user_delete_in_background\fP )(\fBcParseUser\fP *obj, \fBcParseObjectCallback\fP callback, void *param)"
 .br
 .ti -1c
 .RI "bool(* \fBcparse_user_fetch\fP )(\fBcParseUser\fP *obj, \fBcParseError\fP **error)"
 .br
 .ti -1c
-.RI "pthread_t(* \fBcparse_user_fetch_in_background\fP )(\fBcParseUser\fP *obj, \fBcParseObjectCallback\fP callback)"
+.RI "\fBcparse_thread\fP(* \fBcparse_user_fetch_in_background\fP )(\fBcParseUser\fP *obj, \fBcParseObjectCallback\fP callback, void *param)"
 .br
 .ti -1c
 .RI "bool(* \fBcparse_user_refresh\fP )(\fBcParseUser\fP *obj, \fBcParseError\fP **error)"
 .br
 .ti -1c
-.RI "pthread_t(* \fBcparse_user_refresh_in_background\fP )(\fBcParseUser\fP *user, \fBcParseObjectCallback\fP callback)"
+.RI "\fBcparse_thread\fP(* \fBcparse_user_refresh_in_background\fP )(\fBcParseUser\fP *user, \fBcParseObjectCallback\fP callback, void *param)"
 .br
 .in -1c
 .SH "Function Documentation"
@@ -134,7 +134,7 @@ the user object if successful, NULL otherwise
 .RE
 .PP
 
-.SS "pthread_t cparse_user_login_in_background (const char * username, const char * password, \fBcParseObjectCallback\fP callback)"
+.SS "\fBcparse_thread\fP cparse_user_login_in_background (const char * username, const char * password, \fBcParseObjectCallback\fP callback, void * param)"
 logs in as a user in the background 
 .PP
 \fBParameters:\fP
@@ -224,7 +224,7 @@ true if successful\&.
 .RE
 .PP
 
-.SS "pthread_t cparse_user_sign_up_in_background (\fBcParseUser\fP * user, const char * password, \fBcParseObjectCallback\fP callback)"
+.SS "\fBcparse_thread\fP cparse_user_sign_up_in_background (\fBcParseUser\fP * user, const char * password, \fBcParseObjectCallback\fP callback, void * param)"
 Creates a new user in the background 
 .PP
 \fBParameters:\fP

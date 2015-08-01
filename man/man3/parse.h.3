@@ -1,4 +1,4 @@
-.TH "src/cparse/parse.h" 3 "Sat Jul 25 2015" "Version 0.1" "cParse" \" -*- nroff -*-
+.TH "src/cparse/parse.h" 3 "Sat Aug 1 2015" "Version 0.1" "cParse" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -28,6 +28,9 @@ src/cparse/parse.h \-
 .ti -1c
 .RI "void \fBcparse_set_log_level\fP (\fBcParseLogLevel\fP level)"
 .br
+.ti -1c
+.RI "void \fBcparse_enable_revocable_sessions\fP (bool value)"
+.br
 .in -1c
 .SH "Enumeration Type Documentation"
 .PP 
@@ -56,6 +59,15 @@ debug, info, warning and error messages will be logged
 trace, debug, info, warning and error messages will be logged 
 .SH "Function Documentation"
 .PP 
+.SS "void cparse_enable_revocable_sessions (bool value)"
+enables revocable sessions 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIthe\fP value to set 
+.RE
+.PP
+
 .SS "void cparse_set_api_key (const char * apiKey)"
 sets the parse api key 
 .PP

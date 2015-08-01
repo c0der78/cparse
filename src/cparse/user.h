@@ -37,7 +37,7 @@ cParseUser *cparse_user_login(const char *username, const char *password, cParse
  * \param callback the callback issued if successful
  * \returns an identifier for the background thread
  */
-pthread_t cparse_user_login_in_background(const char *username, const char *password, cParseObjectCallback callback);
+cparse_thread cparse_user_login_in_background(const char *username, const char *password, cParseObjectCallback callback, void *param);
 
 /*! logs out the current user */
 void cparse_user_logout();
@@ -61,7 +61,7 @@ bool cparse_user_sign_up(cParseUser *user, const char *password, cParseError **e
  * \param callback the callback issued after signing up
  * \returns an identifier for the background thread
  */
-pthread_t cparse_user_sign_up_in_background(cParseUser *user, const char *password, cParseObjectCallback callback);
+cparse_thread cparse_user_sign_up_in_background(cParseUser *user, const char *password, cParseObjectCallback callback, void *param);
 
 /* getters/setters */
 
@@ -107,22 +107,22 @@ bool cparse_user_validate_email(cParseUser *user, cParseError **error);
 
 bool cparse_user_reset_password(cParseUser *user, cParseError **error);
 
-pthread_t cparse_user_reset_password_in_background(cParseUser *user, cParseObjectCallback callback);
+cparse_thread cparse_user_reset_password_in_background(cParseUser *user, cParseObjectCallback callback, void *param);
 
 
 extern void (*cparse_user_free)(cParseUser *user);
 
 extern bool (*cparse_user_delete)(cParseUser *obj, cParseError **error);
 
-extern pthread_t (*cparse_user_delete_in_background)(cParseUser *obj, cParseObjectCallback callback);
+extern cparse_thread (*cparse_user_delete_in_background)(cParseUser *obj, cParseObjectCallback callback, void *param);
 
 extern bool (*cparse_user_fetch)(cParseUser *obj, cParseError **error);
 
-extern pthread_t (*cparse_user_fetch_in_background)(cParseUser *obj, cParseObjectCallback callback);
+extern cparse_thread (*cparse_user_fetch_in_background)(cParseUser *obj, cParseObjectCallback callback, void *param);
 
 extern bool (*cparse_user_refresh)(cParseUser *obj, cParseError **error);
 
-extern pthread_t (*cparse_user_refresh_in_background)(cParseUser *user, cParseObjectCallback callback);
+extern cparse_thread (*cparse_user_refresh_in_background)(cParseUser *user, cParseObjectCallback callback, void *param);
 
 
 END_DECL

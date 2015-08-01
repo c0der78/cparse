@@ -1,4 +1,4 @@
-.TH "src/cparse/object.h" 3 "Sat Jul 25 2015" "Version 0.1" "cParse" \" -*- nroff -*-
+.TH "src/cparse/object.h" 3 "Sat Aug 1 2015" "Version 0.1" "cParse" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -16,6 +16,9 @@ src/cparse/object.h \-
 .SS "Typedefs"
 
 .in +1c
+.ti -1c
+.RI "typedef pthread_t \fBcparse_thread\fP"
+.br
 .ti -1c
 .RI "typedef void(* \fBcParseObjectAttributeCallback\fP) (\fBcParseObject\fP *obj, const char *key, \fBcParseJson\fP *value, void *arg)"
 .br
@@ -57,31 +60,31 @@ src/cparse/object.h \-
 .RI "bool \fBcparse_object_save\fP (\fBcParseObject\fP *obj, \fBcParseError\fP **error)"
 .br
 .ti -1c
-.RI "pthread_t \fBcparse_object_save_in_background\fP (\fBcParseObject\fP *obj, \fBcParseObjectCallback\fP callback)"
+.RI "\fBcparse_thread\fP \fBcparse_object_save_in_background\fP (\fBcParseObject\fP *obj, \fBcParseObjectCallback\fP callback, void *param)"
 .br
 .ti -1c
 .RI "bool \fBcparse_object_update\fP (\fBcParseObject\fP *obj, \fBcParseJson\fP *attributes, \fBcParseError\fP **error)"
 .br
 .ti -1c
-.RI "pthread_t \fBcparse_object_update_in_background\fP (\fBcParseObject\fP *obj, \fBcParseJson\fP *attributes, \fBcParseObjectCallback\fP callback)"
+.RI "\fBcparse_thread\fP \fBcparse_object_update_in_background\fP (\fBcParseObject\fP *obj, \fBcParseJson\fP *attributes, \fBcParseObjectCallback\fP callback, void *param)"
 .br
 .ti -1c
 .RI "bool \fBcparse_object_delete\fP (\fBcParseObject\fP *, \fBcParseError\fP **error)"
 .br
 .ti -1c
-.RI "pthread_t \fBcparse_object_delete_in_background\fP (\fBcParseObject\fP *obj, \fBcParseObjectCallback\fP callback)"
+.RI "\fBcparse_thread\fP \fBcparse_object_delete_in_background\fP (\fBcParseObject\fP *obj, \fBcParseObjectCallback\fP callback, void *param)"
 .br
 .ti -1c
 .RI "bool \fBcparse_object_refresh\fP (\fBcParseObject\fP *, \fBcParseError\fP **error)"
 .br
 .ti -1c
-.RI "pthread_t \fBcparse_object_refresh_in_background\fP (\fBcParseObject\fP *obj, \fBcParseObjectCallback\fP callback)"
+.RI "\fBcparse_thread\fP \fBcparse_object_refresh_in_background\fP (\fBcParseObject\fP *obj, \fBcParseObjectCallback\fP callback, void *param)"
 .br
 .ti -1c
 .RI "bool \fBcparse_object_fetch\fP (\fBcParseObject\fP *, \fBcParseError\fP **error)"
 .br
 .ti -1c
-.RI "pthread_t \fBcparse_object_fetch_in_background\fP (\fBcParseObject\fP *obj, \fBcParseObjectCallback\fP callback)"
+.RI "\fBcparse_thread\fP \fBcparse_object_fetch_in_background\fP (\fBcParseObject\fP *obj, \fBcParseObjectCallback\fP callback, void *param)"
 .br
 .ti -1c
 .RI "bool \fBcparse_object_exists\fP (\fBcParseObject\fP *obj)"
@@ -132,7 +135,7 @@ src/cparse/object.h \-
 .RI "bool \fBcparse_object_contains\fP (\fBcParseObject\fP *obj, const char *key)"
 .br
 .ti -1c
-.RI "void \fBcparse_object_foreach_attribute\fP (\fBcParseObject\fP *obj, cParseObjectAttributeCallback callback, void *param)"
+.RI "void \fBcparse_object_foreach_attribute\fP (\fBcParseObject\fP *obj, \fBcParseObjectAttributeCallback\fP callback, void *param)"
 .br
 .ti -1c
 .RI "size_t \fBcparse_object_attribute_size\fP (\fBcParseObject\fP *)"
@@ -141,24 +144,30 @@ src/cparse/object.h \-
 .RI "void \fBcparse_object_merge_json\fP (\fBcParseObject\fP *obj, \fBcParseJson\fP *json)"
 .br
 .ti -1c
-.RI "\fBcParseObject\fP * \fBcparse_object_from_json\fP (\fBcParseJson\fP *json)"
-.br
-.ti -1c
 .RI "const char * \fBcparse_object_to_json_string\fP (\fBcParseObject\fP *obj)"
 .br
 .ti -1c
 .RI "bool \fBcparse_object_is_object\fP (\fBcParseObject\fP *obj)"
 .br
 .ti -1c
-.RI "void \fBcparse_object_set_public_acl\fP (\fBcParseObject\fP *obj, bool read, bool write)"
+.RI "void \fBcparse_object_set_public_acl\fP (\fBcParseObject\fP *obj, \fBcParseAccess\fP access, bool value)"
 .br
 .ti -1c
-.RI "void \fBcparse_object_set_user_acl\fP (\fBcParseObject\fP *obj, \fBcParseUser\fP *user, bool read, bool write)"
+.RI "void \fBcparse_object_set_user_acl\fP (\fBcParseObject\fP *obj, \fBcParseUser\fP *user, \fBcParseAccess\fP access, bool value)"
 .br
 .ti -1c
-.RI "void \fBcparse_object_set_role_acl\fP (\fBcParseObject\fP *obj, \fBcParseRole\fP *role, bool read, bool write)"
+.RI "void \fBcparse_object_set_role_acl\fP (\fBcParseObject\fP *obj, \fBcParseRole\fP *role, \fBcParseAccess\fP access, bool value)"
+.br
+.ti -1c
+.RI "bool \fBcparse_thread_wait\fP (\fBcparse_thread\fP t)"
 .br
 .in -1c
+.SH "Typedef Documentation"
+.PP 
+.SS "typedef pthread_t \fBcparse_thread\fP"
+wrapper for a thread type 
+.SS "typedef void(* cParseObjectAttributeCallback) (\fBcParseObject\fP *obj, const char *key, \fBcParseJson\fP *value, void *arg)"
+callback for iterating object key/values 
 .SH "Function Documentation"
 .PP 
 .SS "\fBcParseJson\fP* cparse_object_acl (\fBcParseObject\fP * obj)"
@@ -260,7 +269,7 @@ true if successful
 .RE
 .PP
 
-.SS "pthread_t cparse_object_delete_in_background (\fBcParseObject\fP * obj, \fBcParseObjectCallback\fP callback)"
+.SS "\fBcparse_thread\fP cparse_object_delete_in_background (\fBcParseObject\fP * obj, \fBcParseObjectCallback\fP callback, void * param)"
 deletes an object in the background 
 .PP
 \fBParameters:\fP
@@ -268,6 +277,8 @@ deletes an object in the background
 \fIobj\fP the object instance 
 .br
 \fIcallback\fP a callback issues after the object is deleted 
+.br
+\fIparam\fP a user defined parameter for the callback 
 .RE
 .PP
 \fBReturns:\fP
@@ -306,7 +317,7 @@ true if successful
 .RE
 .PP
 
-.SS "pthread_t cparse_object_fetch_in_background (\fBcParseObject\fP * obj, \fBcParseObjectCallback\fP callback)"
+.SS "\fBcparse_thread\fP cparse_object_fetch_in_background (\fBcParseObject\fP * obj, \fBcParseObjectCallback\fP callback, void * param)"
 refreshes an object's attributes in the background, including references to other objects 
 .PP
 \fBParameters:\fP
@@ -314,6 +325,8 @@ refreshes an object's attributes in the background, including references to othe
 \fIobj\fP the object instance 
 .br
 \fIcallback\fP the callback issues after the fetch 
+.br
+\fIparam\fP the user defined parameter for the callback 
 .RE
 .PP
 \fBReturns:\fP
@@ -322,7 +335,7 @@ a background thread identifier
 .RE
 .PP
 
-.SS "void cparse_object_foreach_attribute (\fBcParseObject\fP * obj, cParseObjectAttributeCallback callback, void * param)"
+.SS "void cparse_object_foreach_attribute (\fBcParseObject\fP * obj, \fBcParseObjectAttributeCallback\fP callback, void * param)"
 iterates and objects attributes 
 .PP
 \fBParameters:\fP
@@ -341,20 +354,6 @@ deallocates a parse object
 \fBParameters:\fP
 .RS 4
 \fIobj\fP the object instance 
-.RE
-.PP
-
-.SS "\fBcParseObject\fP* cparse_object_from_json (\fBcParseJson\fP * json)"
-creates a parse object from a json object as attributes 
-.PP
-\fBParameters:\fP
-.RS 4
-\fIjson\fP the json object to create from 
-.RE
-.PP
-\fBReturns:\fP
-.RS 4
-the allocated object 
 .RE
 .PP
 
@@ -432,6 +431,15 @@ the id or NULL of not set
 .RE
 .PP
 
+.SS "bool cparse_object_is_object (\fBcParseObject\fP * obj)"
+tests if an object is not a system object 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIobj\fP the object instance 
+.RE
+.PP
+
 .SS "bool cparse_object_is_user (\fBcParseObject\fP * obj)"
 tests if an object is a user object 
 .PP
@@ -473,7 +481,7 @@ true if successful
 .RE
 .PP
 
-.SS "pthread_t cparse_object_refresh_in_background (\fBcParseObject\fP * obj, \fBcParseObjectCallback\fP callback)"
+.SS "\fBcparse_thread\fP cparse_object_refresh_in_background (\fBcParseObject\fP * obj, \fBcParseObjectCallback\fP callback, void * param)"
 refreshes an object's attributes in the background\&. Does not refresh other object refereces\&. (see fetch) 
 .PP
 \fBParameters:\fP
@@ -481,6 +489,8 @@ refreshes an object's attributes in the background\&. Does not refresh other obj
 \fIobj\fP the object instance 
 .br
 \fIcallback\fP the callback issued after the refresh 
+.br
+\fIparam\fP the user defined parameter for the callback 
 .RE
 .PP
 \fBReturns:\fP
@@ -532,7 +542,7 @@ true if successful
 .RE
 .PP
 
-.SS "pthread_t cparse_object_save_in_background (\fBcParseObject\fP * obj, \fBcParseObjectCallback\fP callback)"
+.SS "\fBcparse_thread\fP cparse_object_save_in_background (\fBcParseObject\fP * obj, \fBcParseObjectCallback\fP callback, void * param)"
 saves a parse object in the background 
 .PP
 \fBParameters:\fP
@@ -540,6 +550,8 @@ saves a parse object in the background
 \fIobj\fP the object instance 
 .br
 \fIcallback\fP a callback issued after the object is saved 
+.br
+\fIparam\fP a user defined parameter for the callback 
 .RE
 .PP
 \fBReturns:\fP
@@ -587,6 +599,19 @@ sets a number attribute on an object
 .RE
 .PP
 
+.SS "void cparse_object_set_public_acl (\fBcParseObject\fP * obj, \fBcParseAccess\fP access, bool value)"
+sets public access control list for an object 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIobj\fP the object instance 
+.br
+\fIaccess\fP the access type (read/write) 
+.br
+\fIvalue\fP the access value 
+.RE
+.PP
+
 .SS "void cparse_object_set_real (\fBcParseObject\fP * obj, const char * key, double value)"
 sets a real (float) attribute on an object 
 .PP
@@ -613,6 +638,19 @@ sets a reference attribute to another object
 .RE
 .PP
 
+.SS "void cparse_object_set_role_acl (\fBcParseObject\fP * obj, \fBcParseRole\fP * role, \fBcParseAccess\fP access, bool value)"
+sets a role access control list for an object 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIobj\fP the object instance 
+.br
+\fIaccess\fP the access type (read/write) 
+.br
+\fIvalue\fP the access value 
+.RE
+.PP
+
 .SS "void cparse_object_set_string (\fBcParseObject\fP * obj, const char * key, const char * value)"
 sets a string attribute on an object 
 .PP
@@ -623,6 +661,19 @@ sets a string attribute on an object
 \fIkey\fP the key to identify the value 
 .br
 \fIvalue\fP the attribute value to set 
+.RE
+.PP
+
+.SS "void cparse_object_set_user_acl (\fBcParseObject\fP * obj, \fBcParseUser\fP * user, \fBcParseAccess\fP access, bool value)"
+sets a user access control list for an object 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIobj\fP the object instance 
+.br
+\fIaccess\fP the access type (read/write) 
+.br
+\fIvalue\fP the access value 
 .RE
 .PP
 
@@ -662,7 +713,7 @@ true if successful
 .RE
 .PP
 
-.SS "pthread_t cparse_object_update_in_background (\fBcParseObject\fP * obj, \fBcParseJson\fP * attributes, \fBcParseObjectCallback\fP callback)"
+.SS "\fBcparse_thread\fP cparse_object_update_in_background (\fBcParseObject\fP * obj, \fBcParseJson\fP * attributes, \fBcParseObjectCallback\fP callback, void * param)"
 updates a parse object in the background 
 .PP
 \fBParameters:\fP
@@ -672,6 +723,8 @@ updates a parse object in the background
 \fIattributes\fP the attributes to update 
 .br
 \fIcallback\fP the callback issued after the update 
+.br
+\fIparam\fP a user defined parameter for the callback 
 .RE
 .PP
 \fBReturns:\fP
@@ -721,6 +774,15 @@ allocates a parse object with a class name\&.
 \fBReturns:\fP
 .RS 4
 the allocated object 
+.RE
+.PP
+
+.SS "bool cparse_thread_wait (\fBcparse_thread\fP t)"
+waits for a background thread 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIt\fP the thread instance 
 .RE
 .PP
 

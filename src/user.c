@@ -26,15 +26,15 @@ void (*cparse_user_free)(cParseUser *user) = &cparse_object_free;
 
 bool (*cparse_user_delete)(cParseUser *obj, cParseError **error) = cparse_object_delete;
 
-pthread_t (*cparse_user_delete_in_background)(cParseUser *obj, cParseObjectCallback callback) = cparse_object_delete_in_background;
+cparse_thread (*cparse_user_delete_in_background)(cParseUser *obj, cParseObjectCallback callback, void *param) = cparse_object_delete_in_background;
 
 bool (*cparse_user_fetch)(cParseUser *obj, cParseError **error) = cparse_object_fetch;
 
-pthread_t (*cparse_user_fetch_in_background)(cParseUser *obj, cParseObjectCallback callback) = cparse_object_fetch_in_background;
+cparse_thread (*cparse_user_fetch_in_background)(cParseUser *obj, cParseObjectCallback callback, void *param) = cparse_object_fetch_in_background;
 
 bool (*cparse_user_refresh)(cParseUser *obj, cParseError **error) = cparse_object_refresh;
 
-pthread_t (*cparse_user_refresh_in_background)(cParseUser *user, cParseObjectCallback callback) = cparse_object_refresh_in_background;
+cparse_thread (*cparse_user_refresh_in_background)(cParseUser *user, cParseObjectCallback callback, void *param) = cparse_object_refresh_in_background;
 
 extern char cparse_client_session_token[];
 
@@ -225,7 +225,7 @@ cParseUser *cparse_user_login(const char *username, const char *password, cParse
     return user;
 }
 
-pthread_t cparse_user_login_in_background(const char *username, const char *password, cParseObjectCallback callback)
+cparse_thread cparse_user_login_in_background(const char *username, const char *password, cParseObjectCallback callback, void *param)
 {
     cParseUser *obj = NULL;
 
@@ -238,7 +238,7 @@ pthread_t cparse_user_login_in_background(const char *username, const char *pass
 
     cparse_object_set_string(obj, CPARSE_KEY_USER_PASSWORD, password);
 
-    return cparse_object_run_in_background(obj, cparse_user_login_user, callback, cparse_object_free);
+    return cparse_object_run_in_background(obj, cparse_user_login_user, callback, param, cparse_object_free);
 }
 
 void cparse_user_logout()
@@ -331,13 +331,13 @@ bool cparse_user_sign_up(cParseUser *user, const char *password, cParseError **e
     return cparse_user_sign_up_user(user, error);
 }
 
-pthread_t cparse_user_sign_up_in_background(cParseUser *user, const char *password, cParseObjectCallback callback)
+cparse_thread cparse_user_sign_up_in_background(cParseUser *user, const char *password, cParseObjectCallback callback, void *param)
 {
     if (!cparse_str_empty(password)) {
         cparse_object_set_string(user, CPARSE_KEY_USER_PASSWORD, password);
     }
 
-    return cparse_object_run_in_background(user, cparse_user_sign_up_user, callback, NULL);
+    return cparse_object_run_in_background(user, cparse_user_sign_up_user, callback, param, NULL);
 }
 
 cParseUser * cparse_user_validate(const char *sessionToken, cParseError **error)
@@ -392,19 +392,19 @@ bool cparse_user_validate_email(cParseUser *user, cParseError **error)
         return false;
     }
 
-    if (!cparse_object_contains(user, "emailVerified"))
+    if (!cparse_object_contains(user, CPARSE_KEY_EMAIL_VERIFIED))
     {
         return false;
     }
 
-    if (!cparse_object_get_bool(user, "emailVerified"))
+    if (!cparse_object_get_bool(user, CPARSE_KEY_EMAIL_VERIFIED))
     {
         if (!cparse_user_refresh(user, error))
         {
             return false;
         }
 
-        return cparse_object_get_bool(user, "emailVerified");
+        return cparse_object_get_bool(user, CPARSE_KEY_EMAIL_VERIFIED);
     }
 
     return true;
@@ -456,8 +456,8 @@ bool cparse_user_reset_password(cParseUser *user, cParseError **error)
     return true;
 }
 
-pthread_t cparse_user_reset_password_in_background(cParseUser *user, cParseObjectCallback callback)
+cparse_thread cparse_user_reset_password_in_background(cParseUser *user, cParseObjectCallback callback, void *param)
 {
-    return cparse_object_run_in_background(user, cparse_user_reset_password, callback, NULL);
+    return cparse_object_run_in_background(user, cparse_user_reset_password, callback, param, NULL);
 }
 

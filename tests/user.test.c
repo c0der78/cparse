@@ -52,13 +52,13 @@ START_TEST(test_cparse_user_sign_up)
 }
 END_TEST
 
-void cparse_user_sign_up_callback(cParseObject *obj, bool success, cParseError *error)
+void cparse_user_sign_up_callback(cParseObject *obj, cParseError *error, void *param)
 {
     if (error) {
         printf("callback error: %s\n", cparse_error_message(error));
     }
 
-    fail_unless(success);
+    fail_unless(error == NULL);
 
     fail_unless(obj != NULL);
 
@@ -71,9 +71,9 @@ START_TEST(test_cparse_user_sign_up_in_background)
 {
     cParseObject *obj = cparse_user_with_name(rand_name());
 
-    pthread_t bg = cparse_user_sign_up_in_background(obj, "Password!", cparse_user_sign_up_callback);
+    cparse_thread bg = cparse_user_sign_up_in_background(obj, "Password!", cparse_user_sign_up_callback, NULL);
 
-    pthread_join(bg, NULL);
+    cparse_thread_wait(bg);
 
 }
 END_TEST
@@ -139,20 +139,20 @@ START_TEST(test_cparse_user_login)
 }
 END_TEST
 
-void cparse_login_callback(cParseObject *obj, bool success, cParseError *error)
+void cparse_login_callback(cParseObject *obj, cParseError *error, void *param)
 {
     if (error) {
         printf("login callback error: %s\n", cparse_error_message(error));
     }
 
-    fail_unless(success);
+    fail_unless(error == NULL);
 
     fail_unless(cparse_user_delete(obj, NULL));
 }
 
 START_TEST(test_cparse_login_in_background)
 {
-    pthread_t bg;
+    cparse_thread bg;
     cParseError *error = NULL;
     bool rval = false;
     const char *userName = rand_name();
@@ -168,9 +168,9 @@ START_TEST(test_cparse_login_in_background)
 
     cparse_user_free(user123);
 
-    bg = cparse_user_login_in_background(userName, "Passw0rd!", cparse_login_callback);
+    bg = cparse_user_login_in_background(userName, "Passw0rd!", cparse_login_callback, NULL);
 
-    pthread_join(bg, NULL);
+    cparse_thread_wait(bg);
 }
 END_TEST
 

@@ -1,4 +1,4 @@
-.TH "src/cparse/query.h" 3 "Sat Jul 25 2015" "Version 0.1" "cParse" \" -*- nroff -*-
+.TH "src/cparse/query.h" 3 "Sat Aug 1 2015" "Version 0.1" "cParse" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -18,6 +18,9 @@ src/cparse/query.h \-
 .in +1c
 .ti -1c
 .RI "BEGIN_DECL \fBcParseQuery\fP * \fBcparse_query_with_class_name\fP (const char *className)"
+.br
+.ti -1c
+.RI "\fBcParseQuery\fP * \fBcparse_query_for_object\fP (\fBcParseObject\fP *obj)"
 .br
 .ti -1c
 .RI "void \fBcparse_query_free\fP (\fBcParseQuery\fP *query)"
@@ -116,6 +119,9 @@ src/cparse/query.h \-
 .RI "cParseQueryBuilder * \fBcparse_query_build_all\fP (cParseQueryBuilder *query, const char *key, \fBcParseJson\fP *value)"
 .br
 .ti -1c
+.RI "cParseQueryBuilder * \fBcparse_query_build_related_to\fP (cParseQueryBuilder *query, const char *key, \fBcParseObject\fP *obj)"
+.br
+.ti -1c
 .RI "\fBcParseJson\fP * \fBcparse_query_build_json\fP (cParseQueryBuilder *query)"
 .br
 .ti -1c
@@ -142,6 +148,15 @@ true if successful
 
 .SS "void cparse_query_free (\fBcParseQuery\fP * query)"
 deallocates a query 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIquery\fP the query instance 
+.RE
+.PP
+
+.SS "void cparse_query_free_results (\fBcParseQuery\fP * query)"
+frees the results of a query 
 .PP
 \fBParameters:\fP
 .RS 4

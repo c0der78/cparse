@@ -27,6 +27,7 @@ Dependencies
 - libjson (json-c) for JSON parsing
 - pthreads
 - check for unit testing
+- lcov for code coverage
 
 Usage
 =====
@@ -61,21 +62,23 @@ cparse_object_free(obj);
 Background Operations
 =====================
 ```C
-void my_nifty_callback(cParseObject *obj, cParseError *error)
+void magical_callback(cParseObject *obj, cParseError *error, void *userInfo)
 {
 	if(error) {
 		puts(cparse_error_message(error));
 		return;
 	}
 
-	do_some_other_action_with_object(obj);
+	do_some_other_action_with_object(obj, userInfo);
 }
 
 cParseObject *obj = cparse_object_with_class_name("Wizards");
 
+int userInfo = MAGIC_NUM;
+
 cparse_object_set_string(obj, "name", "Harry Potter");
 
-cparse_object_save_in_background(obj, my_nifty_callback);
+cparse_object_save_in_background(obj, magical_callback, &userInfo);
 
 ```
 
@@ -102,6 +105,9 @@ if(cparse_query_size(query) > 1)
 
 Building more complex Queries
 =============================
+
+A query builder structure can be used to combine multiple conditions.
+
 ```C
 cParseQuery *query = cparse_query_with_class_name("Wizards");
 cParseQueryBuilder *builder = cparse_query_build_new();
@@ -113,7 +119,7 @@ cparse_query_build_lt(builder, "score", cparse_json_new_number(50));
 
 /* build an array of names */
 cparse_json_add_string(names, "Harry");
-cparse_json_add_string(names, "Dumbledor");
+cparse_json_add_string(names, "Dumbledore");
 
 /* query by name in array */
 cparse_query_build_in(builder, "name", names);
@@ -135,7 +141,7 @@ if(!cparse_query_find_objects(query, &error))
 Users
 =====
 ```C
-cParseUser *user = cparse_user_with_name("user123");
+cParseUser *user = cparse_user_with_name("Ronald");
 
 if(!cparse_user_sign_up(user, "Password!", &error)) {
 	puts(cparse_error_message(error));
@@ -146,7 +152,7 @@ if(!cparse_user_sign_up(user, "Password!", &error)) {
 cparse_user_free(user);
 
 /* have a new user at this point */
-user = cparse_user_login("user123", "Password!", &error);
+user = cparse_user_login("Ronald", "Password!", &error);
 
 if(user == NULL) {
 	puts(cparse_error_message(error));
@@ -160,9 +166,26 @@ loggedInUser = cparse_current_user();
 
 ```
 
+Users are objects as well, so you can use any of the object functions if you want.
+
+```C
+
+cParseuser *user = cparse_user_with_name("Ronald");
+
+cparse_object_set_string(user, "last_name", "Weasley");
+
+cparse_object_set_number(user, "birth_year", 1980);
+
+/* etc... */
+```
+
 
 Roles
 =====
+
+Roles define access control for a group of users and can inherit from other roles.
+
+
 ```C
 cParseRole *role = cparse_role_with_name("Students");
 cParseQuery *query = NULL;
@@ -197,6 +220,9 @@ if (cparse_query_size(query) > 0) {
 
 Access Control
 ==============
+
+Control read/write access for any object.  Access can for public, user or roles.
+
 ```C
 cParseObject *obj = cparse_object_with_class_name("Wizards");
 
@@ -219,3 +245,4 @@ TODO
 - finish users api (linking, pwd reset, verify email)
 - sessions
 - files
+- c++ wrapper

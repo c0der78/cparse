@@ -30,6 +30,10 @@ extern bool (*cparse_role_save)(cParseRole *role, cParseError **error);
 
 extern bool (*cparse_role_delete)(cParseRole *role, cParseError **error);
 
+extern cparse_thread (*cparse_role_save_in_background)(cParseRole *role, cParseObjectCallback callback, void *param);
+
+extern cparse_thread (*cparse_role_delete_in_background)(cParseRole *role, cParseObjectCallback callback, void *param);
+
 END_DECL
 
 #endif

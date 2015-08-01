@@ -31,7 +31,7 @@ static void *cparse_object_background_action(void *argument)
     bool rval = false;
 
     if (argument == NULL) {
-        cparse_log_debug(strerror(EINVAL));
+        cparse_log_errno(EINVAL);
         return NULL;
     }
 
@@ -47,9 +47,10 @@ static void *cparse_object_background_action(void *argument)
 
     if (arg->callback)
     {
-        (*arg->callback)(arg->obj, rval, error);
+        (*arg->callback)(arg->obj, error, arg->param);
     }
 
+    /* should never free an error in a callback as we do it here */
     if (error)
     {
         cparse_log_warn(cparse_error_message(error));
@@ -62,14 +63,16 @@ static void *cparse_object_background_action(void *argument)
         (*arg->cleanup)(arg->obj);
     }
 
-    pthread_detach(arg->thread);
+    if ( pthread_detach(arg->thread) ) {
+        cparse_log_errno(errno);
+    }
 
     free(arg);
 
     return NULL;
 }
 
-pthread_t cparse_object_run_in_background(cParseObject *obj, cParseObjectAction action, cParseObjectCallback callback, void (*cleanup)(cParseObject *obj))
+cparse_thread cparse_object_run_in_background(cParseObject *obj, cParseObjectAction action, cParseObjectCallback callback, void *param, void (*cleanup)(cParseObject *obj))
 {
     cParseObjectThread *arg = NULL;
     int rc = 0;
@@ -88,6 +91,7 @@ pthread_t cparse_object_run_in_background(cParseObject *obj, cParseObjectAction 
 
     arg->action = action;
     arg->obj = obj;
+    arg->param = param;
     arg->cleanup = cleanup;
     arg->callback = callback;
     arg->thread = 0;
@@ -344,14 +348,14 @@ bool cparse_object_delete(cParseObject *obj, cParseError **error)
     return rval;
 }
 
-pthread_t cparse_object_delete_in_background(cParseObject *obj, cParseObjectCallback callback)
+cparse_thread cparse_object_delete_in_background(cParseObject *obj, cParseObjectCallback callback, void *param)
 {
     if (!obj) {
         cparse_log_errno(EINVAL);
         return 0;
     }
 
-    return cparse_object_run_in_background(obj, cparse_object_delete, callback, NULL);
+    return cparse_object_run_in_background(obj, cparse_object_delete, callback, param, NULL);
 }
 
 bool cparse_object_fetch(cParseObject *obj, cParseError **error)
@@ -395,14 +399,14 @@ bool cparse_object_fetch(cParseObject *obj, cParseError **error)
     return false;
 }
 
-pthread_t cparse_object_fetch_in_background(cParseObject *obj, cParseObjectCallback callback)
+cparse_thread cparse_object_fetch_in_background(cParseObject *obj, cParseObjectCallback callback, void *param)
 {
     if (!obj) {
         cparse_log_errno(EINVAL);
         return 0;
     }
 
-    return cparse_object_run_in_background(obj, cparse_object_fetch, callback, NULL);
+    return cparse_object_run_in_background(obj, cparse_object_fetch, callback, param, NULL);
 }
 
 bool cparse_object_refresh(cParseObject *obj, cParseError **error)
@@ -444,14 +448,14 @@ bool cparse_object_refresh(cParseObject *obj, cParseError **error)
     return false;
 }
 
-pthread_t cparse_object_refresh_in_background(cParseObject *obj, cParseObjectCallback callback)
+cparse_thread cparse_object_refresh_in_background(cParseObject *obj, cParseObjectCallback callback, void *param)
 {
     if (!obj) {
         cparse_log_errno(EINVAL);
         return 0;
     }
 
-    return cparse_object_run_in_background(obj, cparse_object_refresh, callback, NULL);
+    return cparse_object_run_in_background(obj, cparse_object_refresh, callback, param, NULL);
 }
 
 bool cparse_object_is_object(cParseObject *obj)
@@ -507,14 +511,14 @@ bool cparse_object_save(cParseObject *obj, cParseError **error)
     return false;
 }
 
-pthread_t cparse_object_save_in_background(cParseObject *obj, cParseObjectCallback callback)
+cparse_thread cparse_object_save_in_background(cParseObject *obj, cParseObjectCallback callback, void *param)
 {
     if (!obj) {
         cparse_log_errno(EINVAL);
         return 0;
     }
 
-    return cparse_object_run_in_background(obj, cparse_object_save, callback, NULL);
+    return cparse_object_run_in_background(obj, cparse_object_save, callback, param, NULL);
 }
 
 bool cparse_object_update(cParseObject *obj, cParseJson *attributes, cParseError **error)
@@ -583,7 +587,7 @@ static bool cparse_object_update_object(cParseObject *obj, cParseError **error)
     return rval;
 }
 
-pthread_t cparse_object_update_in_background(cParseObject *obj, cParseJson *json, cParseObjectCallback callback)
+cparse_thread cparse_object_update_in_background(cParseObject *obj, cParseJson *json, cParseObjectCallback callback, void *param)
 {
     if (obj == NULL || json == NULL) {
         return 0;
@@ -592,7 +596,7 @@ pthread_t cparse_object_update_in_background(cParseObject *obj, cParseJson *json
     /* can't pass to our callback method, so place inside the object for retrieval */
     cparse_object_set(obj, CPARSE_OBJECT_UPDATE_ATTRIBUTES, json);
 
-    return cparse_object_run_in_background(obj, cparse_object_update_object, callback, NULL);
+    return cparse_object_run_in_background(obj, cparse_object_update_object, callback, param, NULL);
 }
 
 /* setters */
@@ -849,4 +853,12 @@ void cparse_object_set_role_acl(cParseObject *obj, cParseRole *role, cParseAcces
     cparse_object_add_acl(obj, buf, access, value);
 }
 
+bool cparse_thread_wait(cparse_thread t)
+{
+    if (pthread_join(t, NULL)) {
+        return false;
+    }
+
+    return true;
+}
 

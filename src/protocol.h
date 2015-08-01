@@ -51,6 +51,8 @@
 
 #define CPARSE_KEY_AMOUNT       "amount"
 
+#define CPARSE_KEY_EMAIL_VERIFIED "emailVerified"
+
 extern const char *const CPARSE_RESERVED_KEYS[];
 
 #define CPARSE_OP_INCREMENT     "Increment"

@@ -52,7 +52,7 @@ typedef struct cparse_query cParseQuery;
 typedef struct cparse_query_builder cParseQueryBuilder;
 
 /*! An object callback function */
-typedef void (*cParseObjectCallback)(cParseObject *obj, bool success, cParseError *error);
+typedef void (*cParseObjectCallback)(cParseObject *obj, cParseError *error, void *param);
 
 /*! a json structure */
 typedef struct json_object cParseJson;
@@ -66,7 +66,7 @@ typedef struct cparse_list_node cParseListNode;
 /*! a list of a type */
 typedef struct cparse_list cParseList;
 
-
+/*! types of access for an object */
 typedef enum { cParseAccessRead, cParseAccessWrite } cParseAccess;
 
 #endif

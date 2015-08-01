@@ -25,6 +25,11 @@ bool (*cparse_role_save)(cParseRole *role, cParseError **error) = cparse_object_
 
 bool (*cparse_role_delete)(cParseRole *role, cParseError **error) = cparse_object_delete;
 
+cparse_thread (*cparse_role_delete_in_background)(cParseRole *role, cParseObjectCallback callback, void *param) = cparse_object_delete_in_background;
+
+cparse_thread (*cparse_role_save_in_background)(cParseRole *role, cParseObjectCallback callback, void *param) = cparse_object_save_in_background;
+
+
 cParseRole *cparse_role_with_name(const char *name) {
 	cParseRole *obj = cparse_object_new();
 
