@@ -28,7 +28,6 @@ static void *cparse_object_background_action(void *argument)
 {
     cParseError *error = NULL;
     cParseObjectThread *arg = NULL;
-    bool rval = false;
 
     if (argument == NULL) {
         cparse_log_errno(EINVAL);
