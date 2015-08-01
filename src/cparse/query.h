@@ -55,6 +55,7 @@ void cparse_query_build_where(cParseQuery *query, cParseQueryBuilder *builder);
 
 void cparse_query_cancel(cParseQuery *query);
 
+
 int cparse_query_count_objects(cParseQuery *query, cParseError **error);
 
 /*! find objects from a query

@@ -4,7 +4,6 @@
 #include <cparse/error.h>
 #include <cparse/parse.h>
 #include <cparse/object.h>
-
 #include "parse.test.h"
 
 extern const char *cparse_app_id;
