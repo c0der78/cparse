@@ -46,6 +46,8 @@ cparse_object_set_string(obj, "name", "Harry Potter");
 
 cparse_object_set_number(obj, "score", 24);
 
+cparse_object_set_public_acl(obj, cParseAccessWrite, false);
+
 if(!cparse_object_save(obj, &error))
 {
 	puts(cparse_error_message(error));
@@ -64,12 +66,16 @@ Background Operations
 ```C
 void magical_callback(cParseObject *obj, cParseError *error, void *userInfo)
 {
+	int *test = (int*) userInfo;
+
 	if(error) {
 		puts(cparse_error_message(error));
 		return;
 	}
 
-	do_some_other_action_with_object(obj, userInfo);
+	if (test && cparse_object_get_number(obj, "magic") == *test) {
+		do_some_other_action_with_object(obj, userInfo);
+	}
 }
 
 cParseObject *obj = cparse_object_with_class_name("Wizards");
@@ -136,12 +142,21 @@ if(!cparse_query_find_objects(query, &error))
 	cparse_error_free(error);
 	return;
 }
+
+/* etc */
 ```
 
 Users
 =====
+
+Users are objects as well, so you can use any of the object functions if you want.
+
 ```C
 cParseUser *user = cparse_user_with_name("Ronald");
+
+/* set object attributes */
+cparse_object_set_string(user, "last_name", "Weasley");
+cparse_object_set_number(user, "birth_year", 1980);
 
 if(!cparse_user_sign_up(user, "Password!", &error)) {
 	puts(cparse_error_message(error));
@@ -151,7 +166,7 @@ if(!cparse_user_sign_up(user, "Password!", &error)) {
 
 cparse_user_free(user);
 
-/* have a new user at this point */
+/* now login as the created user */
 user = cparse_user_login("Ronald", "Password!", &error);
 
 if(user == NULL) {
@@ -166,19 +181,6 @@ loggedInUser = cparse_current_user();
 
 ```
 
-Users are objects as well, so you can use any of the object functions if you want.
-
-```C
-
-cParseuser *user = cparse_user_with_name("Ronald");
-
-cparse_object_set_string(user, "last_name", "Weasley");
-
-cparse_object_set_number(user, "birth_year", 1980);
-
-/* etc... */
-```
-
 
 Roles
 =====
@@ -189,6 +191,10 @@ Roles define access control for a group of users and can inherit from other role
 ```C
 cParseRole *role = cparse_role_with_name("Students");
 cParseQuery *query = NULL;
+
+/* set read only access */
+cparse_role_set_public_acl(role, cParseAccessRead, true);
+cparse_role_set_public_acl(role, cParseAccessWrite, false);
 
 /* add a user to the role */
 cparse_role_add_user(role, user);
