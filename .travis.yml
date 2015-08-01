@@ -18,5 +18,5 @@ script:
   - ./configure --enable-coverage
   - make memcheck
 after_success:
-  - lcov --compat-libtool --directory src --capture --output-file coverage.info --no-external --no-checksum
+  - lcov --compat-libtool --directory src --capture --output-file coverage.info 
   - coveralls-lcov coverage.info
