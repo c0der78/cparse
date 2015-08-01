@@ -6,8 +6,10 @@ addons:
       - libjson0-dev 
       - check
       - valgrind
+      - lcov
 before_script: 
   - autoreconf --recursive -if
+  - gem install coveralls-lcov
 env:
   global:
      - secure: "p6dR4odXk44yXToKg7gcWUVZL8/thgacKWlyPCbyU9p78xiZgQOE8xW3STYtEHpjQGSTFY3VNYaOYT3uY1xFBmhaz6VeuzKSBf+U2B6jHfB6btYSW/KJA6Xs2PlwgnpkfbH0femcN4gSPuPtcnXMoQrRbYxWd8bWTEHTTyhZMmY="
@@ -15,3 +17,6 @@ env:
 script:
   - ./configure --enable-coverage
   - make memcheck
+after_success:
+  - lcov --compat-libtool --directory . --capture --output-file coverage.info --no-external
+  - coveralls-lcov coverage.info
