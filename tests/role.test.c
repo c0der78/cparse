@@ -3,7 +3,6 @@
 #include <cparse/object.h>
 #include <cparse/user.h>
 #include <cparse/role.h>
-#include <cparse/list.h>
 #include <stdio.h>
 #include <check.h>
 #include "parse.test.h"

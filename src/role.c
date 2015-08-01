@@ -5,7 +5,6 @@
 #include <cparse/util.h>
 #include <cparse/query.h>
 #include <cparse/user.h>
-#include <cparse/list.h>
 #include <cparse/types.h>
 #include "protocol.h"
 #include "log.h"
