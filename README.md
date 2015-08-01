@@ -149,7 +149,7 @@ if(!cparse_query_find_objects(query, &error))
 Users
 =====
 
-Users are objects as well, so you can use any of the object functions if you want.
+Users are objects as well, so you can use any of the object functions, but there are special functions just for users as well.
 
 ```C
 cParseUser *user = cparse_user_with_name("Ronald");
@@ -181,6 +181,28 @@ loggedInUser = cparse_current_user();
 
 ```
 
+This is how you would query users.
+
+```C
+
+/* create a query for a user type */
+cParseQuery *query = cparse_user_query_new();
+
+/* name not equals Harry */
+cparse_query_where_ne(query, "name", "Harry");
+
+if(!cparse_query_find_objects(query, &error))
+{
+	puts(cparse_error_message(error));
+	cparse_error_free(error);
+	return;
+}
+
+if (cparse_query_size(query) > 0) {
+	cParseUser *user = cparse_query_get_result(query, 0);
+	/* etc */
+}
+```
 
 Roles
 =====
