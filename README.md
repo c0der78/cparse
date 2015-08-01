@@ -1,6 +1,8 @@
 cParse
 ======
 
+[![Join the chat at https://gitter.im/c0der78/cparse](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/c0der78/cparse?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 [![Build Status](https://travis-ci.org/c0der78/arg3json.svg?branch=master)](https://travis-ci.org/c0der78/arg3json)
 
 A C library to use the REST API at [parse.com](http://parse.com).
