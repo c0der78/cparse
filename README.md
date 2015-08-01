@@ -132,8 +132,8 @@ if(!cparse_query_find_objects(query, &error))
 }
 ```
 
-Sign up Users
-=============
+Users
+=====
 ```C
 cParseUser *user = cparse_user_with_name("user123");
 
@@ -143,13 +143,10 @@ if(!cparse_user_sign_up(user, "Password!", &error)) {
 	return;
 }
 
-/* have a new user at this point */
-```
+cparse_user_free(user);
 
-Log in a User
-=============
-```C
-cParseUser *user = cparse_user_login("user123", "Password!", &error);
+/* have a new user at this point */
+user = cparse_user_login("user123", "Password!", &error);
 
 if(user == NULL) {
 	puts(cparse_error_message(error));
@@ -168,6 +165,7 @@ Roles
 =====
 ```C
 cParseRole *role = cparse_role_with_name("Students");
+cParseQuery *query = NULL;
 
 /* add a user to the role */
 cparse_role_add_user(role, user);
@@ -179,6 +177,20 @@ cparse_role_add_role(role, inherited_role);
 if (!cparse_role_save(role, &error)) {
 	puts(cparse_error_message(error));
 	cparse_error_free(error);
+}
+
+/* look up users associated with the role */
+query = cparse_role_query_users(role);
+
+if (cparse_query_size(query) > 0) {
+	
+}
+
+/* look up role heirarchy */
+query = cparse_role_query_roles(role);
+
+if (cparse_query_size(query) > 0) {
+	
 }
 
 ```
