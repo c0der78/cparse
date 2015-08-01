@@ -307,7 +307,7 @@ void cparse_json_array_add(cParseJson *arr, cParseJson *value)
         cparse_log_errno(EINVAL);
         return;
     }
-    json_object_array_add(arr, json_object_get(value));
+    json_object_array_add(arr, value);
 }
 
 /* array getters */
