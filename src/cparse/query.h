@@ -23,6 +23,9 @@ cParseQuery *cparse_query_for_object(cParseObject *obj);
  */
 void cparse_query_free(cParseQuery *query);
 
+/*! frees the results of a query
+ * \param query the query instance
+ */
 void cparse_query_free_results(cParseQuery *query);
 
 /* getters/setters */

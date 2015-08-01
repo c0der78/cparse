@@ -87,7 +87,14 @@ void cparse_query_free(cParseQuery *query)
 
     if (query->results)
     {
-        /* note: don't delete the objects, just the array */
+        size_t i = 0;
+
+        for (; i < query->size; i++) {
+            // may have been freed already
+            if (query->results[i]) {
+                cparse_object_free(query->results[i]);
+            }
+        }
         free(query->results);
     }
 
@@ -109,9 +116,13 @@ void cparse_query_free_results(cParseQuery *query)
 
     for (i = 0; i < query->size; i++)
     {
-        cparse_object_free(query->results[i]);
+        if (query->results[i]) {
+            cparse_object_free(query->results[i]);
+        }
         query->results[i] = NULL;
     }
+
+    query->size = 0;
 }
 
 cParseQuery *cparse_query_with_class_name(const char *className)
@@ -236,9 +247,11 @@ bool cparse_query_find_objects(cParseQuery *query, cParseError **error)
 
             if (query->results)
             {
-                /* fine, go ahead and cleanup */
+                cparse_query_free_results(query);
+
                 free(query->results);
             }
+
             query->results = malloc(cparse_object_sizeof() * query->size);
 
             if (query->results == NULL) {

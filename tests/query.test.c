@@ -51,8 +51,6 @@ START_TEST(test_cparse_query_objects)
 
     fail_unless(!strcmp(cparse_object_get_string(user1, "playerName"), "user1"));
 
-    cparse_query_free_results(query);
-
     cparse_query_free(query);
 }
 END_TEST
@@ -94,8 +92,6 @@ START_TEST(test_cparse_query_where)
     result = cparse_query_result(query, 0);
 
     fail_unless(cparse_object_get_number(result, "score", 0) == randScore);
-
-    cparse_query_free_results(query);
 
     cparse_query_free(query);
 }

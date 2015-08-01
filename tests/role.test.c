@@ -72,7 +72,7 @@ START_TEST(test_cparse_role_query)
 
     bool rval = false;
 
-    cParseList *list = NULL;
+    cParseQuery *query = NULL;
 
     cParseRole *other = NULL, *role = cparse_role_with_name(rand_name());
 
@@ -95,14 +95,16 @@ START_TEST(test_cparse_role_query)
 
     error = NULL;
 
-    list = cparse_role_query_users(role, &error);
+    query = cparse_role_query_users(role, &error);
 
     if (error) {
         puts(cparse_error_message(error));
         cparse_error_free(error);
     }
 
-    fail_unless(cparse_list_size(list) == 1);
+    fail_unless(cparse_query_size(query) == 1);
+
+    cparse_query_free(query);
 
     other = cparse_role_with_name(rand_name());
 
@@ -112,14 +114,16 @@ START_TEST(test_cparse_role_query)
 
     fail_unless(cparse_role_save(other, NULL));
 
-    list = cparse_role_query_roles(other, &error);
+    query = cparse_role_query_roles(other, &error);
 
     if (error) {
         puts(cparse_error_message(error));
         cparse_error_free(error);
     }
 
-    fail_unless(cparse_list_size(list) == 1);
+    fail_unless(cparse_query_size(query) == 1);
+
+    cparse_query_free(query);
 
     fail_unless(cparse_user_delete(user, NULL));
 

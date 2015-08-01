@@ -42,15 +42,11 @@ const char *cparse_role_name(cParseRole *role) {
 	return cparse_object_get_string(role, "name");
 }
 
-cParseList *cparse_role_query_users(cParseRole *role, cParseError **error) {
-
-	cParseList *list = NULL;
+cParseQuery *cparse_role_query_users(cParseRole *role, cParseError **error) {
 
 	cParseQuery *query = NULL;
 
 	cParseQueryBuilder *builder = NULL;
-
-	size_t pos = 0;
 
 	if (role == NULL) {
 		cparse_log_set_errno(error, EINVAL);
@@ -72,25 +68,13 @@ cParseList *cparse_role_query_users(cParseRole *role, cParseError **error) {
 		return NULL;
 	}
 
-	list = cparse_list_new(sizeof(cParseObject), (cParseListFreeFunk) cparse_object_free);
-
-	for (pos = 0; pos < query->size; pos++) {
-		cparse_list_append(list, query->results[pos]);
-	}
-
-	cparse_query_free(query);
-
-	return list;
+	return query;
 }
 
-cParseList *cparse_role_query_roles(cParseRole *role, cParseError **error) {
+cParseQuery *cparse_role_query_roles(cParseRole *role, cParseError **error) {
 	cParseQuery *query = NULL;
 
 	cParseQueryBuilder *builder = NULL;
-
-	cParseList *list = NULL;
-
-	size_t pos = 0;
 
 	if (role == NULL) {
 		cparse_log_set_errno(error, EINVAL);
@@ -112,15 +96,7 @@ cParseList *cparse_role_query_roles(cParseRole *role, cParseError **error) {
 		return NULL;
 	}
 
-	list = cparse_list_new(sizeof(cParseObject), (cParseListFreeFunk) cparse_object_free);
-
-	for (pos = 0; pos < query->size; pos++) {
-		cparse_list_append(list, query->results[pos]);
-	}
-
-	cparse_query_free(query);
-
-	return list;
+	return query;
 }
 
 static void __cparse_role_add_dependency(cParseRole *role, const char *key, cParseObject *ref)
