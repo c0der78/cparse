@@ -14,17 +14,15 @@ cParseQuery *cparse_role_query_users(cParseRole *role, cParseError **error);
 
 cParseQuery *cparse_role_query_roles(cParseRole *role, cParseError **error);
 
-bool cparse_role_update(cParseRole *role, cParseJson *attributes, cParseError **error);
-
 void cparse_role_add_user(cParseRole *role, cParseUser *user);
 
 void cparse_role_add_role(cParseRole *role, cParseRole *other);
 
-extern void (*cparse_role_set_public_acl)(cParseRole *role, bool read, bool write);
+extern void (*cparse_role_set_public_acl)(cParseRole *role, cParseAccess access, bool value);
 
-extern void (*cparse_role_set_user_acl)(cParseRole *role, cParseUser *user, bool read, bool write);
+extern void (*cparse_role_set_user_acl)(cParseRole *role, cParseUser *user, cParseAccess access, bool value);
 
-extern void (*cparse_role_set_role_acl)(cParseRole *role, cParseRole *other, bool read, bool write);
+extern void (*cparse_role_set_role_acl)(cParseRole *role, cParseRole *other, cParseAccess access, bool value);
 
 extern void (*cparse_role_free)(cParseRole *role);
 

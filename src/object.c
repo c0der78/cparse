@@ -778,7 +778,7 @@ const char *cparse_object_to_json_string(cParseObject *obj)
     return !obj ? NULL : cparse_json_to_json_string(obj->attributes);
 }
 
-static void cparse_object_add_acl(cParseObject *obj, const char *key, bool read, bool write)
+static void cparse_object_add_acl(cParseObject *obj, const char *key, cParseAccess access, bool value)
 {
     cParseJson *acl = NULL;
     cParseJson *item = NULL;
@@ -806,31 +806,36 @@ static void cparse_object_add_acl(cParseObject *obj, const char *key, bool read,
         cparse_json_set(acl, key, item);
     }
 
-    cparse_json_set_bool(item, "read", read);
-
-    cparse_json_set_bool(item, "write", write);
+    switch (access) {
+    case cParseAccessRead:
+        cparse_json_set_bool(item, "read", value);
+        break;
+    case cParseAccessWrite:
+        cparse_json_set_bool(item, "write", value);
+        break;
+    }
 }
 
-void cparse_object_set_public_acl(cParseObject *obj, bool read, bool write)
+void cparse_object_set_public_acl(cParseObject *obj, cParseAccess access, bool value)
 {
     if (!obj) {
         cparse_log_errno(EINVAL);
         return;
     }
-    cparse_object_add_acl(obj, CPARSE_ACL_PUBLIC, read, write);
+    cparse_object_add_acl(obj, CPARSE_ACL_PUBLIC, access, value);
 }
 
-void cparse_object_set_user_acl(cParseObject *obj, cParseUser *user, bool read, bool write)
+void cparse_object_set_user_acl(cParseObject *obj, cParseUser *user, cParseAccess access, bool value)
 {
     if (!obj || !user || !cparse_object_is_user(user) || cparse_str_empty(user->objectId)) {
         cparse_log_errno(EINVAL);
         return;
     }
 
-    cparse_object_add_acl(obj, user->objectId, read, write);
+    cparse_object_add_acl(obj, user->objectId, access, value);
 }
 
-void cparse_object_set_role_acl(cParseObject *obj, cParseRole *role, bool read, bool write)
+void cparse_object_set_role_acl(cParseObject *obj, cParseRole *role, cParseAccess access, bool value)
 {
     char buf[CPARSE_BUF_SIZE + 1] = {0};
 
@@ -841,7 +846,7 @@ void cparse_object_set_role_acl(cParseObject *obj, cParseRole *role, bool read, 
 
     snprintf(buf, CPARSE_BUF_SIZE, "role:%s", cparse_role_name(role));
 
-    cparse_object_add_acl(obj, buf, read, write);
+    cparse_object_add_acl(obj, buf, access, value);
 }
 
 

@@ -282,13 +282,31 @@ void cparse_object_merge_json(cParseObject *obj, cParseJson *json);
  */
 const char *cparse_object_to_json_string(cParseObject *obj);
 
+/*! tests if an object is not a system object
+ * \param obj the object instance
+ */
 bool cparse_object_is_object(cParseObject *obj);
 
-void cparse_object_set_public_acl(cParseObject *obj, bool read, bool write);
+/*! sets public access control list for an object
+ * \param obj the object instance
+ * \param access the access type (read/write)
+ * \param value the access value
+ */
+void cparse_object_set_public_acl(cParseObject *obj, cParseAccess access, bool value);
 
-void cparse_object_set_user_acl(cParseObject *obj, cParseUser *user, bool read, bool write);
+/*! sets a user access control list for an object
+ * \param obj the object instance
+ * \param access the access type (read/write)
+ * \param value the access value
+ */
+void cparse_object_set_user_acl(cParseObject *obj, cParseUser *user, cParseAccess access, bool value);
 
-void cparse_object_set_role_acl(cParseObject *obj, cParseRole *role, bool read, bool write);
+/*! sets a role access control list for an object
+ * \param obj the object instance
+ * \param access the access type (read/write)
+ * \param value the access value
+ */
+void cparse_object_set_role_acl(cParseObject *obj, cParseRole *role, cParseAccess access, bool value);
 
 END_DECL
 

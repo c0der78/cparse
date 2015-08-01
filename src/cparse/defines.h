@@ -67,4 +67,6 @@ typedef struct cparse_list_node cParseListNode;
 typedef struct cparse_list cParseList;
 
 
+typedef enum { cParseAccessRead, cParseAccessWrite } cParseAccess;
+
 #endif

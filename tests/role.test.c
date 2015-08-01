@@ -30,7 +30,8 @@ START_TEST(test_cparse_role_add_user)
 
     fail_unless(cparse_user_sign_up(user, "66666", NULL));
 
-    cparse_role_set_public_acl(role, true, true);
+    cparse_role_set_public_acl(role, cParseAccessRead, true);
+    cparse_role_set_public_acl(role, cParseAccessWrite, true);
 
     cparse_role_add_user(role, user);
 
@@ -47,7 +48,8 @@ START_TEST(test_cparse_role_add_user)
 
     cparse_role_add_role(other, role);
 
-    cparse_role_set_public_acl(other, true, true);
+    cparse_role_set_public_acl(other, cParseAccessRead, true);
+    cparse_role_set_public_acl(role, cParseAccessWrite, true);
 
     fail_unless(cparse_role_save(other, NULL));
 
@@ -80,7 +82,8 @@ START_TEST(test_cparse_role_query)
 
     fail_unless(cparse_user_sign_up(user, "66666", NULL));
 
-    cparse_role_set_public_acl(role, true, true);
+    cparse_role_set_public_acl(role, cParseAccessRead, true);
+    cparse_role_set_public_acl(role, cParseAccessWrite, true);
 
     cparse_role_add_user(role, user);
 
@@ -110,7 +113,8 @@ START_TEST(test_cparse_role_query)
 
     cparse_role_add_role(other, role);
 
-    cparse_role_set_public_acl(other, true, true);
+    cparse_role_set_public_acl(other, cParseAccessRead, true);
+    cparse_role_set_public_acl(other, cParseAccessWrite, true);
 
     fail_unless(cparse_role_save(other, NULL));
 

@@ -14,11 +14,11 @@
 
 extern cParseUser *cparse_object_new();
 
-void (*cparse_role_set_public_acl)(cParseRole *role, bool read, bool write) = cparse_object_set_public_acl;
+void (*cparse_role_set_public_acl)(cParseRole *role, cParseAccess access, bool value) = cparse_object_set_public_acl;
 
-void (*cparse_role_set_user_acl)(cParseRole *role, cParseUser *user, bool read, bool write) = cparse_object_set_user_acl;
+void (*cparse_role_set_user_acl)(cParseRole *role, cParseUser *user, cParseAccess access, bool value) = cparse_object_set_user_acl;
 
-void (*cparse_role_set_role_acl)(cParseRole *role, cParseRole *other, bool read, bool write) = cparse_object_set_role_acl;
+void (*cparse_role_set_role_acl)(cParseRole *role, cParseRole *other, cParseAccess access, bool value) = cparse_object_set_role_acl;
 
 void (*cparse_role_free)(cParseRole *role) = cparse_object_free;
 

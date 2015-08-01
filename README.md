@@ -21,6 +21,7 @@ Dependencies
 
 - libcurl for HTTP requests
 - libjson (json-c) for JSON parsing
+- pthreads
 - check for unit testing
 
 Usage
@@ -33,6 +34,9 @@ Examples
 ```C
 cParseObject *obj = cparse_object_with_class_name("Wizards");
 
+cParseError *error = NULL;
+
+/* set some values */
 cparse_object_set_string(obj, "name", "Harry Potter");
 
 cparse_object_set_number(obj, "score", 24);
@@ -87,24 +91,27 @@ if(!cparse_query_find_objects(query, &error))
 
 /* get the second result */
 if(cparse_query_size(query) > 1)
-	obj = cparse_query_get_result(query, 1);
+{
+	cParseObject *obj = cparse_query_get_result(query, 1);
+}
 ```
 
 Building more complex Queries
 =============================
 ```C
+cParseQuery *query = cparse_query_with_class_name("Wizards");
 cParseQueryBuilder *builder = cparse_query_build_new();
+cParseJson *names = cparse_json_new_array();
 
 /* query score >= 24 && score < 50 */
 cparse_query_build_gte(builder, "score", cparse_json_new_number(24));
 cparse_query_build_lt(builder, "score", cparse_json_new_number(50));
 
 /* build an array of names */
-cParseJson *names = cparse_json_new_array();
 cparse_json_add_string(names, "Harry");
 cparse_json_add_string(names, "Dumbledor");
 
-/* query by name */
+/* query by name in array */
 cparse_query_build_in(builder, "name", names);
 
 /* assign builder to the query */
@@ -112,6 +119,13 @@ cparse_query_build_where(query, builder);
 
 /* free the builder */
 cparse_query_build_free(builder);
+
+if(!cparse_query_find_objects(query, &error))
+{
+	puts(cparse_error_message(error));
+	cparse_error_free(error);
+	return;
+}
 ```
 
 Sign up Users
@@ -144,3 +158,48 @@ if(user == NULL) {
 loggedInUser = cparse_current_user();
 
 ```
+
+
+Roles
+=====
+```C
+cParseRole *role = cparse_role_with_name("Students");
+
+/* add a user to the role */
+cparse_role_add_user(role, user);
+
+/* add an inherited role */
+cparse_role_add_role(role, inherited_role);
+
+/* create the Students role */
+if (!cparse_role_save(role, &error)) {
+	puts(cparse_error_message(error));
+	cparse_error_free(error);
+}
+
+```
+
+Access Control
+==============
+```C
+cParseObject *obj = cparse_object_with_class_name("Wizards");
+
+/* restrict public write access */
+cparse_object_set_public_acl(obj, cParseAccessWrite, false);
+
+/* allow write access for a specific user */
+cparse_object_set_user_acl(obj, user, cParseAccessWrite, true);
+
+/* allow write access for users in a role */
+cparse_object_set_role_acl(obj, role, cParseAccessWrite, true);
+```
+
+
+TODO
+====
+
+- finish query api (arrays, strings, relational, compound, geo)
+- implement batch operations
+- finish users api (linking, pwd reset, verify email)
+- sessions
+- files
