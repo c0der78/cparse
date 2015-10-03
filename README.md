@@ -63,6 +63,9 @@ cparse_object_free(obj);
 
 Background Operations
 =====================
+
+It should be noted right now there is no thread safety in this library.  You should create your own if it is a concern.
+
 ```C
 void magical_callback(cParseObject *obj, cParseError *error, void *userInfo)
 {
