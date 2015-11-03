@@ -1,0 +1,225 @@
+.TH "src/cparse/role.h" 3 "Mon Nov 2 2015" "Version 0.1" "cParse" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+src/cparse/role.h \- 
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <cparse/defines\&.h>\fP
+.br
+
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "BEGIN_DECL \fBcParseRole\fP * \fBcparse_role_with_name\fP (const char *name)"
+.br
+.ti -1c
+.RI "const char * \fBcparse_role_name\fP (\fBcParseRole\fP *role)"
+.br
+.ti -1c
+.RI "\fBcParseQuery\fP * \fBcparse_role_query_users\fP (\fBcParseRole\fP *role, \fBcParseError\fP **error)"
+.br
+.ti -1c
+.RI "\fBcParseQuery\fP * \fBcparse_role_query_roles\fP (\fBcParseRole\fP *role, \fBcParseError\fP **error)"
+.br
+.ti -1c
+.RI "void \fBcparse_role_add_user\fP (\fBcParseRole\fP *role, \fBcParseUser\fP *user)"
+.br
+.ti -1c
+.RI "void \fBcparse_role_add_role\fP (\fBcParseRole\fP *role, \fBcParseRole\fP *other)"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "void(* \fBcparse_role_set_public_acl\fP )(\fBcParseRole\fP *role, \fBcParseAccess\fP access, \fBbool\fP value)"
+.br
+.ti -1c
+.RI "void(* \fBcparse_role_set_user_acl\fP )(\fBcParseRole\fP *role, \fBcParseUser\fP *user, \fBcParseAccess\fP access, \fBbool\fP value)"
+.br
+.ti -1c
+.RI "void(* \fBcparse_role_set_role_acl\fP )(\fBcParseRole\fP *role, \fBcParseRole\fP *other, \fBcParseAccess\fP access, \fBbool\fP value)"
+.br
+.ti -1c
+.RI "void(* \fBcparse_role_free\fP )(\fBcParseRole\fP *role)"
+.br
+.ti -1c
+.RI "\fBbool\fP(* \fBcparse_role_save\fP )(\fBcParseRole\fP *role, \fBcParseError\fP **error)"
+.br
+.ti -1c
+.RI "\fBbool\fP(* \fBcparse_role_delete\fP )(\fBcParseRole\fP *role, \fBcParseError\fP **error)"
+.br
+.ti -1c
+.RI "\fBcparse_thread\fP(* \fBcparse_role_save_in_background\fP )(\fBcParseRole\fP *role, \fBcParseObjectCallback\fP callback, void *param)"
+.br
+.ti -1c
+.RI "\fBcparse_thread\fP(* \fBcparse_role_delete_in_background\fP )(\fBcParseRole\fP *role, \fBcParseObjectCallback\fP callback, void *param)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+cParse Role Functions for dealing with roles 
+.SH "Function Documentation"
+.PP 
+.SS "void cparse_role_add_role (\fBcParseRole\fP * role, \fBcParseRole\fP * other)"
+adds a sub role to a role 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIrole\fP the role to add to 
+.br
+\fIother\fP the sub role to add 
+.RE
+.PP
+
+.SS "void cparse_role_add_user (\fBcParseRole\fP * role, \fBcParseUser\fP * user)"
+adds a user to a role 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIrole\fP the role to add to 
+.br
+\fIuser\fP the user to add 
+.RE
+.PP
+
+.SS "const char* cparse_role_name (\fBcParseRole\fP * role)"
+get the name of a role 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIrole\fP the role to get from 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+the name of the role 
+.RE
+.PP
+
+.SS "\fBcParseQuery\fP* cparse_role_query_roles (\fBcParseRole\fP * role, \fBcParseError\fP ** error)"
+query sub roles for a role 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIrole\fP the role to query 
+.br
+\fIerror\fP the error to set on failure 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+a query containing role objects 
+.RE
+.PP
+
+.SS "\fBcParseQuery\fP* cparse_role_query_users (\fBcParseRole\fP * role, \fBcParseError\fP ** error)"
+queries the users for a role 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIrole\fP the role to query 
+.br
+\fIerror\fP the error to set on failure 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+a query containing user objects 
+.RE
+.PP
+
+.SS "BEGIN_DECL \fBcParseRole\fP* cparse_role_with_name (const char * name)"
+creates a role with a name 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIname\fP the name of the role 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+the allocated role or NULL 
+.RE
+.PP
+
+.SH "Variable Documentation"
+.PP 
+.SS "\fBbool\fP(* cparse_role_delete) (\fBcParseRole\fP *role, \fBcParseError\fP **error)"
+function pointer to delete a role 
+.PP
+\fBSee also:\fP
+.RS 4
+\fBcparse_object_delete\fP 
+.RE
+.PP
+
+.SS "\fBcparse_thread\fP(* cparse_role_delete_in_background) (\fBcParseRole\fP *role, \fBcParseObjectCallback\fP callback, void *param)"
+function pointer to delete a role in the background 
+.PP
+\fBSee also:\fP
+.RS 4
+\fBcparse_object_delete_in_background\fP 
+.RE
+.PP
+
+.SS "void(* cparse_role_free) (\fBcParseRole\fP *role)"
+function pointer to free a role 
+.PP
+\fBSee also:\fP
+.RS 4
+\fBcparse_object_free\fP 
+.RE
+.PP
+
+.SS "\fBbool\fP(* cparse_role_save) (\fBcParseRole\fP *role, \fBcParseError\fP **error)"
+function pointer to save a role 
+.PP
+\fBSee also:\fP
+.RS 4
+\fBcparse_object_save\fP 
+.RE
+.PP
+
+.SS "\fBcparse_thread\fP(* cparse_role_save_in_background) (\fBcParseRole\fP *role, \fBcParseObjectCallback\fP callback, void *param)"
+function pointer to save a role in the background 
+.PP
+\fBSee also:\fP
+.RS 4
+\fBcparse_object_save_in_background\fP 
+.RE
+.PP
+
+.SS "void(* cparse_role_set_public_acl) (\fBcParseRole\fP *role, \fBcParseAccess\fP access, \fBbool\fP value)"
+function pointer to set a public acl for a role 
+.PP
+\fBSee also:\fP
+.RS 4
+\fBcparse_object_set_public_acl\fP 
+.RE
+.PP
+
+.SS "void(* cparse_role_set_role_acl) (\fBcParseRole\fP *role, \fBcParseRole\fP *other, \fBcParseAccess\fP access, \fBbool\fP value)"
+function pointer to set a role acl for a role 
+.PP
+\fBSee also:\fP
+.RS 4
+\fBcparse_object_set_user_acl\fP 
+.RE
+.PP
+
+.SS "void(* cparse_role_set_user_acl) (\fBcParseRole\fP *role, \fBcParseUser\fP *user, \fBcParseAccess\fP access, \fBbool\fP value)"
+function pointer to set a user acl for a role 
+.PP
+\fBSee also:\fP
+.RS 4
+\fBcparse_object_set_user_acl\fP 
+.RE
+.PP
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for cParse from the source code\&.

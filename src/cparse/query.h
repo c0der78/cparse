@@ -1,6 +1,12 @@
-/*! \file query.h */
-#ifndef CPARSE_QUERY_H_
-#define CPARSE_QUERY_H_
+/*!
+ * @file
+ * @header cParse Query
+ * Functions for dealing with queries
+ */
+#ifndef CPARSE_QUERY_H
+
+/* @parseOnly */
+#define CPARSE_QUERY_H
 
 #include <cparse/defines.h>
 #include <cparse/error.h>
@@ -10,8 +16,8 @@
 BEGIN_DECL
 
 /*! creates a new query for an object type
- * \param className the type of object
- * \returns the allocated query
+ * @param className the type of object
+ * @return the allocated query
  */
 cParseQuery *cparse_query_with_class_name(const char *className);
 
@@ -19,33 +25,33 @@ cParseQuery *cparse_query_for_object(cParseObject *obj);
 
 
 /*! deallocates a query
- * \param query the query instance
+ * @param query the query instance
  */
 void cparse_query_free(cParseQuery *query);
 
 /*! frees the results of a query
- * \param query the query instance
+ * @param query the query instance
  */
 void cparse_query_free_results(cParseQuery *query);
 
 /* getters/setters */
 
 /*! gets the size of the results in the query
- * \param query the query instance
- * \returns the number of results in the query
+ * @param query the query instance
+ * @return the number of results in the query
  */
 size_t cparse_query_size(cParseQuery *query);
 
 /*! gets a result in the query
- * \param query the query instance
- * \param index the index of the result
- * \returns the query result object or NULL
+ * @param query the query instance
+ * @param index the index of the result
+ * @return the query result object or NULL
  */
 cParseObject *cparse_query_result(cParseQuery *query, size_t index);
 
 /*! sets the where clause of a query
- * \param query the query instance
- * \param where a json object describing the where clause (see https://parse.com/docs/rest#queries)
+ * @param query the query instance
+ * @param where a json object describing the where clause (see https://parse.com/docs/rest#queries)
  */
 void cparse_query_set_where(cParseQuery *query, cParseJson *where);
 
@@ -59,9 +65,9 @@ void cparse_query_cancel(cParseQuery *query);
 int cparse_query_count_objects(cParseQuery *query, cParseError **error);
 
 /*! find objects from a query
- * \param query the query instance
- * \param error a pointer to an error object that gets allocated if not successful
- * \returns true if successful
+ * @param query the query instance
+ * @param error a pointer to an error object that gets allocated if not successful
+ * @return true if successful
  */
 bool cparse_query_find_objects(cParseQuery *query, cParseError **error);
 

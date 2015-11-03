@@ -824,8 +824,13 @@ uninstall-am:
 @HAVE_GCOV_TRUE@	@echo Removing old coverage results
 @HAVE_GCOV_TRUE@	-find $(top_builddir) -name '*.gcda' -print | xargs rm
 
+@HAVE_GCOV_TRUE@.PHONY: clean-output-folder
+@HAVE_GCOV_TRUE@clean-output-folder:
+@HAVE_GCOV_TRUE@	@echo Removing old html results
+@HAVE_GCOV_TRUE@	-rm -rf coverage/*
+
 @HAVE_GCOV_TRUE@.PHONY: coverage-html generate-coverage-html clean-coverage-html
-@HAVE_GCOV_TRUE@coverage: clean-gcda
+@HAVE_GCOV_TRUE@coverage: clean-gcda clean-output-folder
 @HAVE_GCOV_TRUE@	-$(MAKE) $(AM_MAKEFLAGS) -k test
 @HAVE_GCOV_TRUE@	$(MAKE) $(AM_MAKEFLAGS) generate-coverage-html
 
@@ -846,8 +851,20 @@ test: check
 memcheck: check
 	CK_FORK=no $(top_srcdir)/libtool --mode=execute valgrind --leak-check=yes --show-reachable=yes --suppressions=suppression.map --error-exitcode=5 --track-origins=yes tests/test_cparse
 
-docs:
+htmldir:
+	@if [ -d html ]; then\
+		rm -rf html/*;\
+	else\
+		mkdir html;\
+	fi
+
+doxygen: htmldir
 	doxygen Doxyfile
+
+headerdoc: htmldir
+	headerdoc2html -o html src/cparse
+	gatherheaderdoc html
+	@mv html/masterTOC.html html/index.html
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

@@ -1,0 +1,1891 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/1998/REC-html40-19980424/loose.dtd">
+<html>
+<head>
+<title>cParse Object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="generator" content="HeaderDoc">
+<meta name="xcode-display" content="render">
+<style type="text/css"><!--.char {background: #ffffff; color:#0000ff;}.comment {background:#ffffff; color:#236e25}.function {background:#ffffff; color:#000000;}.keyword {background:#ffffff; color:#761550;}.number {background: #ffffff; color:#0000ff;}.param {background:#ffffff; color:#000000;}.preprocessor {background:#ffffff; color:#236e25}.string {background: #ffffff; color:#891315;}.template {background:#ffffff; color:#761550;}.type {background:#ffffff; color:#761550;}.var {background:#ffffff; color:#000000;}body {border: 0px; margin: 0px;}div {font-size: 10pt; text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; color: #000000;}td {font-size: 10pt; text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; color: #000000;}span.hd_tocAccessSpace { display: block; font-size: 1px; height: 3px; min-height: 3px; }span.hd_tocGroupSpace { display: block; font-size: 1px; height: 3px; min-height: 3px; }span.hd_tocGroup { display: block; font-weight: bold; font-size: 10pt; text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; color: #000000; margin-left: 0px; padding-left: 40px; }span.hd_tocGroup + span.hd_tocAccess { padding-top: 5px; }td.toc_contents_text {font-size: 11pt; text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; color: #000000; }li.tocSubEntry {font-size: 11pt; text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; color: #000000;}p {font-size: 10pt; text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; color: #000000;}a:link {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; color: #36c;}a:visited {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; color: #36c;}a:visited:hover {text-decoration: underline; font-family: lucida grande, geneva, helvetica, arial, sans-serif; color: #36c;}a:active {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; color: #36c;}a:hover {text-decoration: underline; font-family: lucida grande, geneva, helvetica, arial, sans-serif; color: #36c;}h2.h2tight { margin-top: 0px; padding-top: 0px; }h1 { margin-top: 13px; padding-top: 0px; }h4 {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: tiny; font-weight: bold;}h5 {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: 10.1pt; font-weight: bold;}pre {text-decoration: none; font-family: Courier, Consolas, monospace; color: #666; font-size: 10pt;}pre a { font-family: Courier, Consolas, monospace; color: #666;font-size: 10pt;}pre a:link { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}pre a:visited { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}pre a:visited:hover { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}pre a:active { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}pre a:hover { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}code {text-decoration: none; font-family: Courier, Consolas, monospace; color: #666;font-size: 10pt;}code a { font-family: Courier, Consolas, monospace; color: #666;font-size: 10pt;}code a:link { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}code a:visited { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}code a:visited:hover { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}code a:active { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}code a:hover { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}tt {text-decoration: none; font-family: Courier, Consolas, monospace; color: #666;font-size: 10pt;}tt a { font-family: Courier, Consolas, monospace; color: #666;font-size: 10pt;}tt a:link { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}tt a:visited { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}tt a:visited:hover { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}tt a:active { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}tt a:hover { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}body  {text-decoration: none; font-family: Courier, Consolas, monospace; color: #666;font-size: 10pt; padding-left: 0px; padding-top: 0px; margin-left: 0px; margin-top: 0px; border: none; }#hd_outermost_table { margin-left: 0px; border-spacing: 0px; margin-top: 0px; padding-left: 0px; padding-top: 0px; border: none; }#hd_outermost_table > tr { border-spacing: 0px; margin-left: 0px; margin-top: 0px; padding-left: 0px; padding-top: 0px; border: none; }#hd_outermost_table > tr > td { border-spacing: 0px; margin-left: 0px; margin-top: 0px; }#hd_outermost_table > tbody > tr { border-spacing: 0px; margin-left: 0px; margin-top: 0px; padding-left: 0px; padding-top: 0px; border: none; }#hd_outermost_table > tbody > tr > td { border-spacing: 0px; margin-left: 0px; margin-top: 0px; padding-top: 3px; }.afterName { display: none; }.list_indent { margin-left: 40px; }.declaration_indent { margin-left: 40px; margin-top: 0px; margin-bottom: 0px; padding-top: 0px; padding-bottom: 0px; min-height: 12px; vertical-align: middle; }.declaration_indent pre { margin-top: 20px; padding-top: 0px; margin-bottom: 20px; padding-bottom: 0px; }.gapBeforeFooter { display: none; }hr { height: 0px; min-height: 0px; border-top: none; border-left: none; border-right: none; border-bottom: 1px solid #909090;}hr.afterHeader { display: none }.param_group_indent { margin-left: 25px; }.param_indent { margin-left: 40px; margin-top: 0px; padding-top: 0px; }.param_indent dl { margin-top: 4px; padding-top: 0px; }dl dd > p:first-child { margin-top: 2px; padding-top: 0px; }.param_indent dl dd > p:first-child { margin-top: 2px; padding-top: 0px; }.group_indent { margin-left: 40px; }.group_desc_indent { margin-left: 20px; }.warning_indent { margin-left: 40px; }.important_indent { margin-left: 40px; }.note_indent { margin-left: 40px; }h3 {       color: #3C4C6C;}.tight {       margin-top: 2px; margin-bottom: 0px;       padding-top: 0px; padding-bottom: 0px;}h3 a {       color: #3C4C6C;	font-size: 16px;	font-style: normal;	font-variant: normal;	font-weight: bold;	height: 0px;	line-height: normal;}.hd_tocAccess { display: block; margin-left: 40px; font-style: italic; font-size: 10px; font-weight: normal; color: #303030; }.tocSubheading { margin-bottom: 4px; }--></style>
+<style><!--
+body {
+    padding: 0px;
+    margin: 0px;
+    border: 0px;
+}
+.toc_contents_text {
+    padding-left: 1em;
+    text-indent: -1em;
+}
+
+ul.tocSubEntryList li.tocSubEntry {
+    list-style: none;
+}
+
+#colorbox {
+		display: none;
+}
+.spec_sheet_line {
+		margin-bottom: 1px;
+}
+.collapsible {
+		display: none;
+}
+.toc_leadspace {
+		width: 10; min-width: 10;
+}
+.disclosure_triangle_td {
+		width: 14; min-width: 14;
+		font-size: 10px;
+		vertical-align: middle;
+}
+.specbox td {
+		font-size: 13px;
+}
+.specbox td a {
+		font-size: 13px;
+}
+.specbox td code {
+		font-size: 13px;
+}
+.specbox td tt {
+		font-size: 13px;
+}
+.specbox td pre {
+		font-size: 13px;
+}
+.specbox a {
+		font-size: 12px;
+}
+.disclosure_triangle_td a {
+		text-decoration: none;
+}
+.disclosure_triangle_td a:link {
+		text-decoration: none;
+}
+.disclosure_triangle_td a:active {
+		text-decoration: none;
+}
+.disclosure_triangle_td a:visited:hover {
+		text-decoration: none;
+}
+.disclosure_triangle_td a:hover {
+		text-decoration: none;
+}
+.hd_toc_box {
+		padding-top: 10px;
+		padding-right: 15px;
+}.tocSeparator {
+		margin-top: 15px;
+		padding-bottom: 0px;
+		margin-bottom: 0px;
+}
+.tocSubEntryList {
+		margin-left: 0px;
+		padding-left: 40px;
+		padding-top: 0px;
+		margin-top: 2px;
+		padding-bottom: 0px;
+		margin-bottom: 8px;
+}
+.hd_toc_heading_table {
+		margin-top: 2px;
+		margin-bottom: 2px;
+}
+.hd_toc_entry_table {
+		margin-top: 2px;
+		margin-bottom: 2px;
+}
+.tocSubEntry {
+		margin-left: 0px;
+		padding-left: 0px;
+		margin-top: 0px;
+		margin-bottom: 1px;
+}
+.tocSubEntry a {
+		font-size: 10pt;
+}
+.tocSubheading {
+		padding-left: 14px;
+		margin-left: 0px;
+		margin-top: 5px;
+		padding-top: 0px;
+		font-size: 16px;
+		color: #808080;
+}
+
+#hd_outermost_table { margin-left: 0px; border-spacing: 0px; margin-top: 0px; padding-left: 0px; padding-top: 0px; border: none; }
+#hd_outermost_table > tr { border-spacing: 0px; margin-left: 0px; margin-top: 0px; padding-left: 0px; padding-top: 0px; border: none; }
+#hd_outermost_table > tr > td { border-spacing: 0px; margin-left: 0px; margin-top: 0px; }
+#hd_outermost_table > tbody > tr { border-spacing: 0px; margin-left: 0px; margin-top: 0px; padding-left: 0px; padding-top: 0px; border: none; }
+#hd_outermost_table > tbody > tr > td { border-spacing: 0px; margin-left: 0px; margin-top: 0px; padding-top: 3px; }
+
+#tocMenu {
+		border-right: 1px solid #c0c0c0;
+		background-color: #f4f4ff;
+		top:0px;
+		left:0px;
+		width:230px;
+		height:100%;
+}
+#bodyContents {
+		width: auto;
+		padding-left: 15px;
+}
+--></style>
+<style id="disable_before_iOS_5"><!--
+#tocMenu {
+		position: fixed;
+		height: 100%;
+		overflow: auto;
+}
+#bodyContents {
+		width: auto;
+		left: 235px;
+		right: 0;
+		padding-left: 15px;
+		position: fixed;
+		height: 100%;
+		overflow-y: scroll;
+}
+--></style>
+<script language="JavaScript" type="text/javascript"><!--
+    if (navigator.platform && (navigator.platform.match(/iPad/) || navigator.platform.match(/iPhone/) || navigator.platform.match(/iPod/))) {
+        if (navigator.userAgent.match(/OS 1(_\d)+/) ||
+            navigator.userAgent.match(/OS 2(_\d)+/) ||
+            navigator.userAgent.match(/OS 3(_\d)+/) ||
+            navigator.userAgent.match(/OS 4(_\d)+/)) {
+                /* Earlier iOS versions require different scrolling gestures with position: fixed. */
+                var del_style_elt = document.getElementById("disable_before_iOS_5");
+                if (del_style_elt) del_style_elt.parentNode.removeChild(del_style_elt);
+        }
+    }
+// --></script><script language="JavaScript" type="text/javascript"><!--
+function getNewHTTPObject()
+{
+        var xmlhttp;
+
+        /** Special IE only code ... */
+        /*@cc_on
+          @if (@_jscript_version >= 5)
+              try
+              {
+                  xmlhttp = new ActiveXObject('Msxml2.XMLHTTP');
+              }
+              catch (e)
+              {
+                  try
+                  {
+                      xmlhttp = new ActiveXObject('Microsoft.XMLHTTP');
+                  }
+                  catch (E)
+                  {
+                      xmlhttp = false;
+                  }
+             }
+          @else
+             xmlhttp = false;
+        @end @*/
+
+        /** Every other browser on the planet */
+        if (!xmlhttp && typeof XMLHttpRequest != 'undefined')
+        {
+            try
+            {
+                xmlhttp = new XMLHttpRequest();
+            }
+            catch (e)
+            {
+                xmlhttp = false;
+            }
+        }
+
+        return xmlhttp;
+}
+
+function hidetoc() {
+	var toc = document.getElementById('tocMenu');
+	var src = toc.getAttribute('src');
+	var xhr = getNewHTTPObject();
+	xhr.open('GET', src, true);
+	xhr.onreadystatechange = function() {
+		if(xhr.readyState == 4) {
+			var toc = document.getElementById('tocMenu');
+			toc.innerHTML = xhr.responseText;
+		}
+	}
+	xhr.send(null);
+	var origURL = parent.document.URL;
+	var contentURL = origURL.substring(origURL.indexOf('?')+1, origURL.length);
+	if (contentURL.length == origURL.length) {
+		jumpPos = origURL.substring(origURL.indexOf('#')+1, origURL.length);
+	}
+	if (contentURL == "hidetoc") {
+		var body = document.getElementById('bodyContents');
+		if (toc && body) {
+			toc.style.display = 'none';
+			body.style.marginLeft = '0px';
+		}
+	}
+}
+
+function disclosure_triangle(elt) {
+   var linkelt = elt;
+   while (elt && elt.tagName != 'TABLE') { elt = elt.parentNode;}
+   if (!elt) { return; }
+   while (elt && elt.tagName != 'DIV') { elt = elt.nextSibling;}
+   if (!elt) { return; }
+   if (parseInt(linkelt.getAttribute('state'))) {
+      // It's open.  Close it
+      linkelt.innerHTML = '&#x25B7;';
+      linkelt.setAttribute('state', 0);
+      linkelt.setAttribute('class', 'closed_disclosure_triangle');
+      elt.style.display = 'none';
+   } else {
+      // It's closed.  Open it
+      linkelt.innerHTML = '&#x25BC;';
+      linkelt.setAttribute('state', 1);
+      linkelt.setAttribute('class', 'open_disclosure_triangle');
+      elt.style.display = 'block';
+   }
+}
+--></script><style type="text/css"><!--.char {background: #ffffff; color:#0000ff;}.comment {background:#ffffff; color:#236e25}.function {background:#ffffff; color:#000000;}.keyword {background:#ffffff; color:#761550;}.number {background: #ffffff; color:#0000ff;}.param {background:#ffffff; color:#000000;}.preprocessor {background:#ffffff; color:#236e25}.string {background: #ffffff; color:#891315;}.template {background:#ffffff; color:#761550;}.type {background:#ffffff; color:#761550;}.var {background:#ffffff; color:#000000;}body {border: 0px; margin: 0px;}div {font-size: 10pt; text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; color: #000000;}td {font-size: 10pt; text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; color: #000000;}span.hd_tocAccessSpace { display: block; font-size: 1px; height: 3px; min-height: 3px; }span.hd_tocGroupSpace { display: block; font-size: 1px; height: 3px; min-height: 3px; }span.hd_tocGroup { display: block; font-weight: bold; font-size: 10pt; text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; color: #000000; margin-left: 0px; padding-left: 40px; }span.hd_tocGroup + span.hd_tocAccess { padding-top: 5px; }td.toc_contents_text {font-size: 11pt; text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; color: #000000; }li.tocSubEntry {font-size: 11pt; text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; color: #000000;}p {font-size: 10pt; text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; color: #000000;}a:link {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; color: #36c;}a:visited {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; color: #36c;}a:visited:hover {text-decoration: underline; font-family: lucida grande, geneva, helvetica, arial, sans-serif; color: #36c;}a:active {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; color: #36c;}a:hover {text-decoration: underline; font-family: lucida grande, geneva, helvetica, arial, sans-serif; color: #36c;}h2.h2tight { margin-top: 0px; padding-top: 0px; }h1 { margin-top: 13px; padding-top: 0px; }h4 {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: tiny; font-weight: bold;}h5 {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: 10.1pt; font-weight: bold;}pre {text-decoration: none; font-family: Courier, Consolas, monospace; color: #666; font-size: 10pt;}pre a { font-family: Courier, Consolas, monospace; color: #666;font-size: 10pt;}pre a:link { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}pre a:visited { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}pre a:visited:hover { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}pre a:active { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}pre a:hover { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}code {text-decoration: none; font-family: Courier, Consolas, monospace; color: #666;font-size: 10pt;}code a { font-family: Courier, Consolas, monospace; color: #666;font-size: 10pt;}code a:link { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}code a:visited { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}code a:visited:hover { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}code a:active { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}code a:hover { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}tt {text-decoration: none; font-family: Courier, Consolas, monospace; color: #666;font-size: 10pt;}tt a { font-family: Courier, Consolas, monospace; color: #666;font-size: 10pt;}tt a:link { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}tt a:visited { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}tt a:visited:hover { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}tt a:active { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}tt a:hover { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}body  {text-decoration: none; font-family: Courier, Consolas, monospace; color: #666;font-size: 10pt; padding-left: 0px; padding-top: 0px; margin-left: 0px; margin-top: 0px; border: none; }#hd_outermost_table { margin-left: 0px; border-spacing: 0px; margin-top: 0px; padding-left: 0px; padding-top: 0px; border: none; }#hd_outermost_table > tr { border-spacing: 0px; margin-left: 0px; margin-top: 0px; padding-left: 0px; padding-top: 0px; border: none; }#hd_outermost_table > tr > td { border-spacing: 0px; margin-left: 0px; margin-top: 0px; }#hd_outermost_table > tbody > tr { border-spacing: 0px; margin-left: 0px; margin-top: 0px; padding-left: 0px; padding-top: 0px; border: none; }#hd_outermost_table > tbody > tr > td { border-spacing: 0px; margin-left: 0px; margin-top: 0px; padding-top: 3px; }.afterName { display: none; }.list_indent { margin-left: 40px; }.declaration_indent { margin-left: 40px; margin-top: 0px; margin-bottom: 0px; padding-top: 0px; padding-bottom: 0px; min-height: 12px; vertical-align: middle; }.declaration_indent pre { margin-top: 20px; padding-top: 0px; margin-bottom: 20px; padding-bottom: 0px; }.gapBeforeFooter { display: none; }hr { height: 0px; min-height: 0px; border-top: none; border-left: none; border-right: none; border-bottom: 1px solid #909090;}hr.afterHeader { display: none }.param_group_indent { margin-left: 25px; }.param_indent { margin-left: 40px; margin-top: 0px; padding-top: 0px; }.param_indent dl { margin-top: 4px; padding-top: 0px; }dl dd > p:first-child { margin-top: 2px; padding-top: 0px; }.param_indent dl dd > p:first-child { margin-top: 2px; padding-top: 0px; }.group_indent { margin-left: 40px; }.group_desc_indent { margin-left: 20px; }.warning_indent { margin-left: 40px; }.important_indent { margin-left: 40px; }.note_indent { margin-left: 40px; }h3 {       color: #3C4C6C;}.tight {       margin-top: 2px; margin-bottom: 0px;       padding-top: 0px; padding-bottom: 0px;}h3 a {       color: #3C4C6C;	font-size: 16px;	font-style: normal;	font-variant: normal;	font-weight: bold;	height: 0px;	line-height: normal;}.hd_tocAccess { display: block; margin-left: 40px; font-style: italic; font-size: 10px; font-weight: normal; color: #303030; }.tocSubheading { margin-bottom: 4px; }--></style>
+</head>
+<body bgcolor="#ffffff" onload="hidetoc();">
+<!-- headerDoc=Header;  uid=//apple_ref/doc/header/object.h;   name=cParse Object -->
+<a name="//apple_ref/doc/header/object.h"></a>
+<table id="hd_outermost_table" height="100%" width="100%"><tr>
+<td valign="top" id="tocMenu" src="toc.html"></td>
+<td id="bodyContents" valign="top">
+<a name="top"></a>
+<h1><a name="cParseObject">cParse Object</a></h1>
+<div class="spec_sheet_info_box"><table cellspacing="0" class="specbox"><tr>
+<td scope="row"><b>Includes:</b></td>
+<td><div style="margin-bottom:1px"><div class="content_text">
+<!-- a logicalPath="//apple_ref/doc/header/time.h" machineGenerated="true" -->&lt;time.h&gt;<!-- /a --><br><a machinegenerated="true" href="../defines_h/index.html#//apple_ref/doc/header/defines.h" logicalPath="//apple_ref/doc/header/defines.h" target="_top">&lt;cparse/defines.h&gt;</a><br><!-- a logicalPath="//apple_ref/doc/header/pthread.h" machineGenerated="true" -->&lt;pthread.h&gt;<!-- /a -->
+</div></div></td>
+</tr></table></div>
+<h2>Introduction</h2>
+<!-- begin discussion --><!-- headerDoc=discussion;uid=//apple_ref/doc/header/object.h;name=start --><p>Functions for dealing with objects on parse.com<!-- headerDoc=discussion;uid=//apple_ref/doc/header/object.h;name=end --><!-- end discussion -->
+</p>
+<hr class="afterClassOrHeaderInfo">
+<br><a name="HeaderDoc_functions"></a>
+<h2 class="h2tight">Functions</h2>
+<dl>
+<dt><tt><a href="index.html#//apple_ref/c/func/cparse_object_acl" target="_top">cparse_object_acl</a></tt></dt>
+<dd></dd>
+<dt><tt><a href="index.html#//apple_ref/c/func/cparse_object_attribute_size" target="_top">cparse_object_attribute_size</a></tt></dt>
+<dd></dd>
+<dt><tt><a href="index.html#//apple_ref/c/func/cparse_object_class_name" target="_top">cparse_object_class_name</a></tt></dt>
+<dd></dd>
+<dt><tt><a href="index.html#//apple_ref/c/func/cparse_object_contains" target="_top">cparse_object_contains</a></tt></dt>
+<dd></dd>
+<dt><tt><a href="index.html#//apple_ref/c/func/cparse_object_copy" target="_top">cparse_object_copy</a></tt></dt>
+<dd></dd>
+<dt><tt><a href="index.html#//apple_ref/c/func/cparse_object_created_at" target="_top">cparse_object_created_at</a></tt></dt>
+<dd></dd>
+<dt><tt><a href="index.html#//apple_ref/c/func/cparse_object_delete" target="_top">cparse_object_delete</a></tt></dt>
+<dd></dd>
+<dt><tt><a href="index.html#//apple_ref/c/func/cparse_object_delete_in_background" target="_top">cparse_object_delete_in_background</a></tt></dt>
+<dd></dd>
+<dt><tt><a href="index.html#//apple_ref/c/func/cparse_object_exists" target="_top">cparse_object_exists</a></tt></dt>
+<dd></dd>
+<dt><tt><a href="index.html#//apple_ref/c/func/cparse_object_fetch" target="_top">cparse_object_fetch</a></tt></dt>
+<dd></dd>
+<dt><tt><a href="index.html#//apple_ref/c/func/cparse_object_fetch_in_background" target="_top">cparse_object_fetch_in_background</a></tt></dt>
+<dd></dd>
+<dt><tt><a href="index.html#//apple_ref/c/func/cparse_object_foreach_attribute" target="_top">cparse_object_foreach_attribute</a></tt></dt>
+<dd></dd>
+<dt><tt><a href="index.html#//apple_ref/c/func/cparse_object_free" target="_top">cparse_object_free</a></tt></dt>
+<dd></dd>
+<dt><tt><a href="index.html#//apple_ref/c/func/cparse_object_get" target="_top">cparse_object_get</a></tt></dt>
+<dd></dd>
+<dt><tt><a href="index.html#//apple_ref/c/func/cparse_object_get_bool" target="_top">cparse_object_get_bool</a></tt></dt>
+<dd></dd>
+<dt><tt><a href="index.html#//apple_ref/c/func/cparse_object_get_number" target="_top">cparse_object_get_number</a></tt></dt>
+<dd></dd>
+<dt><tt><a href="index.html#//apple_ref/c/func/cparse_object_get_real" target="_top">cparse_object_get_real</a></tt></dt>
+<dd></dd>
+<dt><tt><a href="index.html#//apple_ref/c/func/cparse_object_get_string" target="_top">cparse_object_get_string</a></tt></dt>
+<dd></dd>
+<dt><tt><a href="index.html#//apple_ref/c/func/cparse_object_id" target="_top">cparse_object_id</a></tt></dt>
+<dd></dd>
+<dt><tt><a href="index.html#//apple_ref/c/func/cparse_object_is_object" target="_top">cparse_object_is_object</a></tt></dt>
+<dd></dd>
+<dt><tt><a href="index.html#//apple_ref/c/func/cparse_object_is_user" target="_top">cparse_object_is_user</a></tt></dt>
+<dd></dd>
+<dt><tt><a href="index.html#//apple_ref/c/func/cparse_object_merge_json" target="_top">cparse_object_merge_json</a></tt></dt>
+<dd></dd>
+<dt><tt><a href="index.html#//apple_ref/c/func/cparse_object_refresh" target="_top">cparse_object_refresh</a></tt></dt>
+<dd></dd>
+<dt><tt><a href="index.html#//apple_ref/c/func/cparse_object_refresh_in_background" target="_top">cparse_object_refresh_in_background</a></tt></dt>
+<dd></dd>
+<dt><tt><a href="index.html#//apple_ref/c/func/cparse_object_remove" target="_top">cparse_object_remove</a></tt></dt>
+<dd></dd>
+<dt><tt><a href="index.html#//apple_ref/c/func/cparse_object_remove_and_get" target="_top">cparse_object_remove_and_get</a></tt></dt>
+<dd></dd>
+<dt><tt><a href="index.html#//apple_ref/c/func/cparse_object_save" target="_top">cparse_object_save</a></tt></dt>
+<dd></dd>
+<dt><tt><a href="index.html#//apple_ref/c/func/cparse_object_save_in_background" target="_top">cparse_object_save_in_background</a></tt></dt>
+<dd></dd>
+<dt><tt><a href="index.html#//apple_ref/c/func/cparse_object_set" target="_top">cparse_object_set</a></tt></dt>
+<dd></dd>
+<dt><tt><a href="index.html#//apple_ref/c/func/cparse_object_set_bool" target="_top">cparse_object_set_bool</a></tt></dt>
+<dd></dd>
+<dt><tt><a href="index.html#//apple_ref/c/func/cparse_object_set_number" target="_top">cparse_object_set_number</a></tt></dt>
+<dd></dd>
+<dt><tt><a href="index.html#//apple_ref/c/func/cparse_object_set_public_acl" target="_top">cparse_object_set_public_acl</a></tt></dt>
+<dd></dd>
+<dt><tt><a href="index.html#//apple_ref/c/func/cparse_object_set_real" target="_top">cparse_object_set_real</a></tt></dt>
+<dd></dd>
+<dt><tt><a href="index.html#//apple_ref/c/func/cparse_object_set_reference" target="_top">cparse_object_set_reference</a></tt></dt>
+<dd></dd>
+<dt><tt><a href="index.html#//apple_ref/c/func/cparse_object_set_role_acl" target="_top">cparse_object_set_role_acl</a></tt></dt>
+<dd></dd>
+<dt><tt><a href="index.html#//apple_ref/c/func/cparse_object_set_string" target="_top">cparse_object_set_string</a></tt></dt>
+<dd></dd>
+<dt><tt><a href="index.html#//apple_ref/c/func/cparse_object_set_user_acl" target="_top">cparse_object_set_user_acl</a></tt></dt>
+<dd></dd>
+<dt><tt><a href="index.html#//apple_ref/c/func/cparse_object_sizeof" target="_top">cparse_object_sizeof</a></tt></dt>
+<dd></dd>
+<dt><tt><a href="index.html#//apple_ref/c/func/cparse_object_to_json_string" target="_top">cparse_object_to_json_string</a></tt></dt>
+<dd></dd>
+<dt><tt><a href="index.html#//apple_ref/c/func/cparse_object_update" target="_top">cparse_object_update</a></tt></dt>
+<dd></dd>
+<dt><tt><a href="index.html#//apple_ref/c/func/cparse_object_update_in_background" target="_top">cparse_object_update_in_background</a></tt></dt>
+<dd></dd>
+<dt><tt><a href="index.html#//apple_ref/c/func/cparse_object_updated_at" target="_top">cparse_object_updated_at</a></tt></dt>
+<dd></dd>
+<dt><tt><a href="index.html#//apple_ref/c/func/cparse_object_with_class_data" target="_top">cparse_object_with_class_data</a></tt></dt>
+<dd></dd>
+<dt><tt><a href="index.html#//apple_ref/c/func/cparse_object_with_class_name" target="_top">cparse_object_with_class_name</a></tt></dt>
+<dd></dd>
+<dt><tt><a href="index.html#//apple_ref/c/func/cparse_thread_wait" target="_top">cparse_thread_wait</a></tt></dt>
+<dd></dd>
+</dl>
+<hr class="betweenAPIEntries">
+<!-- headerDoc=func;  uid=//apple_ref/c/func/cparse_object_acl;   name=cparse_object_acl --><a name="//apple_ref/c/func/cparse_object_acl"></a>
+<h3><a name="cparse_object_acl">cparse_object_acl</a></h3>
+<hr class="afterName">
+<div class="declaration_indent">
+<pre><!-- headerDoc=declaration;uid=//apple_ref/c/func/cparse_object_acl;name=start --><a machinegenerated="true" href="../defines_h/index.html#//apple_ref/c/tdef/cParseJson" logicalPath="//apple_ref/c/cl/cParseJson //apple_ref/c/tdef/cParseJson" target="_top"><span class="type">cParseJson</span></a> <span class="type">*</span><a machinegenerated="true" href="index.html#//apple_ref/c/func/cparse_object_acl" logicalPath="//apple_ref/c/instm/cparse_object_acl //apple_ref/c/clm/cparse_object_acl //apple_ref/c/intfcm/cparse_object_acl //apple_ref/c/intfm/cparse_object_acl //apple_ref/c/func/cparse_object_acl" target="_top"><span class="function">cparse_object_acl</span></a>(
+    <a machinegenerated="true" href="../defines_h/index.html#//apple_ref/c/tdef/cParseObject" logicalPath="//apple_ref/c/cl/cParseObject //apple_ref/c/tdef/cParseObject" target="_top"><span class="type">cParseObject</span></a> <span class="type">*</span><span class="param">obj</span>);  <!-- headerDoc=declaration;uid=//apple_ref/c/func/cparse_object_acl;name=end --></pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class="param_indent">
+<dl>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/cparse_object_acl/obj;   name=obj -->
+<a name="//apple_ref/doc/functionparam/cparse_object_acl/obj"></a>
+<code>obj</code>
+</dt>
+<dd><p>the object instance</p></dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5>
+<p><!-- begin return value --></p>
+<p>the access control list
+
+<!-- end return value --></p>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
+<!-- begin discussion --><!-- headerDoc=discussion;uid=//apple_ref/c/func/cparse_object_acl;name=start --><p>gets the access control list for an object
+<!-- headerDoc=discussion;uid=//apple_ref/c/func/cparse_object_acl;name=end --><!-- end discussion -->
+</p>
+<hr class="betweenAPIEntries">
+<!-- headerDoc=func;  uid=//apple_ref/c/func/cparse_object_attribute_size;   name=cparse_object_attribute_size --><a name="//apple_ref/c/func/cparse_object_attribute_size"></a>
+<h3><a name="cparse_object_attribute_size">cparse_object_attribute_size</a></h3>
+<hr class="afterName">
+<div class="declaration_indent">
+<pre><!-- headerDoc=declaration;uid=//apple_ref/c/func/cparse_object_attribute_size;name=start --><!-- a logicalPath="//apple_ref/c/cl/size_t //apple_ref/c/tdef/size_t //apple_ref/c/tag/size_t //apple_ref/c/struct/size_t //apple_ref/c/intf/size_t //apple_ref/doc/anysymbol/size_t" machineGenerated="true" --><span class="type">size_t</span><!-- /a --> <a machinegenerated="true" href="index.html#//apple_ref/c/func/cparse_object_attribute_size" logicalPath="//apple_ref/c/instm/cparse_object_attribute_size //apple_ref/c/clm/cparse_object_attribute_size //apple_ref/c/intfcm/cparse_object_attribute_size //apple_ref/c/intfm/cparse_object_attribute_size //apple_ref/c/func/cparse_object_attribute_size" target="_top"><span class="function">cparse_object_attribute_size</span></a>(
+    <a machinegenerated="true" href="../defines_h/index.html#//apple_ref/c/tdef/cParseObject" logicalPath="//apple_ref/c/cl/cParseObject //apple_ref/c/tdef/cParseObject" target="_top"><span class="type">cParseObject</span></a> <span class="type">*</span><span class="param">obj</span>);  <!-- headerDoc=declaration;uid=//apple_ref/c/func/cparse_object_attribute_size;name=end --></pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class="param_indent">
+<dl>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/cparse_object_attribute_size/obj;   name=obj -->
+<a name="//apple_ref/doc/functionparam/cparse_object_attribute_size/obj"></a>
+<code>obj</code>
+</dt>
+<dd><p>the object instance</p></dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5>
+<p><!-- begin return value --></p>
+<p>the number of attributes
+
+<!-- end return value --></p>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
+<!-- begin discussion --><!-- headerDoc=discussion;uid=//apple_ref/c/func/cparse_object_attribute_size;name=start --><p>gets the number of attributes in an object.  this does not include the common attributes - id, type, create at, or
+updated at.
+<!-- headerDoc=discussion;uid=//apple_ref/c/func/cparse_object_attribute_size;name=end --><!-- end discussion -->
+</p>
+<hr class="betweenAPIEntries">
+<!-- headerDoc=func;  uid=//apple_ref/c/func/cparse_object_class_name;   name=cparse_object_class_name --><a name="//apple_ref/c/func/cparse_object_class_name"></a>
+<h3><a name="cparse_object_class_name">cparse_object_class_name</a></h3>
+<hr class="afterName">
+<div class="declaration_indent">
+<pre><!-- headerDoc=declaration;uid=//apple_ref/c/func/cparse_object_class_name;name=start --><span class="keyword">const</span> <!-- a logicalPath="//apple_ref/c/cl/char //apple_ref/c/tdef/char //apple_ref/c/tag/char //apple_ref/c/struct/char //apple_ref/c/intf/char //apple_ref/doc/anysymbol/char" machineGenerated="true" --><span class="type">char</span><!-- /a --> <span class="type">*</span><a machinegenerated="true" href="index.html#//apple_ref/c/func/cparse_object_class_name" logicalPath="//apple_ref/c/instm/cparse_object_class_name //apple_ref/c/clm/cparse_object_class_name //apple_ref/c/intfcm/cparse_object_class_name //apple_ref/c/intfm/cparse_object_class_name //apple_ref/c/func/cparse_object_class_name" target="_top"><span class="function">cparse_object_class_name</span></a>(
+    <a machinegenerated="true" href="../defines_h/index.html#//apple_ref/c/tdef/cParseObject" logicalPath="//apple_ref/c/cl/cParseObject //apple_ref/c/tdef/cParseObject" target="_top"><span class="type">cParseObject</span></a> <span class="type">*</span><span class="param">obj</span>);  <!-- headerDoc=declaration;uid=//apple_ref/c/func/cparse_object_class_name;name=end --></pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class="param_indent">
+<dl>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/cparse_object_class_name/obj;   name=obj -->
+<a name="//apple_ref/doc/functionparam/cparse_object_class_name/obj"></a>
+<code>obj</code>
+</dt>
+<dd><p>the object instance</p></dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5>
+<p><!-- begin return value --></p>
+<p>the object type
+
+<!-- end return value --></p>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
+<!-- begin discussion --><!-- headerDoc=discussion;uid=//apple_ref/c/func/cparse_object_class_name;name=start --><p>gets the type of parse object
+<!-- headerDoc=discussion;uid=//apple_ref/c/func/cparse_object_class_name;name=end --><!-- end discussion -->
+</p>
+<hr class="betweenAPIEntries">
+<!-- headerDoc=func;  uid=//apple_ref/c/func/cparse_object_contains;   name=cparse_object_contains --><a name="//apple_ref/c/func/cparse_object_contains"></a>
+<h3><a name="cparse_object_contains">cparse_object_contains</a></h3>
+<hr class="afterName">
+<div class="declaration_indent">
+<pre><!-- headerDoc=declaration;uid=//apple_ref/c/func/cparse_object_contains;name=start --><!-- a logicalPath="//apple_ref/c/cl/bool //apple_ref/c/tdef/bool //apple_ref/c/tag/bool //apple_ref/c/struct/bool //apple_ref/c/intf/bool //apple_ref/doc/anysymbol/bool" machineGenerated="true" --><span class="type">bool</span><!-- /a --> <a machinegenerated="true" href="index.html#//apple_ref/c/func/cparse_object_contains" logicalPath="//apple_ref/c/instm/cparse_object_contains //apple_ref/c/clm/cparse_object_contains //apple_ref/c/intfcm/cparse_object_contains //apple_ref/c/intfm/cparse_object_contains //apple_ref/c/func/cparse_object_contains" target="_top"><span class="function">cparse_object_contains</span></a>(
+    <a machinegenerated="true" href="../defines_h/index.html#//apple_ref/c/tdef/cParseObject" logicalPath="//apple_ref/c/cl/cParseObject //apple_ref/c/tdef/cParseObject" target="_top"><span class="type">cParseObject</span></a> <span class="type">*</span><span class="param">obj</span>,
+    <span class="keyword">const</span> <!-- a logicalPath="//apple_ref/c/cl/char //apple_ref/c/tdef/char //apple_ref/c/tag/char //apple_ref/c/struct/char //apple_ref/c/intf/char //apple_ref/doc/anysymbol/char" machineGenerated="true" --><span class="type">char</span><!-- /a --> <span class="type">*</span><span class="param">key</span>);  <!-- headerDoc=declaration;uid=//apple_ref/c/func/cparse_object_contains;name=end --></pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class="param_indent">
+<dl>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/cparse_object_contains/obj;   name=obj -->
+<a name="//apple_ref/doc/functionparam/cparse_object_contains/obj"></a>
+<code>obj</code>
+</dt>
+<dd><p>the object instance</p></dd>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/cparse_object_contains/key;   name=key -->
+<a name="//apple_ref/doc/functionparam/cparse_object_contains/key"></a>
+<code>key</code>
+</dt>
+<dd><p>the key to identify the value to test</p></dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5>
+<p><!-- begin return value --></p>
+<p>true if the object contains the attribute
+
+<!-- end return value --></p>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
+<!-- begin discussion --><!-- headerDoc=discussion;uid=//apple_ref/c/func/cparse_object_contains;name=start --><p>tests if an object has an attribute
+<!-- headerDoc=discussion;uid=//apple_ref/c/func/cparse_object_contains;name=end --><!-- end discussion -->
+</p>
+<hr class="betweenAPIEntries">
+<!-- headerDoc=func;  uid=//apple_ref/c/func/cparse_object_copy;   name=cparse_object_copy --><a name="//apple_ref/c/func/cparse_object_copy"></a>
+<h3><a name="cparse_object_copy">cparse_object_copy</a></h3>
+<hr class="afterName">
+<div class="declaration_indent">
+<pre><!-- headerDoc=declaration;uid=//apple_ref/c/func/cparse_object_copy;name=start --><!-- a logicalPath="//apple_ref/c/cl/void //apple_ref/c/tdef/void //apple_ref/c/tag/void //apple_ref/c/struct/void //apple_ref/c/intf/void //apple_ref/doc/anysymbol/void" machineGenerated="true" --><span class="type">void</span><!-- /a --> <a machinegenerated="true" href="index.html#//apple_ref/c/func/cparse_object_copy" logicalPath="//apple_ref/c/instm/cparse_object_copy //apple_ref/c/clm/cparse_object_copy //apple_ref/c/intfcm/cparse_object_copy //apple_ref/c/intfm/cparse_object_copy //apple_ref/c/func/cparse_object_copy" target="_top"><span class="function">cparse_object_copy</span></a>(
+    <a machinegenerated="true" href="../defines_h/index.html#//apple_ref/c/tdef/cParseObject" logicalPath="//apple_ref/c/cl/cParseObject //apple_ref/c/tdef/cParseObject" target="_top"><span class="type">cParseObject</span></a> <span class="type">*</span><span class="param">obj</span>,
+    <a machinegenerated="true" href="../defines_h/index.html#//apple_ref/c/tdef/cParseObject" logicalPath="//apple_ref/c/cl/cParseObject //apple_ref/c/tdef/cParseObject" target="_top"><span class="type">cParseObject</span></a> <span class="type">*</span><span class="param">other</span>);  <!-- headerDoc=declaration;uid=//apple_ref/c/func/cparse_object_copy;name=end --></pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class="param_indent">
+<dl>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/cparse_object_copy/obj;   name=obj -->
+<a name="//apple_ref/doc/functionparam/cparse_object_copy/obj"></a>
+<code>obj</code>
+</dt>
+<dd><p>the object instance</p></dd>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/cparse_object_copy/other;   name=other -->
+<a name="//apple_ref/doc/functionparam/cparse_object_copy/other"></a>
+<code>other</code>
+</dt>
+<dd><p>the object to copy from</p></dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
+<!-- begin discussion --><!-- headerDoc=discussion;uid=//apple_ref/c/func/cparse_object_copy;name=start --><p>makes a copy of a parse object
+<!-- headerDoc=discussion;uid=//apple_ref/c/func/cparse_object_copy;name=end --><!-- end discussion -->
+</p>
+<hr class="betweenAPIEntries">
+<!-- headerDoc=func;  uid=//apple_ref/c/func/cparse_object_created_at;   name=cparse_object_created_at --><a name="//apple_ref/c/func/cparse_object_created_at"></a>
+<h3><a name="cparse_object_created_at">cparse_object_created_at</a></h3>
+<hr class="afterName">
+<div class="declaration_indent">
+<pre><!-- headerDoc=declaration;uid=//apple_ref/c/func/cparse_object_created_at;name=start --><!-- a logicalPath="//apple_ref/c/cl/time_t //apple_ref/c/tdef/time_t //apple_ref/c/tag/time_t //apple_ref/c/struct/time_t //apple_ref/c/intf/time_t //apple_ref/doc/anysymbol/time_t" machineGenerated="true" --><span class="type">time_t</span><!-- /a --> <a machinegenerated="true" href="index.html#//apple_ref/c/func/cparse_object_created_at" logicalPath="//apple_ref/c/instm/cparse_object_created_at //apple_ref/c/clm/cparse_object_created_at //apple_ref/c/intfcm/cparse_object_created_at //apple_ref/c/intfm/cparse_object_created_at //apple_ref/c/func/cparse_object_created_at" target="_top"><span class="function">cparse_object_created_at</span></a>(
+    <a machinegenerated="true" href="../defines_h/index.html#//apple_ref/c/tdef/cParseObject" logicalPath="//apple_ref/c/cl/cParseObject //apple_ref/c/tdef/cParseObject" target="_top"><span class="type">cParseObject</span></a> <span class="type">*</span><span class="param">obj</span>);  <!-- headerDoc=declaration;uid=//apple_ref/c/func/cparse_object_created_at;name=end --></pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class="param_indent">
+<dl>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/cparse_object_created_at/obj;   name=obj -->
+<a name="//apple_ref/doc/functionparam/cparse_object_created_at/obj"></a>
+<code>obj</code>
+</dt>
+<dd><p>the object instance</p></dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5>
+<p><!-- begin return value --></p>
+<p>the time the object was created or zero if the object has not been saved
+
+<!-- end return value --></p>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
+<!-- begin discussion --><!-- headerDoc=discussion;uid=//apple_ref/c/func/cparse_object_created_at;name=start --><p>gets the time when the object was created
+<!-- headerDoc=discussion;uid=//apple_ref/c/func/cparse_object_created_at;name=end --><!-- end discussion -->
+</p>
+<hr class="betweenAPIEntries">
+<!-- headerDoc=func;  uid=//apple_ref/c/func/cparse_object_delete;   name=cparse_object_delete --><a name="//apple_ref/c/func/cparse_object_delete"></a>
+<h3><a name="cparse_object_delete">cparse_object_delete</a></h3>
+<hr class="afterName">
+<div class="declaration_indent">
+<pre><!-- headerDoc=declaration;uid=//apple_ref/c/func/cparse_object_delete;name=start --><!-- a logicalPath="//apple_ref/c/cl/bool //apple_ref/c/tdef/bool //apple_ref/c/tag/bool //apple_ref/c/struct/bool //apple_ref/c/intf/bool //apple_ref/doc/anysymbol/bool" machineGenerated="true" --><span class="type">bool</span><!-- /a --> <a machinegenerated="true" href="index.html#//apple_ref/c/func/cparse_object_delete" logicalPath="//apple_ref/c/instm/cparse_object_delete //apple_ref/c/clm/cparse_object_delete //apple_ref/c/intfcm/cparse_object_delete //apple_ref/c/intfm/cparse_object_delete //apple_ref/c/func/cparse_object_delete" target="_top"><span class="function">cparse_object_delete</span></a>(
+    <a machinegenerated="true" href="../defines_h/index.html#//apple_ref/c/tdef/cParseObject" logicalPath="//apple_ref/c/cl/cParseObject //apple_ref/c/tdef/cParseObject" target="_top"><span class="type">cParseObject</span></a> <span class="type">*</span><span class="param">obj</span>,
+    <a machinegenerated="true" href="../defines_h/index.html#//apple_ref/c/tdef/cParseError" logicalPath="//apple_ref/c/cl/cParseError //apple_ref/c/tdef/cParseError" target="_top"><span class="type">cParseError</span></a> <span class="type">*</span><span class="type">*</span><span class="param">error</span>);  <!-- headerDoc=declaration;uid=//apple_ref/c/func/cparse_object_delete;name=end --></pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class="param_indent">
+<dl>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/cparse_object_delete/obj;   name=obj -->
+<a name="//apple_ref/doc/functionparam/cparse_object_delete/obj"></a>
+<code>obj</code>
+</dt>
+<dd><p>the object instance</p></dd>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/cparse_object_delete/error;   name=error -->
+<a name="//apple_ref/doc/functionparam/cparse_object_delete/error"></a>
+<code>error</code>
+</dt>
+<dd><p>a pointer to an error that gets allocated if not successful.</p></dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5>
+<p><!-- begin return value --></p>
+<p>true if successful
+
+<!-- end return value --></p>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
+<!-- begin discussion --><!-- headerDoc=discussion;uid=//apple_ref/c/func/cparse_object_delete;name=start --><p>deletes and object
+<!-- headerDoc=discussion;uid=//apple_ref/c/func/cparse_object_delete;name=end --><!-- end discussion -->
+</p>
+<hr class="betweenAPIEntries">
+<!-- headerDoc=func;  uid=//apple_ref/c/func/cparse_object_delete_in_background;   name=cparse_object_delete_in_background --><a name="//apple_ref/c/func/cparse_object_delete_in_background"></a>
+<h3><a name="cparse_object_delete_in_background">cparse_object_delete_in_background</a></h3>
+<hr class="afterName">
+<div class="declaration_indent">
+<pre><!-- headerDoc=declaration;uid=//apple_ref/c/func/cparse_object_delete_in_background;name=start --><a machinegenerated="true" href="index.html#//apple_ref/c/tdef/cparse_thread" logicalPath="//apple_ref/c/cl/cparse_thread //apple_ref/c/tdef/cparse_thread" target="_top"><span class="type">cparse_thread</span></a> <a machinegenerated="true" href="index.html#//apple_ref/c/func/cparse_object_delete_in_background" logicalPath="//apple_ref/c/instm/cparse_object_delete_in_background //apple_ref/c/clm/cparse_object_delete_in_background //apple_ref/c/intfcm/cparse_object_delete_in_background //apple_ref/c/intfm/cparse_object_delete_in_background //apple_ref/c/func/cparse_object_delete_in_background" target="_top"><span class="function">cparse_object_delete_in_background</span></a>(
+    <a machinegenerated="true" href="../defines_h/index.html#//apple_ref/c/tdef/cParseObject" logicalPath="//apple_ref/c/cl/cParseObject //apple_ref/c/tdef/cParseObject" target="_top"><span class="type">cParseObject</span></a> <span class="type">*</span><span class="param">obj</span>,
+    <a machinegenerated="true" href="../defines_h/index.html#//apple_ref/c/tdef/cParseObjectCallback" logicalPath="//apple_ref/c/cl/cParseObjectCallback //apple_ref/c/tdef/cParseObjectCallback" target="_top"><span class="type">cParseObjectCallback</span></a> <span class="param">callback</span>,
+    <!-- a logicalPath="//apple_ref/c/cl/void //apple_ref/c/tdef/void //apple_ref/c/tag/void //apple_ref/c/struct/void //apple_ref/c/intf/void //apple_ref/doc/anysymbol/void" machineGenerated="true" --><span class="type">void</span><!-- /a --> <span class="type">*</span><span class="param">param</span>);  <!-- headerDoc=declaration;uid=//apple_ref/c/func/cparse_object_delete_in_background;name=end --></pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class="param_indent">
+<dl>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/cparse_object_delete_in_background/obj;   name=obj -->
+<a name="//apple_ref/doc/functionparam/cparse_object_delete_in_background/obj"></a>
+<code>obj</code>
+</dt>
+<dd><p>the object instance</p></dd>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/cparse_object_delete_in_background/callback;   name=callback -->
+<a name="//apple_ref/doc/functionparam/cparse_object_delete_in_background/callback"></a>
+<code>callback</code>
+</dt>
+<dd><p>a callback issues after the object is deleted</p></dd>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/cparse_object_delete_in_background/param;   name=param -->
+<a name="//apple_ref/doc/functionparam/cparse_object_delete_in_background/param"></a>
+<code>param</code>
+</dt>
+<dd><p>a user defined parameter for the callback</p></dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5>
+<p><!-- begin return value --></p>
+<p>the background thread identifier
+
+<!-- end return value --></p>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
+<!-- begin discussion --><!-- headerDoc=discussion;uid=//apple_ref/c/func/cparse_object_delete_in_background;name=start --><p>deletes an object in the background
+<!-- headerDoc=discussion;uid=//apple_ref/c/func/cparse_object_delete_in_background;name=end --><!-- end discussion -->
+</p>
+<hr class="betweenAPIEntries">
+<!-- headerDoc=func;  uid=//apple_ref/c/func/cparse_object_exists;   name=cparse_object_exists --><a name="//apple_ref/c/func/cparse_object_exists"></a>
+<h3><a name="cparse_object_exists">cparse_object_exists</a></h3>
+<hr class="afterName">
+<div class="declaration_indent">
+<pre><!-- headerDoc=declaration;uid=//apple_ref/c/func/cparse_object_exists;name=start --><!-- a logicalPath="//apple_ref/c/cl/bool //apple_ref/c/tdef/bool //apple_ref/c/tag/bool //apple_ref/c/struct/bool //apple_ref/c/intf/bool //apple_ref/doc/anysymbol/bool" machineGenerated="true" --><span class="type">bool</span><!-- /a --> <a machinegenerated="true" href="index.html#//apple_ref/c/func/cparse_object_exists" logicalPath="//apple_ref/c/instm/cparse_object_exists //apple_ref/c/clm/cparse_object_exists //apple_ref/c/intfcm/cparse_object_exists //apple_ref/c/intfm/cparse_object_exists //apple_ref/c/func/cparse_object_exists" target="_top"><span class="function">cparse_object_exists</span></a>(
+    <a machinegenerated="true" href="../defines_h/index.html#//apple_ref/c/tdef/cParseObject" logicalPath="//apple_ref/c/cl/cParseObject //apple_ref/c/tdef/cParseObject" target="_top"><span class="type">cParseObject</span></a> <span class="type">*</span><span class="param">obj</span>);  <!-- headerDoc=declaration;uid=//apple_ref/c/func/cparse_object_exists;name=end --></pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class="param_indent">
+<dl>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/cparse_object_exists/obj;   name=obj -->
+<a name="//apple_ref/doc/functionparam/cparse_object_exists/obj"></a>
+<code>obj</code>
+</dt>
+<dd><p>the object instance</p></dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5>
+<p><!-- begin return value --></p>
+<p>true if the object exists
+
+<!-- end return value --></p>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
+<!-- begin discussion --><!-- headerDoc=discussion;uid=//apple_ref/c/func/cparse_object_exists;name=start --><p>tests if the object exists (was saved)
+<!-- headerDoc=discussion;uid=//apple_ref/c/func/cparse_object_exists;name=end --><!-- end discussion -->
+</p>
+<hr class="betweenAPIEntries">
+<!-- headerDoc=func;  uid=//apple_ref/c/func/cparse_object_fetch;   name=cparse_object_fetch --><a name="//apple_ref/c/func/cparse_object_fetch"></a>
+<h3><a name="cparse_object_fetch">cparse_object_fetch</a></h3>
+<hr class="afterName">
+<div class="declaration_indent">
+<pre><!-- headerDoc=declaration;uid=//apple_ref/c/func/cparse_object_fetch;name=start --><!-- a logicalPath="//apple_ref/c/cl/bool //apple_ref/c/tdef/bool //apple_ref/c/tag/bool //apple_ref/c/struct/bool //apple_ref/c/intf/bool //apple_ref/doc/anysymbol/bool" machineGenerated="true" --><span class="type">bool</span><!-- /a --> <a machinegenerated="true" href="index.html#//apple_ref/c/func/cparse_object_fetch" logicalPath="//apple_ref/c/instm/cparse_object_fetch //apple_ref/c/clm/cparse_object_fetch //apple_ref/c/intfcm/cparse_object_fetch //apple_ref/c/intfm/cparse_object_fetch //apple_ref/c/func/cparse_object_fetch" target="_top"><span class="function">cparse_object_fetch</span></a>(
+    <a machinegenerated="true" href="../defines_h/index.html#//apple_ref/c/tdef/cParseObject" logicalPath="//apple_ref/c/cl/cParseObject //apple_ref/c/tdef/cParseObject" target="_top"><span class="type">cParseObject</span></a> <span class="type">*</span><span class="param">obj</span>,
+    <a machinegenerated="true" href="../defines_h/index.html#//apple_ref/c/tdef/cParseError" logicalPath="//apple_ref/c/cl/cParseError //apple_ref/c/tdef/cParseError" target="_top"><span class="type">cParseError</span></a> <span class="type">*</span><span class="type">*</span><span class="param">error</span>);  <!-- headerDoc=declaration;uid=//apple_ref/c/func/cparse_object_fetch;name=end --></pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class="param_indent">
+<dl>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/cparse_object_fetch/obj;   name=obj -->
+<a name="//apple_ref/doc/functionparam/cparse_object_fetch/obj"></a>
+<code>obj</code>
+</dt>
+<dd><p>the object instance</p></dd>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/cparse_object_fetch/error;   name=error -->
+<a name="//apple_ref/doc/functionparam/cparse_object_fetch/error"></a>
+<code>error</code>
+</dt>
+<dd><p>a pointer to an error that gets allocated if not successful</p></dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5>
+<p><!-- begin return value --></p>
+<p>true if successful
+
+<!-- end return value --></p>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
+<!-- begin discussion --><!-- headerDoc=discussion;uid=//apple_ref/c/func/cparse_object_fetch;name=start --><p>refreshes an object's attributes, including refereces to other objects.
+<!-- headerDoc=discussion;uid=//apple_ref/c/func/cparse_object_fetch;name=end --><!-- end discussion -->
+</p>
+<hr class="betweenAPIEntries">
+<!-- headerDoc=func;  uid=//apple_ref/c/func/cparse_object_fetch_in_background;   name=cparse_object_fetch_in_background --><a name="//apple_ref/c/func/cparse_object_fetch_in_background"></a>
+<h3><a name="cparse_object_fetch_in_background">cparse_object_fetch_in_background</a></h3>
+<hr class="afterName">
+<div class="declaration_indent">
+<pre><!-- headerDoc=declaration;uid=//apple_ref/c/func/cparse_object_fetch_in_background;name=start --><a machinegenerated="true" href="index.html#//apple_ref/c/tdef/cparse_thread" logicalPath="//apple_ref/c/cl/cparse_thread //apple_ref/c/tdef/cparse_thread" target="_top"><span class="type">cparse_thread</span></a> <a machinegenerated="true" href="index.html#//apple_ref/c/func/cparse_object_fetch_in_background" logicalPath="//apple_ref/c/instm/cparse_object_fetch_in_background //apple_ref/c/clm/cparse_object_fetch_in_background //apple_ref/c/intfcm/cparse_object_fetch_in_background //apple_ref/c/intfm/cparse_object_fetch_in_background //apple_ref/c/func/cparse_object_fetch_in_background" target="_top"><span class="function">cparse_object_fetch_in_background</span></a>(
+    <a machinegenerated="true" href="../defines_h/index.html#//apple_ref/c/tdef/cParseObject" logicalPath="//apple_ref/c/cl/cParseObject //apple_ref/c/tdef/cParseObject" target="_top"><span class="type">cParseObject</span></a> <span class="type">*</span><span class="param">obj</span>,
+    <a machinegenerated="true" href="../defines_h/index.html#//apple_ref/c/tdef/cParseObjectCallback" logicalPath="//apple_ref/c/cl/cParseObjectCallback //apple_ref/c/tdef/cParseObjectCallback" target="_top"><span class="type">cParseObjectCallback</span></a> <span class="param">callback</span>,
+    <!-- a logicalPath="//apple_ref/c/cl/void //apple_ref/c/tdef/void //apple_ref/c/tag/void //apple_ref/c/struct/void //apple_ref/c/intf/void //apple_ref/doc/anysymbol/void" machineGenerated="true" --><span class="type">void</span><!-- /a --> <span class="type">*</span><span class="param">param</span>);  <!-- headerDoc=declaration;uid=//apple_ref/c/func/cparse_object_fetch_in_background;name=end --></pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class="param_indent">
+<dl>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/cparse_object_fetch_in_background/obj;   name=obj -->
+<a name="//apple_ref/doc/functionparam/cparse_object_fetch_in_background/obj"></a>
+<code>obj</code>
+</dt>
+<dd><p>the object instance</p></dd>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/cparse_object_fetch_in_background/callback;   name=callback -->
+<a name="//apple_ref/doc/functionparam/cparse_object_fetch_in_background/callback"></a>
+<code>callback</code>
+</dt>
+<dd><p>the callback issues after the fetch</p></dd>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/cparse_object_fetch_in_background/param;   name=param -->
+<a name="//apple_ref/doc/functionparam/cparse_object_fetch_in_background/param"></a>
+<code>param</code>
+</dt>
+<dd><p>the user defined parameter for the callback</p></dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5>
+<p><!-- begin return value --></p>
+<p>a background thread identifier
+
+<!-- end return value --></p>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
+<!-- begin discussion --><!-- headerDoc=discussion;uid=//apple_ref/c/func/cparse_object_fetch_in_background;name=start --><p>refreshes an object's attributes in the background, including references to other objects
+<!-- headerDoc=discussion;uid=//apple_ref/c/func/cparse_object_fetch_in_background;name=end --><!-- end discussion -->
+</p>
+<hr class="betweenAPIEntries">
+<!-- headerDoc=func;  uid=//apple_ref/c/func/cparse_object_foreach_attribute;   name=cparse_object_foreach_attribute --><a name="//apple_ref/c/func/cparse_object_foreach_attribute"></a>
+<h3><a name="cparse_object_foreach_attribute">cparse_object_foreach_attribute</a></h3>
+<hr class="afterName">
+<div class="declaration_indent">
+<pre><!-- headerDoc=declaration;uid=//apple_ref/c/func/cparse_object_foreach_attribute;name=start --><!-- a logicalPath="//apple_ref/c/cl/void //apple_ref/c/tdef/void //apple_ref/c/tag/void //apple_ref/c/struct/void //apple_ref/c/intf/void //apple_ref/doc/anysymbol/void" machineGenerated="true" --><span class="type">void</span><!-- /a --> <a machinegenerated="true" href="index.html#//apple_ref/c/func/cparse_object_foreach_attribute" logicalPath="//apple_ref/c/instm/cparse_object_foreach_attribute //apple_ref/c/clm/cparse_object_foreach_attribute //apple_ref/c/intfcm/cparse_object_foreach_attribute //apple_ref/c/intfm/cparse_object_foreach_attribute //apple_ref/c/func/cparse_object_foreach_attribute" target="_top"><span class="function">cparse_object_foreach_attribute</span></a>(
+    <a machinegenerated="true" href="../defines_h/index.html#//apple_ref/c/tdef/cParseObject" logicalPath="//apple_ref/c/cl/cParseObject //apple_ref/c/tdef/cParseObject" target="_top"><span class="type">cParseObject</span></a> <span class="type">*</span><span class="param">obj</span>,
+    <a machinegenerated="true" href="index.html#//apple_ref/c/tdef/cParseObjectAttributeCallback" logicalPath="//apple_ref/c/cl/cParseObjectAttributeCallback //apple_ref/c/tdef/cParseObjectAttributeCallback" target="_top"><span class="type">cParseObjectAttributeCallback</span></a> <span class="param">callback</span>,
+    <!-- a logicalPath="//apple_ref/c/cl/void //apple_ref/c/tdef/void //apple_ref/c/tag/void //apple_ref/c/struct/void //apple_ref/c/intf/void //apple_ref/doc/anysymbol/void" machineGenerated="true" --><span class="type">void</span><!-- /a --> <span class="type">*</span><span class="param">param</span>);  <!-- headerDoc=declaration;uid=//apple_ref/c/func/cparse_object_foreach_attribute;name=end --></pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class="param_indent">
+<dl>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/cparse_object_foreach_attribute/obj;   name=obj -->
+<a name="//apple_ref/doc/functionparam/cparse_object_foreach_attribute/obj"></a>
+<code>obj</code>
+</dt>
+<dd><p>the object instance</p></dd>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/cparse_object_foreach_attribute/callback;   name=callback -->
+<a name="//apple_ref/doc/functionparam/cparse_object_foreach_attribute/callback"></a>
+<code>callback</code>
+</dt>
+<dd><p>the callback for each object attribute</p></dd>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/cparse_object_foreach_attribute/param;   name=param -->
+<a name="//apple_ref/doc/functionparam/cparse_object_foreach_attribute/param"></a>
+<code>param</code>
+</dt>
+<dd><p>an optional parameter for the callback</p></dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
+<!-- begin discussion --><!-- headerDoc=discussion;uid=//apple_ref/c/func/cparse_object_foreach_attribute;name=start --><p>iterates and objects attributes
+<!-- headerDoc=discussion;uid=//apple_ref/c/func/cparse_object_foreach_attribute;name=end --><!-- end discussion -->
+</p>
+<hr class="betweenAPIEntries">
+<!-- headerDoc=func;  uid=//apple_ref/c/func/cparse_object_free;   name=cparse_object_free --><a name="//apple_ref/c/func/cparse_object_free"></a>
+<h3><a name="cparse_object_free">cparse_object_free</a></h3>
+<hr class="afterName">
+<div class="declaration_indent">
+<pre><!-- headerDoc=declaration;uid=//apple_ref/c/func/cparse_object_free;name=start --><!-- a logicalPath="//apple_ref/c/cl/void //apple_ref/c/tdef/void //apple_ref/c/tag/void //apple_ref/c/struct/void //apple_ref/c/intf/void //apple_ref/doc/anysymbol/void" machineGenerated="true" --><span class="type">void</span><!-- /a --> <a machinegenerated="true" href="index.html#//apple_ref/c/func/cparse_object_free" logicalPath="//apple_ref/c/instm/cparse_object_free //apple_ref/c/clm/cparse_object_free //apple_ref/c/intfcm/cparse_object_free //apple_ref/c/intfm/cparse_object_free //apple_ref/c/func/cparse_object_free" target="_top"><span class="function">cparse_object_free</span></a>(
+    <a machinegenerated="true" href="../defines_h/index.html#//apple_ref/c/tdef/cParseObject" logicalPath="//apple_ref/c/cl/cParseObject //apple_ref/c/tdef/cParseObject" target="_top"><span class="type">cParseObject</span></a> <span class="type">*</span><span class="param">obj</span>);  <!-- headerDoc=declaration;uid=//apple_ref/c/func/cparse_object_free;name=end --></pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class="param_indent">
+<dl>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/cparse_object_free/obj;   name=obj -->
+<a name="//apple_ref/doc/functionparam/cparse_object_free/obj"></a>
+<code>obj</code>
+</dt>
+<dd><p>the object instance</p></dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
+<!-- begin discussion --><!-- headerDoc=discussion;uid=//apple_ref/c/func/cparse_object_free;name=start --><p>deallocates a parse object
+<!-- headerDoc=discussion;uid=//apple_ref/c/func/cparse_object_free;name=end --><!-- end discussion -->
+</p>
+<hr class="betweenAPIEntries">
+<!-- headerDoc=func;  uid=//apple_ref/c/func/cparse_object_get;   name=cparse_object_get --><a name="//apple_ref/c/func/cparse_object_get"></a>
+<h3><a name="cparse_object_get">cparse_object_get</a></h3>
+<hr class="afterName">
+<div class="declaration_indent">
+<pre><!-- headerDoc=declaration;uid=//apple_ref/c/func/cparse_object_get;name=start --><a machinegenerated="true" href="../defines_h/index.html#//apple_ref/c/tdef/cParseJson" logicalPath="//apple_ref/c/cl/cParseJson //apple_ref/c/tdef/cParseJson" target="_top"><span class="type">cParseJson</span></a> <span class="type">*</span><a machinegenerated="true" href="index.html#//apple_ref/c/func/cparse_object_get" logicalPath="//apple_ref/c/instm/cparse_object_get //apple_ref/c/clm/cparse_object_get //apple_ref/c/intfcm/cparse_object_get //apple_ref/c/intfm/cparse_object_get //apple_ref/c/func/cparse_object_get" target="_top"><span class="function">cparse_object_get</span></a>(
+    <a machinegenerated="true" href="../defines_h/index.html#//apple_ref/c/tdef/cParseObject" logicalPath="//apple_ref/c/cl/cParseObject //apple_ref/c/tdef/cParseObject" target="_top"><span class="type">cParseObject</span></a> <span class="type">*</span><span class="param">obj</span>,
+    <span class="keyword">const</span> <!-- a logicalPath="//apple_ref/c/cl/char //apple_ref/c/tdef/char //apple_ref/c/tag/char //apple_ref/c/struct/char //apple_ref/c/intf/char //apple_ref/doc/anysymbol/char" machineGenerated="true" --><span class="type">char</span><!-- /a --> <span class="type">*</span><span class="param">key</span>);  <!-- headerDoc=declaration;uid=//apple_ref/c/func/cparse_object_get;name=end --></pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class="param_indent">
+<dl>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/cparse_object_get/obj;   name=obj -->
+<a name="//apple_ref/doc/functionparam/cparse_object_get/obj"></a>
+<code>obj</code>
+</dt>
+<dd><p>the object instance</p></dd>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/cparse_object_get/key;   name=key -->
+<a name="//apple_ref/doc/functionparam/cparse_object_get/key"></a>
+<code>key</code>
+</dt>
+<dd><p>the key to identify the attribute value</p></dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
+<!-- begin discussion --><!-- headerDoc=discussion;uid=//apple_ref/c/func/cparse_object_get;name=start --><p>get a json attribute for an object
+<!-- headerDoc=discussion;uid=//apple_ref/c/func/cparse_object_get;name=end --><!-- end discussion -->
+</p>
+<hr class="betweenAPIEntries">
+<!-- headerDoc=func;  uid=//apple_ref/c/func/cparse_object_get_bool;   name=cparse_object_get_bool --><a name="//apple_ref/c/func/cparse_object_get_bool"></a>
+<h3><a name="cparse_object_get_bool">cparse_object_get_bool</a></h3>
+<hr class="afterName">
+<div class="declaration_indent">
+<pre><!-- headerDoc=declaration;uid=//apple_ref/c/func/cparse_object_get_bool;name=start --><!-- a logicalPath="//apple_ref/c/cl/bool //apple_ref/c/tdef/bool //apple_ref/c/tag/bool //apple_ref/c/struct/bool //apple_ref/c/intf/bool //apple_ref/doc/anysymbol/bool" machineGenerated="true" --><span class="type">bool</span><!-- /a --> <a machinegenerated="true" href="index.html#//apple_ref/c/func/cparse_object_get_bool" logicalPath="//apple_ref/c/instm/cparse_object_get_bool //apple_ref/c/clm/cparse_object_get_bool //apple_ref/c/intfcm/cparse_object_get_bool //apple_ref/c/intfm/cparse_object_get_bool //apple_ref/c/func/cparse_object_get_bool" target="_top"><span class="function">cparse_object_get_bool</span></a>(
+    <a machinegenerated="true" href="../defines_h/index.html#//apple_ref/c/tdef/cParseObject" logicalPath="//apple_ref/c/cl/cParseObject //apple_ref/c/tdef/cParseObject" target="_top"><span class="type">cParseObject</span></a> <span class="type">*</span><span class="param">obj</span>,
+    <span class="keyword">const</span> <!-- a logicalPath="//apple_ref/c/cl/char //apple_ref/c/tdef/char //apple_ref/c/tag/char //apple_ref/c/struct/char //apple_ref/c/intf/char //apple_ref/doc/anysymbol/char" machineGenerated="true" --><span class="type">char</span><!-- /a --> <span class="type">*</span><span class="param">key</span>);  <!-- headerDoc=declaration;uid=//apple_ref/c/func/cparse_object_get_bool;name=end --></pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class="param_indent">
+<dl>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/cparse_object_get_bool/obj;   name=obj -->
+<a name="//apple_ref/doc/functionparam/cparse_object_get_bool/obj"></a>
+<code>obj</code>
+</dt>
+<dd><p>the object instance</p></dd>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/cparse_object_get_bool/key;   name=key -->
+<a name="//apple_ref/doc/functionparam/cparse_object_get_bool/key"></a>
+<code>key</code>
+</dt>
+<dd><p>the key to identify the attribute value</p></dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
+<!-- begin discussion --><!-- headerDoc=discussion;uid=//apple_ref/c/func/cparse_object_get_bool;name=start --><p>get a bool attribute for an object
+<!-- headerDoc=discussion;uid=//apple_ref/c/func/cparse_object_get_bool;name=end --><!-- end discussion -->
+</p>
+<hr class="betweenAPIEntries">
+<!-- headerDoc=func;  uid=//apple_ref/c/func/cparse_object_get_number;   name=cparse_object_get_number --><a name="//apple_ref/c/func/cparse_object_get_number"></a>
+<h3><a name="cparse_object_get_number">cparse_object_get_number</a></h3>
+<hr class="afterName">
+<div class="declaration_indent">
+<pre><!-- headerDoc=declaration;uid=//apple_ref/c/func/cparse_object_get_number;name=start --><a machinegenerated="true" href="../defines_h/index.html#//apple_ref/c/tdef/cParseNumber" logicalPath="//apple_ref/c/cl/cParseNumber //apple_ref/c/tdef/cParseNumber" target="_top"><span class="type">cParseNumber</span></a> <a machinegenerated="true" href="index.html#//apple_ref/c/func/cparse_object_get_number" logicalPath="//apple_ref/c/instm/cparse_object_get_number //apple_ref/c/clm/cparse_object_get_number //apple_ref/c/intfcm/cparse_object_get_number //apple_ref/c/intfm/cparse_object_get_number //apple_ref/c/func/cparse_object_get_number" target="_top"><span class="function">cparse_object_get_number</span></a>(
+    <a machinegenerated="true" href="../defines_h/index.html#//apple_ref/c/tdef/cParseObject" logicalPath="//apple_ref/c/cl/cParseObject //apple_ref/c/tdef/cParseObject" target="_top"><span class="type">cParseObject</span></a> <span class="type">*</span><span class="param">obj</span>,
+    <span class="keyword">const</span> <!-- a logicalPath="//apple_ref/c/cl/char //apple_ref/c/tdef/char //apple_ref/c/tag/char //apple_ref/c/struct/char //apple_ref/c/intf/char //apple_ref/doc/anysymbol/char" machineGenerated="true" --><span class="type">char</span><!-- /a --> <span class="type">*</span><span class="param">key</span>,
+    <a machinegenerated="true" href="../defines_h/index.html#//apple_ref/c/tdef/cParseNumber" logicalPath="//apple_ref/c/cl/cParseNumber //apple_ref/c/tdef/cParseNumber" target="_top"><span class="type">cParseNumber</span></a> <span class="param">def</span>);  <!-- headerDoc=declaration;uid=//apple_ref/c/func/cparse_object_get_number;name=end --></pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class="param_indent">
+<dl>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/cparse_object_get_number/obj;   name=obj -->
+<a name="//apple_ref/doc/functionparam/cparse_object_get_number/obj"></a>
+<code>obj</code>
+</dt>
+<dd><p>the object instance</p></dd>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/cparse_object_get_number/key;   name=key -->
+<a name="//apple_ref/doc/functionparam/cparse_object_get_number/key"></a>
+<code>key</code>
+</dt>
+<dd><p>the key to identify the attribute value</p></dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5>
+<p><!-- begin return value --></p>
+<p>the number or zero if not found
+
+<!-- end return value --></p>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
+<!-- begin discussion --><!-- headerDoc=discussion;uid=//apple_ref/c/func/cparse_object_get_number;name=start --><p>get a number attribute for an object. strings will be parsed, if no conversion exists error number is set to EINVAL
+<!-- headerDoc=discussion;uid=//apple_ref/c/func/cparse_object_get_number;name=end --><!-- end discussion -->
+</p>
+<hr class="betweenAPIEntries">
+<!-- headerDoc=func;  uid=//apple_ref/c/func/cparse_object_get_real;   name=cparse_object_get_real --><a name="//apple_ref/c/func/cparse_object_get_real"></a>
+<h3><a name="cparse_object_get_real">cparse_object_get_real</a></h3>
+<hr class="afterName">
+<div class="declaration_indent">
+<pre><!-- headerDoc=declaration;uid=//apple_ref/c/func/cparse_object_get_real;name=start --><!-- a logicalPath="//apple_ref/c/cl/double //apple_ref/c/tdef/double //apple_ref/c/tag/double //apple_ref/c/struct/double //apple_ref/c/intf/double //apple_ref/doc/anysymbol/double" machineGenerated="true" --><span class="type">double</span><!-- /a --> <a machinegenerated="true" href="index.html#//apple_ref/c/func/cparse_object_get_real" logicalPath="//apple_ref/c/instm/cparse_object_get_real //apple_ref/c/clm/cparse_object_get_real //apple_ref/c/intfcm/cparse_object_get_real //apple_ref/c/intfm/cparse_object_get_real //apple_ref/c/func/cparse_object_get_real" target="_top"><span class="function">cparse_object_get_real</span></a>(
+    <a machinegenerated="true" href="../defines_h/index.html#//apple_ref/c/tdef/cParseObject" logicalPath="//apple_ref/c/cl/cParseObject //apple_ref/c/tdef/cParseObject" target="_top"><span class="type">cParseObject</span></a> <span class="type">*</span><span class="param">obj</span>,
+    <span class="keyword">const</span> <!-- a logicalPath="//apple_ref/c/cl/char //apple_ref/c/tdef/char //apple_ref/c/tag/char //apple_ref/c/struct/char //apple_ref/c/intf/char //apple_ref/doc/anysymbol/char" machineGenerated="true" --><span class="type">char</span><!-- /a --> <span class="type">*</span><span class="param">key</span>,
+    <!-- a logicalPath="//apple_ref/c/cl/double //apple_ref/c/tdef/double //apple_ref/c/tag/double //apple_ref/c/struct/double //apple_ref/c/intf/double //apple_ref/doc/anysymbol/double" machineGenerated="true" --><span class="type">double</span><!-- /a --> <span class="param">def</span>);  <!-- headerDoc=declaration;uid=//apple_ref/c/func/cparse_object_get_real;name=end --></pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class="param_indent">
+<dl>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/cparse_object_get_real/obj;   name=obj -->
+<a name="//apple_ref/doc/functionparam/cparse_object_get_real/obj"></a>
+<code>obj</code>
+</dt>
+<dd><p>the object instance</p></dd>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/cparse_object_get_real/key;   name=key -->
+<a name="//apple_ref/doc/functionparam/cparse_object_get_real/key"></a>
+<code>key</code>
+</dt>
+<dd><p>the key to identify the attribute value</p></dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
+<!-- begin discussion --><!-- headerDoc=discussion;uid=//apple_ref/c/func/cparse_object_get_real;name=start --><p>get a double attribute for an object.  strings will be parsed if no conversion exists error number is set to EINVAL
+<!-- headerDoc=discussion;uid=//apple_ref/c/func/cparse_object_get_real;name=end --><!-- end discussion -->
+</p>
+<hr class="betweenAPIEntries">
+<!-- headerDoc=func;  uid=//apple_ref/c/func/cparse_object_get_string;   name=cparse_object_get_string --><a name="//apple_ref/c/func/cparse_object_get_string"></a>
+<h3><a name="cparse_object_get_string">cparse_object_get_string</a></h3>
+<hr class="afterName">
+<div class="declaration_indent">
+<pre><!-- headerDoc=declaration;uid=//apple_ref/c/func/cparse_object_get_string;name=start --><span class="keyword">const</span> <!-- a logicalPath="//apple_ref/c/cl/char //apple_ref/c/tdef/char //apple_ref/c/tag/char //apple_ref/c/struct/char //apple_ref/c/intf/char //apple_ref/doc/anysymbol/char" machineGenerated="true" --><span class="type">char</span><!-- /a --> <span class="type">*</span><a machinegenerated="true" href="index.html#//apple_ref/c/func/cparse_object_get_string" logicalPath="//apple_ref/c/instm/cparse_object_get_string //apple_ref/c/clm/cparse_object_get_string //apple_ref/c/intfcm/cparse_object_get_string //apple_ref/c/intfm/cparse_object_get_string //apple_ref/c/func/cparse_object_get_string" target="_top"><span class="function">cparse_object_get_string</span></a>(
+    <a machinegenerated="true" href="../defines_h/index.html#//apple_ref/c/tdef/cParseObject" logicalPath="//apple_ref/c/cl/cParseObject //apple_ref/c/tdef/cParseObject" target="_top"><span class="type">cParseObject</span></a> <span class="type">*</span><span class="param">obj</span>,
+    <span class="keyword">const</span> <!-- a logicalPath="//apple_ref/c/cl/char //apple_ref/c/tdef/char //apple_ref/c/tag/char //apple_ref/c/struct/char //apple_ref/c/intf/char //apple_ref/doc/anysymbol/char" machineGenerated="true" --><span class="type">char</span><!-- /a --> <span class="type">*</span><span class="param">key</span>);  <!-- headerDoc=declaration;uid=//apple_ref/c/func/cparse_object_get_string;name=end --></pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class="param_indent">
+<dl>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/cparse_object_get_string/obj;   name=obj -->
+<a name="//apple_ref/doc/functionparam/cparse_object_get_string/obj"></a>
+<code>obj</code>
+</dt>
+<dd><p>the object instance</p></dd>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/cparse_object_get_string/key;   name=key -->
+<a name="//apple_ref/doc/functionparam/cparse_object_get_string/key"></a>
+<code>key</code>
+</dt>
+<dd><p>the key to identify the attribute value</p></dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
+<!-- begin discussion --><!-- headerDoc=discussion;uid=//apple_ref/c/func/cparse_object_get_string;name=start --><p>get a string attribute for an object
+<!-- headerDoc=discussion;uid=//apple_ref/c/func/cparse_object_get_string;name=end --><!-- end discussion -->
+</p>
+<hr class="betweenAPIEntries">
+<!-- headerDoc=func;  uid=//apple_ref/c/func/cparse_object_id;   name=cparse_object_id --><a name="//apple_ref/c/func/cparse_object_id"></a>
+<h3><a name="cparse_object_id">cparse_object_id</a></h3>
+<hr class="afterName">
+<div class="declaration_indent">
+<pre><!-- headerDoc=declaration;uid=//apple_ref/c/func/cparse_object_id;name=start --><span class="keyword">const</span> <!-- a logicalPath="//apple_ref/c/cl/char //apple_ref/c/tdef/char //apple_ref/c/tag/char //apple_ref/c/struct/char //apple_ref/c/intf/char //apple_ref/doc/anysymbol/char" machineGenerated="true" --><span class="type">char</span><!-- /a --> <span class="type">*</span><a machinegenerated="true" href="index.html#//apple_ref/c/func/cparse_object_id" logicalPath="//apple_ref/c/instm/cparse_object_id //apple_ref/c/clm/cparse_object_id //apple_ref/c/intfcm/cparse_object_id //apple_ref/c/intfm/cparse_object_id //apple_ref/c/func/cparse_object_id" target="_top"><span class="function">cparse_object_id</span></a>(
+    <a machinegenerated="true" href="../defines_h/index.html#//apple_ref/c/tdef/cParseObject" logicalPath="//apple_ref/c/cl/cParseObject //apple_ref/c/tdef/cParseObject" target="_top"><span class="type">cParseObject</span></a> <span class="type">*</span><span class="param">obj</span>);  <!-- headerDoc=declaration;uid=//apple_ref/c/func/cparse_object_id;name=end --></pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class="param_indent">
+<dl>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/cparse_object_id/obj;   name=obj -->
+<a name="//apple_ref/doc/functionparam/cparse_object_id/obj"></a>
+<code>obj</code>
+</dt>
+<dd><p>the object instance</p></dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5>
+<p><!-- begin return value --></p>
+<p>the id or NULL of not set
+
+<!-- end return value --></p>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
+<!-- begin discussion --><!-- headerDoc=discussion;uid=//apple_ref/c/func/cparse_object_id;name=start --><p>gets the parse object id
+<!-- headerDoc=discussion;uid=//apple_ref/c/func/cparse_object_id;name=end --><!-- end discussion -->
+</p>
+<hr class="betweenAPIEntries">
+<!-- headerDoc=func;  uid=//apple_ref/c/func/cparse_object_is_object;   name=cparse_object_is_object --><a name="//apple_ref/c/func/cparse_object_is_object"></a>
+<h3><a name="cparse_object_is_object">cparse_object_is_object</a></h3>
+<hr class="afterName">
+<div class="declaration_indent">
+<pre><!-- headerDoc=declaration;uid=//apple_ref/c/func/cparse_object_is_object;name=start --><!-- a logicalPath="//apple_ref/c/cl/bool //apple_ref/c/tdef/bool //apple_ref/c/tag/bool //apple_ref/c/struct/bool //apple_ref/c/intf/bool //apple_ref/doc/anysymbol/bool" machineGenerated="true" --><span class="type">bool</span><!-- /a --> <a machinegenerated="true" href="index.html#//apple_ref/c/func/cparse_object_is_object" logicalPath="//apple_ref/c/instm/cparse_object_is_object //apple_ref/c/clm/cparse_object_is_object //apple_ref/c/intfcm/cparse_object_is_object //apple_ref/c/intfm/cparse_object_is_object //apple_ref/c/func/cparse_object_is_object" target="_top"><span class="function">cparse_object_is_object</span></a>(
+    <a machinegenerated="true" href="../defines_h/index.html#//apple_ref/c/tdef/cParseObject" logicalPath="//apple_ref/c/cl/cParseObject //apple_ref/c/tdef/cParseObject" target="_top"><span class="type">cParseObject</span></a> <span class="type">*</span><span class="param">obj</span>);  <!-- headerDoc=declaration;uid=//apple_ref/c/func/cparse_object_is_object;name=end --></pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class="param_indent">
+<dl>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/cparse_object_is_object/obj;   name=obj -->
+<a name="//apple_ref/doc/functionparam/cparse_object_is_object/obj"></a>
+<code>obj</code>
+</dt>
+<dd><p>the object instance</p></dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
+<!-- begin discussion --><!-- headerDoc=discussion;uid=//apple_ref/c/func/cparse_object_is_object;name=start --><p>tests if an object is not a system object
+<!-- headerDoc=discussion;uid=//apple_ref/c/func/cparse_object_is_object;name=end --><!-- end discussion -->
+</p>
+<hr class="betweenAPIEntries">
+<!-- headerDoc=func;  uid=//apple_ref/c/func/cparse_object_is_user;   name=cparse_object_is_user --><a name="//apple_ref/c/func/cparse_object_is_user"></a>
+<h3><a name="cparse_object_is_user">cparse_object_is_user</a></h3>
+<hr class="afterName">
+<div class="declaration_indent">
+<pre><!-- headerDoc=declaration;uid=//apple_ref/c/func/cparse_object_is_user;name=start --><!-- a logicalPath="//apple_ref/c/cl/bool //apple_ref/c/tdef/bool //apple_ref/c/tag/bool //apple_ref/c/struct/bool //apple_ref/c/intf/bool //apple_ref/doc/anysymbol/bool" machineGenerated="true" --><span class="type">bool</span><!-- /a --> <a machinegenerated="true" href="index.html#//apple_ref/c/func/cparse_object_is_user" logicalPath="//apple_ref/c/instm/cparse_object_is_user //apple_ref/c/clm/cparse_object_is_user //apple_ref/c/intfcm/cparse_object_is_user //apple_ref/c/intfm/cparse_object_is_user //apple_ref/c/func/cparse_object_is_user" target="_top"><span class="function">cparse_object_is_user</span></a>(
+    <a machinegenerated="true" href="../defines_h/index.html#//apple_ref/c/tdef/cParseObject" logicalPath="//apple_ref/c/cl/cParseObject //apple_ref/c/tdef/cParseObject" target="_top"><span class="type">cParseObject</span></a> <span class="type">*</span><span class="param">obj</span>);  <!-- headerDoc=declaration;uid=//apple_ref/c/func/cparse_object_is_user;name=end --></pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class="param_indent">
+<dl>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/cparse_object_is_user/obj;   name=obj -->
+<a name="//apple_ref/doc/functionparam/cparse_object_is_user/obj"></a>
+<code>obj</code>
+</dt>
+<dd><p>the object instance</p></dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5>
+<p><!-- begin return value --></p>
+<p>true if the object is a user object
+
+<!-- end return value --></p>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
+<!-- begin discussion --><!-- headerDoc=discussion;uid=//apple_ref/c/func/cparse_object_is_user;name=start --><p>tests if an object is a user object
+<!-- headerDoc=discussion;uid=//apple_ref/c/func/cparse_object_is_user;name=end --><!-- end discussion -->
+</p>
+<hr class="betweenAPIEntries">
+<!-- headerDoc=func;  uid=//apple_ref/c/func/cparse_object_merge_json;   name=cparse_object_merge_json --><a name="//apple_ref/c/func/cparse_object_merge_json"></a>
+<h3><a name="cparse_object_merge_json">cparse_object_merge_json</a></h3>
+<hr class="afterName">
+<div class="declaration_indent">
+<pre><!-- headerDoc=declaration;uid=//apple_ref/c/func/cparse_object_merge_json;name=start --><!-- a logicalPath="//apple_ref/c/cl/void //apple_ref/c/tdef/void //apple_ref/c/tag/void //apple_ref/c/struct/void //apple_ref/c/intf/void //apple_ref/doc/anysymbol/void" machineGenerated="true" --><span class="type">void</span><!-- /a --> <a machinegenerated="true" href="index.html#//apple_ref/c/func/cparse_object_merge_json" logicalPath="//apple_ref/c/instm/cparse_object_merge_json //apple_ref/c/clm/cparse_object_merge_json //apple_ref/c/intfcm/cparse_object_merge_json //apple_ref/c/intfm/cparse_object_merge_json //apple_ref/c/func/cparse_object_merge_json" target="_top"><span class="function">cparse_object_merge_json</span></a>(
+    <a machinegenerated="true" href="../defines_h/index.html#//apple_ref/c/tdef/cParseObject" logicalPath="//apple_ref/c/cl/cParseObject //apple_ref/c/tdef/cParseObject" target="_top"><span class="type">cParseObject</span></a> <span class="type">*</span><span class="param">obj</span>,
+    <a machinegenerated="true" href="../defines_h/index.html#//apple_ref/c/tdef/cParseJson" logicalPath="//apple_ref/c/cl/cParseJson //apple_ref/c/tdef/cParseJson" target="_top"><span class="type">cParseJson</span></a> <span class="type">*</span><span class="param">json</span>);  <!-- headerDoc=declaration;uid=//apple_ref/c/func/cparse_object_merge_json;name=end --></pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class="param_indent">
+<dl>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/cparse_object_merge_json/obj;   name=obj -->
+<a name="//apple_ref/doc/functionparam/cparse_object_merge_json/obj"></a>
+<code>obj</code>
+</dt>
+<dd><p>the object instance</p></dd>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/cparse_object_merge_json/json;   name=json -->
+<a name="//apple_ref/doc/functionparam/cparse_object_merge_json/json"></a>
+<code>json</code>
+</dt>
+<dd><p>the json to merge with the object.</p></dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
+<!-- begin discussion --><!-- headerDoc=discussion;uid=//apple_ref/c/func/cparse_object_merge_json;name=start --><p>merges an object's attributes with a json object, duplicate values will be overwritten with the json object.
+<!-- headerDoc=discussion;uid=//apple_ref/c/func/cparse_object_merge_json;name=end --><!-- end discussion -->
+</p>
+<hr class="betweenAPIEntries">
+<!-- headerDoc=func;  uid=//apple_ref/c/func/cparse_object_refresh;   name=cparse_object_refresh --><a name="//apple_ref/c/func/cparse_object_refresh"></a>
+<h3><a name="cparse_object_refresh">cparse_object_refresh</a></h3>
+<hr class="afterName">
+<div class="declaration_indent">
+<pre><!-- headerDoc=declaration;uid=//apple_ref/c/func/cparse_object_refresh;name=start --><!-- a logicalPath="//apple_ref/c/cl/bool //apple_ref/c/tdef/bool //apple_ref/c/tag/bool //apple_ref/c/struct/bool //apple_ref/c/intf/bool //apple_ref/doc/anysymbol/bool" machineGenerated="true" --><span class="type">bool</span><!-- /a --> <a machinegenerated="true" href="index.html#//apple_ref/c/func/cparse_object_refresh" logicalPath="//apple_ref/c/instm/cparse_object_refresh //apple_ref/c/clm/cparse_object_refresh //apple_ref/c/intfcm/cparse_object_refresh //apple_ref/c/intfm/cparse_object_refresh //apple_ref/c/func/cparse_object_refresh" target="_top"><span class="function">cparse_object_refresh</span></a>(
+    <a machinegenerated="true" href="../defines_h/index.html#//apple_ref/c/tdef/cParseObject" logicalPath="//apple_ref/c/cl/cParseObject //apple_ref/c/tdef/cParseObject" target="_top"><span class="type">cParseObject</span></a> <span class="type">*</span><span class="param">obj</span>,
+    <a machinegenerated="true" href="../defines_h/index.html#//apple_ref/c/tdef/cParseError" logicalPath="//apple_ref/c/cl/cParseError //apple_ref/c/tdef/cParseError" target="_top"><span class="type">cParseError</span></a> <span class="type">*</span><span class="type">*</span><span class="param">error</span>);  <!-- headerDoc=declaration;uid=//apple_ref/c/func/cparse_object_refresh;name=end --></pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class="param_indent">
+<dl>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/cparse_object_refresh/obj;   name=obj -->
+<a name="//apple_ref/doc/functionparam/cparse_object_refresh/obj"></a>
+<code>obj</code>
+</dt>
+<dd><p>the object instance</p></dd>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/cparse_object_refresh/error;   name=error -->
+<a name="//apple_ref/doc/functionparam/cparse_object_refresh/error"></a>
+<code>error</code>
+</dt>
+<dd><p>a pointer to an error that will get allocated if not successful</p></dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5>
+<p><!-- begin return value --></p>
+<p>true if successful
+
+<!-- end return value --></p>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
+<!-- begin discussion --><!-- headerDoc=discussion;uid=//apple_ref/c/func/cparse_object_refresh;name=start --><p>refreshes an object' attributes. This does not include other object refereces. (see fetch)
+<!-- headerDoc=discussion;uid=//apple_ref/c/func/cparse_object_refresh;name=end --><!-- end discussion -->
+</p>
+<hr class="betweenAPIEntries">
+<!-- headerDoc=func;  uid=//apple_ref/c/func/cparse_object_refresh_in_background;   name=cparse_object_refresh_in_background --><a name="//apple_ref/c/func/cparse_object_refresh_in_background"></a>
+<h3><a name="cparse_object_refresh_in_background">cparse_object_refresh_in_background</a></h3>
+<hr class="afterName">
+<div class="declaration_indent">
+<pre><!-- headerDoc=declaration;uid=//apple_ref/c/func/cparse_object_refresh_in_background;name=start --><a machinegenerated="true" href="index.html#//apple_ref/c/tdef/cparse_thread" logicalPath="//apple_ref/c/cl/cparse_thread //apple_ref/c/tdef/cparse_thread" target="_top"><span class="type">cparse_thread</span></a> <a machinegenerated="true" href="index.html#//apple_ref/c/func/cparse_object_refresh_in_background" logicalPath="//apple_ref/c/instm/cparse_object_refresh_in_background //apple_ref/c/clm/cparse_object_refresh_in_background //apple_ref/c/intfcm/cparse_object_refresh_in_background //apple_ref/c/intfm/cparse_object_refresh_in_background //apple_ref/c/func/cparse_object_refresh_in_background" target="_top"><span class="function">cparse_object_refresh_in_background</span></a>(
+    <a machinegenerated="true" href="../defines_h/index.html#//apple_ref/c/tdef/cParseObject" logicalPath="//apple_ref/c/cl/cParseObject //apple_ref/c/tdef/cParseObject" target="_top"><span class="type">cParseObject</span></a> <span class="type">*</span><span class="param">obj</span>,
+    <a machinegenerated="true" href="../defines_h/index.html#//apple_ref/c/tdef/cParseObjectCallback" logicalPath="//apple_ref/c/cl/cParseObjectCallback //apple_ref/c/tdef/cParseObjectCallback" target="_top"><span class="type">cParseObjectCallback</span></a> <span class="param">callback</span>,
+    <!-- a logicalPath="//apple_ref/c/cl/void //apple_ref/c/tdef/void //apple_ref/c/tag/void //apple_ref/c/struct/void //apple_ref/c/intf/void //apple_ref/doc/anysymbol/void" machineGenerated="true" --><span class="type">void</span><!-- /a --> <span class="type">*</span><span class="param">param</span>);  <!-- headerDoc=declaration;uid=//apple_ref/c/func/cparse_object_refresh_in_background;name=end --></pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class="param_indent">
+<dl>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/cparse_object_refresh_in_background/obj;   name=obj -->
+<a name="//apple_ref/doc/functionparam/cparse_object_refresh_in_background/obj"></a>
+<code>obj</code>
+</dt>
+<dd><p>the object instance</p></dd>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/cparse_object_refresh_in_background/callback;   name=callback -->
+<a name="//apple_ref/doc/functionparam/cparse_object_refresh_in_background/callback"></a>
+<code>callback</code>
+</dt>
+<dd><p>the callback issued after the refresh</p></dd>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/cparse_object_refresh_in_background/param;   name=param -->
+<a name="//apple_ref/doc/functionparam/cparse_object_refresh_in_background/param"></a>
+<code>param</code>
+</dt>
+<dd><p>the user defined parameter for the callback</p></dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5>
+<p><!-- begin return value --></p>
+<p>the background thread identifier
+
+<!-- end return value --></p>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
+<!-- begin discussion --><!-- headerDoc=discussion;uid=//apple_ref/c/func/cparse_object_refresh_in_background;name=start --><p>refreshes an object's attributes in the background. Does not refresh other object refereces. (see fetch)
+<!-- headerDoc=discussion;uid=//apple_ref/c/func/cparse_object_refresh_in_background;name=end --><!-- end discussion -->
+</p>
+<hr class="betweenAPIEntries">
+<!-- headerDoc=func;  uid=//apple_ref/c/func/cparse_object_remove;   name=cparse_object_remove --><a name="//apple_ref/c/func/cparse_object_remove"></a>
+<h3><a name="cparse_object_remove">cparse_object_remove</a></h3>
+<hr class="afterName">
+<div class="declaration_indent">
+<pre><!-- headerDoc=declaration;uid=//apple_ref/c/func/cparse_object_remove;name=start --><!-- a logicalPath="//apple_ref/c/cl/void //apple_ref/c/tdef/void //apple_ref/c/tag/void //apple_ref/c/struct/void //apple_ref/c/intf/void //apple_ref/doc/anysymbol/void" machineGenerated="true" --><span class="type">void</span><!-- /a --> <a machinegenerated="true" href="index.html#//apple_ref/c/func/cparse_object_remove" logicalPath="//apple_ref/c/instm/cparse_object_remove //apple_ref/c/clm/cparse_object_remove //apple_ref/c/intfcm/cparse_object_remove //apple_ref/c/intfm/cparse_object_remove //apple_ref/c/func/cparse_object_remove" target="_top"><span class="function">cparse_object_remove</span></a>(
+    <a machinegenerated="true" href="../defines_h/index.html#//apple_ref/c/tdef/cParseObject" logicalPath="//apple_ref/c/cl/cParseObject //apple_ref/c/tdef/cParseObject" target="_top"><span class="type">cParseObject</span></a> <span class="type">*</span><span class="param">obj</span>,
+    <span class="keyword">const</span> <!-- a logicalPath="//apple_ref/c/cl/char //apple_ref/c/tdef/char //apple_ref/c/tag/char //apple_ref/c/struct/char //apple_ref/c/intf/char //apple_ref/doc/anysymbol/char" machineGenerated="true" --><span class="type">char</span><!-- /a --> <span class="type">*</span><span class="param">key</span>);  <!-- headerDoc=declaration;uid=//apple_ref/c/func/cparse_object_remove;name=end --></pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class="param_indent">
+<dl>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/cparse_object_remove/obj;   name=obj -->
+<a name="//apple_ref/doc/functionparam/cparse_object_remove/obj"></a>
+<code>obj</code>
+</dt>
+<dd><p>the object instance</p></dd>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/cparse_object_remove/key;   name=key -->
+<a name="//apple_ref/doc/functionparam/cparse_object_remove/key"></a>
+<code>key</code>
+</dt>
+<dd><p>the key to identify the attribute value</p></dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
+<!-- begin discussion --><!-- headerDoc=discussion;uid=//apple_ref/c/func/cparse_object_remove;name=start --><p>removes an attribute from an object
+<!-- headerDoc=discussion;uid=//apple_ref/c/func/cparse_object_remove;name=end --><!-- end discussion -->
+</p>
+<hr class="betweenAPIEntries">
+<!-- headerDoc=func;  uid=//apple_ref/c/func/cparse_object_remove_and_get;   name=cparse_object_remove_and_get --><a name="//apple_ref/c/func/cparse_object_remove_and_get"></a>
+<h3><a name="cparse_object_remove_and_get">cparse_object_remove_and_get</a></h3>
+<hr class="afterName">
+<div class="declaration_indent">
+<pre><!-- headerDoc=declaration;uid=//apple_ref/c/func/cparse_object_remove_and_get;name=start --><a machinegenerated="true" href="../defines_h/index.html#//apple_ref/c/tdef/cParseJson" logicalPath="//apple_ref/c/cl/cParseJson //apple_ref/c/tdef/cParseJson" target="_top"><span class="type">cParseJson</span></a> <span class="type">*</span><a machinegenerated="true" href="index.html#//apple_ref/c/func/cparse_object_remove_and_get" logicalPath="//apple_ref/c/instm/cparse_object_remove_and_get //apple_ref/c/clm/cparse_object_remove_and_get //apple_ref/c/intfcm/cparse_object_remove_and_get //apple_ref/c/intfm/cparse_object_remove_and_get //apple_ref/c/func/cparse_object_remove_and_get" target="_top"><span class="function">cparse_object_remove_and_get</span></a>(
+    <a machinegenerated="true" href="../defines_h/index.html#//apple_ref/c/tdef/cParseObject" logicalPath="//apple_ref/c/cl/cParseObject //apple_ref/c/tdef/cParseObject" target="_top"><span class="type">cParseObject</span></a> <span class="type">*</span><span class="param">obj</span>,
+    <span class="keyword">const</span> <!-- a logicalPath="//apple_ref/c/cl/char //apple_ref/c/tdef/char //apple_ref/c/tag/char //apple_ref/c/struct/char //apple_ref/c/intf/char //apple_ref/doc/anysymbol/char" machineGenerated="true" --><span class="type">char</span><!-- /a --> <span class="type">*</span><span class="param">key</span>);  <!-- headerDoc=declaration;uid=//apple_ref/c/func/cparse_object_remove_and_get;name=end --></pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class="param_indent">
+<dl>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/cparse_object_remove_and_get/obj;   name=obj -->
+<a name="//apple_ref/doc/functionparam/cparse_object_remove_and_get/obj"></a>
+<code>obj</code>
+</dt>
+<dd><p>the object instance</p></dd>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/cparse_object_remove_and_get/key;   name=key -->
+<a name="//apple_ref/doc/functionparam/cparse_object_remove_and_get/key"></a>
+<code>key</code>
+</dt>
+<dd><p>the key to identify the value to remove</p></dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5>
+<p><!-- begin return value --></p>
+<p>the removed attribute or NULL if not found
+
+<!-- end return value --></p>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
+<!-- begin discussion --><!-- headerDoc=discussion;uid=//apple_ref/c/func/cparse_object_remove_and_get;name=start --><p>removes an attribute from an object and returns the value
+<!-- headerDoc=discussion;uid=//apple_ref/c/func/cparse_object_remove_and_get;name=end --><!-- end discussion -->
+</p>
+<hr class="betweenAPIEntries">
+<!-- headerDoc=func;  uid=//apple_ref/c/func/cparse_object_save;   name=cparse_object_save --><a name="//apple_ref/c/func/cparse_object_save"></a>
+<h3><a name="cparse_object_save">cparse_object_save</a></h3>
+<hr class="afterName">
+<div class="declaration_indent">
+<pre><!-- headerDoc=declaration;uid=//apple_ref/c/func/cparse_object_save;name=start --><!-- a logicalPath="//apple_ref/c/cl/bool //apple_ref/c/tdef/bool //apple_ref/c/tag/bool //apple_ref/c/struct/bool //apple_ref/c/intf/bool //apple_ref/doc/anysymbol/bool" machineGenerated="true" --><span class="type">bool</span><!-- /a --> <a machinegenerated="true" href="index.html#//apple_ref/c/func/cparse_object_save" logicalPath="//apple_ref/c/instm/cparse_object_save //apple_ref/c/clm/cparse_object_save //apple_ref/c/intfcm/cparse_object_save //apple_ref/c/intfm/cparse_object_save //apple_ref/c/func/cparse_object_save" target="_top"><span class="function">cparse_object_save</span></a>(
+    <a machinegenerated="true" href="../defines_h/index.html#//apple_ref/c/tdef/cParseObject" logicalPath="//apple_ref/c/cl/cParseObject //apple_ref/c/tdef/cParseObject" target="_top"><span class="type">cParseObject</span></a> <span class="type">*</span><span class="param">obj</span>,
+    <a machinegenerated="true" href="../defines_h/index.html#//apple_ref/c/tdef/cParseError" logicalPath="//apple_ref/c/cl/cParseError //apple_ref/c/tdef/cParseError" target="_top"><span class="type">cParseError</span></a> <span class="type">*</span><span class="type">*</span><span class="param">error</span>);  <!-- headerDoc=declaration;uid=//apple_ref/c/func/cparse_object_save;name=end --></pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class="param_indent">
+<dl>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/cparse_object_save/obj;   name=obj -->
+<a name="//apple_ref/doc/functionparam/cparse_object_save/obj"></a>
+<code>obj</code>
+</dt>
+<dd><p>the object instance</p></dd>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/cparse_object_save/error;   name=error -->
+<a name="//apple_ref/doc/functionparam/cparse_object_save/error"></a>
+<code>error</code>
+</dt>
+<dd><p>a pointer to an error that gets allocated if not successful.</p></dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5>
+<p><!-- begin return value --></p>
+<p>true if successful
+
+<!-- end return value --></p>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
+<!-- begin discussion --><!-- headerDoc=discussion;uid=//apple_ref/c/func/cparse_object_save;name=start --><p>saves a parse object
+<!-- headerDoc=discussion;uid=//apple_ref/c/func/cparse_object_save;name=end --><!-- end discussion -->
+</p>
+<hr class="betweenAPIEntries">
+<!-- headerDoc=func;  uid=//apple_ref/c/func/cparse_object_save_in_background;   name=cparse_object_save_in_background --><a name="//apple_ref/c/func/cparse_object_save_in_background"></a>
+<h3><a name="cparse_object_save_in_background">cparse_object_save_in_background</a></h3>
+<hr class="afterName">
+<div class="declaration_indent">
+<pre><!-- headerDoc=declaration;uid=//apple_ref/c/func/cparse_object_save_in_background;name=start --><a machinegenerated="true" href="index.html#//apple_ref/c/tdef/cparse_thread" logicalPath="//apple_ref/c/cl/cparse_thread //apple_ref/c/tdef/cparse_thread" target="_top"><span class="type">cparse_thread</span></a> <a machinegenerated="true" href="index.html#//apple_ref/c/func/cparse_object_save_in_background" logicalPath="//apple_ref/c/instm/cparse_object_save_in_background //apple_ref/c/clm/cparse_object_save_in_background //apple_ref/c/intfcm/cparse_object_save_in_background //apple_ref/c/intfm/cparse_object_save_in_background //apple_ref/c/func/cparse_object_save_in_background" target="_top"><span class="function">cparse_object_save_in_background</span></a>(
+    <a machinegenerated="true" href="../defines_h/index.html#//apple_ref/c/tdef/cParseObject" logicalPath="//apple_ref/c/cl/cParseObject //apple_ref/c/tdef/cParseObject" target="_top"><span class="type">cParseObject</span></a> <span class="type">*</span><span class="param">obj</span>,
+    <a machinegenerated="true" href="../defines_h/index.html#//apple_ref/c/tdef/cParseObjectCallback" logicalPath="//apple_ref/c/cl/cParseObjectCallback //apple_ref/c/tdef/cParseObjectCallback" target="_top"><span class="type">cParseObjectCallback</span></a> <span class="param">callback</span>,
+    <!-- a logicalPath="//apple_ref/c/cl/void //apple_ref/c/tdef/void //apple_ref/c/tag/void //apple_ref/c/struct/void //apple_ref/c/intf/void //apple_ref/doc/anysymbol/void" machineGenerated="true" --><span class="type">void</span><!-- /a --> <span class="type">*</span><span class="param">param</span>);  <!-- headerDoc=declaration;uid=//apple_ref/c/func/cparse_object_save_in_background;name=end --></pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class="param_indent">
+<dl>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/cparse_object_save_in_background/obj;   name=obj -->
+<a name="//apple_ref/doc/functionparam/cparse_object_save_in_background/obj"></a>
+<code>obj</code>
+</dt>
+<dd><p>the object instance</p></dd>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/cparse_object_save_in_background/callback;   name=callback -->
+<a name="//apple_ref/doc/functionparam/cparse_object_save_in_background/callback"></a>
+<code>callback</code>
+</dt>
+<dd><p>a callback issued after the object is saved</p></dd>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/cparse_object_save_in_background/param;   name=param -->
+<a name="//apple_ref/doc/functionparam/cparse_object_save_in_background/param"></a>
+<code>param</code>
+</dt>
+<dd><p>a user defined parameter for the callback</p></dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5>
+<p><!-- begin return value --></p>
+<p>the background thread identifier
+
+<!-- end return value --></p>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
+<!-- begin discussion --><!-- headerDoc=discussion;uid=//apple_ref/c/func/cparse_object_save_in_background;name=start --><p>saves a parse object in the background
+<!-- headerDoc=discussion;uid=//apple_ref/c/func/cparse_object_save_in_background;name=end --><!-- end discussion -->
+</p>
+<hr class="betweenAPIEntries">
+<!-- headerDoc=func;  uid=//apple_ref/c/func/cparse_object_set;   name=cparse_object_set --><a name="//apple_ref/c/func/cparse_object_set"></a>
+<h3><a name="cparse_object_set">cparse_object_set</a></h3>
+<hr class="afterName">
+<div class="declaration_indent">
+<pre><!-- headerDoc=declaration;uid=//apple_ref/c/func/cparse_object_set;name=start --><!-- a logicalPath="//apple_ref/c/cl/void //apple_ref/c/tdef/void //apple_ref/c/tag/void //apple_ref/c/struct/void //apple_ref/c/intf/void //apple_ref/doc/anysymbol/void" machineGenerated="true" --><span class="type">void</span><!-- /a --> <a machinegenerated="true" href="index.html#//apple_ref/c/func/cparse_object_set" logicalPath="//apple_ref/c/instm/cparse_object_set //apple_ref/c/clm/cparse_object_set //apple_ref/c/intfcm/cparse_object_set //apple_ref/c/intfm/cparse_object_set //apple_ref/c/func/cparse_object_set" target="_top"><span class="function">cparse_object_set</span></a>(
+    <a machinegenerated="true" href="../defines_h/index.html#//apple_ref/c/tdef/cParseObject" logicalPath="//apple_ref/c/cl/cParseObject //apple_ref/c/tdef/cParseObject" target="_top"><span class="type">cParseObject</span></a> <span class="type">*</span><span class="param">obj</span>,
+    <span class="keyword">const</span> <!-- a logicalPath="//apple_ref/c/cl/char //apple_ref/c/tdef/char //apple_ref/c/tag/char //apple_ref/c/struct/char //apple_ref/c/intf/char //apple_ref/doc/anysymbol/char" machineGenerated="true" --><span class="type">char</span><!-- /a --> <span class="type">*</span><span class="param">key</span>,
+    <a machinegenerated="true" href="../defines_h/index.html#//apple_ref/c/tdef/cParseJson" logicalPath="//apple_ref/c/cl/cParseJson //apple_ref/c/tdef/cParseJson" target="_top"><span class="type">cParseJson</span></a> <span class="type">*</span><span class="param">value</span>);  <!-- headerDoc=declaration;uid=//apple_ref/c/func/cparse_object_set;name=end --></pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class="param_indent">
+<dl>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/cparse_object_set/obj;   name=obj -->
+<a name="//apple_ref/doc/functionparam/cparse_object_set/obj"></a>
+<code>obj</code>
+</dt>
+<dd><p>the object instance</p></dd>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/cparse_object_set/key;   name=key -->
+<a name="//apple_ref/doc/functionparam/cparse_object_set/key"></a>
+<code>key</code>
+</dt>
+<dd><p>the key to identify the value</p></dd>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/cparse_object_set/value;   name=value -->
+<a name="//apple_ref/doc/functionparam/cparse_object_set/value"></a>
+<code>value</code>
+</dt>
+<dd><p>the attribute value to set</p></dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
+<!-- begin discussion --><!-- headerDoc=discussion;uid=//apple_ref/c/func/cparse_object_set;name=start --><p>sets a json object attribute on an object
+<!-- headerDoc=discussion;uid=//apple_ref/c/func/cparse_object_set;name=end --><!-- end discussion -->
+</p>
+<hr class="betweenAPIEntries">
+<!-- headerDoc=func;  uid=//apple_ref/c/func/cparse_object_set_bool;   name=cparse_object_set_bool --><a name="//apple_ref/c/func/cparse_object_set_bool"></a>
+<h3><a name="cparse_object_set_bool">cparse_object_set_bool</a></h3>
+<hr class="afterName">
+<div class="declaration_indent">
+<pre><!-- headerDoc=declaration;uid=//apple_ref/c/func/cparse_object_set_bool;name=start --><!-- a logicalPath="//apple_ref/c/cl/void //apple_ref/c/tdef/void //apple_ref/c/tag/void //apple_ref/c/struct/void //apple_ref/c/intf/void //apple_ref/doc/anysymbol/void" machineGenerated="true" --><span class="type">void</span><!-- /a --> <a machinegenerated="true" href="index.html#//apple_ref/c/func/cparse_object_set_bool" logicalPath="//apple_ref/c/instm/cparse_object_set_bool //apple_ref/c/clm/cparse_object_set_bool //apple_ref/c/intfcm/cparse_object_set_bool //apple_ref/c/intfm/cparse_object_set_bool //apple_ref/c/func/cparse_object_set_bool" target="_top"><span class="function">cparse_object_set_bool</span></a>(
+    <a machinegenerated="true" href="../defines_h/index.html#//apple_ref/c/tdef/cParseObject" logicalPath="//apple_ref/c/cl/cParseObject //apple_ref/c/tdef/cParseObject" target="_top"><span class="type">cParseObject</span></a> <span class="type">*</span><span class="param">obj</span>,
+    <span class="keyword">const</span> <!-- a logicalPath="//apple_ref/c/cl/char //apple_ref/c/tdef/char //apple_ref/c/tag/char //apple_ref/c/struct/char //apple_ref/c/intf/char //apple_ref/doc/anysymbol/char" machineGenerated="true" --><span class="type">char</span><!-- /a --> <span class="type">*</span><span class="param">key</span>,
+    <!-- a logicalPath="//apple_ref/c/cl/bool //apple_ref/c/tdef/bool //apple_ref/c/tag/bool //apple_ref/c/struct/bool //apple_ref/c/intf/bool //apple_ref/doc/anysymbol/bool" machineGenerated="true" --><span class="type">bool</span><!-- /a --> <span class="param">value</span>);  <!-- headerDoc=declaration;uid=//apple_ref/c/func/cparse_object_set_bool;name=end --></pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class="param_indent">
+<dl>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/cparse_object_set_bool/obj;   name=obj -->
+<a name="//apple_ref/doc/functionparam/cparse_object_set_bool/obj"></a>
+<code>obj</code>
+</dt>
+<dd><p>the object instance</p></dd>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/cparse_object_set_bool/key;   name=key -->
+<a name="//apple_ref/doc/functionparam/cparse_object_set_bool/key"></a>
+<code>key</code>
+</dt>
+<dd><p>the key to identify the value</p></dd>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/cparse_object_set_bool/value;   name=value -->
+<a name="//apple_ref/doc/functionparam/cparse_object_set_bool/value"></a>
+<code>value</code>
+</dt>
+<dd><p>the attribute value to set</p></dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
+<!-- begin discussion --><!-- headerDoc=discussion;uid=//apple_ref/c/func/cparse_object_set_bool;name=start --><p>sets a bool attribute on an object
+<!-- headerDoc=discussion;uid=//apple_ref/c/func/cparse_object_set_bool;name=end --><!-- end discussion -->
+</p>
+<hr class="betweenAPIEntries">
+<!-- headerDoc=func;  uid=//apple_ref/c/func/cparse_object_set_number;   name=cparse_object_set_number --><a name="//apple_ref/c/func/cparse_object_set_number"></a>
+<h3><a name="cparse_object_set_number">cparse_object_set_number</a></h3>
+<hr class="afterName">
+<div class="declaration_indent">
+<pre><!-- headerDoc=declaration;uid=//apple_ref/c/func/cparse_object_set_number;name=start --><!-- a logicalPath="//apple_ref/c/cl/void //apple_ref/c/tdef/void //apple_ref/c/tag/void //apple_ref/c/struct/void //apple_ref/c/intf/void //apple_ref/doc/anysymbol/void" machineGenerated="true" --><span class="type">void</span><!-- /a --> <a machinegenerated="true" href="index.html#//apple_ref/c/func/cparse_object_set_number" logicalPath="//apple_ref/c/instm/cparse_object_set_number //apple_ref/c/clm/cparse_object_set_number //apple_ref/c/intfcm/cparse_object_set_number //apple_ref/c/intfm/cparse_object_set_number //apple_ref/c/func/cparse_object_set_number" target="_top"><span class="function">cparse_object_set_number</span></a>(
+    <a machinegenerated="true" href="../defines_h/index.html#//apple_ref/c/tdef/cParseObject" logicalPath="//apple_ref/c/cl/cParseObject //apple_ref/c/tdef/cParseObject" target="_top"><span class="type">cParseObject</span></a> <span class="type">*</span><span class="param">obj</span>,
+    <span class="keyword">const</span> <!-- a logicalPath="//apple_ref/c/cl/char //apple_ref/c/tdef/char //apple_ref/c/tag/char //apple_ref/c/struct/char //apple_ref/c/intf/char //apple_ref/doc/anysymbol/char" machineGenerated="true" --><span class="type">char</span><!-- /a --> <span class="type">*</span><span class="param">key</span>,
+    <a machinegenerated="true" href="../defines_h/index.html#//apple_ref/c/tdef/cParseNumber" logicalPath="//apple_ref/c/cl/cParseNumber //apple_ref/c/tdef/cParseNumber" target="_top"><span class="type">cParseNumber</span></a> <span class="param">value</span>);  <!-- headerDoc=declaration;uid=//apple_ref/c/func/cparse_object_set_number;name=end --></pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class="param_indent">
+<dl>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/cparse_object_set_number/obj;   name=obj -->
+<a name="//apple_ref/doc/functionparam/cparse_object_set_number/obj"></a>
+<code>obj</code>
+</dt>
+<dd><p>the object instance</p></dd>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/cparse_object_set_number/key;   name=key -->
+<a name="//apple_ref/doc/functionparam/cparse_object_set_number/key"></a>
+<code>key</code>
+</dt>
+<dd><p>the key to identify the value</p></dd>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/cparse_object_set_number/value;   name=value -->
+<a name="//apple_ref/doc/functionparam/cparse_object_set_number/value"></a>
+<code>value</code>
+</dt>
+<dd><p>the number attribute to set</p></dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
+<!-- begin discussion --><!-- headerDoc=discussion;uid=//apple_ref/c/func/cparse_object_set_number;name=start --><p>sets a number attribute on an object
+<!-- headerDoc=discussion;uid=//apple_ref/c/func/cparse_object_set_number;name=end --><!-- end discussion -->
+</p>
+<hr class="betweenAPIEntries">
+<!-- headerDoc=func;  uid=//apple_ref/c/func/cparse_object_set_public_acl;   name=cparse_object_set_public_acl --><a name="//apple_ref/c/func/cparse_object_set_public_acl"></a>
+<h3><a name="cparse_object_set_public_acl">cparse_object_set_public_acl</a></h3>
+<hr class="afterName">
+<div class="declaration_indent">
+<pre><!-- headerDoc=declaration;uid=//apple_ref/c/func/cparse_object_set_public_acl;name=start --><!-- a logicalPath="//apple_ref/c/cl/void //apple_ref/c/tdef/void //apple_ref/c/tag/void //apple_ref/c/struct/void //apple_ref/c/intf/void //apple_ref/doc/anysymbol/void" machineGenerated="true" --><span class="type">void</span><!-- /a --> <a machinegenerated="true" href="index.html#//apple_ref/c/func/cparse_object_set_public_acl" logicalPath="//apple_ref/c/instm/cparse_object_set_public_acl //apple_ref/c/clm/cparse_object_set_public_acl //apple_ref/c/intfcm/cparse_object_set_public_acl //apple_ref/c/intfm/cparse_object_set_public_acl //apple_ref/c/func/cparse_object_set_public_acl" target="_top"><span class="function">cparse_object_set_public_acl</span></a>(
+    <a machinegenerated="true" href="../defines_h/index.html#//apple_ref/c/tdef/cParseObject" logicalPath="//apple_ref/c/cl/cParseObject //apple_ref/c/tdef/cParseObject" target="_top"><span class="type">cParseObject</span></a> <span class="type">*</span><span class="param">obj</span>,
+    <a machinegenerated="true" href="../defines_h/index.html#//apple_ref/c/tdef/cParseAccess" logicalPath="//apple_ref/c/cl/cParseAccess //apple_ref/c/tdef/cParseAccess" target="_top"><span class="type">cParseAccess</span></a> <span class="param">access</span>,
+    <!-- a logicalPath="//apple_ref/c/cl/bool //apple_ref/c/tdef/bool //apple_ref/c/tag/bool //apple_ref/c/struct/bool //apple_ref/c/intf/bool //apple_ref/doc/anysymbol/bool" machineGenerated="true" --><span class="type">bool</span><!-- /a --> <span class="param">value</span>);  <!-- headerDoc=declaration;uid=//apple_ref/c/func/cparse_object_set_public_acl;name=end --></pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class="param_indent">
+<dl>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/cparse_object_set_public_acl/obj;   name=obj -->
+<a name="//apple_ref/doc/functionparam/cparse_object_set_public_acl/obj"></a>
+<code>obj</code>
+</dt>
+<dd><p>the object instance</p></dd>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/cparse_object_set_public_acl/access;   name=access -->
+<a name="//apple_ref/doc/functionparam/cparse_object_set_public_acl/access"></a>
+<code>access</code>
+</dt>
+<dd><p>the access type (read/write)</p></dd>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/cparse_object_set_public_acl/value;   name=value -->
+<a name="//apple_ref/doc/functionparam/cparse_object_set_public_acl/value"></a>
+<code>value</code>
+</dt>
+<dd><p>the access value</p></dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
+<!-- begin discussion --><!-- headerDoc=discussion;uid=//apple_ref/c/func/cparse_object_set_public_acl;name=start --><p>sets public access control list for an object
+<!-- headerDoc=discussion;uid=//apple_ref/c/func/cparse_object_set_public_acl;name=end --><!-- end discussion -->
+</p>
+<hr class="betweenAPIEntries">
+<!-- headerDoc=func;  uid=//apple_ref/c/func/cparse_object_set_real;   name=cparse_object_set_real --><a name="//apple_ref/c/func/cparse_object_set_real"></a>
+<h3><a name="cparse_object_set_real">cparse_object_set_real</a></h3>
+<hr class="afterName">
+<div class="declaration_indent">
+<pre><!-- headerDoc=declaration;uid=//apple_ref/c/func/cparse_object_set_real;name=start --><!-- a logicalPath="//apple_ref/c/cl/void //apple_ref/c/tdef/void //apple_ref/c/tag/void //apple_ref/c/struct/void //apple_ref/c/intf/void //apple_ref/doc/anysymbol/void" machineGenerated="true" --><span class="type">void</span><!-- /a --> <a machinegenerated="true" href="index.html#//apple_ref/c/func/cparse_object_set_real" logicalPath="//apple_ref/c/instm/cparse_object_set_real //apple_ref/c/clm/cparse_object_set_real //apple_ref/c/intfcm/cparse_object_set_real //apple_ref/c/intfm/cparse_object_set_real //apple_ref/c/func/cparse_object_set_real" target="_top"><span class="function">cparse_object_set_real</span></a>(
+    <a machinegenerated="true" href="../defines_h/index.html#//apple_ref/c/tdef/cParseObject" logicalPath="//apple_ref/c/cl/cParseObject //apple_ref/c/tdef/cParseObject" target="_top"><span class="type">cParseObject</span></a> <span class="type">*</span><span class="param">obj</span>,
+    <span class="keyword">const</span> <!-- a logicalPath="//apple_ref/c/cl/char //apple_ref/c/tdef/char //apple_ref/c/tag/char //apple_ref/c/struct/char //apple_ref/c/intf/char //apple_ref/doc/anysymbol/char" machineGenerated="true" --><span class="type">char</span><!-- /a --> <span class="type">*</span><span class="param">key</span>,
+    <!-- a logicalPath="//apple_ref/c/cl/double //apple_ref/c/tdef/double //apple_ref/c/tag/double //apple_ref/c/struct/double //apple_ref/c/intf/double //apple_ref/doc/anysymbol/double" machineGenerated="true" --><span class="type">double</span><!-- /a --> <span class="param">value</span>);  <!-- headerDoc=declaration;uid=//apple_ref/c/func/cparse_object_set_real;name=end --></pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class="param_indent">
+<dl>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/cparse_object_set_real/obj;   name=obj -->
+<a name="//apple_ref/doc/functionparam/cparse_object_set_real/obj"></a>
+<code>obj</code>
+</dt>
+<dd><p>the object instance</p></dd>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/cparse_object_set_real/key;   name=key -->
+<a name="//apple_ref/doc/functionparam/cparse_object_set_real/key"></a>
+<code>key</code>
+</dt>
+<dd><p>the key to identify the value</p></dd>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/cparse_object_set_real/value;   name=value -->
+<a name="//apple_ref/doc/functionparam/cparse_object_set_real/value"></a>
+<code>value</code>
+</dt>
+<dd><p>the attribute value to set</p></dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
+<!-- begin discussion --><!-- headerDoc=discussion;uid=//apple_ref/c/func/cparse_object_set_real;name=start --><p>sets a real (float) attribute on an object
+<!-- headerDoc=discussion;uid=//apple_ref/c/func/cparse_object_set_real;name=end --><!-- end discussion -->
+</p>
+<hr class="betweenAPIEntries">
+<!-- headerDoc=func;  uid=//apple_ref/c/func/cparse_object_set_reference;   name=cparse_object_set_reference --><a name="//apple_ref/c/func/cparse_object_set_reference"></a>
+<h3><a name="cparse_object_set_reference">cparse_object_set_reference</a></h3>
+<hr class="afterName">
+<div class="declaration_indent">
+<pre><!-- headerDoc=declaration;uid=//apple_ref/c/func/cparse_object_set_reference;name=start --><!-- a logicalPath="//apple_ref/c/cl/void //apple_ref/c/tdef/void //apple_ref/c/tag/void //apple_ref/c/struct/void //apple_ref/c/intf/void //apple_ref/doc/anysymbol/void" machineGenerated="true" --><span class="type">void</span><!-- /a --> <a machinegenerated="true" href="index.html#//apple_ref/c/func/cparse_object_set_reference" logicalPath="//apple_ref/c/instm/cparse_object_set_reference //apple_ref/c/clm/cparse_object_set_reference //apple_ref/c/intfcm/cparse_object_set_reference //apple_ref/c/intfm/cparse_object_set_reference //apple_ref/c/func/cparse_object_set_reference" target="_top"><span class="function">cparse_object_set_reference</span></a>(
+    <a machinegenerated="true" href="../defines_h/index.html#//apple_ref/c/tdef/cParseObject" logicalPath="//apple_ref/c/cl/cParseObject //apple_ref/c/tdef/cParseObject" target="_top"><span class="type">cParseObject</span></a> <span class="type">*</span><span class="param">obj</span>,
+    <span class="keyword">const</span> <!-- a logicalPath="//apple_ref/c/cl/char //apple_ref/c/tdef/char //apple_ref/c/tag/char //apple_ref/c/struct/char //apple_ref/c/intf/char //apple_ref/doc/anysymbol/char" machineGenerated="true" --><span class="type">char</span><!-- /a --> <span class="type">*</span><span class="param">key</span>,
+    <a machinegenerated="true" href="../defines_h/index.html#//apple_ref/c/tdef/cParseObject" logicalPath="//apple_ref/c/cl/cParseObject //apple_ref/c/tdef/cParseObject" target="_top"><span class="type">cParseObject</span></a> <span class="type">*</span><span class="param">ref</span>);  <!-- headerDoc=declaration;uid=//apple_ref/c/func/cparse_object_set_reference;name=end --></pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class="param_indent">
+<dl>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/cparse_object_set_reference/obj;   name=obj -->
+<a name="//apple_ref/doc/functionparam/cparse_object_set_reference/obj"></a>
+<code>obj</code>
+</dt>
+<dd><p>the object instance</p></dd>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/cparse_object_set_reference/key;   name=key -->
+<a name="//apple_ref/doc/functionparam/cparse_object_set_reference/key"></a>
+<code>key</code>
+</dt>
+<dd><p>the key to identify the reference</p></dd>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/cparse_object_set_reference/ref;   name=ref -->
+<a name="//apple_ref/doc/functionparam/cparse_object_set_reference/ref"></a>
+<code>ref</code>
+</dt>
+<dd><p>the object to reference</p></dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
+<!-- begin discussion --><!-- headerDoc=discussion;uid=//apple_ref/c/func/cparse_object_set_reference;name=start --><p>sets a reference attribute to another object
+<!-- headerDoc=discussion;uid=//apple_ref/c/func/cparse_object_set_reference;name=end --><!-- end discussion -->
+</p>
+<hr class="betweenAPIEntries">
+<!-- headerDoc=func;  uid=//apple_ref/c/func/cparse_object_set_role_acl;   name=cparse_object_set_role_acl --><a name="//apple_ref/c/func/cparse_object_set_role_acl"></a>
+<h3><a name="cparse_object_set_role_acl">cparse_object_set_role_acl</a></h3>
+<hr class="afterName">
+<div class="declaration_indent">
+<pre><!-- headerDoc=declaration;uid=//apple_ref/c/func/cparse_object_set_role_acl;name=start --><!-- a logicalPath="//apple_ref/c/cl/void //apple_ref/c/tdef/void //apple_ref/c/tag/void //apple_ref/c/struct/void //apple_ref/c/intf/void //apple_ref/doc/anysymbol/void" machineGenerated="true" --><span class="type">void</span><!-- /a --> <a machinegenerated="true" href="index.html#//apple_ref/c/func/cparse_object_set_role_acl" logicalPath="//apple_ref/c/instm/cparse_object_set_role_acl //apple_ref/c/clm/cparse_object_set_role_acl //apple_ref/c/intfcm/cparse_object_set_role_acl //apple_ref/c/intfm/cparse_object_set_role_acl //apple_ref/c/func/cparse_object_set_role_acl" target="_top"><span class="function">cparse_object_set_role_acl</span></a>(
+    <a machinegenerated="true" href="../defines_h/index.html#//apple_ref/c/tdef/cParseObject" logicalPath="//apple_ref/c/cl/cParseObject //apple_ref/c/tdef/cParseObject" target="_top"><span class="type">cParseObject</span></a> <span class="type">*</span><span class="param">obj</span>,
+    <a machinegenerated="true" href="../defines_h/index.html#//apple_ref/c/tdef/cParseRole" logicalPath="//apple_ref/c/cl/cParseRole //apple_ref/c/tdef/cParseRole" target="_top"><span class="type">cParseRole</span></a> <span class="type">*</span><span class="param">role</span>,
+    <a machinegenerated="true" href="../defines_h/index.html#//apple_ref/c/tdef/cParseAccess" logicalPath="//apple_ref/c/cl/cParseAccess //apple_ref/c/tdef/cParseAccess" target="_top"><span class="type">cParseAccess</span></a> <span class="param">access</span>,
+    <!-- a logicalPath="//apple_ref/c/cl/bool //apple_ref/c/tdef/bool //apple_ref/c/tag/bool //apple_ref/c/struct/bool //apple_ref/c/intf/bool //apple_ref/doc/anysymbol/bool" machineGenerated="true" --><span class="type">bool</span><!-- /a --> <span class="param">value</span>);  <!-- headerDoc=declaration;uid=//apple_ref/c/func/cparse_object_set_role_acl;name=end --></pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class="param_indent">
+<dl>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/cparse_object_set_role_acl/obj;   name=obj -->
+<a name="//apple_ref/doc/functionparam/cparse_object_set_role_acl/obj"></a>
+<code>obj</code>
+</dt>
+<dd><p>the object instance</p></dd>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/cparse_object_set_role_acl/access;   name=access -->
+<a name="//apple_ref/doc/functionparam/cparse_object_set_role_acl/access"></a>
+<code>access</code>
+</dt>
+<dd><p>the access type (read/write)</p></dd>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/cparse_object_set_role_acl/value;   name=value -->
+<a name="//apple_ref/doc/functionparam/cparse_object_set_role_acl/value"></a>
+<code>value</code>
+</dt>
+<dd><p>the access value</p></dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
+<!-- begin discussion --><!-- headerDoc=discussion;uid=//apple_ref/c/func/cparse_object_set_role_acl;name=start --><p>sets a role access control list for an object
+<!-- headerDoc=discussion;uid=//apple_ref/c/func/cparse_object_set_role_acl;name=end --><!-- end discussion -->
+</p>
+<hr class="betweenAPIEntries">
+<!-- headerDoc=func;  uid=//apple_ref/c/func/cparse_object_set_string;   name=cparse_object_set_string --><a name="//apple_ref/c/func/cparse_object_set_string"></a>
+<h3><a name="cparse_object_set_string">cparse_object_set_string</a></h3>
+<hr class="afterName">
+<div class="declaration_indent">
+<pre><!-- headerDoc=declaration;uid=//apple_ref/c/func/cparse_object_set_string;name=start --><!-- a logicalPath="//apple_ref/c/cl/void //apple_ref/c/tdef/void //apple_ref/c/tag/void //apple_ref/c/struct/void //apple_ref/c/intf/void //apple_ref/doc/anysymbol/void" machineGenerated="true" --><span class="type">void</span><!-- /a --> <a machinegenerated="true" href="index.html#//apple_ref/c/func/cparse_object_set_string" logicalPath="//apple_ref/c/instm/cparse_object_set_string //apple_ref/c/clm/cparse_object_set_string //apple_ref/c/intfcm/cparse_object_set_string //apple_ref/c/intfm/cparse_object_set_string //apple_ref/c/func/cparse_object_set_string" target="_top"><span class="function">cparse_object_set_string</span></a>(
+    <a machinegenerated="true" href="../defines_h/index.html#//apple_ref/c/tdef/cParseObject" logicalPath="//apple_ref/c/cl/cParseObject //apple_ref/c/tdef/cParseObject" target="_top"><span class="type">cParseObject</span></a> <span class="type">*</span><span class="param">obj</span>,
+    <span class="keyword">const</span> <!-- a logicalPath="//apple_ref/c/cl/char //apple_ref/c/tdef/char //apple_ref/c/tag/char //apple_ref/c/struct/char //apple_ref/c/intf/char //apple_ref/doc/anysymbol/char" machineGenerated="true" --><span class="type">char</span><!-- /a --> <span class="type">*</span><span class="param">key</span>,
+    <span class="keyword">const</span> <!-- a logicalPath="//apple_ref/c/cl/char //apple_ref/c/tdef/char //apple_ref/c/tag/char //apple_ref/c/struct/char //apple_ref/c/intf/char //apple_ref/doc/anysymbol/char" machineGenerated="true" --><span class="type">char</span><!-- /a --> <span class="type">*</span><span class="param">value</span>);  <!-- headerDoc=declaration;uid=//apple_ref/c/func/cparse_object_set_string;name=end --></pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class="param_indent">
+<dl>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/cparse_object_set_string/obj;   name=obj -->
+<a name="//apple_ref/doc/functionparam/cparse_object_set_string/obj"></a>
+<code>obj</code>
+</dt>
+<dd><p>the object instance</p></dd>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/cparse_object_set_string/key;   name=key -->
+<a name="//apple_ref/doc/functionparam/cparse_object_set_string/key"></a>
+<code>key</code>
+</dt>
+<dd><p>the key to identify the value</p></dd>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/cparse_object_set_string/value;   name=value -->
+<a name="//apple_ref/doc/functionparam/cparse_object_set_string/value"></a>
+<code>value</code>
+</dt>
+<dd><p>the attribute value to set</p></dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
+<!-- begin discussion --><!-- headerDoc=discussion;uid=//apple_ref/c/func/cparse_object_set_string;name=start --><p>sets a string attribute on an object
+<!-- headerDoc=discussion;uid=//apple_ref/c/func/cparse_object_set_string;name=end --><!-- end discussion -->
+</p>
+<hr class="betweenAPIEntries">
+<!-- headerDoc=func;  uid=//apple_ref/c/func/cparse_object_set_user_acl;   name=cparse_object_set_user_acl --><a name="//apple_ref/c/func/cparse_object_set_user_acl"></a>
+<h3><a name="cparse_object_set_user_acl">cparse_object_set_user_acl</a></h3>
+<hr class="afterName">
+<div class="declaration_indent">
+<pre><!-- headerDoc=declaration;uid=//apple_ref/c/func/cparse_object_set_user_acl;name=start --><!-- a logicalPath="//apple_ref/c/cl/void //apple_ref/c/tdef/void //apple_ref/c/tag/void //apple_ref/c/struct/void //apple_ref/c/intf/void //apple_ref/doc/anysymbol/void" machineGenerated="true" --><span class="type">void</span><!-- /a --> <a machinegenerated="true" href="index.html#//apple_ref/c/func/cparse_object_set_user_acl" logicalPath="//apple_ref/c/instm/cparse_object_set_user_acl //apple_ref/c/clm/cparse_object_set_user_acl //apple_ref/c/intfcm/cparse_object_set_user_acl //apple_ref/c/intfm/cparse_object_set_user_acl //apple_ref/c/func/cparse_object_set_user_acl" target="_top"><span class="function">cparse_object_set_user_acl</span></a>(
+    <a machinegenerated="true" href="../defines_h/index.html#//apple_ref/c/tdef/cParseObject" logicalPath="//apple_ref/c/cl/cParseObject //apple_ref/c/tdef/cParseObject" target="_top"><span class="type">cParseObject</span></a> <span class="type">*</span><span class="param">obj</span>,
+    <a machinegenerated="true" href="../defines_h/index.html#//apple_ref/c/tdef/cParseUser" logicalPath="//apple_ref/c/cl/cParseUser //apple_ref/c/tdef/cParseUser" target="_top"><span class="type">cParseUser</span></a> <span class="type">*</span><span class="param">user</span>,
+    <a machinegenerated="true" href="../defines_h/index.html#//apple_ref/c/tdef/cParseAccess" logicalPath="//apple_ref/c/cl/cParseAccess //apple_ref/c/tdef/cParseAccess" target="_top"><span class="type">cParseAccess</span></a> <span class="param">access</span>,
+    <!-- a logicalPath="//apple_ref/c/cl/bool //apple_ref/c/tdef/bool //apple_ref/c/tag/bool //apple_ref/c/struct/bool //apple_ref/c/intf/bool //apple_ref/doc/anysymbol/bool" machineGenerated="true" --><span class="type">bool</span><!-- /a --> <span class="param">value</span>);  <!-- headerDoc=declaration;uid=//apple_ref/c/func/cparse_object_set_user_acl;name=end --></pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class="param_indent">
+<dl>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/cparse_object_set_user_acl/obj;   name=obj -->
+<a name="//apple_ref/doc/functionparam/cparse_object_set_user_acl/obj"></a>
+<code>obj</code>
+</dt>
+<dd><p>the object instance</p></dd>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/cparse_object_set_user_acl/access;   name=access -->
+<a name="//apple_ref/doc/functionparam/cparse_object_set_user_acl/access"></a>
+<code>access</code>
+</dt>
+<dd><p>the access type (read/write)</p></dd>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/cparse_object_set_user_acl/value;   name=value -->
+<a name="//apple_ref/doc/functionparam/cparse_object_set_user_acl/value"></a>
+<code>value</code>
+</dt>
+<dd><p>the access value</p></dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
+<!-- begin discussion --><!-- headerDoc=discussion;uid=//apple_ref/c/func/cparse_object_set_user_acl;name=start --><p>sets a user access control list for an object
+<!-- headerDoc=discussion;uid=//apple_ref/c/func/cparse_object_set_user_acl;name=end --><!-- end discussion -->
+</p>
+<hr class="betweenAPIEntries">
+<!-- headerDoc=func;  uid=//apple_ref/c/func/cparse_object_sizeof;   name=cparse_object_sizeof --><a name="//apple_ref/c/func/cparse_object_sizeof"></a>
+<h3><a name="cparse_object_sizeof">cparse_object_sizeof</a></h3>
+<hr class="afterName">
+<div class="declaration_indent">
+<pre><!-- headerDoc=declaration;uid=//apple_ref/c/func/cparse_object_sizeof;name=start --><!-- a logicalPath="//apple_ref/c/cl/size_t //apple_ref/c/tdef/size_t //apple_ref/c/tag/size_t //apple_ref/c/struct/size_t //apple_ref/c/intf/size_t //apple_ref/doc/anysymbol/size_t" machineGenerated="true" --><span class="type">size_t</span><!-- /a --> <a machinegenerated="true" href="index.html#//apple_ref/c/func/cparse_object_sizeof" logicalPath="//apple_ref/c/instm/cparse_object_sizeof //apple_ref/c/clm/cparse_object_sizeof //apple_ref/c/intfcm/cparse_object_sizeof //apple_ref/c/intfm/cparse_object_sizeof //apple_ref/c/func/cparse_object_sizeof" target="_top"><span class="function">cparse_object_sizeof</span></a>();  <!-- headerDoc=declaration;uid=//apple_ref/c/func/cparse_object_sizeof;name=end --></pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5>
+<p><!-- begin return value --></p>
+<p>the size in bytes
+
+<!-- end return value --></p>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
+<!-- begin discussion --><!-- headerDoc=discussion;uid=//apple_ref/c/func/cparse_object_sizeof;name=start --><p>gets the memory size of an object
+<!-- headerDoc=discussion;uid=//apple_ref/c/func/cparse_object_sizeof;name=end --><!-- end discussion -->
+</p>
+<hr class="betweenAPIEntries">
+<!-- headerDoc=func;  uid=//apple_ref/c/func/cparse_object_to_json_string;   name=cparse_object_to_json_string --><a name="//apple_ref/c/func/cparse_object_to_json_string"></a>
+<h3><a name="cparse_object_to_json_string">cparse_object_to_json_string</a></h3>
+<hr class="afterName">
+<div class="declaration_indent">
+<pre><!-- headerDoc=declaration;uid=//apple_ref/c/func/cparse_object_to_json_string;name=start --><span class="keyword">const</span> <!-- a logicalPath="//apple_ref/c/cl/char //apple_ref/c/tdef/char //apple_ref/c/tag/char //apple_ref/c/struct/char //apple_ref/c/intf/char //apple_ref/doc/anysymbol/char" machineGenerated="true" --><span class="type">char</span><!-- /a --> <span class="type">*</span><a machinegenerated="true" href="index.html#//apple_ref/c/func/cparse_object_to_json_string" logicalPath="//apple_ref/c/instm/cparse_object_to_json_string //apple_ref/c/clm/cparse_object_to_json_string //apple_ref/c/intfcm/cparse_object_to_json_string //apple_ref/c/intfm/cparse_object_to_json_string //apple_ref/c/func/cparse_object_to_json_string" target="_top"><span class="function">cparse_object_to_json_string</span></a>(
+    <a machinegenerated="true" href="../defines_h/index.html#//apple_ref/c/tdef/cParseObject" logicalPath="//apple_ref/c/cl/cParseObject //apple_ref/c/tdef/cParseObject" target="_top"><span class="type">cParseObject</span></a> <span class="type">*</span><span class="param">obj</span>);  <!-- headerDoc=declaration;uid=//apple_ref/c/func/cparse_object_to_json_string;name=end --></pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class="param_indent">
+<dl>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/cparse_object_to_json_string/obj;   name=obj -->
+<a name="//apple_ref/doc/functionparam/cparse_object_to_json_string/obj"></a>
+<code>obj</code>
+</dt>
+<dd><p>the object instance</p></dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
+<!-- begin discussion --><!-- headerDoc=discussion;uid=//apple_ref/c/func/cparse_object_to_json_string;name=start --><p>formats an object into a json string
+<!-- headerDoc=discussion;uid=//apple_ref/c/func/cparse_object_to_json_string;name=end --><!-- end discussion -->
+</p>
+<hr class="betweenAPIEntries">
+<!-- headerDoc=func;  uid=//apple_ref/c/func/cparse_object_update;   name=cparse_object_update --><a name="//apple_ref/c/func/cparse_object_update"></a>
+<h3><a name="cparse_object_update">cparse_object_update</a></h3>
+<hr class="afterName">
+<div class="declaration_indent">
+<pre><!-- headerDoc=declaration;uid=//apple_ref/c/func/cparse_object_update;name=start --><!-- a logicalPath="//apple_ref/c/cl/bool //apple_ref/c/tdef/bool //apple_ref/c/tag/bool //apple_ref/c/struct/bool //apple_ref/c/intf/bool //apple_ref/doc/anysymbol/bool" machineGenerated="true" --><span class="type">bool</span><!-- /a --> <a machinegenerated="true" href="index.html#//apple_ref/c/func/cparse_object_update" logicalPath="//apple_ref/c/instm/cparse_object_update //apple_ref/c/clm/cparse_object_update //apple_ref/c/intfcm/cparse_object_update //apple_ref/c/intfm/cparse_object_update //apple_ref/c/func/cparse_object_update" target="_top"><span class="function">cparse_object_update</span></a>(
+    <a machinegenerated="true" href="../defines_h/index.html#//apple_ref/c/tdef/cParseObject" logicalPath="//apple_ref/c/cl/cParseObject //apple_ref/c/tdef/cParseObject" target="_top"><span class="type">cParseObject</span></a> <span class="type">*</span><span class="param">obj</span>,
+    <a machinegenerated="true" href="../defines_h/index.html#//apple_ref/c/tdef/cParseJson" logicalPath="//apple_ref/c/cl/cParseJson //apple_ref/c/tdef/cParseJson" target="_top"><span class="type">cParseJson</span></a> <span class="type">*</span><span class="param">attributes</span>,
+    <a machinegenerated="true" href="../defines_h/index.html#//apple_ref/c/tdef/cParseError" logicalPath="//apple_ref/c/cl/cParseError //apple_ref/c/tdef/cParseError" target="_top"><span class="type">cParseError</span></a> <span class="type">*</span><span class="type">*</span><span class="param">error</span>);  <!-- headerDoc=declaration;uid=//apple_ref/c/func/cparse_object_update;name=end --></pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class="param_indent">
+<dl>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/cparse_object_update/obj;   name=obj -->
+<a name="//apple_ref/doc/functionparam/cparse_object_update/obj"></a>
+<code>obj</code>
+</dt>
+<dd><p>the object instance</p></dd>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/cparse_object_update/attributes;   name=attributes -->
+<a name="//apple_ref/doc/functionparam/cparse_object_update/attributes"></a>
+<code>attributes</code>
+</dt>
+<dd><p>the object attributes to update</p></dd>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/cparse_object_update/error;   name=error -->
+<a name="//apple_ref/doc/functionparam/cparse_object_update/error"></a>
+<code>error</code>
+</dt>
+<dd><p>a pointer to an error that gets allocated if not successful.</p></dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5>
+<p><!-- begin return value --></p>
+<p>true if successful
+
+<!-- end return value --></p>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
+<!-- begin discussion --><!-- headerDoc=discussion;uid=//apple_ref/c/func/cparse_object_update;name=start --><p>updates a parse object
+<!-- headerDoc=discussion;uid=//apple_ref/c/func/cparse_object_update;name=end --><!-- end discussion -->
+</p>
+<hr class="betweenAPIEntries">
+<!-- headerDoc=func;  uid=//apple_ref/c/func/cparse_object_update_in_background;   name=cparse_object_update_in_background --><a name="//apple_ref/c/func/cparse_object_update_in_background"></a>
+<h3><a name="cparse_object_update_in_background">cparse_object_update_in_background</a></h3>
+<hr class="afterName">
+<div class="declaration_indent">
+<pre><!-- headerDoc=declaration;uid=//apple_ref/c/func/cparse_object_update_in_background;name=start --><a machinegenerated="true" href="index.html#//apple_ref/c/tdef/cparse_thread" logicalPath="//apple_ref/c/cl/cparse_thread //apple_ref/c/tdef/cparse_thread" target="_top"><span class="type">cparse_thread</span></a> <a machinegenerated="true" href="index.html#//apple_ref/c/func/cparse_object_update_in_background" logicalPath="//apple_ref/c/instm/cparse_object_update_in_background //apple_ref/c/clm/cparse_object_update_in_background //apple_ref/c/intfcm/cparse_object_update_in_background //apple_ref/c/intfm/cparse_object_update_in_background //apple_ref/c/func/cparse_object_update_in_background" target="_top"><span class="function">cparse_object_update_in_background</span></a>(
+    <a machinegenerated="true" href="../defines_h/index.html#//apple_ref/c/tdef/cParseObject" logicalPath="//apple_ref/c/cl/cParseObject //apple_ref/c/tdef/cParseObject" target="_top"><span class="type">cParseObject</span></a> <span class="type">*</span><span class="param">obj</span>,
+    <a machinegenerated="true" href="../defines_h/index.html#//apple_ref/c/tdef/cParseJson" logicalPath="//apple_ref/c/cl/cParseJson //apple_ref/c/tdef/cParseJson" target="_top"><span class="type">cParseJson</span></a> <span class="type">*</span><span class="param">attributes</span>, 
+    <a machinegenerated="true" href="../defines_h/index.html#//apple_ref/c/tdef/cParseObjectCallback" logicalPath="//apple_ref/c/cl/cParseObjectCallback //apple_ref/c/tdef/cParseObjectCallback" target="_top"><span class="type">cParseObjectCallback</span></a> <span class="param">callback</span>,
+    <!-- a logicalPath="//apple_ref/c/cl/void //apple_ref/c/tdef/void //apple_ref/c/tag/void //apple_ref/c/struct/void //apple_ref/c/intf/void //apple_ref/doc/anysymbol/void" machineGenerated="true" --><span class="type">void</span><!-- /a --> <span class="type">*</span><span class="param">param</span>);  <!-- headerDoc=declaration;uid=//apple_ref/c/func/cparse_object_update_in_background;name=end --></pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class="param_indent">
+<dl>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/cparse_object_update_in_background/obj;   name=obj -->
+<a name="//apple_ref/doc/functionparam/cparse_object_update_in_background/obj"></a>
+<code>obj</code>
+</dt>
+<dd><p>the object instance</p></dd>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/cparse_object_update_in_background/attributes;   name=attributes -->
+<a name="//apple_ref/doc/functionparam/cparse_object_update_in_background/attributes"></a>
+<code>attributes</code>
+</dt>
+<dd><p>the attributes to update</p></dd>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/cparse_object_update_in_background/callback;   name=callback -->
+<a name="//apple_ref/doc/functionparam/cparse_object_update_in_background/callback"></a>
+<code>callback</code>
+</dt>
+<dd><p>the callback issued after the update</p></dd>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/cparse_object_update_in_background/param;   name=param -->
+<a name="//apple_ref/doc/functionparam/cparse_object_update_in_background/param"></a>
+<code>param</code>
+</dt>
+<dd><p>a user defined parameter for the callback</p></dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5>
+<p><!-- begin return value --></p>
+<p>a background thread identifier
+
+<!-- end return value --></p>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
+<!-- begin discussion --><!-- headerDoc=discussion;uid=//apple_ref/c/func/cparse_object_update_in_background;name=start --><p>updates a parse object in the background
+<!-- headerDoc=discussion;uid=//apple_ref/c/func/cparse_object_update_in_background;name=end --><!-- end discussion -->
+</p>
+<hr class="betweenAPIEntries">
+<!-- headerDoc=func;  uid=//apple_ref/c/func/cparse_object_updated_at;   name=cparse_object_updated_at --><a name="//apple_ref/c/func/cparse_object_updated_at"></a>
+<h3><a name="cparse_object_updated_at">cparse_object_updated_at</a></h3>
+<hr class="afterName">
+<div class="declaration_indent">
+<pre><!-- headerDoc=declaration;uid=//apple_ref/c/func/cparse_object_updated_at;name=start --><!-- a logicalPath="//apple_ref/c/cl/time_t //apple_ref/c/tdef/time_t //apple_ref/c/tag/time_t //apple_ref/c/struct/time_t //apple_ref/c/intf/time_t //apple_ref/doc/anysymbol/time_t" machineGenerated="true" --><span class="type">time_t</span><!-- /a --> <a machinegenerated="true" href="index.html#//apple_ref/c/func/cparse_object_updated_at" logicalPath="//apple_ref/c/instm/cparse_object_updated_at //apple_ref/c/clm/cparse_object_updated_at //apple_ref/c/intfcm/cparse_object_updated_at //apple_ref/c/intfm/cparse_object_updated_at //apple_ref/c/func/cparse_object_updated_at" target="_top"><span class="function">cparse_object_updated_at</span></a>(
+    <a machinegenerated="true" href="../defines_h/index.html#//apple_ref/c/tdef/cParseObject" logicalPath="//apple_ref/c/cl/cParseObject //apple_ref/c/tdef/cParseObject" target="_top"><span class="type">cParseObject</span></a> <span class="type">*</span><span class="param">obj</span>);  <!-- headerDoc=declaration;uid=//apple_ref/c/func/cparse_object_updated_at;name=end --></pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class="param_indent">
+<dl>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/cparse_object_updated_at/obj;   name=obj -->
+<a name="//apple_ref/doc/functionparam/cparse_object_updated_at/obj"></a>
+<code>obj</code>
+</dt>
+<dd><p>the object instance</p></dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5>
+<p><!-- begin return value --></p>
+<p>the time the object was updated or zero if the object has not been updated
+
+<!-- end return value --></p>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
+<!-- begin discussion --><!-- headerDoc=discussion;uid=//apple_ref/c/func/cparse_object_updated_at;name=start --><p>gets the time when the object was updated
+<!-- headerDoc=discussion;uid=//apple_ref/c/func/cparse_object_updated_at;name=end --><!-- end discussion -->
+</p>
+<hr class="betweenAPIEntries">
+<!-- headerDoc=func;  uid=//apple_ref/c/func/cparse_object_with_class_data;   name=cparse_object_with_class_data --><a name="//apple_ref/c/func/cparse_object_with_class_data"></a>
+<h3><a name="cparse_object_with_class_data">cparse_object_with_class_data</a></h3>
+<hr class="afterName">
+<div class="declaration_indent">
+<pre><!-- headerDoc=declaration;uid=//apple_ref/c/func/cparse_object_with_class_data;name=start --><a machinegenerated="true" href="../defines_h/index.html#//apple_ref/c/tdef/cParseObject" logicalPath="//apple_ref/c/cl/cParseObject //apple_ref/c/tdef/cParseObject" target="_top"><span class="type">cParseObject</span></a> <span class="type">*</span><a machinegenerated="true" href="index.html#//apple_ref/c/func/cparse_object_with_class_data" logicalPath="//apple_ref/c/instm/cparse_object_with_class_data //apple_ref/c/clm/cparse_object_with_class_data //apple_ref/c/intfcm/cparse_object_with_class_data //apple_ref/c/intfm/cparse_object_with_class_data //apple_ref/c/func/cparse_object_with_class_data" target="_top"><span class="function">cparse_object_with_class_data</span></a>(
+    <span class="keyword">const</span> <!-- a logicalPath="//apple_ref/c/cl/char //apple_ref/c/tdef/char //apple_ref/c/tag/char //apple_ref/c/struct/char //apple_ref/c/intf/char //apple_ref/doc/anysymbol/char" machineGenerated="true" --><span class="type">char</span><!-- /a --> <span class="type">*</span><span class="param">className</span>,
+    <a machinegenerated="true" href="../defines_h/index.html#//apple_ref/c/tdef/cParseJson" logicalPath="//apple_ref/c/cl/cParseJson //apple_ref/c/tdef/cParseJson" target="_top"><span class="type">cParseJson</span></a> <span class="type">*</span><span class="param">data</span>);  <!-- headerDoc=declaration;uid=//apple_ref/c/func/cparse_object_with_class_data;name=end --></pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class="param_indent">
+<dl>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/cparse_object_with_class_data/className;   name=className -->
+<a name="//apple_ref/doc/functionparam/cparse_object_with_class_data/className"></a>
+<code>className</code>
+</dt>
+<dd><p>the type of object to create</p></dd>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/cparse_object_with_class_data/data;   name=data -->
+<a name="//apple_ref/doc/functionparam/cparse_object_with_class_data/data"></a>
+<code>data</code>
+</dt>
+<dd><p>the data to copy from</p></dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5>
+<p><!-- begin return value --></p>
+<p>the allocated object
+
+<!-- end return value --></p>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
+<!-- begin discussion --><!-- headerDoc=discussion;uid=//apple_ref/c/func/cparse_object_with_class_data;name=start --><p>allocates a parse object with json data
+<!-- headerDoc=discussion;uid=//apple_ref/c/func/cparse_object_with_class_data;name=end --><!-- end discussion -->
+</p>
+<hr class="betweenAPIEntries">
+<!-- headerDoc=func;  uid=//apple_ref/c/func/cparse_object_with_class_name;   name=cparse_object_with_class_name --><a name="//apple_ref/c/func/cparse_object_with_class_name"></a>
+<h3><a name="cparse_object_with_class_name">cparse_object_with_class_name</a></h3>
+<hr class="afterName">
+<div class="declaration_indent">
+<pre><!-- headerDoc=declaration;uid=//apple_ref/c/func/cparse_object_with_class_name;name=start --><a machinegenerated="true" href="../defines_h/index.html#//apple_ref/c/tdef/cParseObject" logicalPath="//apple_ref/c/cl/cParseObject //apple_ref/c/tdef/cParseObject" target="_top"><span class="type">cParseObject</span></a> <span class="type">*</span><a machinegenerated="true" href="index.html#//apple_ref/c/func/cparse_object_with_class_name" logicalPath="//apple_ref/c/instm/cparse_object_with_class_name //apple_ref/c/clm/cparse_object_with_class_name //apple_ref/c/intfcm/cparse_object_with_class_name //apple_ref/c/intfm/cparse_object_with_class_name //apple_ref/c/func/cparse_object_with_class_name" target="_top"><span class="function">cparse_object_with_class_name</span></a>(
+    <span class="keyword">const</span> <!-- a logicalPath="//apple_ref/c/cl/char //apple_ref/c/tdef/char //apple_ref/c/tag/char //apple_ref/c/struct/char //apple_ref/c/intf/char //apple_ref/doc/anysymbol/char" machineGenerated="true" --><span class="type">char</span><!-- /a --> <span class="type">*</span><span class="param">className</span>);  <!-- headerDoc=declaration;uid=//apple_ref/c/func/cparse_object_with_class_name;name=end --></pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class="param_indent">
+<dl>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/cparse_object_with_class_name/className;   name=className -->
+<a name="//apple_ref/doc/functionparam/cparse_object_with_class_name/className"></a>
+<code>className</code>
+</dt>
+<dd><p>the type of object to create</p></dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5>
+<p><!-- begin return value --></p>
+<p>the allocated object
+
+<!-- end return value --></p>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
+<!-- begin discussion --><!-- headerDoc=discussion;uid=//apple_ref/c/func/cparse_object_with_class_name;name=start --><p>allocates a parse object with a class name.
+<!-- headerDoc=discussion;uid=//apple_ref/c/func/cparse_object_with_class_name;name=end --><!-- end discussion -->
+</p>
+<hr class="betweenAPIEntries">
+<!-- headerDoc=func;  uid=//apple_ref/c/func/cparse_thread_wait;   name=cparse_thread_wait --><a name="//apple_ref/c/func/cparse_thread_wait"></a>
+<h3><a name="cparse_thread_wait">cparse_thread_wait</a></h3>
+<hr class="afterName">
+<div class="declaration_indent">
+<pre><!-- headerDoc=declaration;uid=//apple_ref/c/func/cparse_thread_wait;name=start --><!-- a logicalPath="//apple_ref/c/cl/bool //apple_ref/c/tdef/bool //apple_ref/c/tag/bool //apple_ref/c/struct/bool //apple_ref/c/intf/bool //apple_ref/doc/anysymbol/bool" machineGenerated="true" --><span class="type">bool</span><!-- /a --> <a machinegenerated="true" href="index.html#//apple_ref/c/func/cparse_thread_wait" logicalPath="//apple_ref/c/instm/cparse_thread_wait //apple_ref/c/clm/cparse_thread_wait //apple_ref/c/intfcm/cparse_thread_wait //apple_ref/c/intfm/cparse_thread_wait //apple_ref/c/func/cparse_thread_wait" target="_top"><span class="function">cparse_thread_wait</span></a>(
+    <a machinegenerated="true" href="index.html#//apple_ref/c/tdef/cparse_thread" logicalPath="//apple_ref/c/cl/cparse_thread //apple_ref/c/tdef/cparse_thread" target="_top"><span class="type">cparse_thread</span></a> <span class="param">t</span>);  <!-- headerDoc=declaration;uid=//apple_ref/c/func/cparse_thread_wait;name=end --></pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class="param_indent">
+<dl>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/cparse_thread_wait/t;   name=t -->
+<a name="//apple_ref/doc/functionparam/cparse_thread_wait/t"></a>
+<code>t</code>
+</dt>
+<dd><p>the thread instance</p></dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
+<!-- begin discussion --><!-- headerDoc=discussion;uid=//apple_ref/c/func/cparse_thread_wait;name=start --><p>waits for a background thread
+<!-- headerDoc=discussion;uid=//apple_ref/c/func/cparse_thread_wait;name=end --><!-- end discussion -->
+</p>
+<hr class="betweenSections">
+<a name="HeaderDoc_datatypes"></a>
+<h2 class="h2tight">Typedefs</h2>
+<dl>
+<dt><tt><a href="index.html#//apple_ref/c/tdef/cparse_thread" target="_top">cparse_thread</a></tt></dt>
+<dd></dd>
+<dt><tt><a href="index.html#//apple_ref/c/tdef/cParseObjectAttributeCallback" target="_top">cParseObjectAttributeCallback</a></tt></dt>
+<dd></dd>
+</dl>
+<hr class="betweenAPIEntries">
+<!-- headerDoc=tdef;  uid=//apple_ref/c/tdef/cparse_thread;   name=cparse_thread --><a name="//apple_ref/c/tdef/cparse_thread"></a>
+<h3><a name="cparse_thread">cparse_thread</a></h3>
+<hr class="afterName">
+<div class="declaration_indent">
+<pre><!-- headerDoc=declaration;uid=//apple_ref/c/tdef/cparse_thread;name=start --><span class="keyword">typedef</span> <!-- a logicalPath="//apple_ref/c/cl/pthread_t //apple_ref/c/tdef/pthread_t //apple_ref/c/tag/pthread_t //apple_ref/c/struct/pthread_t //apple_ref/c/intf/pthread_t //apple_ref/doc/anysymbol/pthread_t" machineGenerated="true" --><span class="type">pthread_t</span><!-- /a --> <!-- a logicalPath="//apple_ref/c/econst/cparse_thread //apple_ref/c/data/cparse_thread //apple_ref/c/clconst/cparse_thread " machineGenerated="true" --><span class="var">cparse_thread</span><!-- /a -->;  <!-- headerDoc=declaration;uid=//apple_ref/c/tdef/cparse_thread;name=end --></pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
+<!-- begin discussion --><!-- headerDoc=discussion;uid=//apple_ref/c/tdef/cparse_thread;name=start --><p>wrapper for a thread type <!-- headerDoc=discussion;uid=//apple_ref/c/tdef/cparse_thread;name=end --><!-- end discussion -->
+</p>
+<hr class="betweenAPIEntries">
+<!-- headerDoc=tdef;  uid=//apple_ref/c/tdef/cParseObjectAttributeCallback;   name=cParseObjectAttributeCallback --><a name="//apple_ref/c/tdef/cParseObjectAttributeCallback"></a>
+<h3><a name="cParseObjectAttributeCallback">cParseObjectAttributeCallback</a></h3>
+<hr class="afterName">
+<div class="declaration_indent">
+<pre><!-- headerDoc=declaration;uid=//apple_ref/c/tdef/cParseObjectAttributeCallback;name=start --><span class="keyword">typedef</span> <!-- a logicalPath="//apple_ref/c/cl/void //apple_ref/c/tdef/void //apple_ref/c/tag/void //apple_ref/c/struct/void //apple_ref/c/intf/void //apple_ref/doc/anysymbol/void" machineGenerated="true" --><span class="type">void</span><!-- /a --> ( <span class="type">*</span><a machinegenerated="true" href="index.html#//apple_ref/c/tdef/cParseObjectAttributeCallback" logicalPath="//apple_ref/c/instm/cParseObjectAttributeCallback //apple_ref/c/clm/cParseObjectAttributeCallback //apple_ref/c/intfcm/cParseObjectAttributeCallback //apple_ref/c/intfm/cParseObjectAttributeCallback //apple_ref/c/func/cParseObjectAttributeCallback //apple_ref/c/ftmplt/cParseObjectAttributeCallback //apple_ref/c/defn/cParseObjectAttributeCallback //apple_ref/c/macro/cParseObjectAttributeCallback //apple_ref/doc/anysymbol/cParseObjectAttributeCallback" target="_top"><span class="function">cParseObjectAttributeCallback</span></a>)(
+    <a machinegenerated="true" href="../defines_h/index.html#//apple_ref/c/tdef/cParseObject" logicalPath="//apple_ref/c/cl/cParseObject //apple_ref/c/tdef/cParseObject" target="_top"><span class="type">cParseObject</span></a> <span class="type">*</span><span class="param">obj</span>,
+    <span class="keyword">const</span> <!-- a logicalPath="//apple_ref/c/cl/char //apple_ref/c/tdef/char //apple_ref/c/tag/char //apple_ref/c/struct/char //apple_ref/c/intf/char //apple_ref/doc/anysymbol/char" machineGenerated="true" --><span class="type">char</span><!-- /a --> <span class="type">*</span><span class="param">key</span>,
+    <a machinegenerated="true" href="../defines_h/index.html#//apple_ref/c/tdef/cParseJson" logicalPath="//apple_ref/c/cl/cParseJson //apple_ref/c/tdef/cParseJson" target="_top"><span class="type">cParseJson</span></a> <span class="type">*</span><span class="param">value</span>,
+    <!-- a logicalPath="//apple_ref/c/cl/void //apple_ref/c/tdef/void //apple_ref/c/tag/void //apple_ref/c/struct/void //apple_ref/c/intf/void //apple_ref/doc/anysymbol/void" machineGenerated="true" --><span class="type">void</span><!-- /a --> <span class="type">*</span><span class="param">arg</span>);  <!-- headerDoc=declaration;uid=//apple_ref/c/tdef/cParseObjectAttributeCallback;name=end --></pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
+<!-- begin discussion --><!-- headerDoc=discussion;uid=//apple_ref/c/tdef/cParseObjectAttributeCallback;name=start --><p>callback for iterating object key/values <!-- headerDoc=discussion;uid=//apple_ref/c/tdef/cParseObjectAttributeCallback;name=end --><!-- end discussion -->
+</p>
+<p class="gapBeforeFooter">&nbsp;</p>
+<hr class="afterFooter">
+<div class="hd_copyright_and_timestamp">
+<p class="hd_timestamp">Last Updated: Monday, November 02, 2015
+</p>
+</div>
+</td>
+</tr></table>
+</body>
+</html>

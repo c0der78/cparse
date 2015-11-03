@@ -32,12 +32,12 @@
             <td></td>
             <td class="headerItem">Lines:</td>
             <td class="headerCovTableEntry">21</td>
-            <td class="headerCovTableEntry">42</td>
-            <td class="headerCovTableEntryLo">50.0 %</td>
+            <td class="headerCovTableEntry">44</td>
+            <td class="headerCovTableEntryLo">47.7 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2015-08-01 11:44:21</td>
+            <td class="headerValue">2015-11-02 21:40:20</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">4</td>
@@ -68,100 +68,100 @@
       <td>
 <pre class="sourceHeading">          Line data    Source code</pre>
 <pre class="source">
-<a name="1"><span class="lineNum">       1 </span>            : #include &quot;config.h&quot;</a>
-<span class="lineNum">       2 </span>            : #include &lt;assert.h&gt;
-<span class="lineNum">       3 </span>            : #include &lt;time.h&gt;
-<span class="lineNum">       4 </span>            : #include &lt;stdio.h&gt;
-<span class="lineNum">       5 </span>            : #include &lt;stdlib.h&gt;
-<span class="lineNum">       6 </span>            : #include &lt;string.h&gt;
-<span class="lineNum">       7 </span>            : #include &lt;errno.h&gt;
-<span class="lineNum">       8 </span>            : #include &lt;cparse/util.h&gt;
-<span class="lineNum">       9 </span>            : #include &lt;cparse/json.h&gt;
-<span class="lineNum">      10 </span>            : #include &lt;cparse/object.h&gt;
-<span class="lineNum">      11 </span>            : #include &quot;log.h&quot;
-<span class="lineNum">      12 </span>            : #include &quot;protocol.h&quot;
-<a name="13"><span class="lineNum">      13 </span>            : #include &quot;private.h&quot;</a>
-<span class="lineNum">      14 </span>            : 
-<span class="lineNum">      15 </span>            : inline int cparse_str_empty(const char *str)
-<span class="lineNum">      16 </span>            : {
-<span class="lineNum">      17 </span><span class="lineCov">       2897 :     return !str || !*str;</span>
-<a name="18"><span class="lineNum">      18 </span>            : }</a>
-<span class="lineNum">      19 </span>            : 
-<span class="lineNum">      20 </span>            : time_t cparse_date_time(const char *str)
-<span class="lineNum">      21 </span>            : {
-<span class="lineNum">      22 </span>            :     int y, M, d, h, m;
-<span class="lineNum">      23 </span>            :     float s;
-<span class="lineNum">      24 </span>            :     int tzh, tzm;
-<span class="lineNum">      25 </span>            :     struct tm time;
-<span class="lineNum">      26 </span>            : 
-<span class="lineNum">      27 </span><span class="lineCov">         44 :     if (8 &gt; sscanf(str, &quot;%d-%d-%dT%d:%d:%f%d:%dZ&quot;, &amp;y, &amp;M, &amp;d, &amp;h, &amp;m, &amp;s, &amp;tzh, &amp;tzm))</span>
-<span class="lineNum">      28 </span>            :     {
-<span class="lineNum">      29 </span><span class="lineCov">         44 :         sscanf(str, &quot;%d-%d-%dT%d:%d:%fZ&quot;, &amp;y, &amp;M, &amp;d, &amp;h, &amp;m, &amp;s);</span>
-<span class="lineNum">      30 </span><span class="lineCov">         44 :     }</span>
-<span class="lineNum">      31 </span>            : 
-<span class="lineNum">      32 </span><span class="lineCov">         44 :     time.tm_year = y - 1900; /* Year since 1900 */</span>
-<span class="lineNum">      33 </span><span class="lineCov">         44 :     time.tm_mon = M - 1;     /* 0-11 */</span>
-<span class="lineNum">      34 </span><span class="lineCov">         44 :     time.tm_mday = d;        /* 1-31 */</span>
-<span class="lineNum">      35 </span><span class="lineCov">         44 :     time.tm_hour = h;        /* 0-23 */</span>
-<span class="lineNum">      36 </span><span class="lineCov">         44 :     time.tm_min = m;         /* 0-59 */</span>
-<span class="lineNum">      37 </span><span class="lineCov">         44 :     time.tm_sec = (int) s;    /* 0-61 */</span>
-<span class="lineNum">      38 </span><span class="lineCov">         44 :     time.tm_isdst = 0;     /* auto check daylight savings time */</span>
-<span class="lineNum">      39 </span>            : 
-<span class="lineNum">      40 </span><span class="lineCov">         44 :     return mktime(&amp;time) - timezone;</span>
-<a name="41"><span class="lineNum">      41 </span>            : }</a>
-<span class="lineNum">      42 </span>            : 
-<span class="lineNum">      43 </span>            : void cparse_replace_str(char **a, const char *b)
-<span class="lineNum">      44 </span>            : {
-<span class="lineNum">      45 </span><span class="lineCov">         33 :     if (!a) { return; }</span>
-<span class="lineNum">      46 </span>            : 
-<span class="lineNum">      47 </span><span class="lineCov">         33 :     if (*a) {</span>
-<span class="lineNum">      48 </span><span class="lineCov">          7 :         free(*a);</span>
-<span class="lineNum">      49 </span><span class="lineCov">          7 :     }</span>
-<span class="lineNum">      50 </span>            : 
-<span class="lineNum">      51 </span><span class="lineCov">         33 :     (*a) = strdup(b);</span>
-<a name="52"><span class="lineNum">      52 </span><span class="lineCov">         66 : }</span></a>
+<a name="1"><span class="lineNum">       1 </span>            : #ifdef HAVE_CONFIG_H</a>
+<span class="lineNum">       2 </span>            : #include &quot;config.h&quot;
+<span class="lineNum">       3 </span>            : #endif
+<span class="lineNum">       4 </span>            : #include &lt;assert.h&gt;
+<span class="lineNum">       5 </span>            : #include &lt;time.h&gt;
+<span class="lineNum">       6 </span>            : #include &lt;stdio.h&gt;
+<span class="lineNum">       7 </span>            : #include &lt;stdlib.h&gt;
+<span class="lineNum">       8 </span>            : #include &lt;string.h&gt;
+<span class="lineNum">       9 </span>            : #include &lt;errno.h&gt;
+<span class="lineNum">      10 </span>            : #include &lt;cparse/util.h&gt;
+<span class="lineNum">      11 </span>            : #include &lt;cparse/json.h&gt;
+<span class="lineNum">      12 </span>            : #include &lt;cparse/object.h&gt;
+<span class="lineNum">      13 </span>            : #include &quot;log.h&quot;
+<span class="lineNum">      14 </span>            : #include &quot;protocol.h&quot;
+<a name="15"><span class="lineNum">      15 </span>            : #include &quot;private.h&quot;</a>
+<span class="lineNum">      16 </span>            : 
+<span class="lineNum">      17 </span>            : inline int cparse_str_empty(const char *str)
+<span class="lineNum">      18 </span>            : {
+<span class="lineNum">      19 </span><span class="lineCov">       3417 :     return !str || !*str;</span>
+<a name="20"><span class="lineNum">      20 </span>            : }</a>
+<span class="lineNum">      21 </span>            : 
+<span class="lineNum">      22 </span>            : time_t cparse_date_time(const char *str)
+<span class="lineNum">      23 </span>            : {
+<span class="lineNum">      24 </span>            :     int y, M, d, h, m;
+<span class="lineNum">      25 </span>            :     float s;
+<span class="lineNum">      26 </span>            :     int tzh, tzm;
+<span class="lineNum">      27 </span>            :     struct tm time;
+<span class="lineNum">      28 </span>            : 
+<span class="lineNum">      29 </span><span class="lineCov">         51 :     if (8 &gt; sscanf(str, &quot;%d-%d-%dT%d:%d:%f%d:%dZ&quot;, &amp;y, &amp;M, &amp;d, &amp;h, &amp;m, &amp;s, &amp;tzh, &amp;tzm)) {</span>
+<span class="lineNum">      30 </span><span class="lineCov">         51 :         sscanf(str, &quot;%d-%d-%dT%d:%d:%fZ&quot;, &amp;y, &amp;M, &amp;d, &amp;h, &amp;m, &amp;s);</span>
+<span class="lineNum">      31 </span><span class="lineCov">         51 :     }</span>
+<span class="lineNum">      32 </span>            : 
+<span class="lineNum">      33 </span><span class="lineCov">         51 :     time.tm_year = y - 1900; /* Year since 1900 */</span>
+<span class="lineNum">      34 </span><span class="lineCov">         51 :     time.tm_mon = M - 1;     /* 0-11 */</span>
+<span class="lineNum">      35 </span><span class="lineCov">         51 :     time.tm_mday = d;        /* 1-31 */</span>
+<span class="lineNum">      36 </span><span class="lineCov">         51 :     time.tm_hour = h;        /* 0-23 */</span>
+<span class="lineNum">      37 </span><span class="lineCov">         51 :     time.tm_min = m;         /* 0-59 */</span>
+<span class="lineNum">      38 </span><span class="lineCov">         51 :     time.tm_sec = (int)s;    /* 0-61 */</span>
+<span class="lineNum">      39 </span><span class="lineCov">         51 :     time.tm_isdst = 0;       /* auto check daylight savings time */</span>
+<span class="lineNum">      40 </span>            : 
+<span class="lineNum">      41 </span><span class="lineCov">         51 :     return mktime(&amp;time) - timezone;</span>
+<a name="42"><span class="lineNum">      42 </span>            : }</a>
+<span class="lineNum">      43 </span>            : 
+<span class="lineNum">      44 </span>            : void cparse_replace_str(char **a, const char *b)
+<span class="lineNum">      45 </span>            : {
+<span class="lineNum">      46 </span><span class="lineCov">         38 :     if (!a) {</span>
+<span class="lineNum">      47 </span><span class="lineNoCov">          0 :         return;</span>
+<span class="lineNum">      48 </span>            :     }
+<span class="lineNum">      49 </span>            : 
+<span class="lineNum">      50 </span><span class="lineCov">         38 :     if (*a) {</span>
+<span class="lineNum">      51 </span><span class="lineCov">          7 :         free(*a);</span>
+<span class="lineNum">      52 </span><span class="lineCov">          7 :     }</span>
 <span class="lineNum">      53 </span>            : 
-<span class="lineNum">      54 </span>            : inline int cparse_str_cmp(const char *a, const char *b)
-<span class="lineNum">      55 </span>            : {
-<span class="lineNum">      56 </span><span class="lineCov">          6 :     if (cparse_str_empty(a) || cparse_str_empty(b)) { return 0; }</span>
-<span class="lineNum">      57 </span>            : 
-<span class="lineNum">      58 </span><span class="lineCov">          3 :     return strcmp(a, b);</span>
-<a name="59"><span class="lineNum">      59 </span><span class="lineCov">          3 : }</span></a>
-<span class="lineNum">      60 </span>            : 
-<span class="lineNum">      61 </span>            : int cparse_str_prefix(const char *astr, const char *bstr)
-<span class="lineNum">      62 </span>            : {
-<span class="lineNum">      63 </span><span class="lineNoCov">          0 :     if (astr == NULL || !*astr)</span>
-<span class="lineNum">      64 </span>            :     {
-<span class="lineNum">      65 </span><span class="lineNoCov">          0 :         return 1;</span>
-<span class="lineNum">      66 </span>            :     }
-<span class="lineNum">      67 </span><span class="lineNoCov">          0 :     if (bstr == NULL)</span>
-<span class="lineNum">      68 </span>            :     {
+<span class="lineNum">      54 </span><span class="lineCov">         38 :     (*a) = strdup(b);</span>
+<a name="55"><span class="lineNum">      55 </span><span class="lineCov">         76 : }</span></a>
+<span class="lineNum">      56 </span>            : 
+<span class="lineNum">      57 </span>            : inline int cparse_str_cmp(const char *a, const char *b)
+<span class="lineNum">      58 </span>            : {
+<span class="lineNum">      59 </span><span class="lineCov">          6 :     if (cparse_str_empty(a) || cparse_str_empty(b)) {</span>
+<span class="lineNum">      60 </span><span class="lineNoCov">          0 :         return 0;</span>
+<span class="lineNum">      61 </span>            :     }
+<span class="lineNum">      62 </span>            : 
+<span class="lineNum">      63 </span><span class="lineCov">          3 :     return strcmp(a, b);</span>
+<a name="64"><span class="lineNum">      64 </span><span class="lineCov">          3 : }</span></a>
+<span class="lineNum">      65 </span>            : 
+<span class="lineNum">      66 </span>            : int cparse_str_prefix(const char *astr, const char *bstr)
+<span class="lineNum">      67 </span>            : {
+<span class="lineNum">      68 </span><span class="lineNoCov">          0 :     if (astr == NULL || !*astr) {</span>
 <span class="lineNum">      69 </span><span class="lineNoCov">          0 :         return 1;</span>
 <span class="lineNum">      70 </span>            :     }
-<span class="lineNum">      71 </span><span class="lineNoCov">          0 :     for (; *astr; astr++, bstr++)</span>
-<span class="lineNum">      72 </span>            :     {
-<span class="lineNum">      73 </span><span class="lineNoCov">          0 :         if (*astr != *bstr) {</span>
-<span class="lineNum">      74 </span><span class="lineNoCov">          0 :             return 1;</span>
-<span class="lineNum">      75 </span>            :         }
-<span class="lineNum">      76 </span><span class="lineNoCov">          0 :     }</span>
-<span class="lineNum">      77 </span>            : 
-<span class="lineNum">      78 </span><span class="lineNoCov">          0 :     return 0;</span>
+<span class="lineNum">      71 </span><span class="lineNoCov">          0 :     if (bstr == NULL) {</span>
+<span class="lineNum">      72 </span><span class="lineNoCov">          0 :         return 1;</span>
+<span class="lineNum">      73 </span>            :     }
+<span class="lineNum">      74 </span><span class="lineNoCov">          0 :     for (; *astr; astr++, bstr++) {</span>
+<span class="lineNum">      75 </span><span class="lineNoCov">          0 :         if (*astr != *bstr) {</span>
+<span class="lineNum">      76 </span><span class="lineNoCov">          0 :             return 1;</span>
+<span class="lineNum">      77 </span>            :         }
+<span class="lineNum">      78 </span><span class="lineNoCov">          0 :     }</span>
 <span class="lineNum">      79 </span>            : 
-<a name="80"><span class="lineNum">      80 </span><span class="lineNoCov">          0 : }</span></a>
-<span class="lineNum">      81 </span>            : 
-<span class="lineNum">      82 </span>            : void cparse_json_add_reference(cParseJson *data, cParseObject *ref)
-<span class="lineNum">      83 </span>            : {
-<span class="lineNum">      84 </span><span class="lineNoCov">          0 :     if (!data || !ref) {</span>
-<span class="lineNum">      85 </span><span class="lineNoCov">          0 :         cparse_log_errno(EINVAL);</span>
-<span class="lineNum">      86 </span><span class="lineNoCov">          0 :         return;</span>
-<span class="lineNum">      87 </span>            :     }
-<span class="lineNum">      88 </span>            : 
-<span class="lineNum">      89 </span>            :     /* set type to pointer */
-<span class="lineNum">      90 </span><span class="lineNoCov">          0 :     cparse_json_set_string(data, CPARSE_KEY_TYPE, CPARSE_TYPE_POINTER);</span>
-<span class="lineNum">      91 </span>            : 
-<span class="lineNum">      92 </span>            :     /* add class name */
-<span class="lineNum">      93 </span><span class="lineNoCov">          0 :     if (!cparse_str_empty(ref-&gt;className))</span>
-<span class="lineNum">      94 </span>            :     {
+<span class="lineNum">      80 </span><span class="lineNoCov">          0 :     return 0;</span>
+<a name="81"><span class="lineNum">      81 </span><span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">      82 </span>            : 
+<span class="lineNum">      83 </span>            : void cparse_json_add_reference(cParseJson *data, cParseObject *ref)
+<span class="lineNum">      84 </span>            : {
+<span class="lineNum">      85 </span><span class="lineNoCov">          0 :     if (!data || !ref) {</span>
+<span class="lineNum">      86 </span><span class="lineNoCov">          0 :         cparse_log_errno(EINVAL);</span>
+<span class="lineNum">      87 </span><span class="lineNoCov">          0 :         return;</span>
+<span class="lineNum">      88 </span>            :     }
+<span class="lineNum">      89 </span>            : 
+<span class="lineNum">      90 </span>            :     /* set type to pointer */
+<span class="lineNum">      91 </span><span class="lineNoCov">          0 :     cparse_json_set_string(data, CPARSE_KEY_TYPE, CPARSE_TYPE_POINTER);</span>
+<span class="lineNum">      92 </span>            : 
+<span class="lineNum">      93 </span>            :     /* add class name */
+<span class="lineNum">      94 </span><span class="lineNoCov">          0 :     if (!cparse_str_empty(ref-&gt;className)) {</span>
 <span class="lineNum">      95 </span><span class="lineNoCov">          0 :         cparse_json_set_string(data, CPARSE_KEY_CLASS_NAME, ref-&gt;className);</span>
 <span class="lineNum">      96 </span><span class="lineNoCov">          0 :     }</span>
 <span class="lineNum">      97 </span>            : 
@@ -169,8 +169,7 @@
 <span class="lineNum">      99 </span><span class="lineNoCov">          0 :     if (!cparse_str_empty(ref-&gt;objectId)) {</span>
 <span class="lineNum">     100 </span><span class="lineNoCov">          0 :         cparse_json_set_string(data, CPARSE_KEY_OBJECT_ID, ref-&gt;objectId);</span>
 <span class="lineNum">     101 </span><span class="lineNoCov">          0 :     }</span>
-<span class="lineNum">     102 </span>            : 
-<span class="lineNum">     103 </span><span class="lineNoCov">          0 : }</span>
+<span class="lineNum">     102 </span><span class="lineNoCov">          0 : }</span>
 </pre>
       </td>
     </tr>
@@ -179,7 +178,7 @@
 
   <table width="100%" border=0 cellspacing=0 cellpadding=0>
     <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
-    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.0</a></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.12</a></td></tr>
   </table>
   <br>
 

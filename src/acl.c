@@ -1,4 +1,6 @@
+#ifdef HAVE_CONFIG_H
 #include "config.h"
+#endif
 #include <stdlib.h>
 #include <string.h>
 #include <cparse/acl.h>
@@ -15,6 +17,12 @@ cParseACL *default_acl = 0;
 cParseACL *cparse_acl_for_public(bool read, bool write)
 {
     cParseACL *acl = malloc(sizeof(cParseACL));
+
+    if (acl == NULL) {
+        cparse_log_errno(ENOMEM);
+        return NULL;
+    }
+
     acl->next = NULL;
     acl->key = strdup("*");
     acl->read = read;
@@ -26,6 +34,12 @@ cParseACL *cparse_acl_for_public(bool read, bool write)
 cParseACL *cparse_acl_for_user(cParseUser *obj, bool read, bool write)
 {
     cParseACL *acl = malloc(sizeof(cParseACL));
+
+    if (acl == NULL) {
+        cparse_log_errno(ENOMEM);
+        return NULL;
+    }
+
     acl->next = NULL;
     acl->key = strdup(obj->objectId);
     acl->read = read;
@@ -37,7 +51,14 @@ cParseACL *cparse_acl_for_user(cParseUser *obj, bool read, bool write)
 cParseACL *cparse_acl_for_role(const char *role, bool read, bool write)
 {
     char buf[CPARSE_BUF_SIZE + 1] = {0};
+
     cParseACL *acl = malloc(sizeof(cParseACL));
+
+    if (acl == NULL) {
+        cparse_log_errno(ENOMEM);
+        return NULL;
+    }
+
     acl->next = NULL;
 
     snprintf(buf, CPARSE_BUF_SIZE, "role:%s", role);
@@ -48,7 +69,6 @@ cParseACL *cparse_acl_for_role(const char *role, bool read, bool write)
 
     return acl;
 }
-
 
 void cparse_acl_copy(cParseACL *this, cParseACL *other)
 {
@@ -64,25 +84,31 @@ void cparse_acl_copy(cParseACL *this, cParseACL *other)
 
 void cparse_acl_free(cParseACL *acl)
 {
-    if (acl->key)
-    {
+    if (acl == NULL) {
+        return;
+    }
+
+    if (acl->key) {
         free(acl->key);
     }
     free(acl);
 }
-
 
 cParseACL *cparse_acl_from_json(cParseJson *json)
 {
     cParseACL *acl = NULL, *acl_last = NULL;
 
     if (json == NULL) {
-        return acl;
+        return NULL;
     }
 
     cparse_json_foreach_start(json, key, val)
     {
         cParseACL *newAcl = cparse_acl_new();
+
+        if (newAcl == NULL) {
+            break;
+        }
 
         newAcl->key = strdup(key);
 
@@ -92,12 +118,9 @@ cParseACL *cparse_acl_from_json(cParseJson *json)
 
         newAcl->next = NULL;
 
-        if (acl_last)
-        {
+        if (acl_last) {
             acl_last->next = newAcl;
-        }
-        else
-        {
+        } else {
             acl = newAcl;
         }
 
@@ -111,10 +134,15 @@ cParseACL *cparse_acl_from_json(cParseJson *json)
 cParseJson *cparse_acl_to_json(cParseACL *acl)
 {
     cParseACL *a = NULL;
-    cParseJson *json = cparse_json_new();
+    cParseJson *json = NULL;
 
-    for (a = acl; a; a = a->next)
-    {
+    json = cparse_json_new();
+
+    if (json == NULL) {
+        return NULL;
+    }
+
+    for (a = acl; a; a = a->next) {
         cParseJson *perms = cparse_json_new();
         cparse_json_set_bool(perms, "read", a->read);
         cparse_json_set_bool(perms, "write", a->write);
@@ -128,8 +156,11 @@ static bool cparse_acl_this_readable(cParseACL *acl, const char *key)
 {
     cParseACL *a = NULL;
 
-    for (a = acl; a; a = a->next)
-    {
+    if (acl == NULL || cparse_str_empty(key)) {
+        return false;
+    }
+
+    for (a = acl; a; a = a->next) {
         if (!cparse_str_cmp(key, a->key)) {
             return a->read;
         }
@@ -155,7 +186,7 @@ bool cparse_acl_role_readable(cParseACL *acl, const char *role)
 {
     char buf[CPARSE_BUF_SIZE + 1] = {0};
 
-    if (!role || !*role) {
+    if (acl == NULL || cparse_str_empty(role)) {
         return false;
     }
 
@@ -168,10 +199,12 @@ static bool cparse_acl_this_writable(cParseACL *acl, const char *key)
 {
     cParseACL *a = NULL;
 
-    for (a = acl; a; a = a->next)
-    {
-        if (!cparse_str_cmp(key, a->name))
-        {
+    if (acl == NULL || cparse_str_empty(key)) {
+        return false;
+    }
+
+    for (a = acl; a; a = a->next) {
+        if (!cparse_str_cmp(key, a->name)) {
             return a->write;
         }
     }
@@ -183,12 +216,11 @@ bool cparse_acl_writable(cParseACL *acl)
 {
     return cparse_acl_this_writable(acl, "*");
 }
-
 bool cparse_acl_user_writable(cParseACL *acl, cParseUser *user)
 {
     cParseACL *a = NULL;
 
-    if (!user || cparse_str_empty(user->objectId)) {
+    if (acl == NULL || user == NULL || cparse_str_empty(user->objectId)) {
         return false;
     }
 
@@ -199,7 +231,7 @@ bool cparse_acl_role_writable(cParseACL *acl, const char *role)
 {
     char buf[CPARSE_BUF_SIZE + 1] = {0};
 
-    if (cparse_str_empty(role)) {
+    if (acl == NULL || cparse_str_empty(role)) {
         return false;
     }
 
@@ -212,34 +244,30 @@ static void cparse_acl_set_acl(cParseACL *acl, const char *name, bool value, voi
 {
     cParseACL *a = NULL, *acl_last = NULL;
 
-    if (cparse_str_empty(name) || !acl) {
+    if (acl == NULL || funk == NULL || cparse_str_empty(name)) {
         return;
     }
 
-    for (a = acl; a; a = a->next)
-    {
+    for (a = acl; a; a = a->next) {
         acl_last = a;
 
-        if (!cparse_str_cmp(name, a->name))
-        {
+        if (!cparse_str_cmp(name, a->name)) {
             (*funk)(a, value);
             break;
         }
     }
 
-    if (a == NULL)
-    {
+    if (a == NULL) {
         a = cparse_acl_with_name(name);
 
-        (*funk)(a, value);
+        if (a != NULL) {
+            (*funk)(a, value);
 
-        if (acl_last == NULL)
-        {
-            acl->next = a;
-        }
-        else
-        {
-            acl_last->next = a;
+            if (acl_last == NULL) {
+                acl->next = a;
+            } else {
+                acl_last->next = a;
+            }
         }
     }
 }
@@ -260,19 +288,21 @@ static void cparse_acl_set_this_writable(cParseACL *acl, bool value)
 
 void cparse_acl_set_readable(cParseACL *acl, bool value)
 {
-    cparse_acl_set_acl(acl, "*", value, cparse_acl_set_this_readable);
+    if (acl) {
+        cparse_acl_set_acl(acl, "*", value, cparse_acl_set_this_readable);
+    }
 }
 
 void cparse_acl_set_user_readable(cParseACL *acl, cParseUser *user, bool value)
 {
-    if (user) {
-        cparse_acl_set_acl(acl, cParseUser->objectId, value, cparse_acl_set_this_readable);
+    if (acl && user) {
+        cparse_acl_set_acl(acl, user->objectId, value, cparse_acl_set_this_readable);
     }
 }
 
 void cparse_acl_set_role_readable(cParseACL *acl, const char *role, bool value)
 {
-    if (!cparse_str_empty(role)) {
+    if (acl != NULL && !cparse_str_empty(role)) {
         char buf[CPARSE_BUF_SIZE + 1] = {0};
 
         snprintf(buf, CPARSE_BUF_SIZE, "role:%s", role);
@@ -283,7 +313,9 @@ void cparse_acl_set_role_readable(cParseACL *acl, const char *role, bool value)
 
 void cparse_acl_set_writable(cParseACL *acl, bool value)
 {
-    cparse_acl_set_acl(acl, "*", value, cparse_acl_set_this_readable);
+    if (acl != NULL) {
+        cparse_acl_set_acl(acl, "*", value, cparse_acl_set_this_readable);
+    }
 }
 
 void cparse_acl_set_user_writable(cParseACL *acl, cParseUser *user, bool value)
@@ -295,8 +327,7 @@ void cparse_acl_set_user_writable(cParseACL *acl, cParseUser *user, bool value)
 
 void cparse_acl_set_role_writable(cParseACL *acl, const char *role, bool value)
 {
-    if (role & *role) {
+    if (acl != NULL && !cparse_str_empty(role)) {
         cparse_acl_set_acl(acl, role, value, cparse_acl_set_this_writable);
     }
 }
-

@@ -1,4 +1,4 @@
-.TH "src/cparse/query.h" 3 "Sat Aug 1 2015" "Version 0.1" "cParse" \" -*- nroff -*-
+.TH "src/cparse/query.h" 3 "Mon Nov 2 2015" "Version 0.1" "cParse" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -47,7 +47,7 @@ src/cparse/query.h \-
 .RI "int \fBcparse_query_count_objects\fP (\fBcParseQuery\fP *query, \fBcParseError\fP **error)"
 .br
 .ti -1c
-.RI "bool \fBcparse_query_find_objects\fP (\fBcParseQuery\fP *query, \fBcParseError\fP **error)"
+.RI "\fBbool\fP \fBcparse_query_find_objects\fP (\fBcParseQuery\fP *query, \fBcParseError\fP **error)"
 .br
 .ti -1c
 .RI "void \fBcparse_query_where_in\fP (\fBcParseQuery\fP *query, const char *key, \fBcParseJson\fP *inArray)"
@@ -128,9 +128,12 @@ src/cparse/query.h \-
 .RI "void \fBcparse_query_build_free\fP (cParseQueryBuilder *query)"
 .br
 .in -1c
+.SH "Detailed Description"
+.PP 
+cParse Query Functions for dealing with queries 
 .SH "Function Documentation"
 .PP 
-.SS "bool cparse_query_find_objects (\fBcParseQuery\fP * query, \fBcParseError\fP ** error)"
+.SS "\fBbool\fP cparse_query_find_objects (\fBcParseQuery\fP * query, \fBcParseError\fP ** error)"
 find objects from a query 
 .PP
 \fBParameters:\fP

@@ -1,4 +1,4 @@
-.TH "src/cparse/parse.h" 3 "Sat Aug 1 2015" "Version 0.1" "cParse" \" -*- nroff -*-
+.TH "src/cparse/parse.h" 3 "Mon Nov 2 2015" "Version 0.1" "cParse" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -29,9 +29,12 @@ src/cparse/parse.h \-
 .RI "void \fBcparse_set_log_level\fP (\fBcParseLogLevel\fP level)"
 .br
 .ti -1c
-.RI "void \fBcparse_enable_revocable_sessions\fP (bool value)"
+.RI "void \fBcparse_enable_revocable_sessions\fP (\fBbool\fP value)"
 .br
 .in -1c
+.SH "Detailed Description"
+.PP 
+cParse Global header file 
 .SH "Enumeration Type Documentation"
 .PP 
 .SS "enum \fBcParseLogLevel\fP"
@@ -59,12 +62,12 @@ debug, info, warning and error messages will be logged
 trace, debug, info, warning and error messages will be logged 
 .SH "Function Documentation"
 .PP 
-.SS "void cparse_enable_revocable_sessions (bool value)"
+.SS "void cparse_enable_revocable_sessions (\fBbool\fP value)"
 enables revocable sessions 
 .PP
 \fBParameters:\fP
 .RS 4
-\fIthe\fP value to set 
+\fIvalue\fP the value to set 
 .RE
 .PP
 

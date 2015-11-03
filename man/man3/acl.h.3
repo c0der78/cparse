@@ -1,4 +1,4 @@
-.TH "src/cparse/acl.h" 3 "Sat Aug 1 2015" "Version 0.1" "cParse" \" -*- nroff -*-
+.TH "src/cparse/acl.h" 3 "Mon Nov 2 2015" "Version 0.1" "cParse" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -16,9 +16,6 @@ src/cparse/acl.h \-
 .RI "BEGIN_DECL void \fBcparse_acl_copy\fP (cParseACL *orig, cParseACL *other)"
 .br
 .ti -1c
-.RI "void \fBcparse_set_default_acl\fP (cParseACL *acl, bool currentUserAccess)"
-.br
-.ti -1c
 .RI "void \fBcparse_acl_free\fP (cParseACL *acl)"
 .br
 .ti -1c
@@ -28,18 +25,129 @@ src/cparse/acl.h \-
 .RI "\fBcParseJson\fP * \fBcparse_acl_to_json\fP (cParseACL *acl)"
 .br
 .ti -1c
-.RI "bool \fBcparse_acl_is_readable\fP (cParseACL *acl, const char *name)"
+.RI "\fBbool\fP \fBcparse_acl_is_readable\fP (cParseACL *acl, const char *name)"
 .br
 .ti -1c
-.RI "bool \fBcparse_acl_is_writable\fP (cParseACL *acl, const char *name)"
+.RI "\fBbool\fP \fBcparse_acl_is_writable\fP (cParseACL *acl, const char *name)"
 .br
 .ti -1c
-.RI "void \fBcparse_acl_set_readable\fP (cParseACL *acl, const char *name, bool value)"
+.RI "void \fBcparse_acl_set_readable\fP (cParseACL *acl, const char *name, \fBbool\fP value)"
 .br
 .ti -1c
-.RI "void \fBcparse_acl_set_writable\fP (cParseACL *acl, const char *name, bool value)"
+.RI "void \fBcparse_acl_set_writable\fP (cParseACL *acl, const char *name, \fBbool\fP value)"
 .br
 .in -1c
+.SH "Detailed Description"
+.PP 
+cParse ACL Functions dealing with object access control lists\&. 
+.SH "Function Documentation"
+.PP 
+.SS "BEGIN_DECL void cparse_acl_copy (cParseACL * orig, cParseACL * other)"
+Copies one acl to another\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIorig\fP the acl to copy to 
+.br
+\fIother\fP the acl to copy from 
+.RE
+.PP
+
+.SS "void cparse_acl_free (cParseACL * acl)"
+Releases an acl from memory\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIacl\fP the acl to free 
+.RE
+.PP
+
+.SS "cParseACL* cparse_acl_from_json (\fBcParseJson\fP * json)"
+Creates an acl object from its json representation\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIjson\fP the json to read from 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+an allocated acl with the values from the json 
+.RE
+.PP
+
+.SS "\fBbool\fP cparse_acl_is_readable (cParseACL * acl, const char * name)"
+tests for a readable property on the acl\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIacl\fP the acl to test 
+.br
+\fIname\fP the name of the read permission to test 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+true if the acl has a readable permission for the name 
+.RE
+.PP
+
+.SS "\fBbool\fP cparse_acl_is_writable (cParseACL * acl, const char * name)"
+tests for a writable property on the acl\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIacl\fP the acl to test 
+.br
+\fIname\fP the name of the write permission to test 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+true if the acl has a writable permission for the name 
+.RE
+.PP
+
+.SS "void cparse_acl_set_readable (cParseACL * acl, const char * name, \fBbool\fP value)"
+sets a readable property on the acl\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIacl\fP the acl to set 
+.br
+\fIname\fP the name of the readable property to set 
+.br
+\fIvalue\fP the value of the readable permission 
+.RE
+.PP
+
+.SS "void cparse_acl_set_writable (cParseACL * acl, const char * name, \fBbool\fP value)"
+sets a writable property on the acl\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIacl\fP the acl to set 
+.br
+\fIname\fP the name of the writable property to set 
+.br
+\fIvalue\fP the value of the writable permission 
+.RE
+.PP
+
+.SS "\fBcParseJson\fP* cparse_acl_to_json (cParseACL * acl)"
+Turns an acl object into its json respresentation\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIacl\fP the acl to read from 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+an allocated json representation of the acl 
+.RE
+.PP
+
 .SH "Author"
 .PP 
 Generated automatically by Doxygen for cParse from the source code\&.

@@ -1,4 +1,4 @@
-.TH "src/cparse/util.h" 3 "Sat Aug 1 2015" "Version 0.1" "cParse" \" -*- nroff -*-
+.TH "src/cparse/util.h" 3 "Mon Nov 2 2015" "Version 0.1" "cParse" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -33,6 +33,93 @@ src/cparse/util.h \-
 .RI "void \fBcparse_json_add_reference\fP (\fBcParseJson\fP *data, \fBcParseObject\fP *ref)"
 .br
 .in -1c
+.SH "Detailed Description"
+.PP 
+cParse Utilities Various utility functions 
+.SH "Function Documentation"
+.PP 
+.SS "time_t cparse_date_time (const char * str)"
+parses a date time string 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIstr\fP the string to parse 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+a timestamp 
+.RE
+.PP
+
+.SS "void cparse_json_add_reference (\fBcParseJson\fP * data, \fBcParseObject\fP * ref)"
+adds a reference to an object in json 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIdata\fP the json data 
+.br
+\fIref\fP the object reference 
+.RE
+.PP
+
+.SS "void cparse_replace_str (char ** a, const char * b)"
+replaces an allocated string 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIa\fP the string to replace 
+.br
+\fIb\fP the string to copy from 
+.RE
+.PP
+
+.SS "int cparse_str_cmp (const char * a, const char * b)"
+tests if two strings are equal 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIa\fP the string to test 
+.br
+\fIb\fP the second string to test 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+non-zero if the strings are equal 
+.RE
+.PP
+
+.SS "BEGIN_DECL int cparse_str_empty (const char * str)"
+tests if a string is null or empty 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIstr\fP the string to test 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+non-zero if the string is empty 
+.RE
+.PP
+
+.SS "int cparse_str_prefix (const char * a, const char * b)"
+tests if a string starts with another 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIa\fP the string to test 
+.br
+\fIb\fP the string to find 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+non-zero if b is a prefix of a 
+.RE
+.PP
+
 .SH "Author"
 .PP 
 Generated automatically by Doxygen for cParse from the source code\&.

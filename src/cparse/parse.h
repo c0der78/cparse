@@ -1,12 +1,17 @@
-/*! \file parse.h */
-#ifndef CPARSE_PARSE_H_
-#define CPARSE_PARSE_H_
+/*!
+ * @file
+ * @header cParse
+ * Global header file
+ */
+#ifndef CPARSE_PARSE_H
+
+/* @parseOnly */
+#define CPARSE_PARSE_H
 
 #include <cparse/defines.h>
 
 /*! levels of logging */
-typedef enum
-{
+typedef enum {
     /*! logging is disabled */
     cParseLogNone = 0,
     /*! only error messages will be logged */
@@ -24,23 +29,23 @@ typedef enum
 BEGIN_DECL
 
 /*! sets the parse api application id
- * \param appId the application id
+ * @param appId the application id
  */
 void cparse_set_application_id(const char *appId);
 
 /*! sets the parse api key
- * \param apiKey the REST api key
+ * @param apiKey the REST api key
  */
 void cparse_set_api_key(const char *apiKey);
 
 /*! sets the logging level
- * \param level the logging level to set
+ * @param level the logging level to set
  */
 void cparse_set_log_level(cParseLogLevel level);
 
 
 /*! enables revocable sessions
- * \param the value to set
+ * @param value the value to set
  */
 void cparse_enable_revocable_sessions(bool value);
 

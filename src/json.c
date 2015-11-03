@@ -1,4 +1,6 @@
+#ifdef HAVE_CONFIG_H
 #include "config.h"
+#endif
 #include <string.h>
 #include <stdio.h>
 #include <errno.h>
@@ -12,7 +14,13 @@
 /*initializers */
 cParseJson *cparse_json_new()
 {
-    return json_object_new_object();
+    cParseJson *json = json_object_new_object();
+
+    if (json == NULL) {
+        cparse_log_errno(ENOMEM);
+    }
+
+    return json;
 }
 
 cParseJson *cparse_json_new_reference(cParseJson *orig)
@@ -75,12 +83,11 @@ void cparse_json_copy(cParseJson *orig, cParseJson *other, bool replaceOnConflic
     {
         if (replaceOnConflict &&
 #ifdef HAVE_JSON_EXTENDED
-                json_object_object_get_ex(orig, key, NULL)
+            json_object_object_get_ex(orig, key, NULL)
 #else
-                json_object_object_get(orig, key) != NULL
+            json_object_object_get(orig, key) != NULL
 #endif
-           )
-        {
+                ) {
             json_object_object_del(orig, key);
         }
 
@@ -119,7 +126,7 @@ void cparse_json_set_number(cParseJson *obj, const char *key, cParseNumber value
 #else
                            json_object_new_int(value)
 #endif
-                          );
+                               );
 }
 
 void cparse_json_set_real(cParseJson *obj, const char *key, double value)
@@ -271,7 +278,7 @@ void cparse_json_array_add_number(cParseJson *arr, cParseNumber value)
 #else
                           json_object_new_int(value)
 #endif
-                         );
+                              );
 }
 
 void cparse_json_array_add_real(cParseJson *arr, double real)
@@ -413,7 +420,7 @@ int cparse_json_num_keys(cParseJson *obj)
         return 0;
     }
 
-    return json_object_get_object (obj)->count;
+    return json_object_get_object(obj)->count;
 }
 
 void cparse_json_remove(cParseJson *obj, const char *key)
@@ -498,23 +505,22 @@ cParseJsonType cparse_json_type(cParseJson *v)
         return cParseJsonNull;
     }
 
-    switch ( json_object_get_type(v) )
-    {
-    case json_type_int:
-        return cParseJsonNumber;
-    case json_type_double:
-        return cParseJsonReal;
-    case json_type_string:
-        return cParseJsonString;
-    case json_type_boolean:
-        return cParseJsonBoolean;
-    case json_type_object:
-        return  cParseJsonObject;
-    case json_type_array:
-        return cParseJsonArray;
-    default:
-    case json_type_null:
-        return cParseJsonNull;
+    switch (json_object_get_type(v)) {
+        case json_type_int:
+            return cParseJsonNumber;
+        case json_type_double:
+            return cParseJsonReal;
+        case json_type_string:
+            return cParseJsonString;
+        case json_type_boolean:
+            return cParseJsonBoolean;
+        case json_type_object:
+            return cParseJsonObject;
+        case json_type_array:
+            return cParseJsonArray;
+        default:
+        case json_type_null:
+            return cParseJsonNull;
     }
 }
 
@@ -545,4 +551,3 @@ const char *cparse_json_to_json_string(cParseJson *obj)
     return json_object_to_json_string(obj);
 #endif
 }
-

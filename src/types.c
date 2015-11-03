@@ -19,6 +19,10 @@ cParseJson *cparse_pointer_from_object(cParseObject *obj)
 
     data = cparse_json_new();
 
+    if (data == NULL) {
+        return NULL;
+    }
+
     cparse_json_set_string(data, CPARSE_KEY_CLASS_NAME, obj->className);
 
     cparse_json_set_string(data, CPARSE_KEY_OBJECT_ID, obj->objectId);
@@ -44,6 +48,3 @@ bool cparse_json_is_pointer(cParseJson *json)
 
     return true;
 }
-
-
-

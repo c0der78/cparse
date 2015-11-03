@@ -1,8 +1,12 @@
-/*! \file operator.h */
-#ifndef CPARSE_OPERATOR_H_
-#define CPARSE_OPERATOR_H_
+/*!
+ * @file
+ * @header cParse Operator
+ * Functions for dealing with operators
+ */
+#ifndef CPARSE_OPERATOR_H
 
-
+/*! @parseOnly */
+#define CPARSE_OPERATOR_H
 
 
 #endif

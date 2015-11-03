@@ -5,8 +5,7 @@
 #include "log.h"
 #include <errno.h>
 
-struct cparse_error
-{
+struct cparse_error {
     int code;
     char *message;
 };
@@ -15,8 +14,7 @@ cParseError *cparse_error_new()
 {
     cParseError *e = malloc(sizeof(cParseError));
 
-    if (e == NULL)
-    {
+    if (e == NULL) {
         cparse_log_errno(ENOMEM);
         return NULL;
     }
@@ -31,7 +29,9 @@ cParseError *cparse_error_with_message(const char *message)
 {
     cParseError *e = cparse_error_new();
 
-    if (e == NULL) { return NULL; }
+    if (e == NULL) {
+        return NULL;
+    }
 
     e->message = strdup(message);
 
@@ -72,8 +72,7 @@ const char *cparse_error_message(cParseError *error)
 
 void cparse_error_set_message(cParseError *error, const char *message)
 {
-    if (error)
-    {
+    if (error) {
         error->message = strdup(message);
     }
 }
@@ -85,8 +84,7 @@ int cparse_error_code(cParseError *error)
 
 void cparse_error_set_code(cParseError *error, int code)
 {
-    if (error)
-    {
+    if (error) {
         error->code = code;
     }
 }

@@ -1,4 +1,6 @@
+#ifdef HAVE_CONFIG_H
 #include "config.h"
+#endif
 #include <assert.h>
 #include <time.h>
 #include <stdio.h>
@@ -24,8 +26,7 @@ time_t cparse_date_time(const char *str)
     int tzh, tzm;
     struct tm time;
 
-    if (8 > sscanf(str, "%d-%d-%dT%d:%d:%f%d:%dZ", &y, &M, &d, &h, &m, &s, &tzh, &tzm))
-    {
+    if (8 > sscanf(str, "%d-%d-%dT%d:%d:%f%d:%dZ", &y, &M, &d, &h, &m, &s, &tzh, &tzm)) {
         sscanf(str, "%d-%d-%dT%d:%d:%fZ", &y, &M, &d, &h, &m, &s);
     }
 
@@ -34,15 +35,17 @@ time_t cparse_date_time(const char *str)
     time.tm_mday = d;        /* 1-31 */
     time.tm_hour = h;        /* 0-23 */
     time.tm_min = m;         /* 0-59 */
-    time.tm_sec = (int) s;    /* 0-61 */
-    time.tm_isdst = 0;     /* auto check daylight savings time */
+    time.tm_sec = (int)s;    /* 0-61 */
+    time.tm_isdst = 0;       /* auto check daylight savings time */
 
     return mktime(&time) - timezone;
 }
 
 void cparse_replace_str(char **a, const char *b)
 {
-    if (!a) { return; }
+    if (!a) {
+        return;
+    }
 
     if (*a) {
         free(*a);
@@ -53,30 +56,28 @@ void cparse_replace_str(char **a, const char *b)
 
 inline int cparse_str_cmp(const char *a, const char *b)
 {
-    if (cparse_str_empty(a) || cparse_str_empty(b)) { return 0; }
+    if (cparse_str_empty(a) || cparse_str_empty(b)) {
+        return 0;
+    }
 
     return strcmp(a, b);
 }
 
 int cparse_str_prefix(const char *astr, const char *bstr)
 {
-    if (astr == NULL || !*astr)
-    {
+    if (astr == NULL || !*astr) {
         return 1;
     }
-    if (bstr == NULL)
-    {
+    if (bstr == NULL) {
         return 1;
     }
-    for (; *astr; astr++, bstr++)
-    {
+    for (; *astr; astr++, bstr++) {
         if (*astr != *bstr) {
             return 1;
         }
     }
 
     return 0;
-
 }
 
 void cparse_json_add_reference(cParseJson *data, cParseObject *ref)
@@ -90,8 +91,7 @@ void cparse_json_add_reference(cParseJson *data, cParseObject *ref)
     cparse_json_set_string(data, CPARSE_KEY_TYPE, CPARSE_TYPE_POINTER);
 
     /* add class name */
-    if (!cparse_str_empty(ref->className))
-    {
+    if (!cparse_str_empty(ref->className)) {
         cparse_json_set_string(data, CPARSE_KEY_CLASS_NAME, ref->className);
     }
 
@@ -99,5 +99,4 @@ void cparse_json_add_reference(cParseJson *data, cParseObject *ref)
     if (!cparse_str_empty(ref->objectId)) {
         cparse_json_set_string(data, CPARSE_KEY_OBJECT_ID, ref->objectId);
     }
-
 }

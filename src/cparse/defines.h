@@ -1,14 +1,22 @@
-/*! \file defines.h */
+/*!
+ * @file
+ * @header cParse Defines
+ * Contains defines used for types throught the library.
+ */
 #ifndef CPARSE_DEFINES_H
+
+/*! @parseOnly */
 #define CPARSE_DEFINES_H
 
 #ifndef HAVE_STDBOOL_H
 typedef unsigned char bool;
 
 #ifndef true
+/*! @parseOnly */
 #define true 1
 #endif
 #ifndef false
+/*! @parseOnly */
 #define false 0
 #endif
 #else

@@ -17,6 +17,7 @@ Setup
 =====
 - run `configure && make` to compile the library
 - run `make test` to run the unit tests
+- use `configure $(brew diy --version=0.1.0 cparse) && make install && brew link cparse` for osx homebrew
 
 The **unit tests** will require a parse.test.json file or the environment variables **PARSE_APP_ID** and **PARSE_API_KEY** set.
 

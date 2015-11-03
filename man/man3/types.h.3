@@ -1,4 +1,4 @@
-.TH "src/cparse/types.h" 3 "Sat Aug 1 2015" "Version 0.1" "cParse" \" -*- nroff -*-
+.TH "src/cparse/types.h" 3 "Mon Nov 2 2015" "Version 0.1" "cParse" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -18,15 +18,76 @@ src/cparse/types.h \-
 .RI "BEGIN_DECL \fBcParseJson\fP * \fBcparse_pointer_from_object\fP (\fBcParseObject\fP *obj)"
 .br
 .ti -1c
-.RI "bool \fBcparse_json_is_pointer\fP (\fBcParseJson\fP *json)"
+.RI "\fBbool\fP \fBcparse_json_is_pointer\fP (\fBcParseJson\fP *json)"
 .br
 .ti -1c
-.RI "bool \fBcparse_json_is_bytes\fP (\fBcParseJson\fP *json)"
+.RI "\fBbool\fP \fBcparse_json_is_bytes\fP (\fBcParseJson\fP *json)"
 .br
 .ti -1c
-.RI "bool \fBcparse_json_is_file\fP (\fBcParseJson\fP *json)"
+.RI "\fBbool\fP \fBcparse_json_is_file\fP (\fBcParseJson\fP *json)"
 .br
 .in -1c
+.SH "Detailed Description"
+.PP 
+cParse Types Functions for dealing with json representation types 
+.SH "Function Documentation"
+.PP 
+.SS "\fBbool\fP cparse_json_is_bytes (\fBcParseJson\fP * json)"
+tests if a json object is a byte array 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIjson\fP the json to test 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+true if the json represents a byte array 
+.RE
+.PP
+
+.SS "\fBbool\fP cparse_json_is_file (\fBcParseJson\fP * json)"
+tests if a json object is a file 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIjson\fP the json to test 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+true if the json represents a file 
+.RE
+.PP
+
+.SS "\fBbool\fP cparse_json_is_pointer (\fBcParseJson\fP * json)"
+tests if a json object is a pointer representation 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIjson\fP the json to test 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+true if the json is a pointer representation 
+.RE
+.PP
+
+.SS "BEGIN_DECL \fBcParseJson\fP* cparse_pointer_from_object (\fBcParseObject\fP * obj)"
+creates a pointer json representation from an object 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIobj\fP the object to read from 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+a json representation of a pointer to an object 
+.RE
+.PP
+
 .SH "Author"
 .PP 
 Generated automatically by Doxygen for cParse from the source code\&.

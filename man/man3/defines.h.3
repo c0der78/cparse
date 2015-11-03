@@ -1,4 +1,4 @@
-.TH "src/cparse/defines.h" 3 "Sat Aug 1 2015" "Version 0.1" "cParse" \" -*- nroff -*-
+.TH "src/cparse/defines.h" 3 "Mon Nov 2 2015" "Version 0.1" "cParse" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -72,8 +72,19 @@ src/cparse/defines.h \-
 .RI "enum \fBcParseAccess\fP { \fBcParseAccessRead\fP, \fBcParseAccessWrite\fP }"
 .br
 .in -1c
+.SH "Detailed Description"
+.PP 
+cParse Defines Contains defines used for types throught the library\&. 
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define false   0"
+
+.SS "#define true   1"
+
 .SH "Typedef Documentation"
 .PP 
+.SS "typedef unsigned char \fBbool\fP"
+
 .SS "typedef struct cparse_error \fBcParseError\fP"
 An error structure 
 .SS "typedef struct json_object \fBcParseJson\fP"
