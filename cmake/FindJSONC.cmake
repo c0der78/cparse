@@ -3,7 +3,7 @@
 # JSON-C_LIBRARIES - library directories
 
 find_package(PkgConfig)
-pkg_check_modules(PC_JSON-C QUIET json-c)
+pkg_check_modules(PC_JSON-C QUIET json-c>=0.10 json>=0.10)
 
 find_path(JSON-C_INCLUDE_DIR json.h
 	HINTS ${PC_JSON-C_INCLUDEDIR} ${PC_JSON-C_INCLUDE_DIRS} PATH_SUFFIXES json-c json)
@@ -13,6 +13,7 @@ find_library(JSON-C_LIBRARY NAMES json-c libjson-c json libjson
 
 set(JSON-C_LIBRARIES ${JSON-C_LIBRARY})
 set(JSON-C_INCLUDE_DIRS ${JSON-C_INCLUDE_DIR})
+set(HAVE_JSON_EXTENDED ${PC_JSON-C_FOUND})
 
 include(FindPackageHandleStandardArgs)
 

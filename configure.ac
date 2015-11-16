@@ -20,12 +20,23 @@ AC_SUBST(X_CFLAGS, "-pedantic -Wall -Werror")
 # Checks for libraries.
 AC_CHECK_LIB([curl], [curl_easy_init], [], AC_MSG_ERROR([libcurl library is required!]))
 
+AC_CHECK_LIB([json-c], [json_object_object_get], [], AC_CHECK_LIB([json], [json_object_object_get]))
+
+AC_CHECK_LIB([json-c], [json_object_object_get_ex], [AC_DEFINE(HAVE_JSON_EXTENDED, 1, [json library is extended])],
+	AC_CHECK_LIB([json], [json_object_object_get_ex], [AC_DEFINE(HAVE_JSON_EXTENDED, 1, [json library is extended])]))
+
 # Checks for header files.
 AC_CHECK_HEADERS([stdbool.h stdlib.h string.h json-c/json.h json/json.h json.h curl/curl.h curl.h pthread.h])
 
-AC_CHECK_FUNC(strptime, AC_DEFINE(HAVE_STRPTIME, 1, [a posix time function]), [])
+if test x"$ac_cv_header_json_c_json_h" = x"yes"; then
+	AC_SUBST(JSON_C_CFLAGS, "-isystem json-c")
+fi
 
-PKG_CHECK_MODULES(JSONC, [json-c >= 0.10])
+if test x"$ac_cv_header_json_json_h" = x"yes"; then
+	AC_SUBST(JSON_C_CFLAGS, "-isystem json")
+fi
+
+AC_CHECK_FUNC(strptime, AC_DEFINE(HAVE_STRPTIME, 1, [a posix time function]), [])
 
 m4_include([m4/gcov.m4])
 AC_TDD_GCOV

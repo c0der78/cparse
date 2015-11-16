@@ -1,7 +1,6 @@
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
-
 #include <check.h>
 #include <stdio.h>
 #include <cparse/object.h>
@@ -236,12 +235,20 @@ START_TEST(test_cparse_object_to_json)
 
     buf = cparse_object_to_json_string(cp_obj);
 
+#ifdef HAVE_JSON_EXTENDED
     fail_unless(!strcmp(buf, "{\"main\":\"Hello,World\"}"));
+#else
+    fail_unless(!strcmp(buf, "{ \"main\": \"Hello,World\" }"));
+#endif
     cparse_object_set_number(cp_obj, "main", 1234);
 
     buf = cparse_object_to_json_string(cp_obj);
 
+#ifdef HAVE_JSON_EXTENDED
     fail_unless(!strcmp(buf, "{\"main\":1234}"));
+#else
+    fail_unless(!strcmp(buf, "{ \"main\": 1234 }"));
+#endif
 
     cparse_object_free(cp_obj);
 }
