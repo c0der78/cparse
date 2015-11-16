@@ -8,7 +8,7 @@ pkg_check_modules(PC_JSON-C QUIET json-c)
 find_path(JSON-C_INCLUDE_DIR json.h
 	HINTS ${PC_JSON-C_INCLUDEDIR} ${PC_JSON-C_INCLUDE_DIRS} PATH_SUFFIXES json-c json)
 
-find_library(JSON-C_LIBRARY NAMES json-c libjson-c
+find_library(JSON-C_LIBRARY NAMES json-c libjson-c json
 	HINTS ${PC_JSON-C_LIBDIR} ${PC_JSON-C_LIBRARY_DIRS})
 
 set(JSON-C_LIBRARIES ${JSON-C_LIBRARY})
