@@ -16,7 +16,7 @@ memcheck: check
 htmldir:
 	@if [ -d html ]; then\
 		rm -rf html/*;\
-	else\ 
+	else\
 		mkdir html;\
 	fi
 

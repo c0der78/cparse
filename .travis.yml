@@ -5,18 +5,21 @@ addons:
     packages:
       - libjson0-dev 
       - check
-      - valgrind
       - lcov
+      - valgrind
+      - cmake
 before_script: 
-  - autoreconf --recursive -if
+  - mkdir build
   - gem install coveralls-lcov
 env:
   global:
      - secure: "p6dR4odXk44yXToKg7gcWUVZL8/thgacKWlyPCbyU9p78xiZgQOE8xW3STYtEHpjQGSTFY3VNYaOYT3uY1xFBmhaz6VeuzKSBf+U2B6jHfB6btYSW/KJA6Xs2PlwgnpkfbH0femcN4gSPuPtcnXMoQrRbYxWd8bWTEHTTyhZMmY="
      - secure: "QZG6c6vDpvc+ivx69kD6/RCNGyVwHhRkjOxsQYClPb5iYfmjLwjeT4e+YDStZIAvC8KZtZ5lNJaL9MYAr/2uiZW4KdoWBniG5PjxX4Bdd0T/RiW3oKKJVPXI6uJQUjPRypK2FBJ0D0Y+0dYNHLwZ69ouW62ZQQ0fddCvACnU6h8="
 script:
-  - ./configure --enable-coverage
-  - make memcheck
+  - cd build
+  - cmake -DCMAKE_BUILD_TYPE=Debug -DMEMORY_CHECK=ON -DCODE_COVERAGE=ON ..
+  - make
+  - make test
 after_success:
   - lcov --compat-libtool --directory src --capture --output-file coverage.info 
   - coveralls-lcov coverage.info

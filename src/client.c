@@ -7,7 +7,7 @@
 #include <assert.h>
 #include <errno.h>
 #include <curl/curl.h>
-#include "json_private.h"
+#include <json.h>
 #include <cparse/json.h>
 #include <cparse/object.h>
 #include <cparse/error.h>

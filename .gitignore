@@ -18,3 +18,9 @@ Makefile
 coverage.info
 configure.lineno
 *.gcda
+build
+CMakeCache.txt
+CMakeFiles
+CTestTestfile.cmake
+Testing
+cmake_install.cmake

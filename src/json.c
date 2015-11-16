@@ -8,7 +8,7 @@
 #include <cparse/object.h>
 #include <cparse/util.h>
 #include <assert.h>
-#include "json_private.h"
+#include <json.h>
 #include "log.h"
 
 /*initializers */
@@ -35,11 +35,7 @@ cParseJson *cparse_json_new_reference(cParseJson *orig)
 
 cParseJson *cparse_json_new_number(cParseNumber value)
 {
-#ifdef HAVE_JSON_EXTENDED
     return json_object_new_int64(value);
-#else
-    return json_object_new_int(value);
-#endif
 }
 
 cParseJson *cparse_json_new_bool(bool value)
@@ -82,12 +78,7 @@ void cparse_json_copy(cParseJson *orig, cParseJson *other, bool replaceOnConflic
     cparse_json_foreach_start(other, key, val)
     {
         if (replaceOnConflict &&
-#ifdef HAVE_JSON_EXTENDED
-            json_object_object_get_ex(orig, key, NULL)
-#else
-            json_object_object_get(orig, key) != NULL
-#endif
-                ) {
+            json_object_object_get_ex(orig, key, NULL)) {
             json_object_object_del(orig, key);
         }
 
@@ -120,13 +111,7 @@ void cparse_json_set_number(cParseJson *obj, const char *key, cParseNumber value
         return;
     }
 
-    json_object_object_add(obj, key,
-#ifdef HAVE_JSON_EXTENDED
-                           json_object_new_int64(value)
-#else
-                           json_object_new_int(value)
-#endif
-                               );
+    json_object_object_add(obj, key, json_object_new_int64(value));
 }
 
 void cparse_json_set_real(cParseJson *obj, const char *key, double value)
@@ -178,11 +163,7 @@ cParseJson *cparse_json_get(cParseJson *obj, const char *key)
         return NULL;
     }
 
-#ifdef HAVE_JSON_EXTENDED
     if (json_object_object_get_ex(obj, key, &value))
-#else
-    if ((value = json_object_object_get(obj, key)) != NULL)
-#endif
         return value;
 
     return NULL;
@@ -197,15 +178,9 @@ cParseNumber cparse_json_get_number(cParseJson *obj, const char *key, cParseNumb
         return def;
     }
 
-#ifdef HAVE_JSON_EXTENDED
     if (json_object_object_get_ex(obj, key, &value)) {
         return json_object_get_int64(value);
     }
-#else
-    if ((value = json_object_object_get(obj, key)) != NULL) {
-        return json_object_get_int(value);
-    }
-#endif
 
     return def;
 }
@@ -218,11 +193,7 @@ double cparse_json_get_real(cParseJson *obj, const char *key, double def)
         return def;
     }
 
-#ifdef HAVE_JSON_EXTENDED
     if (json_object_object_get_ex(obj, key, &value))
-#else
-    if ((value = json_object_object_get(obj, key)) != NULL)
-#endif
         return json_object_get_double(value);
 
     return def;
@@ -237,11 +208,7 @@ bool cparse_json_get_bool(cParseJson *obj, const char *key)
         return false;
     }
 
-#ifdef HAVE_JSON_EXTENDED
     if (json_object_object_get_ex(obj, key, &value))
-#else
-    if ((value = json_object_object_get(obj, key)) != NULL)
-#endif
         return json_object_get_boolean(value);
 
     return false;
@@ -255,11 +222,7 @@ const char *cparse_json_get_string(cParseJson *obj, const char *key)
         return NULL;
     }
 
-#ifdef HAVE_JSON_EXTENDED
     if (json_object_object_get_ex(obj, key, &value))
-#else
-    if ((value = json_object_object_get(obj, key)) != NULL)
-#endif
         return json_object_get_string(value);
 
     return NULL;
@@ -272,13 +235,7 @@ void cparse_json_array_add_number(cParseJson *arr, cParseNumber value)
         cparse_log_errno(EINVAL);
         return;
     }
-    json_object_array_add(arr,
-#ifdef HAVE_JSON_EXTENDED
-                          json_object_new_int64(value)
-#else
-                          json_object_new_int(value)
-#endif
-                              );
+    json_object_array_add(arr, json_object_new_int64(value));
 }
 
 void cparse_json_array_add_real(cParseJson *arr, double real)
@@ -333,11 +290,7 @@ cParseNumber cparse_json_array_get_number(cParseJson *arr, size_t index, cParseN
         return def;
     }
 
-#ifdef HAVE_JSON_EXTENDED
     return json_object_get_int64(value);
-#else
-    return json_object_get_int(value);
-#endif
 }
 bool cparse_json_array_get_bool(cParseJson *arr, size_t index)
 {
@@ -442,11 +395,7 @@ cParseJson *cparse_json_remove_and_get(cParseJson *obj, const char *key)
         return NULL;
     }
 
-#ifdef HAVE_JSON_EXTENDED
     if (json_object_object_get_ex(obj, key, &orig))
-#else
-    if ((orig = json_object_object_get(obj, key)) != NULL)
-#endif
     {
         orig = json_object_get(orig);
         json_object_object_del(obj, key);
@@ -465,11 +414,7 @@ cParseNumber cparse_json_to_number(cParseJson *v)
         return 0;
     }
 
-#ifdef HAVE_JSON_EXTENDED
     return json_object_get_int64(v);
-#else
-    return json_object_get_int(v);
-#endif
 }
 
 bool cparse_json_to_bool(cParseJson *v)
@@ -531,11 +476,7 @@ bool cparse_json_contains(cParseJson *obj, const char *key)
         return false;
     }
 
-#ifdef HAVE_JSON_EXTENDED
     return json_object_object_get_ex(obj, key, NULL);
-#else
-    return json_object_object_get(obj, key) != NULL;
-#endif
 }
 
 const char *cparse_json_to_json_string(cParseJson *obj)
@@ -545,9 +486,5 @@ const char *cparse_json_to_json_string(cParseJson *obj)
         return NULL;
     }
 
-#ifdef HAVE_JSON_EXTENDED
     return json_object_to_json_string_ext(obj, JSON_C_TO_STRING_PLAIN);
-#else
-    return json_object_to_json_string(obj);
-#endif
 }

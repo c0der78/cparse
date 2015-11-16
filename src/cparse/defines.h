@@ -36,11 +36,7 @@ typedef unsigned char bool;
 #endif
 
 /*! a type representing an integral number */
-#ifdef HAVE_JSON_EXTENDED
 typedef long long cParseNumber;
-#else
-typedef int cParseNumber;
-#endif
 
 /*! An error structure */
 typedef struct cparse_error cParseError;

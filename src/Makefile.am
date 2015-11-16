@@ -1,7 +1,7 @@
 
 lib_LTLIBRARIES = libcparse.la
 
-libcparse_la_LDFLAGS = $(LIBCPARSE_LA_LDFLAGS) -version-info 0:0:0
+libcparse_la_LDFLAGS = $(LIBCPARSE_LA_LDFLAGS) @JSONC_LIBS@ -version-info 0:0:0
 
 subdirheadersdir = $(pkgincludedir)/cparse
 
@@ -9,6 +9,6 @@ subdirheaders_HEADERS = cparse/defines.h cparse/error.h cparse/json.h cparse/obj
 
 libcparse_la_SOURCES = client.c error.c json.c object.c parse.c query.c types.c user.c util.c operators.c log.c role.c
 
-libcparse_la_CFLAGS = $(LIBCPARSE_LA_CFLAGS) @X_CFLAGS@ @COVERAGE_CFLAGS@
+libcparse_la_CFLAGS = $(LIBCPARSE_LA_CFLAGS) @X_CFLAGS@ @COVERAGE_CFLAGS@ @JSONC_CFLAGS@
 
 CLEANFILES = *.gcno

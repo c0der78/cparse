@@ -16,7 +16,7 @@
 #include <cparse/types.h>
 #include <errno.h>
 #include "private.h"
-#include "json_private.h"
+#include <json.h>
 #include "log.h"
 
 /* internals */
