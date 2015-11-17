@@ -19,7 +19,7 @@ script:
   - cd build
   - cmake -DCMAKE_BUILD_TYPE=Debug -DMEMORY_CHECK=ON -DCODE_COVERAGE=ON ..
   - make
-  - make test
+  - make test ARGS=-V
 after_success:
   - lcov --compat-libtool --directory src --capture --output-file coverage.info 
   - coveralls-lcov coverage.info
