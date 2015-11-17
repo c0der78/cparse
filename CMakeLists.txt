@@ -12,23 +12,25 @@ if(CODE_COVERAGE)
 	list(APPEND CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS_COVERAGE})
 endif()
 
+include(FindJSONC)
+include(FindCURL)
+
+if (NOT JSON_C_FOUND)
+	message(FATAL_ERROR "Json-C library is required")
+elseif (JSON_C_EXTENDED)
+	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DHAVE_JSON_EXTENDED=1")
+endif()
+
+if (NOT CURL_FOUND)
+	message(FATAL_ERROR "Curl library is required")
+endif()
+
 # define project name
 project (cparse)
 
 # add directories
 add_subdirectory(src)
 add_subdirectory(tests)
-
-include(FindJSONC)
-include(FindCURL)
-
-if (NOT JSON-C_FOUND)
-	message(FATAL_ERROR "Json-C library is required")
-endif()
-
-if (NOT CURL_FOUND)
-	message(FATAL_ERROR "Curl library is required")
-endif()
 
 # Setup testing
 enable_testing()

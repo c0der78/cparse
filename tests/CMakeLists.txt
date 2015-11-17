@@ -3,7 +3,7 @@ add_executable(cparse_test acl.test.c client.test.c cparse.test.c json.test.c ob
 
 include(FindCheck)
 
-list(APPEND CMAKE_C_FLAGS "-DROOT_PATH=\\\"${CMAKE_SOURCE_DIR}/tests\\\"")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DROOT_PATH=\\\"${CMAKE_SOURCE_DIR}/tests\\\"")
 
 include_directories(../src ${CHECK_INCLUDE_DIRS})
 

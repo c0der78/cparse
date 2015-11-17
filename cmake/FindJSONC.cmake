@@ -3,20 +3,24 @@
 # JSON-C_LIBRARIES - library directories
 
 find_package(PkgConfig)
-pkg_check_modules(PC_JSON-C QUIET json-c>=0.10 json>=0.10)
+pkg_search_module(PC_JSON_C QUIET json-c>=0.10 json>=0.10)
 
-find_path(JSON-C_INCLUDE_DIR json.h
-	HINTS ${PC_JSON-C_INCLUDEDIR} ${PC_JSON-C_INCLUDE_DIRS} PATH_SUFFIXES json-c json)
+find_path(JSON_C_INCLUDE_DIR json.h
+	HINTS ${PC_JSON_C_INCLUDEDIR} ${PC_JSON_C_INCLUDE_DIRS} ${PC_JSON_INCLUDE_DIRS} ${PC_JSON_INCLUDEDIR} PATH_SUFFIXES json-c json)
 
-find_library(JSON-C_LIBRARY NAMES json-c libjson-c json libjson
-	HINTS ${PC_JSON-C_LIBDIR} ${PC_JSON-C_LIBRARY_DIRS})
+find_library(JSON_C_LIBRARY NAMES json-c libjson-c json libjson
+	HINTS ${PC_JSON_C_LIBDIR} ${PC_JSON_C_LIBRARY_DIRS} ${PC_JSON_LIBDIR} ${PC_JSON_LIBRARY_DIRS})
 
-set(JSON-C_LIBRARIES ${JSON-C_LIBRARY})
-set(JSON-C_INCLUDE_DIRS ${JSON-C_INCLUDE_DIR})
-set(HAVE_JSON_EXTENDED ${PC_JSON-C_FOUND})
+set(JSON_C_LIBRARIES ${JSON_C_LIBRARY})
+set(JSON_C_INCLUDE_DIRS ${JSON_C_INCLUDE_DIR})
+
+if (PC_JSON_C_FOUND)
+	set(JSON_C_EXTENDED ON)
+endif()
 
 include(FindPackageHandleStandardArgs)
 
-find_package_handle_standard_args(JSON-C DEFAULT_MSG JSON-C_LIBRARY JSON-C_INCLUDE_DIR)
+find_package_handle_standard_args(JSON_C DEFAULT_MSG JSON_C_LIBRARY JSON_C_INCLUDE_DIR)
 
-mark_as_advanced(JSON-C_INCLUDE_DIR JSON-C_LIBRARY)
+mark_as_advanced(JSON_C_INCLUDE_DIR JSON_C_LIBRARY)
+
