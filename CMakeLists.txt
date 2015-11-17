@@ -7,6 +7,9 @@ list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 option(CODE_COVERAGE "Enable code coverage testing." OFF)
 option(MEMORY_CHECK "Enable testing for memory leaks." OFF)
 
+# define project name
+project (cparse)
+
 if(CODE_COVERAGE)
 	include(CodeCoverage)
 	list(APPEND CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS_COVERAGE})
@@ -24,9 +27,6 @@ endif()
 if (NOT CURL_FOUND)
 	message(FATAL_ERROR "Curl library is required")
 endif()
-
-# define project name
-project (cparse)
 
 # add directories
 add_subdirectory(src)
