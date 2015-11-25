@@ -193,7 +193,7 @@ bool cparse_query_find_objects(cParseQuery *query, cParseError **error)
 
     /* build the request */
 
-    request = cparse_client_request_with_method_and_path(cParseHttpRequestMethodGet, query->urlPath);
+    request = cparse_request_with_method_and_path(cParseHttpRequestMethodGet, query->urlPath);
 
     if (request == NULL) {
         cparse_log_set_error(error, "Unable to create request for query");
@@ -201,32 +201,32 @@ bool cparse_query_find_objects(cParseQuery *query, cParseError **error)
     }
 
     if (query->where) {
-        cparse_client_request_add_data(request, CPARSE_QUERY_WHERE, cparse_json_to_json_string(query->where));
+        cparse_request_add_data(request, CPARSE_QUERY_WHERE, cparse_json_to_json_string(query->where));
     }
 
     if (query->limit > 0) {
         snprintf(buf, CPARSE_BUF_SIZE, "%d", query->limit);
-        cparse_client_request_add_data(request, CPARSE_QUERY_LIMIT, buf);
+        cparse_request_add_data(request, CPARSE_QUERY_LIMIT, buf);
     }
 
     if (query->skip > 0) {
         snprintf(buf, CPARSE_BUF_SIZE, "%d", query->skip);
-        cparse_client_request_add_data(request, CPARSE_QUERY_SKIP, buf);
+        cparse_request_add_data(request, CPARSE_QUERY_SKIP, buf);
     }
 
     if (query->keys) {
-        cparse_client_request_add_data(request, CPARSE_QUERY_KEYS, query->keys);
+        cparse_request_add_data(request, CPARSE_QUERY_KEYS, query->keys);
     }
 
     if (query->count) {
         snprintf(buf, CPARSE_BUF_SIZE, "%d", query->count);
-        cparse_client_request_add_data(request, CPARSE_QUERY_COUNT, buf);
+        cparse_request_add_data(request, CPARSE_QUERY_COUNT, buf);
     }
 
     /* do the deed */
-    data = cparse_client_request_get_json(request, error);
+    data = cparse_request_get_json(request, error);
 
-    cparse_client_request_free(request);
+    cparse_request_free(request);
 
     if (data == NULL) {
         return false;

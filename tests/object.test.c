@@ -50,7 +50,18 @@ void test_cparse_object_callback(cParseObject *obj, cParseError *error, void *pa
     }
     fail_unless(error == NULL);
 
-    fail_unless(cparse_object_id(obj) != NULL);
+    if (obj == NULL) {
+        printf("no object on callback!\n");
+    } else {
+        fail_unless(cparse_object_id(obj) != NULL);
+    }
+}
+
+void test_cparse_object_update_callback(cParseObject *obj, cParseError *error, void *param)
+{
+    test_cparse_object_callback(obj, error, param);
+
+    fail_unless(cparse_object_get_number(obj, "score", 0) == 987);
 }
 
 START_TEST(test_cparse_object_fetch)
@@ -61,8 +72,6 @@ START_TEST(test_cparse_object_fetch)
     cParseObject *obj = cparse_new_test_object("user2", 1444);
 
     cParseJson *data = NULL;
-
-    cparse_thread bg;
 
     cParseError *error = NULL;
 
@@ -100,9 +109,7 @@ START_TEST(test_cparse_object_fetch)
 
     fail_unless(cparse_json_num_keys(data) > 3);
 
-    bg = cparse_object_fetch_in_background(cp_obj, test_cparse_object_callback, NULL);
-
-    cparse_thread_wait(bg);
+    fail_unless(cparse_object_fetch_in_background(cp_obj, test_cparse_object_callback, NULL));
 }
 END_TEST
 
@@ -110,7 +117,6 @@ START_TEST(test_cparse_object_refresh)
 {
     cParseError *error = NULL;
     bool rval;
-    cparse_thread bg;
     cParseObject *obj = cparse_new_test_object("user2", 1444), *obj2;
 
     fail_unless(cparse_save_test_object(obj));
@@ -139,10 +145,7 @@ START_TEST(test_cparse_object_refresh)
 
     fail_unless(cparse_object_get_number(obj2, "score", 0) == 1444);
 
-    bg = cparse_object_refresh_in_background(obj2, test_cparse_object_callback, NULL);
-
-    cparse_thread_wait(bg);
-
+    fail_unless(cparse_object_refresh_in_background(obj2, test_cparse_object_callback, NULL));
 }
 END_TEST
 
@@ -150,11 +153,7 @@ START_TEST(test_cparse_object_save_in_background)
 {
     cParseObject *cp_obj = cparse_new_test_object("user1", 1234);
 
-    cparse_thread thread = cparse_object_save_in_background(cp_obj, test_cparse_object_callback, NULL);
-
-    cparse_thread_wait(thread);
-
-    cparse_cleanup_test_object(cp_obj);
+    fail_unless(cparse_object_save_in_background(cp_obj, test_cparse_object_callback, NULL));
 }
 END_TEST
 
@@ -176,7 +175,7 @@ END_TEST
 static void cparse_test_count_callback(cParseObject *obj, const char *key, cParseJson *value, void *param)
 {
     if (param) {
-        size_t *p = (size_t *) param;
+        size_t *p = (size_t *)param;
         ++(*p);
         param = p;
     }
@@ -275,7 +274,6 @@ START_TEST(test_cparse_object_update)
     cparse_json_free(updates);
 
     fail_unless(rval);
-
 }
 END_TEST
 
@@ -283,17 +281,12 @@ START_TEST(test_cparse_object_update_in_background)
 {
     cParseObject *cp_obj = cparse_new_test_object("user1", 1234);
     cParseJson *updates = cparse_json_new();
-    cparse_thread thread;
 
     fail_unless(cparse_save_test_object(cp_obj));
 
     cparse_json_set_number(updates, "score", 987);
 
-    thread = cparse_object_update_in_background(cp_obj, updates, test_cparse_object_callback, NULL);
-
-    cparse_thread_wait(thread); /* wait for thread */
-
-    fail_unless(cparse_object_get_number(cp_obj, "score", 0) == 987);
+    fail_unless(cparse_object_update_in_background(cp_obj, updates, test_cparse_object_update_callback, NULL));
 }
 END_TEST
 
@@ -337,12 +330,12 @@ START_TEST(test_cparse_object_delete)
 }
 END_TEST
 
-Suite *cparse_object_suite (void)
+Suite *cparse_object_suite(void)
 {
-    Suite *s = suite_create ("Object");
+    Suite *s = suite_create("Object");
 
     /* Core test case */
-    TCase *tc = tcase_create ("Save/Update");
+    TCase *tc = tcase_create("Save/Update");
     tcase_add_checked_fixture(tc, cparse_test_setup, cparse_test_teardown);
     tcase_add_test(tc, test_cparse_object_save);
     tcase_add_test(tc, test_cparse_object_save_in_background);
@@ -351,7 +344,7 @@ Suite *cparse_object_suite (void)
     tcase_set_timeout(tc, 30);
     suite_add_tcase(s, tc);
 
-    tc = tcase_create ("Attributes");
+    tc = tcase_create("Attributes");
     tcase_add_checked_fixture(tc, cparse_test_setup, cparse_test_teardown);
     tcase_add_test(tc, test_cparse_object_set_value);
     tcase_add_test(tc, test_cparse_object_count_attributes);
@@ -375,4 +368,3 @@ Suite *cparse_object_suite (void)
 
     return s;
 }
-

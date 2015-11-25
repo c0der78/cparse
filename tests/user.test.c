@@ -71,10 +71,7 @@ START_TEST(test_cparse_user_sign_up_in_background)
 {
     cParseObject *obj = cparse_user_with_name(rand_name());
 
-    cparse_thread bg = cparse_user_sign_up_in_background(obj, "Password!", cparse_user_sign_up_callback, NULL);
-
-    cparse_thread_wait(bg);
-
+    fail_unless(cparse_user_sign_up_in_background(obj, "Password!", cparse_user_sign_up_callback, NULL));
 }
 END_TEST
 
@@ -135,7 +132,6 @@ START_TEST(test_cparse_user_login)
     fail_unless(cparse_user_delete(user123, &error));
 
     cparse_user_free(user123);
-
 }
 END_TEST
 
@@ -152,7 +148,6 @@ void cparse_login_callback(cParseObject *obj, cParseError *error, void *param)
 
 START_TEST(test_cparse_login_in_background)
 {
-    cparse_thread bg;
     cParseError *error = NULL;
     bool rval = false;
     const char *userName = rand_name();
@@ -168,9 +163,7 @@ START_TEST(test_cparse_login_in_background)
 
     cparse_user_free(user123);
 
-    bg = cparse_user_login_in_background(userName, "Passw0rd!", cparse_login_callback, NULL);
-
-    cparse_thread_wait(bg);
+    fail_unless(cparse_user_login_in_background(userName, "Passw0rd!", cparse_login_callback, NULL));
 }
 END_TEST
 
@@ -186,12 +179,12 @@ START_TEST(test_cparse_is_user)
 }
 END_TEST
 
-Suite *cparse_user_suite (void)
+Suite *cparse_user_suite(void)
 {
-    Suite *s = suite_create ("User");
+    Suite *s = suite_create("User");
 
     /* Core test case */
-    TCase *tc = tcase_create ("Login");
+    TCase *tc = tcase_create("Login");
     tcase_add_checked_fixture(tc, cparse_test_setup, cparse_test_teardown);
     tcase_add_test(tc, test_cparse_user_login);
     tcase_add_test(tc, test_cparse_login_in_background);
@@ -212,4 +205,3 @@ Suite *cparse_user_suite (void)
 
     return s;
 }
-

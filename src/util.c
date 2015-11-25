@@ -80,6 +80,31 @@ int cparse_str_prefix(const char *astr, const char *bstr)
     return 0;
 }
 
+bool cparse_str_append(char **pstr, const char *append, size_t size)
+{
+    size_t strSize = 0;
+
+    if (pstr == NULL || append == NULL) {
+        cparse_log_errno(EINVAL);
+        return false;
+    }
+
+    strSize = *pstr ? strlen(*pstr) : 0;
+
+    *pstr = realloc(*pstr, strSize + size + 1);
+
+    if (*pstr == NULL) {
+        cparse_log_errno(ENOMEM);
+        return false;
+    }
+
+    memset(*pstr + strSize, 0, size + 1);
+
+    strncat(*pstr, append, size);
+
+    return true;
+}
+
 void cparse_json_add_reference(cParseJson *data, cParseObject *ref)
 {
     if (!data || !ref) {

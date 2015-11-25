@@ -46,6 +46,15 @@ int cparse_str_prefix(const char *a, const char *b);
  */
 int cparse_str_cmp(const char *a, const char *b);
 
+/*! appends a string to another
+ * Note: this function deals with allocated strings only
+ * @param pstr	a pointer to the string to append to
+ * @param size  the size of string to append to
+ * @param append the string to append
+ * @param appendSize the size of the append string
+ */
+bool cparse_str_append(char **pstr, const char *append, size_t size);
+
 /*! adds a reference to an object in json
  * @param data the json data
  * @param ref the object reference

@@ -15,11 +15,9 @@ extern cParseUser *cparse_object_new();
 
 void (*cparse_role_set_public_acl)(cParseRole *role, cParseAccess access, bool value) = cparse_object_set_public_acl;
 
-void (*cparse_role_set_user_acl)(cParseRole *role, cParseUser *user, cParseAccess access,
-                                 bool value) = cparse_object_set_user_acl;
+void (*cparse_role_set_user_acl)(cParseRole *role, cParseUser *user, cParseAccess access, bool value) = cparse_object_set_user_acl;
 
-void (*cparse_role_set_role_acl)(cParseRole *role, cParseRole *other, cParseAccess access,
-                                 bool value) = cparse_object_set_role_acl;
+void (*cparse_role_set_role_acl)(cParseRole *role, cParseRole *other, cParseAccess access, bool value) = cparse_object_set_role_acl;
 
 void (*cparse_role_free)(cParseRole *role) = cparse_object_free;
 
@@ -27,11 +25,9 @@ bool (*cparse_role_save)(cParseRole *role, cParseError **error) = cparse_object_
 
 bool (*cparse_role_delete)(cParseRole *role, cParseError **error) = cparse_object_delete;
 
-cparse_thread (*cparse_role_delete_in_background)(cParseRole *role, cParseObjectCallback callback,
-                                                  void *param) = cparse_object_delete_in_background;
+bool (*cparse_role_delete_in_background)(cParseRole *role, cParseObjectCallback callback, void *param) = cparse_object_delete_in_background;
 
-cparse_thread (*cparse_role_save_in_background)(cParseRole *role, cParseObjectCallback callback,
-                                                void *param) = cparse_object_save_in_background;
+bool (*cparse_role_save_in_background)(cParseRole *role, cParseObjectCallback callback, void *param) = cparse_object_save_in_background;
 
 
 cParseRole *cparse_role_with_name(const char *name)

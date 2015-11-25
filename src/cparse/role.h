@@ -83,12 +83,12 @@ extern bool (*cparse_role_delete)(cParseRole *role, cParseError **error);
 /*! function pointer to save a role in the background
  * @see cparse_object_save_in_background
  */
-extern cparse_thread (*cparse_role_save_in_background)(cParseRole *role, cParseObjectCallback callback, void *param);
+extern bool (*cparse_role_save_in_background)(cParseRole *role, cParseObjectCallback callback, void *param);
 
 /*! function pointer to delete a role in the background
  * @see cparse_object_delete_in_background
  */
-extern cparse_thread (*cparse_role_delete_in_background)(cParseRole *role, cParseObjectCallback callback, void *param);
+extern bool (*cparse_role_delete_in_background)(cParseRole *role, cParseObjectCallback callback, void *param);
 
 END_DECL
 

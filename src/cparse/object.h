@@ -12,9 +12,6 @@
 #include <cparse/defines.h>
 #include <pthread.h>
 
-/*! wrapper for a thread type */
-typedef pthread_t cparse_thread;
-
 /*! callback for iterating object key/values */
 typedef void (*cParseObjectAttributeCallback)(cParseObject *obj, const char *key, cParseJson *value, void *arg);
 
@@ -98,7 +95,7 @@ bool cparse_object_save(cParseObject *obj, cParseError **error);
  * @param param a user defined parameter for the callback
  * @return the background thread identifier
  */
-cparse_thread cparse_object_save_in_background(cParseObject *obj, cParseObjectCallback callback, void *param);
+bool cparse_object_save_in_background(cParseObject *obj, cParseObjectCallback callback, void *param);
 
 /*! updates a parse object
  * @param obj the object instance
@@ -115,8 +112,7 @@ bool cparse_object_update(cParseObject *obj, cParseJson *attributes, cParseError
  * @param param a user defined parameter for the callback
  * @return a background thread identifier
  */
-cparse_thread cparse_object_update_in_background(cParseObject *obj, cParseJson *attributes,
-                                                 cParseObjectCallback callback, void *param);
+bool cparse_object_update_in_background(cParseObject *obj, cParseJson *attributes, cParseObjectCallback callback, void *param);
 
 /*! deletes and object
  * @param obj the object instance
@@ -131,7 +127,7 @@ bool cparse_object_delete(cParseObject *obj, cParseError **error);
  * @param param a user defined parameter for the callback
  * @return the background thread identifier
  */
-cparse_thread cparse_object_delete_in_background(cParseObject *obj, cParseObjectCallback callback, void *param);
+bool cparse_object_delete_in_background(cParseObject *obj, cParseObjectCallback callback, void *param);
 
 /*! refreshes an object' attributes. This does not include other object refereces. (see fetch)
  * @param obj the object instance
@@ -146,7 +142,7 @@ bool cparse_object_refresh(cParseObject *obj, cParseError **error);
  * @param param the user defined parameter for the callback
  * @return the background thread identifier
  */
-cparse_thread cparse_object_refresh_in_background(cParseObject *obj, cParseObjectCallback callback, void *param);
+bool cparse_object_refresh_in_background(cParseObject *obj, cParseObjectCallback callback, void *param);
 
 /*! refreshes an object's attributes, including refereces to other objects.
  * @param obj the object instance
@@ -161,7 +157,7 @@ bool cparse_object_fetch(cParseObject *obj, cParseError **error);
  * @param param the user defined parameter for the callback
  * @return a background thread identifier
  */
-cparse_thread cparse_object_fetch_in_background(cParseObject *obj, cParseObjectCallback callback, void *param);
+bool cparse_object_fetch_in_background(cParseObject *obj, cParseObjectCallback callback, void *param);
 
 /* setters */
 
@@ -324,11 +320,6 @@ void cparse_object_set_user_acl(cParseObject *obj, cParseUser *user, cParseAcces
  * @param value the access value
  */
 void cparse_object_set_role_acl(cParseObject *obj, cParseRole *role, cParseAccess access, bool value);
-
-/*! waits for a background thread
- * @param t the thread instance
- */
-bool cparse_thread_wait(cparse_thread t);
 
 END_DECL
 

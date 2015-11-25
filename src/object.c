@@ -50,10 +50,10 @@ static void *cparse_object_background_action(void *argument)
         (*arg->callback)(arg->obj, error, arg->param);
     }
 
-    /* should never free an error in a callback as we do it here */
     if (error) {
         cparse_log_warn(cparse_error_message(error));
 
+        /* callbacks should never have to free the error parameter */
         cparse_error_free(error);
     }
 
@@ -61,32 +61,28 @@ static void *cparse_object_background_action(void *argument)
         (*arg->cleanup)(arg->obj);
     }
 
-    if (pthread_detach(arg->thread)) {
-        cparse_log_errno(errno);
-    }
-
     free(arg);
 
     return NULL;
 }
 
-cparse_thread cparse_object_run_in_background(cParseObject *obj, cParseObjectAction action,
-                                              cParseObjectCallback callback, void *param,
-                                              void (*cleanup)(cParseObject *obj))
+bool cparse_object_run_in_background(cParseObject *obj, cParseObjectAction action, cParseObjectCallback callback, void *param,
+                                     void (*cleanup)(cParseObject *obj))
 {
     cParseObjectThread *arg = NULL;
     int rc = 0;
+    pthread_t thread;
 
     if (obj == NULL || action == NULL) {
         cparse_log_errno(EINVAL);
-        return 0;
+        return false;
     }
 
     arg = malloc(sizeof(cParseObjectThread));
 
     if (arg == NULL) {
         cparse_log_errno(ENOMEM);
-        return 0;
+        return false;
     }
 
     arg->action = action;
@@ -94,16 +90,22 @@ cparse_thread cparse_object_run_in_background(cParseObject *obj, cParseObjectAct
     arg->param = param;
     arg->cleanup = cleanup;
     arg->callback = callback;
-    arg->thread = 0;
 
-    rc = pthread_create(&arg->thread, NULL, cparse_object_background_action, arg);
+    rc = pthread_create(&thread, NULL, cparse_object_background_action, arg);
 
     if (rc) {
-        cparse_log_error("unable to create background thread");
-        return 0;
+        cparse_log_error("unable to create background thread (%s)", strerror(errno));
+        return false;
     }
 
-    return arg->thread;
+    /* always detatching here....
+     * TODO: might need a way have a joinable thread?
+     */
+    if (pthread_detach(thread)) {
+        cparse_log_errno(errno);
+    }
+
+    return true;
 }
 
 void cparse_object_set_request_includes(cParseObject *obj, cParseRequest *request)
@@ -134,7 +136,7 @@ void cparse_object_set_request_includes(cParseObject *obj, cParseRequest *reques
     cparse_json_foreach_end;
 
     if (types[0] != 0) {
-        cparse_client_request_add_data(request, "include", &types[1]);
+        cparse_request_add_data(request, "include", &types[1]);
     }
 }
 
@@ -153,7 +155,7 @@ cParseRequest *cparse_object_create_request(cParseObject *obj, cParseHttpRequest
         snprintf(buf, CPARSE_BUF_SIZE, "%s", obj->urlPath);
     }
 
-    return cparse_client_request_with_method_and_path(method, buf);
+    return cparse_request_with_method_and_path(method, buf);
 }
 
 /* initializers */
@@ -344,14 +346,14 @@ bool cparse_object_delete(cParseObject *obj, cParseError **error)
         return false;
     }
 
-    rval = cparse_client_request_perform(request, error);
+    rval = cparse_request_execute(request, error);
 
-    cparse_client_request_free(request);
+    cparse_request_free(request);
 
     return rval;
 }
 
-cparse_thread cparse_object_delete_in_background(cParseObject *obj, cParseObjectCallback callback, void *param)
+bool cparse_object_delete_in_background(cParseObject *obj, cParseObjectCallback callback, void *param)
 {
     if (!obj) {
         cparse_log_errno(EINVAL);
@@ -384,9 +386,9 @@ bool cparse_object_fetch(cParseObject *obj, cParseError **error)
 
     cparse_object_set_request_includes(obj, request);
 
-    json = cparse_client_request_get_json(request, error);
+    json = cparse_request_get_json(request, error);
 
-    cparse_client_request_free(request);
+    cparse_request_free(request);
 
     if (json) {
         cparse_object_merge_json(obj, json);
@@ -399,7 +401,7 @@ bool cparse_object_fetch(cParseObject *obj, cParseError **error)
     return false;
 }
 
-cparse_thread cparse_object_fetch_in_background(cParseObject *obj, cParseObjectCallback callback, void *param)
+bool cparse_object_fetch_in_background(cParseObject *obj, cParseObjectCallback callback, void *param)
 {
     if (!obj) {
         cparse_log_errno(EINVAL);
@@ -430,9 +432,9 @@ bool cparse_object_refresh(cParseObject *obj, cParseError **error)
         return false;
     }
 
-    json = cparse_client_request_get_json(request, error);
+    json = cparse_request_get_json(request, error);
 
-    cparse_client_request_free(request);
+    cparse_request_free(request);
 
     if (json) {
         cparse_object_merge_json(obj, json);
@@ -444,7 +446,7 @@ bool cparse_object_refresh(cParseObject *obj, cParseError **error)
     return false;
 }
 
-cparse_thread cparse_object_refresh_in_background(cParseObject *obj, cParseObjectCallback callback, void *param)
+bool cparse_object_refresh_in_background(cParseObject *obj, cParseObjectCallback callback, void *param)
 {
     if (!obj) {
         cparse_log_errno(EINVAL);
@@ -474,11 +476,11 @@ bool cparse_object_save(cParseObject *obj, cParseError **error)
 
     /* build the request based on the id */
     if (cparse_str_empty(obj->objectId)) {
-        request = cparse_client_request_with_method_and_path(cParseHttpRequestMethodPost, obj->urlPath);
+        request = cparse_request_with_method_and_path(cParseHttpRequestMethodPost, obj->urlPath);
     } else {
         char buf[CPARSE_BUF_SIZE + 1] = {0};
         snprintf(buf, CPARSE_BUF_SIZE, "%s/%s", obj->urlPath, obj->objectId);
-        request = cparse_client_request_with_method_and_path(cParseHttpRequestMethodPut, buf);
+        request = cparse_request_with_method_and_path(cParseHttpRequestMethodPut, buf);
     }
 
     if (request == NULL) {
@@ -486,11 +488,11 @@ bool cparse_object_save(cParseObject *obj, cParseError **error)
         return false;
     }
 
-    cparse_client_request_set_payload(request, cparse_json_to_json_string(obj->attributes));
+    cparse_request_add_body(request, cparse_json_to_json_string(obj->attributes));
 
-    json = cparse_client_request_get_json(request, error);
+    json = cparse_request_get_json(request, error);
 
-    cparse_client_request_free(request);
+    cparse_request_free(request);
 
     if (json != NULL) {
         cparse_object_merge_json(obj, json);
@@ -503,7 +505,7 @@ bool cparse_object_save(cParseObject *obj, cParseError **error)
     return false;
 }
 
-cparse_thread cparse_object_save_in_background(cParseObject *obj, cParseObjectCallback callback, void *param)
+bool cparse_object_save_in_background(cParseObject *obj, cParseObjectCallback callback, void *param)
 {
     if (!obj) {
         cparse_log_errno(EINVAL);
@@ -532,18 +534,18 @@ bool cparse_object_update(cParseObject *obj, cParseJson *attributes, cParseError
 
     snprintf(buf, CPARSE_BUF_SIZE, "%s/%s", obj->urlPath, obj->objectId);
 
-    request = cparse_client_request_with_method_and_path(cParseHttpRequestMethodPut, buf);
+    request = cparse_request_with_method_and_path(cParseHttpRequestMethodPut, buf);
 
     if (request == NULL) {
         cparse_log_set_error(error, "unable to create request");
         return false;
     }
 
-    cparse_client_request_set_payload(request, cparse_json_to_json_string(attributes));
+    cparse_request_add_body(request, cparse_json_to_json_string(attributes));
 
-    response = cparse_client_request_get_json(request, error);
+    response = cparse_request_get_json(request, error);
 
-    cparse_client_request_free(request);
+    cparse_request_free(request);
 
     if (response != NULL) {
         cparse_object_merge_json(obj, attributes);
@@ -577,8 +579,7 @@ static bool cparse_object_update_object(cParseObject *obj, cParseError **error)
     return rval;
 }
 
-cparse_thread cparse_object_update_in_background(cParseObject *obj, cParseJson *json, cParseObjectCallback callback,
-                                                 void *param)
+bool cparse_object_update_in_background(cParseObject *obj, cParseJson *json, cParseObjectCallback callback, void *param)
 {
     if (obj == NULL || json == NULL) {
         return 0;
@@ -835,13 +836,4 @@ void cparse_object_set_role_acl(cParseObject *obj, cParseRole *role, cParseAcces
     snprintf(buf, CPARSE_BUF_SIZE, "role:%s", cparse_role_name(role));
 
     cparse_object_add_acl(obj, buf, access, value);
-}
-
-bool cparse_thread_wait(cparse_thread t)
-{
-    if (pthread_join(t, NULL)) {
-        return false;
-    }
-
-    return true;
 }

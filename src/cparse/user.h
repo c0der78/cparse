@@ -43,8 +43,7 @@ cParseUser *cparse_user_login(const char *username, const char *password, cParse
  * @param callback the callback issued if successful
  * @return an identifier for the background thread
  */
-cparse_thread cparse_user_login_in_background(const char *username, const char *password, cParseObjectCallback callback,
-                                              void *param);
+bool cparse_user_login_in_background(const char *username, const char *password, cParseObjectCallback callback, void *param);
 
 /*! logs out the current user */
 void cparse_user_logout();
@@ -68,8 +67,7 @@ bool cparse_user_sign_up(cParseUser *user, const char *password, cParseError **e
  * @param callback the callback issued after signing up
  * @return an identifier for the background thread
  */
-cparse_thread cparse_user_sign_up_in_background(cParseUser *user, const char *password, cParseObjectCallback callback,
-                                                void *param);
+bool cparse_user_sign_up_in_background(cParseUser *user, const char *password, cParseObjectCallback callback, void *param);
 
 /* getters/setters */
 
@@ -125,7 +123,7 @@ bool cparse_user_reset_password(cParseUser *user, cParseError **error);
  * @param param the optional user info for the callback function
  * @return a thread identifier
  */
-cparse_thread cparse_user_reset_password_in_background(cParseUser *user, cParseObjectCallback callback, void *param);
+bool cparse_user_reset_password_in_background(cParseUser *user, cParseObjectCallback callback, void *param);
 
 /*! releases a user object from memory
  * @see cparse_object_free
@@ -140,7 +138,7 @@ extern bool (*cparse_user_delete)(cParseUser *obj, cParseError **error);
 /*! deletes a user in the background
  * @see cparse_object_delete_in_background
  */
-extern cparse_thread (*cparse_user_delete_in_background)(cParseUser *obj, cParseObjectCallback callback, void *param);
+extern bool (*cparse_user_delete_in_background)(cParseUser *obj, cParseObjectCallback callback, void *param);
 
 /*! fetch a user
  * @see cparse_object_fetch
@@ -150,7 +148,7 @@ extern bool (*cparse_user_fetch)(cParseUser *obj, cParseError **error);
 /*! fetch a user in the background
  * @see cparse_object_fetch_in_background
  */
-extern cparse_thread (*cparse_user_fetch_in_background)(cParseUser *obj, cParseObjectCallback callback, void *param);
+extern bool (*cparse_user_fetch_in_background)(cParseUser *obj, cParseObjectCallback callback, void *param);
 
 /*! refresh a user
  * @see cparse_object_refresh
@@ -160,7 +158,7 @@ extern bool (*cparse_user_refresh)(cParseUser *obj, cParseError **error);
 /*! refresh a user in the background
  * @see cparse_object_refresh_in_background
  */
-extern cparse_thread (*cparse_user_refresh_in_background)(cParseUser *user, cParseObjectCallback callback, void *param);
+extern bool (*cparse_user_refresh_in_background)(cParseUser *user, cParseObjectCallback callback, void *param);
 
 
 END_DECL

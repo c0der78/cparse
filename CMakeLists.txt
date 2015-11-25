@@ -7,13 +7,10 @@ list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 option(CODE_COVERAGE "Enable code coverage testing." OFF)
 option(MEMORY_CHECK "Enable testing for memory leaks." OFF)
 
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Werror")
+
 # define project name
 project (cparse)
-
-if(CODE_COVERAGE)
-	include(CodeCoverage)
-	list(APPEND CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS_COVERAGE})
-endif()
 
 include(FindJSONC)
 include(FindCURL)
@@ -37,13 +34,16 @@ enable_testing()
 
 if (MEMORY_CHECK)
 	include(MemCheck)
-	add_memcheck_test(cparse-test ${CMAKE_BINARY_DIR}/tests/cparse_test)
+	add_memcheck_test(${PROJECT_NAME}-test ${CMAKE_BINARY_DIR}/tests/${PROJECT_NAME}_test)
 else ()
-	add_test(cparse-test ${CMAKE_BINARY_DIR}/tests/cparse_test)
+	add_test(${PROJECT_NAME}-test ${CMAKE_BINARY_DIR}/tests/${PROJECT_NAME}_test)
 endif()
 
 # add target for code coverage
+
 if(CODE_COVERAGE)
-	setup_target_for_coverage(coverage ${CMAKE_BINARY_DIR}/tests/cparse_test ${CMAKE_SOURCE_DIR}/coverage)
+	include(CodeCoverage)
+	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${CMAKE_C_FLAGS_COVERAGE}")
+	setup_target_for_coverage(${PROJECT_NAME}-coverage ${CMAKE_BINARY_DIR}/tests/${PROJECT_NAME}_test ${CMAKE_SOURCE_DIR}/coverage)
 endif()
 
