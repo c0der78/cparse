@@ -25,6 +25,7 @@ START_TEST(test_cparse_object_save)
 {
     cParseError *error;
     bool rval;
+
     cParseObject *cp_obj = cparse_new_test_object("user1", 1234);
 
     fail_unless(cparse_save_test_object(cp_obj));

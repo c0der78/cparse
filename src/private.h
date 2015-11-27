@@ -1,7 +1,20 @@
 #ifndef CPARSE_PRIVATE_H
 #define CPARSE_PRIVATE_H
 
-#include <pthread.h>
+/*! a parse client */
+typedef struct cparse_client cParseClient;
+
+/*! a parse response */
+typedef struct cparse_client_response cParseResponse;
+
+/*! a parse request */
+typedef struct cparse_request cParseRequest;
+
+/*! a list of request headers */
+typedef struct cparse_kv_list cParseRequestHeader;
+
+/*! a list of request data (for url encoding on get requests) */
+typedef struct cparse_kv_list cParseRequestData;
 
 struct cparse_object {
     cParseJson *attributes;
@@ -10,6 +23,7 @@ struct cparse_object {
     char *objectId;
     time_t updatedAt;
     time_t createdAt;
+    int requestFlags;
 };
 
 
@@ -82,6 +96,7 @@ typedef bool (*cParseObjectAction)(cParseObject *obj, cParseError **error);
 
 /* for background threads */
 typedef struct {
+    cParseClient *client;
     cParseObject *obj;
     cParseObjectCallback callback; /* the callback passed by user */
     cParseObjectAction action;     /* the method to call in thread */

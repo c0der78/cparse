@@ -50,6 +50,8 @@ static void *cparse_object_background_action(void *argument)
         (*arg->callback)(arg->obj, error, arg->param);
     }
 
+    arg->obj->requestFlags &= ~CPARSE_REQUEST_NEW_CLIENT;
+
     if (error) {
         cparse_log_warn(cparse_error_message(error));
 
@@ -90,6 +92,8 @@ bool cparse_object_run_in_background(cParseObject *obj, cParseObjectAction actio
     arg->param = param;
     arg->cleanup = cleanup;
     arg->callback = callback;
+
+    obj->requestFlags |= CPARSE_REQUEST_NEW_CLIENT;
 
     rc = pthread_create(&thread, NULL, cparse_object_background_action, arg);
 
@@ -143,6 +147,7 @@ void cparse_object_set_request_includes(cParseObject *obj, cParseRequest *reques
 cParseRequest *cparse_object_create_request(cParseObject *obj, cParseHttpRequestMethod method, cParseError **error)
 {
     char buf[CPARSE_BUF_SIZE + 1] = {0};
+    cParseRequest *request = NULL;
 
     if (!obj) {
         cparse_log_set_errno(error, EINVAL);
@@ -155,7 +160,11 @@ cParseRequest *cparse_object_create_request(cParseObject *obj, cParseHttpRequest
         snprintf(buf, CPARSE_BUF_SIZE, "%s", obj->urlPath);
     }
 
-    return cparse_request_with_method_and_path(method, buf);
+    request = cparse_request_with_method_and_path(method, buf);
+
+    request->flags = obj->requestFlags;
+
+    return request;
 }
 
 /* initializers */
@@ -174,6 +183,7 @@ cParseObject *cparse_object_new()
     obj->createdAt = 0;
     obj->updatedAt = 0;
     obj->attributes = cparse_json_new();
+    obj->requestFlags = 0;
 
     return obj;
 }
@@ -192,6 +202,7 @@ void cparse_object_copy(cParseObject *obj, cParseObject *other)
     obj->updatedAt = other->updatedAt;
 
     cparse_object_merge_json(obj, other->attributes);
+    obj->requestFlags = other->requestFlags;
 }
 
 cParseObject *cparse_object_with_class_name(const char *className)
@@ -206,11 +217,25 @@ cParseObject *cparse_object_with_class_name(const char *className)
 
     obj = cparse_object_new();
 
+    if (obj == NULL) {
+        return NULL;
+    }
+
     obj->className = strdup(className);
+
+    if (obj->className == NULL) {
+        cparse_object_free(obj);
+        return NULL;
+    }
 
     snprintf(buf, CPARSE_BUF_SIZE, "%s%s", CPARSE_OBJECTS_PATH, className);
 
     obj->urlPath = strdup(buf);
+
+    if (obj->urlPath == NULL) {
+        cparse_object_free(obj);
+        return NULL;
+    }
 
     return obj;
 }
@@ -231,7 +256,18 @@ cParseObject *cparse_object_from_query(cParseQuery *query, cParseJson *json)
     }
 
     obj->className = strdup(query->className);
+
+    if (obj->className == NULL) {
+        cparse_object_free(obj);
+        return NULL;
+    }
+
     obj->urlPath = strdup(query->urlPath);
+
+    if (obj->urlPath == NULL) {
+        cparse_object_free(obj);
+        return NULL;
+    }
 
     cparse_object_merge_json(obj, json);
 

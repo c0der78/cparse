@@ -35,6 +35,8 @@ const char *const cParseHttpRequestMethodNames[] = {"GET", "POST", "PUT", "DELET
 
 cParseClient *cparse_client_instance = NULL;
 
+cParseResponse *cparse_client_execute(cParseRequest *request);
+
 cParseClient *cparse_client_with_version(const char *apiVersion)
 {
     cParseClient *client = NULL;
@@ -143,6 +145,7 @@ struct curl_slist *cparse_client_default_headers()
 
     return headers;
 }
+
 bool cparse_client_init(cParseClient *client, const char *apiVersion)
 {
     if (client == NULL) {
@@ -551,6 +554,17 @@ bool cparse_request_execute(cParseRequest *request, cParseError **error)
         return false;
     }
 
+
+    if (cparse_client_instance == NULL) {
+        cparse_client_instance = cparse_client_new();
+
+        if (cparse_client_instance == NULL || !cparse_client_init(cparse_client_instance, CPARSE_API_VERSION)) {
+            cparse_log_error("Could not create client instance, most likely out of memory!");
+            return false;
+        }
+    }
+
+
     response = cparse_client_execute(request);
 
     if (response != NULL) {
@@ -674,8 +688,35 @@ static struct curl_slist *cparse_request_build_headers(cParseRequest *request)
     return headers;
 }
 
+cParseClient *cparse_request_get_client(cParseRequest *request)
+{
+    cParseClient *client = NULL;
+
+    if (request->flags & CPARSE_REQUEST_NEW_CLIENT) {
+        client = cparse_client_new();
+
+        if (client == NULL || !cparse_client_init(client, CPARSE_API_VERSION)) {
+            cparse_log_error("Could not create client instance, most likely out of memory!");
+            return NULL;
+        }
+
+    } else {
+        if (cparse_client_instance == NULL) {
+            cparse_client_instance = cparse_client_new();
+
+            if (cparse_client_instance == NULL || !cparse_client_init(cparse_client_instance, CPARSE_API_VERSION)) {
+                cparse_log_error("Could not create client instance, most likely out of memory!");
+                return NULL;
+            }
+        }
+        client = cparse_client_instance;
+    }
+    return client;
+}
+
 cParseResponse *cparse_client_execute(cParseRequest *request)
 {
+    cParseClient *client = NULL;
     CURL *curl = NULL;
     CURLcode res = 0;
     cParseResponse *response = NULL;
@@ -686,17 +727,14 @@ cParseResponse *cparse_client_execute(cParseRequest *request)
         return NULL;
     }
 
-    if (cparse_client_instance == NULL) {
-        cparse_client_instance = cparse_client_new();
+    client = cparse_request_get_client(request);
 
-        if (cparse_client_instance == NULL || !cparse_client_init(cparse_client_instance, CPARSE_API_VERSION)) {
-            cparse_log_error("Could not create client instance, most likely out of memory!");
-            return NULL;
-        }
+    if (client == NULL) {
+        return NULL;
     }
 
     /* until i get around to simplifing this function */
-    curl = cparse_client_instance->cURL;
+    curl = client->cURL;
 
     /* reset from last request */
     curl_easy_reset(curl);

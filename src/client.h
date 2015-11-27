@@ -4,21 +4,7 @@
 #include <stdlib.h>
 #include <curl/curl.h>
 #include <cparse/defines.h>
-
-/*! a parse client */
-typedef struct cparse_client cParseClient;
-
-/*! a parse response */
-typedef struct cparse_client_response cParseResponse;
-
-/*! a parse request */
-typedef struct cparse_request cParseRequest;
-
-/*! a list of request headers */
-typedef struct cparse_kv_list cParseRequestHeader;
-
-/*! a list of request data (for url encoding on get requests) */
-typedef struct cparse_kv_list cParseRequestData;
+#include "private.h"
 
 /*! HTTP Request Method Types */
 typedef enum {
@@ -36,7 +22,10 @@ struct cparse_request {
     size_t bodySize;
     cParseHttpRequestMethod method;
     cParseRequestHeader *headers;
+    int flags;
 };
+
+#define CPARSE_REQUEST_NEW_CLIENT (1 << 0)
 
 extern int cparse_request_timeout;
 
@@ -105,12 +94,6 @@ void cparse_request_free(cParseRequest *request);
  * \return true if successfull otherwise false
  */
 bool cparse_request_execute(cParseRequest *request, cParseError **error);
-
-/*! performs a request
- * \param request the request instance
- * \return a response
- */
-cParseResponse *cparse_client_execute(cParseRequest *request);
 
 END_DECL
 
