@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <cparse/user.h>
 #include <cparse/util.h>
-#include "../src/private.h"
+#include "private.h"
 #include "parse.test.h"
 
 extern cParseObject *__cparse_current_user;
@@ -72,6 +72,8 @@ START_TEST(test_cparse_user_sign_up_in_background)
     cParseObject *obj = cparse_user_with_name(rand_name());
 
     fail_unless(cparse_user_sign_up_in_background(obj, "Password!", cparse_user_sign_up_callback, NULL));
+
+    wait_for_threads();
 }
 END_TEST
 
@@ -164,6 +166,8 @@ START_TEST(test_cparse_login_in_background)
     cparse_user_free(user123);
 
     fail_unless(cparse_user_login_in_background(userName, "Passw0rd!", cparse_login_callback, NULL));
+
+    wait_for_threads();
 }
 END_TEST
 

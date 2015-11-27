@@ -25,6 +25,10 @@
 
 extern cParseUser *__cparse_current_user;
 
+pthread_mutex_t cparse_thread_count_mutex;
+
+int cparse_thread_count = 0;
+
 /* this is a background thread. The argument controlls functionality*/
 static void *cparse_object_background_action(void *argument)
 {
@@ -65,6 +69,10 @@ static void *cparse_object_background_action(void *argument)
 
     free(arg);
 
+    pthread_mutex_lock(&cparse_thread_count_mutex);
+    cparse_thread_count--;
+    pthread_mutex_unlock(&cparse_thread_count_mutex);
+
     return NULL;
 }
 
@@ -101,6 +109,10 @@ bool cparse_object_run_in_background(cParseObject *obj, cParseObjectAction actio
         cparse_log_error("unable to create background thread (%s)", strerror(errno));
         return false;
     }
+
+    pthread_mutex_lock(&cparse_thread_count_mutex);
+    cparse_thread_count++;
+    pthread_mutex_unlock(&cparse_thread_count_mutex);
 
     /* always detatching here....
      * TODO: might need a way have a joinable thread?

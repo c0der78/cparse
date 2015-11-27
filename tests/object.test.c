@@ -3,12 +3,13 @@
 #endif
 #include <check.h>
 #include <stdio.h>
+#include <unistd.h>
 #include <cparse/object.h>
 #include <cparse/parse.h>
 #include <cparse/json.h>
 #include <cparse/error.h>
 
-#include "../src/private.h"
+#include "private.h"
 
 #include "parse.test.h"
 
@@ -19,6 +20,15 @@ static void cparse_test_setup()
 static void cparse_test_teardown()
 {
     cparse_cleanup_test_objects();
+}
+
+extern int cparse_thread_count;
+
+void wait_for_threads()
+{
+    while (cparse_thread_count > 0) {
+        sleep(1);
+    }
 }
 
 START_TEST(test_cparse_object_save)
@@ -64,6 +74,30 @@ void test_cparse_object_update_callback(cParseObject *obj, cParseError *error, v
 
     fail_unless(cparse_object_get_number(obj, "score", 0) == 987);
 }
+
+START_TEST(test_cparse_object_save_in_background)
+{
+    cParseObject *cp_obj = cparse_new_test_object("user1", 1234);
+
+    fail_unless(cparse_object_save_in_background(cp_obj, test_cparse_object_callback, NULL));
+
+    wait_for_threads();
+}
+END_TEST
+
+START_TEST(test_cparse_object_set_value)
+{
+    cParseObject *cp_obj = cparse_object_with_class_name(TEST_CLASS);
+
+    cparse_object_set_number(cp_obj, "score", 1234);
+
+    fail_unless(cparse_object_attribute_size(cp_obj) == 1);
+
+    fail_unless(cparse_object_get_number(cp_obj, "score", 0) == 1234);
+
+    cparse_object_free(cp_obj);
+}
+END_TEST
 
 START_TEST(test_cparse_object_fetch)
 {
@@ -111,6 +145,8 @@ START_TEST(test_cparse_object_fetch)
     fail_unless(cparse_json_num_keys(data) > 3);
 
     fail_unless(cparse_object_fetch_in_background(cp_obj, test_cparse_object_callback, NULL));
+
+    wait_for_threads();
 }
 END_TEST
 
@@ -147,29 +183,8 @@ START_TEST(test_cparse_object_refresh)
     fail_unless(cparse_object_get_number(obj2, "score", 0) == 1444);
 
     fail_unless(cparse_object_refresh_in_background(obj2, test_cparse_object_callback, NULL));
-}
-END_TEST
 
-START_TEST(test_cparse_object_save_in_background)
-{
-    cParseObject *cp_obj = cparse_new_test_object("user1", 1234);
-
-    fail_unless(cparse_object_save_in_background(cp_obj, test_cparse_object_callback, NULL));
-}
-END_TEST
-
-
-START_TEST(test_cparse_object_set_value)
-{
-    cParseObject *cp_obj = cparse_object_with_class_name(TEST_CLASS);
-
-    cparse_object_set_number(cp_obj, "score", 1234);
-
-    fail_unless(cparse_object_attribute_size(cp_obj) == 1);
-
-    fail_unless(cparse_object_get_number(cp_obj, "score", 0) == 1234);
-
-    cparse_object_free(cp_obj);
+    wait_for_threads();
 }
 END_TEST
 
@@ -288,6 +303,8 @@ START_TEST(test_cparse_object_update_in_background)
     cparse_json_set_number(updates, "score", 987);
 
     fail_unless(cparse_object_update_in_background(cp_obj, updates, test_cparse_object_update_callback, NULL));
+
+    wait_for_threads();
 }
 END_TEST
 

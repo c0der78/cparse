@@ -55,6 +55,13 @@ int cparse_str_cmp(const char *a, const char *b);
  */
 bool cparse_str_append(char **pstr, const char *append, size_t size);
 
+/*! builds a dynamic string
+ * Note: if the string provided is not empty it will be free'd
+ * @param buf a pointer to a string to build
+ * @return true if successful
+ */
+bool cparse_build_string(char **buf, const char *firstString, ...);
+
 /*! adds a reference to an object in json
  * @param data the json data
  * @param ref the object reference

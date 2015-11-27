@@ -9,7 +9,6 @@
 
 static void cparse_test_setup()
 {
-
 }
 
 static void cparse_test_teardown()
@@ -63,7 +62,7 @@ START_TEST(test_cparse_query_where)
     cParseObject *result;
 
     /* create a user with a score */
-    int randScore  = rand() % 100000 + 1;
+    int randScore = rand() % 100000 + 1;
 
     fail_unless(cparse_create_and_save_test_object("user1", randScore));
 
@@ -97,12 +96,12 @@ START_TEST(test_cparse_query_where)
 }
 END_TEST
 
-Suite *cparse_query_suite (void)
+Suite *cparse_query_suite(void)
 {
-    Suite *s = suite_create ("Query");
+    Suite *s = suite_create("Query");
 
     /* Core test case */
-    TCase *tc = tcase_create ("Where");
+    TCase *tc = tcase_create("Where");
     tcase_add_checked_fixture(tc, cparse_test_setup, cparse_test_teardown);
     tcase_add_test(tc, test_cparse_query_objects);
     tcase_add_test(tc, test_cparse_query_where);

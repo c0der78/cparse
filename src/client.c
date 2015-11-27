@@ -435,7 +435,6 @@ static bool cparse_request_append_data(cParseRequest *request, const char *key, 
         return false;
     }
 
-
     if (key == NULL) {
         ssize = strlen(value);
 
@@ -489,60 +488,56 @@ static bool cparse_request_build_body(cParseClient *client, cParseRequest *reque
 
     return true;
 }
+
 static bool cparse_client_set_request_url(cParseClient *client, cParseRequest *request)
 {
     char *buf = NULL;
-    bool success = true;
 
-    if (client == NULL || !request) {
+    if (client == NULL || request == NULL) {
         cparse_log_errno(EINVAL);
         return false;
     }
-
     /*
      * Maximum length of a URI doesn't not seem to be standard.
      * Going with a dynamic string.
      */
-    buf = strdup(cparse_domain);
-
-    if (buf == NULL) {
-        cparse_log_errno(ENOMEM);
+    if (!cparse_build_string(&buf, cparse_domain, "/", client->apiVersion, "/", request->path, NULL)) {
         return false;
     }
 
-    success = success && cparse_str_append(&buf, "/", 1);
-
-    success = success && cparse_str_append(&buf, client->apiVersion, strlen(client->apiVersion));
-
-    success = success && cparse_str_append(&buf, "/", 1);
-
-    success = success && cparse_str_append(&buf, request->path, strlen(request->path));
-
-    if (success && request->data) {
+    if (request->data) {
         if (request->method == cParseHttpRequestMethodGet) {
-            success = success && cparse_request_build_body(client->cURL, request, true);
+            if (!cparse_request_build_body(client->cURL, request, true)) {
+                free(buf);
+                return false;
+            }
 
-            success = success && cparse_str_append(&buf, "?", 1);
-
-            success = success && cparse_str_append(&buf, request->body, request->bodySize);
+            if (!cparse_build_string(&buf, "?", request->body, NULL)) {
+                // don't free buf here, cparse_build_string() will do that
+                return false;
+            }
 
         } else {
-            success = success && cparse_request_build_body(client->cURL, request, false);
+            if (!cparse_request_build_body(client->cURL, request, false)) {
+                free(buf);
+                return false;
+            }
 
             curl_easy_setopt(client->cURL, CURLOPT_POSTFIELDS, request->body);
             curl_easy_setopt(client->cURL, CURLOPT_POSTFIELDSIZE, request->bodySize);
         }
     }
 
-    success = success && curl_easy_setopt(client->cURL, CURLOPT_URL, buf) == CURLE_OK;
+    cparse_log_debug("URL: %s", buf);
 
-    if (success) {
-        cparse_log_debug("URL: %s", buf);
+    if (curl_easy_setopt(client->cURL, CURLOPT_URL, buf) != CURLE_OK) {
+        free(buf);
+        return false;
     }
 
     free(buf);
 
-    return success;
+    return true;
 }
 
 bool cparse_request_execute(cParseRequest *request, cParseError **error)
@@ -554,7 +549,6 @@ bool cparse_request_execute(cParseRequest *request, cParseError **error)
         return false;
     }
 
-
     if (cparse_client_instance == NULL) {
         cparse_client_instance = cparse_client_new();
 
@@ -563,7 +557,6 @@ bool cparse_request_execute(cParseRequest *request, cParseError **error)
             return false;
         }
     }
-
 
     response = cparse_client_execute(request);
 
@@ -660,7 +653,6 @@ static struct curl_slist *cparse_request_build_headers(cParseRequest *request)
 {
     struct curl_slist *headers = NULL;
 
-
     if (request->headers != NULL) {
         cParseRequestHeader *header = NULL;
 
@@ -755,9 +747,9 @@ cParseResponse *cparse_client_execute(cParseRequest *request)
             break;
     }
 
-    curl_easy_setopt(curl, CURLOPT_TIMEOUT, cparse_client_request_timeout);
+    curl_easy_setopt(curl, CURLOPT_TIMEOUT, client);
 
-    cparse_client_set_request_url(cparse_client_instance, request);
+    cparse_client_set_request_url(client, request);
 
     cparse_log_trace("Method: %s", cParseHttpRequestMethodNames[request->method]);
 

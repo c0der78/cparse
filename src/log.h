@@ -19,7 +19,7 @@ void cparse_log_debug(const char *const format, ...) __attribute__((format(print
 void cparse_log_trace(const char *const format, ...) __attribute__((format(printf, 1, 2)));
 
 
-#define cparse_log_errno(errnum)  cparse_log_error("%d: %s", errnum, strerror(errnum))
+#define cparse_log_errno(errnum) cparse_log_error("%s:%d %s (%d)", __FILE__, __LINE__, strerror(errnum), errnum)
 
 void cparse_log_set_error(cParseError **error, const char *const format, ...) __attribute__((format(printf, 2, 3)));
 
