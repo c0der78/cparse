@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <cparse/user.h>
 #include <cparse/util.h>
-#include "../src/private.h"
+#include "private.h"
 #include "parse.test.h"
 
 extern cParseObject *__cparse_current_user;

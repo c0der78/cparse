@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
+#include <stdarg.h>
 #include <cparse/util.h>
 #include <cparse/json.h>
 #include <cparse/object.h>
@@ -101,6 +102,38 @@ bool cparse_str_append(char **pstr, const char *append, size_t size)
     memset(*pstr + strSize, 0, size + 1);
 
     strncat(*pstr, append, size);
+
+    return true;
+}
+
+bool cparse_build_string(char **buf, const char *firstString, ...)
+{
+    const char *arg = NULL;
+    va_list args;
+
+    if (buf == NULL) {
+      cparse_log_errno(EINVAL);
+      return false;
+    }
+
+    if (!cparse_str_empty(*buf)) {
+        free(*buf);
+        *buf = NULL;
+    }
+
+    if (!cparse_str_append(buf, firstString, strlen(firstString))) {
+        return false;
+    }
+
+    va_start(args, firstString);
+
+    while((arg = va_arg(args, const char *)) != NULL)
+    {
+        if (!cparse_str_append(buf, arg, strlen(arg))) {
+            free(buf);
+            return false;
+        }
+    }
 
     return true;
 }

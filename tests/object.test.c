@@ -8,7 +8,7 @@
 #include <cparse/json.h>
 #include <cparse/error.h>
 
-#include "../src/private.h"
+#include "private.h"
 
 #include "parse.test.h"
 
