@@ -116,11 +116,6 @@ bool cparse_build_string(char **buf, const char *firstString, ...)
         return false;
     }
 
-    if (!cparse_str_empty(*buf)) {
-        free(*buf);
-        *buf = NULL;
-    }
-
     if (!cparse_str_append(buf, firstString, strlen(firstString))) {
         return false;
     }

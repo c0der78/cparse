@@ -10,6 +10,7 @@
 #include <cparse/role.h>
 #include <stdio.h>
 #include "client.h"
+#include "request.h"
 #include "protocol.h"
 #include <cparse/util.h>
 #include <cparse/parse.h>
@@ -25,7 +26,7 @@
 
 extern cParseUser *__cparse_current_user;
 
-pthread_mutex_t cparse_thread_count_mutex;
+pthread_mutex_t cparse_thread_count_mutex = PTHREAD_MUTEX_INITIALIZER;
 
 int cparse_thread_count = 0;
 
@@ -53,8 +54,6 @@ static void *cparse_object_background_action(void *argument)
     if (arg->callback) {
         (*arg->callback)(arg->obj, error, arg->param);
     }
-
-    arg->obj->requestFlags &= ~CPARSE_REQUEST_NEW_CLIENT;
 
     if (error) {
         cparse_log_warn(cparse_error_message(error));
@@ -100,8 +99,6 @@ bool cparse_object_run_in_background(cParseObject *obj, cParseObjectAction actio
     arg->param = param;
     arg->cleanup = cleanup;
     arg->callback = callback;
-
-    obj->requestFlags |= CPARSE_REQUEST_NEW_CLIENT;
 
     rc = pthread_create(&thread, NULL, cparse_object_background_action, arg);
 
@@ -174,8 +171,6 @@ cParseRequest *cparse_object_create_request(cParseObject *obj, cParseHttpRequest
 
     request = cparse_request_with_method_and_path(method, buf);
 
-    request->flags = obj->requestFlags;
-
     return request;
 }
 
@@ -195,7 +190,6 @@ cParseObject *cparse_object_new()
     obj->createdAt = 0;
     obj->updatedAt = 0;
     obj->attributes = cparse_json_new();
-    obj->requestFlags = 0;
 
     return obj;
 }
@@ -214,7 +208,6 @@ void cparse_object_copy(cParseObject *obj, cParseObject *other)
     obj->updatedAt = other->updatedAt;
 
     cparse_object_merge_json(obj, other->attributes);
-    obj->requestFlags = other->requestFlags;
 }
 
 cParseObject *cparse_object_with_class_name(const char *className)
@@ -446,6 +439,7 @@ bool cparse_object_fetch(cParseObject *obj, cParseError **error)
         return true;
     }
 
+    cparse_log_debug("No json response for fetch");
     return false;
 }
 
@@ -491,6 +485,8 @@ bool cparse_object_refresh(cParseObject *obj, cParseError **error)
 
         return true;
     }
+
+    cparse_log_debug("no json response for refresh");
     return false;
 }
 
@@ -550,6 +546,7 @@ bool cparse_object_save(cParseObject *obj, cParseError **error)
         return true;
     }
 
+    cparse_log_debug("no json response for save");
     return false;
 }
 
@@ -605,6 +602,7 @@ bool cparse_object_update(cParseObject *obj, cParseJson *attributes, cParseError
         return true;
     }
 
+    cparse_log_debug("no json response from update");
     return false;
 }
 

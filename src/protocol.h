@@ -103,4 +103,6 @@ extern const char *const CPARSE_RESERVED_KEYS[];
 
 #define CPARSE_API_VERSION "1"
 
+#define CPARSE_CLIENT_TIMEOUT 20
+
 #endif

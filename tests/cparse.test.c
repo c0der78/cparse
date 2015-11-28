@@ -11,10 +11,10 @@ Suite *cparse_json_suite();
 Suite *cparse_object_suite();
 Suite *cparse_query_suite();
 Suite *cparse_util_suite();
-Suite *cparse_user_suite ();
-Suite *cparse_client_suite ();
-Suite *cparse_acl_suite ();
-Suite *cparse_role_suite ();
+Suite *cparse_user_suite();
+Suite *cparse_client_suite();
+Suite *cparse_acl_suite();
+Suite *cparse_role_suite();
 
 extern int cparse_cleanup_test_objects();
 extern const char *cparse_app_id;
@@ -59,12 +59,12 @@ int main(void)
     srunner_add_suite(sr, cparse_client_suite());
     srunner_add_suite(sr, cparse_acl_suite());
     srunner_add_suite(sr, cparse_role_suite());
-    srunner_run_all (sr, CK_NORMAL);
-    number_failed = srunner_ntests_failed (sr);
-    srunner_free (sr);
+    srunner_run_all(sr, CK_ENV);
+    number_failed = srunner_ntests_failed(sr);
+    srunner_free(sr);
 
-    free( (char*) cparse_app_id);
-    free( (char*) cparse_api_key);
+    free((char *)cparse_app_id);
+    free((char *)cparse_api_key);
 
     return (number_failed == 0) ? EXIT_SUCCESS : EXIT_FAILURE;
 }
@@ -85,12 +85,10 @@ void read_test_config()
 
     file = fopen(ROOT_PATH "/tests/parse.test.json", "rb");
 
-    if (!file)
-    {
+    if (!file) {
         file = fopen(ROOT_PATH "/parse.test.json", "rb");
 
-        if (!file)
-        {
+        if (!file) {
             puts("parse.test.json not found");
             return;
         }
@@ -104,8 +102,7 @@ void read_test_config()
 
     memset(text, 0, sizeof(char) * fsize + 1);
 
-    if (!fread(text, sizeof(char), fsize, file))
-    {
+    if (!fread(text, sizeof(char), fsize, file)) {
         die("error reading file");
     }
 
@@ -117,15 +114,13 @@ void read_test_config()
 
     if (cparse_json_contains(config, "parseAppId")) {
         cparse_set_application_id(cparse_json_get_string(config, "parseAppId"));
-    }
-    else {
+    } else {
         die("No app id");
     }
 
     if (cparse_json_contains(config, "parseApiKey")) {
         cparse_set_api_key(cparse_json_get_string(config, "parseApiKey"));
-    }
-    else {
+    } else {
         die("No api key");
     }
 

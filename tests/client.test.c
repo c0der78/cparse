@@ -2,6 +2,8 @@
 #include "private.h"
 #include <cparse/error.h>
 #include "parse.test.h"
+#include "request.h"
+#include "data_list.h"
 #include <check.h>
 
 static void cparse_test_setup()

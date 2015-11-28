@@ -16,9 +16,13 @@
 #include "client.h"
 #include "protocol.h"
 #include "private.h"
+#include "request.h"
+#include "data_list.h"
 #include "log.h"
 
-/*! the base domain for Parse requests */
+/*! the base domain for Parse requests
+ * TODO: make this configurable
+ */
 const char *const cparse_domain = "https://api.parse.com";
 
 extern const char *const cparse_lib_version;
@@ -27,15 +31,33 @@ extern const char *cparse_api_key;
 
 extern const char *cparse_app_id;
 
-int cparse_client_request_timeout = 0;
-
-char cparse_client_session_token[CPARSE_BUF_SIZE + 1] = {0};
-
 const char *const cParseHttpRequestMethodNames[] = {"GET", "POST", "PUT", "DELETE"};
 
-cParseClient *cparse_client_instance = NULL;
+/*! the global client instance
+ */
+cParseClient *cparse_this_client = NULL;
 
-cParseResponse *cparse_client_execute(cParseRequest *request);
+cParseClient *cparse_client_new()
+{
+    cParseClient *client = malloc(sizeof(cParseClient));
+
+    if (client == NULL) {
+        cparse_log_errno(ENOMEM);
+        return NULL;
+    }
+
+    client->timeout = CPARSE_CLIENT_TIMEOUT;
+
+    client->headers = NULL;
+
+    client->cURL = NULL;
+
+    client->sessionToken = NULL;
+
+    pthread_mutex_init(&client->lock, NULL);
+
+    return client;
+}
 
 cParseClient *cparse_client_with_version(const char *apiVersion)
 {
@@ -46,24 +68,15 @@ cParseClient *cparse_client_with_version(const char *apiVersion)
         return NULL;
     }
 
-    if (cparse_str_empty(cparse_app_id) || cparse_str_empty(cparse_api_key)) {
-        cparse_log_error("cparse not configured");
-        return NULL;
-    }
-
-    client = malloc(sizeof(cParseClient));
+    client = cparse_client_new();
 
     if (client == NULL) {
-        cparse_log_errno(ENOMEM);
         return NULL;
     }
 
-    return client;
-}
+    client->apiVersion = strdup(apiVersion);
 
-cParseClient *cparse_client_new()
-{
-    return cparse_client_with_version(CPARSE_API_VERSION);
+    return client;
 }
 
 void cparse_client_free(cParseClient *client)
@@ -73,8 +86,12 @@ void cparse_client_free(cParseClient *client)
     }
 
     if (client->cURL) {
+        pthread_mutex_lock(&client->lock);
         curl_easy_cleanup(client->cURL);
+        pthread_mutex_unlock(&client->lock);
     }
+
+    pthread_mutex_destroy(&client->lock);
 
     if (client->apiVersion) {
         free(client->apiVersion);
@@ -112,7 +129,7 @@ static bool cparse_curl_slist_append(struct curl_slist **list, const char *forma
     return true;
 }
 
-struct curl_slist *cparse_client_default_headers()
+static struct curl_slist *cparse_client_default_headers()
 {
     struct curl_slist *headers = NULL;
 
@@ -137,247 +154,37 @@ struct curl_slist *cparse_client_default_headers()
         return NULL;
     }
 
-    if (!cparse_str_empty(cparse_client_session_token)) {
-        if (!cparse_curl_slist_append(&headers, "%s: %s", CPARSE_HEADER_SESSION_TOKEN, cparse_client_session_token)) {
-            return NULL;
-        }
-    }
-
     return headers;
 }
 
-bool cparse_client_init(cParseClient *client, const char *apiVersion)
+static bool cparse_client_init(cParseClient *client)
 {
     if (client == NULL) {
         cparse_log_errno(EINVAL);
         return false;
     }
 
-    client->cURL = curl_easy_init();
-
     if (client->cURL == NULL) {
-        cparse_log_errno(ENOMEM);
-        return false;
+        pthread_mutex_lock(&client->lock);
+        client->cURL = curl_easy_init();
+        pthread_mutex_unlock(&client->lock);
+
+        if (client->cURL == NULL) {
+            cparse_log_errno(ENOMEM);
+            return false;
+        }
     }
 
-    client->apiVersion = strdup(apiVersion);
-
-    client->headers = cparse_client_default_headers();
-
     if (client->headers == NULL) {
-        cparse_log_error("could not create default headers for client, most likely out of memory");
-        return false;
+        client->headers = cparse_client_default_headers();
+
+        if (client->headers == NULL) {
+            cparse_log_error("could not create default headers for client, most likely out of memory");
+            return false;
+        }
     }
 
     return true;
-}
-
-
-/*! allocates a new key value list */
-struct cparse_kv_list *cparse_kv_list_new()
-{
-    struct cparse_kv_list *list = malloc(sizeof(struct cparse_kv_list));
-
-    if (list == NULL) {
-        cparse_log_errno(ENOMEM);
-        return NULL;
-    }
-
-    list->next = NULL;
-    list->key = NULL;
-    list->value = NULL;
-    return list;
-}
-
-/*! deallocates a key value list */
-void cparse_kv_list_free(struct cparse_kv_list *list)
-{
-    if (!list) {
-        return;
-    }
-
-    if (list->key) {
-        free(list->key);
-    }
-    if (list->value) {
-        free(list->value);
-    }
-    free(list);
-}
-
-/*! allocates a new client request
- * \param method the http method to use
- * \param path the path/endpoint to request
- */
-cParseRequest *cparse_request_with_method_and_path(cParseHttpRequestMethod method, const char *path)
-{
-    cParseRequest *request = malloc(sizeof(cParseRequest));
-
-    if (request == NULL) {
-        cparse_log_errno(ENOMEM);
-        return NULL;
-    }
-
-    request->path = strdup(path);
-    request->body = NULL;
-    request->bodySize = 0;
-    request->data = NULL;
-    request->method = method;
-    request->headers = NULL;
-
-    return request;
-}
-
-/*! deallocates a client request */
-void cparse_request_free(cParseRequest *request)
-{
-    cParseRequestHeader *header = NULL, *next_header = NULL;
-    cParseRequestData *data = NULL, *next_data = NULL;
-
-    if (!request) {
-        return;
-    }
-
-    if (request->path) {
-        free(request->path);
-    }
-    if (request->body) {
-        free(request->body);
-    }
-
-    for (header = request->headers; header; header = next_header) {
-        next_header = header->next;
-
-        cparse_kv_list_free(header);
-    }
-
-    for (data = request->data; data; data = next_data) {
-        next_data = data->next;
-
-        cparse_kv_list_free(data);
-    }
-    free(request);
-}
-
-cParseResponse *cparse_response_new()
-{
-    cParseResponse *response = malloc(sizeof(cParseResponse));
-
-    if (response == NULL) {
-        cparse_log_errno(ENOMEM);
-        return NULL;
-    }
-
-    response->text = NULL;
-    response->code = 0;
-    response->size = 0;
-
-    return response;
-}
-
-/*! deallocates a response */
-void cparse_response_free(cParseResponse *response)
-{
-    if (!response) {
-        return;
-    }
-
-    if (response->size > 0 && response->text) {
-        free(response->text);
-    }
-
-    free(response);
-}
-
-void cparse_request_add_header(cParseRequest *request, const char *key, const char *value)
-{
-    cParseRequestHeader *header = NULL;
-
-    if (!request || cparse_str_empty(key) || cparse_str_empty(value)) {
-        cparse_log_errno(EINVAL);
-        return;
-    }
-
-    header = cparse_kv_list_new();
-
-    if (header == NULL) {
-        return;
-    }
-
-    header->next = request->headers;
-    request->headers = header;
-
-    header->key = strdup(key);
-    header->value = strdup(value);
-}
-
-void cparse_request_add_body(cParseRequest *request, const char *body)
-{
-    cParseRequestData *data = NULL, *next_data = NULL;
-
-    if (request == NULL || cparse_str_empty(body)) {
-        cparse_log_errno(EINVAL);
-        return;
-    }
-
-    /* free the request data, as the two are synonymous */
-    for (data = request->data; data; data = next_data) {
-        next_data = data->next;
-
-        /* data has a key */
-        if (data->key) {
-            cparse_kv_list_free(data);
-        }
-    }
-
-    request->data = NULL;
-
-    data = cparse_kv_list_new();
-
-    if (data == NULL) {
-        return;
-    }
-
-    data->next = request->data;
-    request->data = data;
-
-    /* body has no key */
-    data->key = NULL;
-    data->value = strdup(body);
-}
-
-void cparse_request_add_data(cParseRequest *request, const char *key, const char *value)
-{
-    cParseRequestData *data = NULL, *next_data = NULL;
-
-    if (!request || cparse_str_empty(key) || cparse_str_empty(value)) {
-        cparse_log_errno(EINVAL);
-        return;
-    }
-
-    /* free the request body, as the two are synonymous */
-    for (data = request->data; data; data = next_data) {
-        next_data = data->next;
-
-        /* body has no key */
-        if (data->key == NULL) {
-            cparse_kv_list_free(data);
-        }
-    }
-
-    request->data = NULL;
-
-    data = cparse_kv_list_new();
-
-    if (data == NULL) {
-        return;
-    }
-
-    data->next = request->data;
-    request->data = data;
-
-    data->key = strdup(key);
-    data->value = strdup(value);
 }
 
 static size_t cparse_client_get_response(void *ptr, size_t size, size_t nmemb, void *data)
@@ -540,115 +347,6 @@ static bool cparse_client_set_request_url(cParseClient *client, cParseRequest *r
     return true;
 }
 
-bool cparse_request_execute(cParseRequest *request, cParseError **error)
-{
-    cParseResponse *response = NULL;
-
-    if (request == NULL) {
-        cparse_log_set_errno(error, EINVAL);
-        return false;
-    }
-
-    if (cparse_client_instance == NULL) {
-        cparse_client_instance = cparse_client_new();
-
-        if (cparse_client_instance == NULL || !cparse_client_init(cparse_client_instance, CPARSE_API_VERSION)) {
-            cparse_log_error("Could not create client instance, most likely out of memory!");
-            return false;
-        }
-    }
-
-    response = cparse_client_execute(request);
-
-    if (response != NULL) {
-        cparse_response_free(response);
-
-        return true;
-    }
-
-    return false;
-}
-
-cParseJson *cparse_response_parse_json(cParseResponse *response, cParseError **error)
-{
-    json_tokener *tok = NULL;
-
-    cParseJson *obj = NULL;
-
-    const char *errorMessage = NULL;
-
-#ifdef HAVE_JSON_TOKENER_GET_ERROR
-    enum json_tokener_error;
-#endif
-
-    if (response == NULL) {
-        cparse_log_set_errno(error, EINVAL);
-        return NULL;
-    }
-
-    tok = json_tokener_new();
-
-    obj = json_tokener_parse_ex(tok, response->text, response->size);
-
-#ifdef HAVE_JSON_TOKENER_GET_ERROR
-    parseError = json_tokener_get_error(tok);
-
-    if (parseError != json_tokener_success) {
-        errorMessage = json_tokener_error_desc(parseError);
-    }
-#else
-    if (obj == NULL) {
-        errorMessage = "Unable to parse json";
-    }
-#endif
-
-    if (cparse_json_contains(obj, "error")) {
-        errorMessage = cparse_json_get_string(obj, "error");
-    }
-
-    json_tokener_free(tok);
-
-    if (errorMessage != NULL) {
-        if (error) {
-            *error = cparse_error_with_message(errorMessage);
-
-            cparse_error_set_code(*error, cparse_json_get_number(obj, "code", 0));
-        }
-
-        if (obj) {
-            cparse_json_free(obj);
-        }
-
-        return NULL;
-    }
-
-    return obj;
-}
-
-cParseJson *cparse_request_get_json(cParseRequest *request, cParseError **error)
-{
-    cParseResponse *response = NULL;
-
-    if (!request) {
-        cparse_log_set_errno(error, EINVAL);
-        return NULL;
-    }
-
-    response = cparse_client_execute(request);
-
-    if (response != NULL) {
-        cParseJson *json = cparse_response_parse_json(response, error);
-
-        cparse_response_free(response);
-
-        return json;
-    }
-
-    cparse_log_set_error(error, "Unable to get response to request");
-
-    return NULL;
-}
-
 static struct curl_slist *cparse_request_build_headers(cParseRequest *request)
 {
     struct curl_slist *headers = NULL;
@@ -665,13 +363,13 @@ static struct curl_slist *cparse_request_build_headers(cParseRequest *request)
     }
 
     if (headers == NULL) {
-        headers = cparse_client_instance->headers;
+        headers = cparse_this_client->headers;
     } else {
         struct curl_slist *header = NULL;
 
         for (header = headers; header != NULL; header = header->next) {
             if (header->next == NULL) {
-                header->next = cparse_client_instance->headers;
+                header->next = cparse_this_client->headers;
                 break;
             }
         }
@@ -680,30 +378,18 @@ static struct curl_slist *cparse_request_build_headers(cParseRequest *request)
     return headers;
 }
 
-cParseClient *cparse_request_get_client(cParseRequest *request)
+cParseClient *cparse_get_client()
 {
-    cParseClient *client = NULL;
-
-    if (request->flags & CPARSE_REQUEST_NEW_CLIENT) {
-        client = cparse_client_new();
-
-        if (client == NULL || !cparse_client_init(client, CPARSE_API_VERSION)) {
-            cparse_log_error("Could not create client instance, most likely out of memory!");
-            return NULL;
-        }
-
-    } else {
-        if (cparse_client_instance == NULL) {
-            cparse_client_instance = cparse_client_new();
-
-            if (cparse_client_instance == NULL || !cparse_client_init(cparse_client_instance, CPARSE_API_VERSION)) {
-                cparse_log_error("Could not create client instance, most likely out of memory!");
-                return NULL;
-            }
-        }
-        client = cparse_client_instance;
+    if (cparse_this_client == NULL) {
+        cparse_this_client = cparse_client_with_version(CPARSE_API_VERSION);
     }
-    return client;
+
+    if (cparse_this_client == NULL || !cparse_client_init(cparse_this_client)) {
+        cparse_log_error("Could not create client instance, most likely out of memory!");
+        return NULL;
+    }
+
+    return cparse_this_client;
 }
 
 cParseResponse *cparse_client_execute(cParseRequest *request)
@@ -719,7 +405,7 @@ cParseResponse *cparse_client_execute(cParseRequest *request)
         return NULL;
     }
 
-    client = cparse_request_get_client(request);
+    client = cparse_get_client();
 
     if (client == NULL) {
         return NULL;
@@ -727,6 +413,8 @@ cParseResponse *cparse_client_execute(cParseRequest *request)
 
     /* until i get around to simplifing this function */
     curl = client->cURL;
+
+    pthread_mutex_lock(&client->lock);
 
     /* reset from last request */
     curl_easy_reset(curl);
@@ -747,7 +435,7 @@ cParseResponse *cparse_client_execute(cParseRequest *request)
             break;
     }
 
-    curl_easy_setopt(curl, CURLOPT_TIMEOUT, client);
+    curl_easy_setopt(curl, CURLOPT_TIMEOUT, client->timeout);
 
     cparse_client_set_request_url(client, request);
 
@@ -758,6 +446,13 @@ cParseResponse *cparse_client_execute(cParseRequest *request)
     }
 
     headers = cparse_request_build_headers(request);
+
+    if (!cparse_str_empty(client->sessionToken)) {
+        if (!cparse_curl_slist_append(&headers, "%s: %s", CPARSE_HEADER_SESSION_TOKEN, client->sessionToken)) {
+            pthread_mutex_unlock(&client->lock);
+            return NULL;
+        }
+    }
 
     curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
 
@@ -771,6 +466,7 @@ cParseResponse *cparse_client_execute(cParseRequest *request)
     if (res != CURLE_OK) {
         cparse_log_error("problem with cparse request (%s)", curl_easy_strerror(res));
         cparse_response_free(response);
+        pthread_mutex_unlock(&client->lock);
         return NULL;
     }
 
@@ -778,31 +474,7 @@ cParseResponse *cparse_client_execute(cParseRequest *request)
 
     curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, (long *)&response->code);
 
+    pthread_mutex_unlock(&client->lock);
+
     return response;
-}
-
-bool cparse_request_execute_method_for_path(cParseHttpRequestMethod method, const char *path, cParseError **error)
-{
-    cParseJson *json = NULL;
-
-    cParseRequest *request = NULL;
-
-    if (cparse_str_empty(path)) {
-        cparse_log_set_errno(error, EINVAL);
-        return false;
-    }
-
-    request = cparse_request_with_method_and_path(method, path);
-
-    json = cparse_request_get_json(request, error);
-
-    cparse_request_free(request);
-
-    if (json == NULL) {
-        return false;
-    } else {
-        cparse_json_free(json);
-
-        return true;
-    }
 }

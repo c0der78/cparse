@@ -16,6 +16,8 @@ set(JSON_C_INCLUDE_DIRS ${JSON_C_INCLUDE_DIR})
 
 if (PC_JSON_C_FOUND)
 	set(JSON_C_EXTENDED ON)
+	include(CheckLibraryExists)
+	check_library_exists(${JSON_C_LIBRARY} json_tokener_get_error "${PC_JSON_C_LIBRARY_DIRS} PC_JSON_LIBRARY_DIRS" HAVE_JSON_TOKENER_GET_ERROR)
 endif()
 
 include(FindPackageHandleStandardArgs)

@@ -11,10 +11,10 @@ typedef struct cparse_client_response cParseResponse;
 typedef struct cparse_request cParseRequest;
 
 /*! a list of request headers */
-typedef struct cparse_kv_list cParseRequestHeader;
+typedef struct cparse_dlist cParseRequestHeader;
 
 /*! a list of request data (for url encoding on get requests) */
-typedef struct cparse_kv_list cParseRequestData;
+typedef struct cparse_dlist cParseRequestData;
 
 struct cparse_object {
     cParseJson *attributes;
@@ -23,7 +23,6 @@ struct cparse_object {
     char *objectId;
     time_t updatedAt;
     time_t createdAt;
-    int requestFlags;
 };
 
 
@@ -42,13 +41,6 @@ struct cparse_query {
 
 struct cparse_query_builder {
     cParseJson *json;
-};
-
-/*! a simple key value linked list */
-struct cparse_kv_list {
-    struct cparse_kv_list *next;
-    char *key;
-    char *value;
 };
 
 struct cparse_op_array {

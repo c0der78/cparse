@@ -7,6 +7,7 @@
 #include <cparse/types.h>
 #include <errno.h>
 #include "client.h"
+#include "request.h"
 #include "protocol.h"
 #include "private.h"
 #include "log.h"

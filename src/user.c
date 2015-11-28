@@ -9,6 +9,7 @@
 #include <errno.h>
 #include "protocol.h"
 #include "client.h"
+#include "request.h"
 #include "private.h"
 #include "log.h"
 
@@ -36,7 +37,7 @@ bool (*cparse_user_refresh)(cParseUser *obj, cParseError **error) = cparse_objec
 
 bool (*cparse_user_refresh_in_background)(cParseUser *user, cParseObjectCallback callback, void *param) = cparse_object_refresh_in_background;
 
-extern char cparse_client_session_token[];
+extern cParseClient *cparse_this_client;
 
 extern bool cparse_revocable_sessions;
 
@@ -80,12 +81,12 @@ cParseUser *cparse_current_user(cParseError **error)
         return __cparse_current_user;
     }
 
-    if (cparse_str_empty(cparse_client_session_token)) {
+    if (cparse_str_empty(cparse_this_client->sessionToken)) {
         cparse_log_set_error(error, "No valid session token");
         return NULL;
     }
 
-    __cparse_current_user = cparse_user_validate(cparse_client_session_token, error);
+    __cparse_current_user = cparse_user_validate(cparse_this_client->sessionToken, error);
 
     return __cparse_current_user;
 }
@@ -187,6 +188,7 @@ static bool cparse_user_login_user(cParseUser *user, cParseError **error)
 
     cparse_request_free(request);
 
+    /* better security? remove the password */
     cparse_object_remove(user, CPARSE_KEY_USER_PASSWORD);
 
     if (data == NULL) {
@@ -201,7 +203,7 @@ static bool cparse_user_login_user(cParseUser *user, cParseError **error)
         const char *sessionToken = cparse_object_get_string(user, CPARSE_KEY_USER_SESSION_TOKEN);
 
         if (sessionToken) {
-            strncpy(cparse_client_session_token, sessionToken, CPARSE_BUF_SIZE);
+            cparse_this_client->sessionToken = strdup(sessionToken);
         }
 
         __cparse_current_user = user;
@@ -256,7 +258,10 @@ bool cparse_user_login_in_background(const char *username, const char *password,
 
 void cparse_user_logout()
 {
-    memset(cparse_client_session_token, 0, CPARSE_BUF_SIZE);
+    if (cparse_this_client->sessionToken) {
+        free(cparse_this_client->sessionToken);
+        cparse_this_client->sessionToken = NULL;
+    }
     __cparse_current_user = NULL;
 }
 
@@ -324,7 +329,7 @@ static bool cparse_user_sign_up_user(cParseUser *user, cParseError **error)
             const char *sessionToken = cparse_object_get_string(user, CPARSE_KEY_USER_SESSION_TOKEN);
 
             if (sessionToken) {
-                strncpy(cparse_client_session_token, sessionToken, CPARSE_BUF_SIZE);
+                cparse_this_client->sessionToken = strdup(sessionToken);
             }
 
             __cparse_current_user = user;

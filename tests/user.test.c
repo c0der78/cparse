@@ -8,6 +8,8 @@
 
 extern cParseObject *__cparse_current_user;
 
+extern void wait_for_threads();
+
 static void cparse_test_setup()
 {
     srand(time(0));
@@ -158,7 +160,6 @@ START_TEST(test_cparse_login_in_background)
     rval = cparse_user_sign_up(user123, "Passw0rd!", &error);
 
     if (error) {
-        puts(cparse_error_message(error));
         cparse_error_free(error);
     }
     fail_unless(rval);
