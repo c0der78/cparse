@@ -90,25 +90,23 @@ int cparse_cleanup_test_objects()
         next_node = node->next;
 
         if (node->obj) {
-            cParseError *error = NULL;
+            if (node->saved) {
+                cParseError *error = NULL;
 
-            if (!cparse_object_delete(node->obj, &error)) {
-                if (error) {
-                    printf("delete error: %s\n", cparse_error_message(error));
+                if (!cparse_object_delete(node->obj, &error)) {
+                    if (error) {
+                        printf("delete error: %s\n", cparse_error_message(error));
+                    }
                 }
             }
 
             cparse_object_free(node->obj);
         }
-        if (node == first_obj) {
-            if (next_node) {
-                first_obj = next_node;
-            } else {
-                first_obj = NULL;
-            }
-        }
+
         free(node);
     }
+
+    first_obj = NULL;
 
     return 1;
 }
