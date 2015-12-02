@@ -18,32 +18,47 @@ extern bool cparse_error_messages;
 struct obj_list {
     struct obj_list *next;
     cParseObject *obj;
+    bool saved;
 };
 
 struct obj_list *first_obj = NULL;
 
 cParseObject *cparse_new_test_object(const char *name, int score)
 {
-    cParseObject *obj = cparse_object_with_class_name(TEST_CLASS);
+    struct obj_list *node = NULL;
+
+    cParseObject *obj = NULL;
+
+    obj = cparse_object_with_class_name(TEST_CLASS);
 
     cparse_object_set_string(obj, "playerName", name);
     cparse_object_set_number(obj, "score", score);
 
-    cparse_cleanup_test_object(obj);
+    node = malloc(sizeof(struct obj_list));
+
+    if (node != NULL) {
+        node->obj = obj;
+        node->saved = false;
+
+        node->next = first_obj;
+        first_obj = node;
+    }
+
 
     return obj;
 }
 
-int cparse_cleanup_test_object(cParseObject *obj)
+int cparse_delete_test_object(cParseObject *obj)
 {
-    struct obj_list *node = malloc(sizeof(struct obj_list));
+    struct obj_list *node = NULL;
 
-    node->obj = obj;
-
-    node->next = first_obj;
-    first_obj = node;
-
-    return 1;
+    for (node = first_obj; node != NULL; node = node->next) {
+        if (node->obj == obj) {
+            node->saved = true;
+            return 1;
+        }
+    }
+    return 0;
 }
 
 int cparse_save_test_object(cParseObject *obj)
@@ -64,7 +79,7 @@ int cparse_save_test_object(cParseObject *obj)
         return 0;
     }
 
-    return cparse_cleanup_test_object(obj);
+    return cparse_delete_test_object(obj);
 }
 
 int cparse_cleanup_test_objects()

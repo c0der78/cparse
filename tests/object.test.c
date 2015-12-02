@@ -159,8 +159,6 @@ START_TEST(test_cparse_object_refresh)
 
     obj2 = cparse_new_test_object("user3", 1234);
 
-    cparse_cleanup_test_object(obj2);
-
     rval = cparse_object_refresh(obj, NULL);
 
     if (!rval) {
