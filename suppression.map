@@ -65,7 +65,6 @@
 {
    calloc_NXMapRemove_Leak
    Memcheck:Leak
-   match-leak-kinds: definite
    fun:calloc
    fun:NXMapRemove
    fun:__CFAllocateObject2
