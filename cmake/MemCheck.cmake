@@ -7,8 +7,7 @@ function(add_memcheck_test _targetname _testrunner)
 		MESSAGE( "Memcheck command not found!")
 		add_test(${_targetname} ${_testrunner})
 	else(MEMCHECK_COMMAND)
-		add_test(${_targetname} ${MEMCHECK_COMMAND} --leak-check=full --error-exitcode=5 --quiet ${_testrunner})
+		add_test(${_targetname} ${MEMCHECK_COMMAND} --leak-check=full --error-exitcode=5 --quiet $ARGV3 ${_testrunner})
 	endif()
 
 endfunction()
-

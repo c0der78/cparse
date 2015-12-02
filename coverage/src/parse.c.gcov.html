@@ -4,7 +4,7 @@
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <title>LCOV - Code Coverage - src/parse.c</title>
+  <title>LCOV - coverage.info.cleaned - src/parse.c</title>
   <link rel="stylesheet" type="text/css" href="../gcov.css">
 </head>
 
@@ -28,7 +28,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test:</td>
-            <td class="headerValue">Code Coverage</td>
+            <td class="headerValue">coverage.info.cleaned</td>
             <td></td>
             <td class="headerItem">Lines:</td>
             <td class="headerCovTableEntry">6</td>
@@ -37,20 +37,12 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2015-11-02 21:40:20</td>
+            <td class="headerValue">2015-12-01 21:02:57</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">3</td>
             <td class="headerCovTableEntry">4</td>
             <td class="headerCovTableEntryMed">75.0 %</td>
-          </tr>
-          <tr>
-            <td class="headerItem">Legend:</td>
-            <td class="headerValueLeg">            Lines:
-            <span class="coverLegendCov">hit</span>
-            <span class="coverLegendNoCov">not hit</span>
-</td>
-            <td></td>
           </tr>
           <tr><td><img src="../glass.png" width=3 height=3 alt=""></td></tr>
         </table>
@@ -87,8 +79,8 @@
 <span class="lineNum">      17 </span>            : 
 <span class="lineNum">      18 </span>            : bool cparse_revocable_sessions = false;
 <span class="lineNum">      19 </span>            : 
-<span class="lineNum">      20 </span>            : const char *const CPARSE_RESERVED_KEYS[] = {CPARSE_KEY_CLASS_NAME, CPARSE_KEY_CREATED_AT, CPARSE_KEY_OBJECT_ID,
-<a name="21"><span class="lineNum">      21 </span>            :                                             CPARSE_KEY_UPDATED_AT, CPARSE_KEY_USER_SESSION_TOKEN};</a>
+<span class="lineNum">      20 </span>            : const char *const CPARSE_RESERVED_KEYS[] = {CPARSE_KEY_CLASS_NAME, CPARSE_KEY_CREATED_AT, CPARSE_KEY_OBJECT_ID, CPARSE_KEY_UPDATED_AT,
+<a name="21"><span class="lineNum">      21 </span>            :                                             CPARSE_KEY_USER_SESSION_TOKEN};</a>
 <span class="lineNum">      22 </span>            : 
 <span class="lineNum">      23 </span>            : void cparse_set_application_id(const char *appId)
 <span class="lineNum">      24 </span>            : {
@@ -103,13 +95,12 @@
 <span class="lineNum">      33 </span>            : void cparse_set_log_level(cParseLogLevel value)
 <span class="lineNum">      34 </span>            : {
 <span class="lineNum">      35 </span><span class="lineCov">         32 :     cparse_current_log_level = value;</span>
-<span class="lineNum">      36 </span><span class="lineCov">         32 : }</span>
-<a name="37"><span class="lineNum">      37 </span>            : </a>
-<span class="lineNum">      38 </span>            : 
-<span class="lineNum">      39 </span>            : void cparse_enable_revocable_sessions(bool value)
-<span class="lineNum">      40 </span>            : {
-<span class="lineNum">      41 </span><span class="lineNoCov">          0 :     cparse_revocable_sessions = value;</span>
-<span class="lineNum">      42 </span><span class="lineNoCov">          0 : }</span>
+<a name="36"><span class="lineNum">      36 </span><span class="lineCov">         32 : }</span></a>
+<span class="lineNum">      37 </span>            : 
+<span class="lineNum">      38 </span>            : void cparse_enable_revocable_sessions(bool value)
+<span class="lineNum">      39 </span>            : {
+<span class="lineNum">      40 </span><span class="lineNoCov">          0 :     cparse_revocable_sessions = value;</span>
+<span class="lineNum">      41 </span><span class="lineNoCov">          0 : }</span>
 </pre>
       </td>
     </tr>

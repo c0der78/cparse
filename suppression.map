@@ -30,3 +30,52 @@
    fun:cparse_object_save
    fun:cparse_save_test_object
 }
+{
+   bcmp_imageLoader_Cond
+   Memcheck:Cond
+   fun:bcmp
+   fun:_ZN16ImageLoaderMachO18validateFirstPagesEPK21linkedit_data_commandiPKhmxRKN11ImageLoader11LinkContextE
+   fun:_ZN26ImageLoaderMachOCompressed19instantiateFromFileEPKciPKhmyyRK4statjjPK21linkedit_data_commandPK23encryption_info_commandRKN11ImageLoader11LinkContextE
+   fun:_ZN16ImageLoaderMachO19instantiateFromFileEPKciPKhyyRK4statRKN11ImageLoader11LinkContextE
+   fun:_ZN4dyldL10loadPhase6EiRK4statPKcRKNS_11LoadContextE
+   fun:_ZN4dyldL10loadPhase5EPKcS1_RKNS_11LoadContextEPNSt3__16vectorIS1_NS5_9allocatorIS1_EEEE
+   fun:_ZN4dyldL10loadPhase4EPKcS1_RKNS_11LoadContextEPNSt3__16vectorIS1_NS5_9allocatorIS1_EEEE
+   fun:_ZN4dyldL10loadPhase3EPKcS1_RKNS_11LoadContextEPNSt3__16vectorIS1_NS5_9allocatorIS1_EEEE
+   fun:_ZN4dyldL10loadPhase1EPKcS1_RKNS_11LoadContextEPNSt3__16vectorIS1_NS5_9allocatorIS1_EEEE
+   fun:_ZN4dyldL10loadPhase0EPKcS1_RKNS_11LoadContextEPNSt3__16vectorIS1_NS5_9allocatorIS1_EEEE
+   fun:_ZN4dyld4loadEPKcRKNS_11LoadContextE
+   fun:_ZN4dyldL14libraryLocatorEPKcbS1_PKN11ImageLoader10RPathChainE
+}
+{
+   bcmp_ImageLoader_Value8
+   Memcheck:Value8
+   fun:bcmp
+   fun:_ZN16ImageLoaderMachO18validateFirstPagesEPK21linkedit_data_commandiPKhmxRKN11ImageLoader11LinkContextE
+   fun:_ZN26ImageLoaderMachOCompressed19instantiateFromFileEPKciPKhmyyRK4statjjPK21linkedit_data_commandPK23encryption_info_commandRKN11ImageLoader11LinkContextE
+   fun:_ZN16ImageLoaderMachO19instantiateFromFileEPKciPKhyyRK4statRKN11ImageLoader11LinkContextE
+   fun:_ZN4dyldL10loadPhase6EiRK4statPKcRKNS_11LoadContextE
+   fun:_ZN4dyldL10loadPhase5EPKcS1_RKNS_11LoadContextEPNSt3__16vectorIS1_NS5_9allocatorIS1_EEEE
+   fun:_ZN4dyldL10loadPhase4EPKcS1_RKNS_11LoadContextEPNSt3__16vectorIS1_NS5_9allocatorIS1_EEEE
+   fun:_ZN4dyldL10loadPhase3EPKcS1_RKNS_11LoadContextEPNSt3__16vectorIS1_NS5_9allocatorIS1_EEEE
+   fun:_ZN4dyldL10loadPhase1EPKcS1_RKNS_11LoadContextEPNSt3__16vectorIS1_NS5_9allocatorIS1_EEEE
+   fun:_ZN4dyldL10loadPhase0EPKcS1_RKNS_11LoadContextEPNSt3__16vectorIS1_NS5_9allocatorIS1_EEEE
+   fun:_ZN4dyld4loadEPKcRKNS_11LoadContextE
+   fun:_ZN4dyldL14libraryLocatorEPKcbS1_PKN11ImageLoader10RPathChainE
+}
+{
+   calloc_NXMapRemove_Leak
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:calloc
+   fun:NXMapRemove
+   fun:__CFAllocateObject2
+   fun:__34+[__NSPlaceholderArray initialize]_block_invoke
+   fun:_dispatch_client_callout
+   fun:dispatch_once_f
+   fun:objc_msgSend_fpret
+   fun:_Z28_getObjc2NonlazyCategoryListPK14mach_header_64Pm
+   fun:_ZL16attachCategoriesP10objc_classP26locstamped_category_list_tb
+   fun:CFArrayCreate
+   fun:__CFInitialize
+   fun:_ZN16ImageLoaderMachO11doImageInitERKN11ImageLoader11LinkContextE
+}

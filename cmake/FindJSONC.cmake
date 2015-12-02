@@ -25,4 +25,3 @@ include(FindPackageHandleStandardArgs)
 find_package_handle_standard_args(JSON_C DEFAULT_MSG JSON_C_LIBRARY JSON_C_INCLUDE_DIR)
 
 mark_as_advanced(JSON_C_INCLUDE_DIR JSON_C_LIBRARY)
-
