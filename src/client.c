@@ -108,27 +108,6 @@ void cparse_client_free(cParseClient *client)
     free(client);
 }
 
-cParseClient *cparse_get_client()
-{
-    if (cparse_this_client == NULL) {
-        cparse_this_client = cparse_client_with_version(CPARSE_API_VERSION);
-    }
-
-    if (cparse_this_client == NULL || !cparse_client_init(cparse_this_client)) {
-        cparse_log_error("Could not create client instance, most likely out of memory!");
-        return NULL;
-    }
-
-    return cparse_this_client;
-}
-
-void cparse_free_client()
-{
-    if (cparse_this_client != NULL) {
-        cparse_client_free(cparse_this_client);
-        cparse_this_client = NULL;
-    }
-}
 
 static bool cparse_curl_slist_append(struct curl_slist **list, const char *format, ...)
 {
@@ -148,7 +127,7 @@ static bool cparse_curl_slist_append(struct curl_slist **list, const char *forma
     *list = curl_slist_append(*list, buf);
 
     if (list == NULL) {
-        // TODO: log some error? curl doesn't say what happened
+        /* TODO: log some error? curl doesn't say what happened */
         return false;
     }
 
@@ -183,11 +162,20 @@ static struct curl_slist *cparse_client_default_headers()
     return headers;
 }
 
-static bool cparse_client_init(cParseClient *client)
+
+cParseClient *cparse_get_client()
 {
+    cParseClient *client = cparse_this_client;
+
+    if (client != NULL) {
+        return client;
+    }
+
+    client = cparse_this_client = cparse_client_with_version(CPARSE_API_VERSION);
+
     if (client == NULL) {
-        cparse_log_errno(EINVAL);
-        return false;
+        cparse_log_error("Could not create client instance, most likely out of memory!");
+        return NULL;
     }
 
     if (client->cURL == NULL) {
@@ -209,8 +197,15 @@ static bool cparse_client_init(cParseClient *client)
             return false;
         }
     }
+    return cparse_this_client;
+}
 
-    return true;
+void cparse_free_client()
+{
+    if (cparse_this_client != NULL) {
+        cparse_client_free(cparse_this_client);
+        cparse_this_client = NULL;
+    }
 }
 
 static size_t cparse_client_get_response(void *ptr, size_t size, size_t nmemb, void *data)
