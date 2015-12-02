@@ -6,6 +6,7 @@
 #include <string.h>
 #include <cparse/parse.h>
 #include "protocol.h"
+#include "client.h"
 
 const char *const cparse_lib_version = "1.0";
 
@@ -38,4 +39,12 @@ void cparse_set_log_level(cParseLogLevel value)
 void cparse_enable_revocable_sessions(bool value)
 {
     cparse_revocable_sessions = value;
+}
+
+void cparse_global_cleanup()
+{
+    cparse_free_client();
+
+    free((char *)cparse_app_id);
+    free((char *)cparse_api_key);
 }

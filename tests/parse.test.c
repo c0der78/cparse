@@ -29,6 +29,8 @@ cParseObject *cparse_new_test_object(const char *name, int score)
     cparse_object_set_string(obj, "playerName", name);
     cparse_object_set_number(obj, "score", score);
 
+    cparse_cleanup_test_object(obj);
+
     return obj;
 }
 

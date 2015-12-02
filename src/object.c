@@ -631,7 +631,9 @@ bool cparse_object_update_in_background(cParseObject *obj, cParseJson *json, cPa
         return 0;
     }
 
-    /* can't pass to our callback method, so place inside the object for retrieval */
+    /* can't pass to our callback method, so place inside the object for retrieval
+     * TODO: refactor this so we don't touch the object at all
+     */
     cparse_object_set(obj, CPARSE_OBJECT_UPDATE_ATTRIBUTES, json);
 
     return cparse_object_run_in_background(obj, cparse_object_update_object, callback, param, NULL);

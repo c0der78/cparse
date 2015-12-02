@@ -21,6 +21,7 @@ BEGIN_DECL
 /*! gets the client
  */
 cParseClient *cparse_get_client();
+void cparse_free_client();
 
 END_DECL
 

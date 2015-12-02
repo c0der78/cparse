@@ -49,6 +49,8 @@ void cparse_set_log_level(cParseLogLevel level);
  */
 void cparse_enable_revocable_sessions(bool value);
 
+void cparse_global_cleanup();
+
 END_DECL
 
 #endif

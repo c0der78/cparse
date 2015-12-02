@@ -101,7 +101,33 @@ void cparse_client_free(cParseClient *client)
         curl_slist_free_all(client->headers);
     }
 
+    if (client->sessionToken) {
+        free(client->sessionToken);
+    }
+
     free(client);
+}
+
+cParseClient *cparse_get_client()
+{
+    if (cparse_this_client == NULL) {
+        cparse_this_client = cparse_client_with_version(CPARSE_API_VERSION);
+    }
+
+    if (cparse_this_client == NULL || !cparse_client_init(cparse_this_client)) {
+        cparse_log_error("Could not create client instance, most likely out of memory!");
+        return NULL;
+    }
+
+    return cparse_this_client;
+}
+
+void cparse_free_client()
+{
+    if (cparse_this_client != NULL) {
+        cparse_client_free(cparse_this_client);
+        cparse_this_client = NULL;
+    }
 }
 
 static bool cparse_curl_slist_append(struct curl_slist **list, const char *format, ...)
@@ -235,21 +261,18 @@ static bool cparse_request_append_body(cParseRequest *request, const char *value
 
 static bool cparse_request_append_data(cParseRequest *request, const char *key, const char *value)
 {
-    size_t ssize = 0;
-
     if (!request || cparse_str_empty(value)) {
         cparse_log_errno(ENOMEM);
         return false;
     }
 
     if (key == NULL) {
-        ssize = strlen(value);
-
         if (!cparse_request_append_body(request, value)) {
             return false;
         }
 
     } else {
+        /* append &key=value */
         if (!cparse_str_empty(request->body)) {
             if (!cparse_request_append_body(request, "&")) {
                 return false;
@@ -376,20 +399,6 @@ static struct curl_slist *cparse_request_build_headers(cParseRequest *request)
     }
 
     return headers;
-}
-
-cParseClient *cparse_get_client()
-{
-    if (cparse_this_client == NULL) {
-        cparse_this_client = cparse_client_with_version(CPARSE_API_VERSION);
-    }
-
-    if (cparse_this_client == NULL || !cparse_client_init(cparse_this_client)) {
-        cparse_log_error("Could not create client instance, most likely out of memory!");
-        return NULL;
-    }
-
-    return cparse_this_client;
 }
 
 cParseResponse *cparse_client_execute(cParseRequest *request)

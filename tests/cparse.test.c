@@ -63,8 +63,7 @@ int main(void)
     number_failed = srunner_ntests_failed(sr);
     srunner_free(sr);
 
-    free((char *)cparse_app_id);
-    free((char *)cparse_api_key);
+    cparse_global_cleanup();
 
     return (number_failed == 0) ? EXIT_SUCCESS : EXIT_FAILURE;
 }
