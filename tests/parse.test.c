@@ -18,7 +18,7 @@ extern bool cparse_error_messages;
 struct obj_list {
     struct obj_list *next;
     cParseObject *obj;
-    bool saved;
+    bool remote_delete;
 };
 
 struct obj_list *first_obj = NULL;
@@ -38,7 +38,7 @@ cParseObject *cparse_new_test_object(const char *name, int score)
 
     if (node != NULL) {
         node->obj = obj;
-        node->saved = false;
+        node->remote_delete = false;
 
         node->next = first_obj;
         first_obj = node;
@@ -54,7 +54,7 @@ int cparse_delete_test_object(cParseObject *obj)
 
     for (node = first_obj; node != NULL; node = node->next) {
         if (node->obj == obj) {
-            node->saved = true;
+            node->remote_delete = true;
             return 1;
         }
     }
@@ -90,7 +90,7 @@ int cparse_cleanup_test_objects()
         next_node = node->next;
 
         if (node->obj) {
-            if (node->saved) {
+            if (node->remote_delete) {
                 cParseError *error = NULL;
 
                 if (!cparse_object_delete(node->obj, &error)) {

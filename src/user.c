@@ -329,7 +329,7 @@ static bool cparse_user_sign_up_user(cParseUser *user, cParseError **error)
             const char *sessionToken = cparse_object_get_string(user, CPARSE_KEY_USER_SESSION_TOKEN);
 
             if (sessionToken) {
-                cparse_this_client->sessionToken = strdup(sessionToken);
+                cparse_replace_str(&cparse_this_client->sessionToken, sessionToken);
             }
 
             __cparse_current_user = user;

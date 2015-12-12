@@ -47,15 +47,13 @@ START_TEST(test_cparse_acl_set)
 
     fail_unless(cparse_user_delete(user, NULL));
 
-    cparse_object_free(obj);
-
-    cparse_object_free(user);
+    cparse_user_free(user);
 }
 END_TEST
 
-Suite *cparse_acl_suite (void)
+Suite *cparse_acl_suite(void)
 {
-    Suite *s = suite_create ("ACL");
+    Suite *s = suite_create("ACL");
 
     TCase *tc = tcase_create("Assignable");
     tcase_add_checked_fixture(tc, cparse_test_setup, cparse_test_teardown);
@@ -64,4 +62,3 @@ Suite *cparse_acl_suite (void)
 
     return s;
 }
-

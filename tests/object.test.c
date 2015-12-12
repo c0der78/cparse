@@ -94,8 +94,6 @@ START_TEST(test_cparse_object_set_value)
     fail_unless(cparse_object_attribute_size(cp_obj) == 1);
 
     fail_unless(cparse_object_get_number(cp_obj, "score", 0) == 1234);
-
-    cparse_object_free(cp_obj);
 }
 END_TEST
 
