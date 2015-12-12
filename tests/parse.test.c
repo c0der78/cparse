@@ -25,14 +25,21 @@ struct obj_list *first_obj = NULL;
 
 cParseObject *cparse_new_test_object(const char *name, int score)
 {
-    struct obj_list *node = NULL;
-
     cParseObject *obj = NULL;
 
     obj = cparse_object_with_class_name(TEST_CLASS);
 
     cparse_object_set_string(obj, "playerName", name);
     cparse_object_set_number(obj, "score", score);
+
+    cparse_add_test_object(obj);
+
+    return obj;
+}
+
+void cparse_add_test_object(cParseObject *obj)
+{
+    struct obj_list *node = NULL;
 
     node = malloc(sizeof(struct obj_list));
 
@@ -43,9 +50,6 @@ cParseObject *cparse_new_test_object(const char *name, int score)
         node->next = first_obj;
         first_obj = node;
     }
-
-
-    return obj;
 }
 
 int cparse_delete_test_object(cParseObject *obj)
