@@ -124,25 +124,18 @@ int cparse_create_and_save_test_object(const char *name, int score)
 
 const char *rand_name()
 {
-    static char buf[100];
+    static char buf[100][5];
+    static int index = 0;
+    static const char *names[] = {"frank", "bobby", "mike", "ted", "tony", "rob", "erin"};
 
-    int fuzz = rand() % 255;
+    int fuzz = rand() % 1000;
 
-    switch (rand() % 4) {
-        case 0:
-            snprintf(buf, sizeof(buf), "frank%03d", fuzz);
-            break;
-        case 1:
-            snprintf(buf, sizeof(buf), "bobby%03d", fuzz);
-            break;
-        case 2:
-            snprintf(buf, sizeof(buf), "jenn%03d", fuzz);
-            break;
-        case 3:
-            snprintf(buf, sizeof(buf), "angie%03d", fuzz);
-            break;
-    }
-    return buf;
+    int name = rand() % (sizeof(names) / sizeof(names[0]));
+
+    ++index, index %= 5;
+    snprintf(buf[index], 100, "%s%04d", names[name], fuzz);
+
+    return buf[index];
 }
 
 

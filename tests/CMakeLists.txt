@@ -5,6 +5,10 @@ include(FindCheck)
 
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DROOT_PATH=\\\"${CMAKE_SOURCE_DIR}/tests\\\"")
 
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DDEBUG")
+endif()
+
 include_directories(../src ${CHECK_INCLUDE_DIRS})
 
 target_link_libraries(cparse_test cparse ${CHECK_LIBRARIES})
