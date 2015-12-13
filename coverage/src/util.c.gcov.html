@@ -4,7 +4,7 @@
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <title>LCOV - coverage.info.cleaned - src/util.c</title>
+  <title>LCOV - coverage.info - src/util.c</title>
   <link rel="stylesheet" type="text/css" href="../gcov.css">
 </head>
 
@@ -28,7 +28,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test:</td>
-            <td class="headerValue">coverage.info.cleaned</td>
+            <td class="headerValue">coverage.info</td>
             <td></td>
             <td class="headerItem">Lines:</td>
             <td class="headerCovTableEntry">38</td>
@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2015-12-01 21:02:57</td>
+            <td class="headerValue">2015-12-12 16:46:29</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">6</td>
@@ -79,7 +79,7 @@
 <span class="lineNum">      17 </span>            : 
 <span class="lineNum">      18 </span>            : inline int cparse_str_empty(const char *str)
 <span class="lineNum">      19 </span>            : {
-<span class="lineNum">      20 </span><span class="lineCov">       3111 :     return !str || !*str;</span>
+<span class="lineNum">      20 </span><span class="lineCov">       3205 :     return !str || !*str;</span>
 <a name="21"><span class="lineNum">      21 </span>            : }</a>
 <span class="lineNum">      22 </span>            : 
 <span class="lineNum">      23 </span>            : time_t cparse_date_time(const char *str)
@@ -89,33 +89,33 @@
 <span class="lineNum">      27 </span>            :     int tzh, tzm;
 <span class="lineNum">      28 </span>            :     struct tm time;
 <span class="lineNum">      29 </span>            : 
-<span class="lineNum">      30 </span><span class="lineCov">         55 :     if (8 &gt; sscanf(str, &quot;%d-%d-%dT%d:%d:%f%d:%dZ&quot;, &amp;y, &amp;M, &amp;d, &amp;h, &amp;m, &amp;s, &amp;tzh, &amp;tzm)) {</span>
-<span class="lineNum">      31 </span><span class="lineCov">         55 :         sscanf(str, &quot;%d-%d-%dT%d:%d:%fZ&quot;, &amp;y, &amp;M, &amp;d, &amp;h, &amp;m, &amp;s);</span>
-<span class="lineNum">      32 </span><span class="lineCov">         55 :     }</span>
+<span class="lineNum">      30 </span><span class="lineCov">         75 :     if (8 &gt; sscanf(str, &quot;%d-%d-%dT%d:%d:%f%d:%dZ&quot;, &amp;y, &amp;M, &amp;d, &amp;h, &amp;m, &amp;s, &amp;tzh, &amp;tzm)) {</span>
+<span class="lineNum">      31 </span><span class="lineCov">         75 :         sscanf(str, &quot;%d-%d-%dT%d:%d:%fZ&quot;, &amp;y, &amp;M, &amp;d, &amp;h, &amp;m, &amp;s);</span>
+<span class="lineNum">      32 </span><span class="lineCov">         75 :     }</span>
 <span class="lineNum">      33 </span>            : 
-<span class="lineNum">      34 </span><span class="lineCov">         55 :     time.tm_year = y - 1900; /* Year since 1900 */</span>
-<span class="lineNum">      35 </span><span class="lineCov">         55 :     time.tm_mon = M - 1;     /* 0-11 */</span>
-<span class="lineNum">      36 </span><span class="lineCov">         55 :     time.tm_mday = d;        /* 1-31 */</span>
-<span class="lineNum">      37 </span><span class="lineCov">         55 :     time.tm_hour = h;        /* 0-23 */</span>
-<span class="lineNum">      38 </span><span class="lineCov">         55 :     time.tm_min = m;         /* 0-59 */</span>
-<span class="lineNum">      39 </span><span class="lineCov">         55 :     time.tm_sec = (int)s;    /* 0-61 */</span>
-<span class="lineNum">      40 </span><span class="lineCov">         55 :     time.tm_isdst = 0;       /* auto check daylight savings time */</span>
+<span class="lineNum">      34 </span><span class="lineCov">         75 :     time.tm_year = y - 1900; /* Year since 1900 */</span>
+<span class="lineNum">      35 </span><span class="lineCov">         75 :     time.tm_mon = M - 1;     /* 0-11 */</span>
+<span class="lineNum">      36 </span><span class="lineCov">         75 :     time.tm_mday = d;        /* 1-31 */</span>
+<span class="lineNum">      37 </span><span class="lineCov">         75 :     time.tm_hour = h;        /* 0-23 */</span>
+<span class="lineNum">      38 </span><span class="lineCov">         75 :     time.tm_min = m;         /* 0-59 */</span>
+<span class="lineNum">      39 </span><span class="lineCov">         75 :     time.tm_sec = (int)s;    /* 0-61 */</span>
+<span class="lineNum">      40 </span><span class="lineCov">         75 :     time.tm_isdst = 0;       /* auto check daylight savings time */</span>
 <span class="lineNum">      41 </span>            : 
-<span class="lineNum">      42 </span><span class="lineCov">         55 :     return mktime(&amp;time) - timezone;</span>
+<span class="lineNum">      42 </span><span class="lineCov">         75 :     return mktime(&amp;time) - timezone;</span>
 <a name="43"><span class="lineNum">      43 </span>            : }</a>
 <span class="lineNum">      44 </span>            : 
 <span class="lineNum">      45 </span>            : void cparse_replace_str(char **a, const char *b)
 <span class="lineNum">      46 </span>            : {
-<span class="lineNum">      47 </span><span class="lineCov">         40 :     if (!a) {</span>
+<span class="lineNum">      47 </span><span class="lineCov">         59 :     if (!a) {</span>
 <span class="lineNum">      48 </span><span class="lineNoCov">          0 :         return;</span>
 <span class="lineNum">      49 </span>            :     }
 <span class="lineNum">      50 </span>            : 
-<span class="lineNum">      51 </span><span class="lineCov">         40 :     if (*a) {</span>
-<span class="lineNum">      52 </span><span class="lineCov">          7 :         free(*a);</span>
-<span class="lineNum">      53 </span><span class="lineCov">          7 :     }</span>
+<span class="lineNum">      51 </span><span class="lineCov">         59 :     if (*a) {</span>
+<span class="lineNum">      52 </span><span class="lineCov">          9 :         free(*a);</span>
+<span class="lineNum">      53 </span><span class="lineCov">          9 :     }</span>
 <span class="lineNum">      54 </span>            : 
-<span class="lineNum">      55 </span><span class="lineCov">         40 :     (*a) = strdup(b);</span>
-<a name="56"><span class="lineNum">      56 </span><span class="lineCov">         80 : }</span></a>
+<span class="lineNum">      55 </span><span class="lineCov">         59 :     (*a) = strdup(b);</span>
+<a name="56"><span class="lineNum">      56 </span><span class="lineCov">        118 : }</span></a>
 <span class="lineNum">      57 </span>            : 
 <span class="lineNum">      58 </span>            : inline int cparse_str_cmp(const char *a, const char *b)
 <span class="lineNum">      59 </span>            : {
@@ -145,54 +145,54 @@
 <span class="lineNum">      83 </span>            : 
 <span class="lineNum">      84 </span>            : bool cparse_str_append(char **pstr, const char *append, size_t size)
 <span class="lineNum">      85 </span>            : {
-<span class="lineNum">      86 </span><span class="lineCov">        379 :     size_t strSize = 0;</span>
+<span class="lineNum">      86 </span><span class="lineCov">        369 :     size_t strSize = 0;</span>
 <span class="lineNum">      87 </span>            : 
-<span class="lineNum">      88 </span><span class="lineCov">        758 :     if (pstr == NULL || append == NULL) {</span>
+<span class="lineNum">      88 </span><span class="lineCov">        738 :     if (pstr == NULL || append == NULL) {</span>
 <span class="lineNum">      89 </span><span class="lineNoCov">          0 :         cparse_log_errno(EINVAL);</span>
 <span class="lineNum">      90 </span><span class="lineNoCov">          0 :         return false;</span>
 <span class="lineNum">      91 </span>            :     }
 <span class="lineNum">      92 </span>            : 
-<span class="lineNum">      93 </span><span class="lineCov">       1137 :     strSize = *pstr ? strlen(*pstr) : 0;</span>
+<span class="lineNum">      93 </span><span class="lineCov">       1107 :     strSize = *pstr ? strlen(*pstr) : 0;</span>
 <span class="lineNum">      94 </span>            : 
-<span class="lineNum">      95 </span><span class="lineCov">        379 :     *pstr = realloc(*pstr, strSize + size + 1);</span>
+<span class="lineNum">      95 </span><span class="lineCov">        369 :     *pstr = realloc(*pstr, strSize + size + 1);</span>
 <span class="lineNum">      96 </span>            : 
-<span class="lineNum">      97 </span><span class="lineCov">        379 :     if (*pstr == NULL) {</span>
+<span class="lineNum">      97 </span><span class="lineCov">        369 :     if (*pstr == NULL) {</span>
 <span class="lineNum">      98 </span><span class="lineNoCov">          0 :         cparse_log_errno(ENOMEM);</span>
 <span class="lineNum">      99 </span><span class="lineNoCov">          0 :         return false;</span>
 <span class="lineNum">     100 </span>            :     }
 <span class="lineNum">     101 </span>            : 
-<span class="lineNum">     102 </span><span class="lineCov">        379 :     memset(*pstr + strSize, 0, size + 1);</span>
+<span class="lineNum">     102 </span><span class="lineCov">        369 :     memset(*pstr + strSize, 0, size + 1);</span>
 <span class="lineNum">     103 </span>            : 
-<span class="lineNum">     104 </span><span class="lineCov">        379 :     strncat(*pstr, append, size);</span>
+<span class="lineNum">     104 </span><span class="lineCov">        369 :     strncat(*pstr, append, size);</span>
 <span class="lineNum">     105 </span>            : 
-<span class="lineNum">     106 </span><span class="lineCov">        379 :     return true;</span>
-<a name="107"><span class="lineNum">     107 </span><span class="lineCov">        379 : }</span></a>
+<span class="lineNum">     106 </span><span class="lineCov">        369 :     return true;</span>
+<a name="107"><span class="lineNum">     107 </span><span class="lineCov">        369 : }</span></a>
 <span class="lineNum">     108 </span>            : 
 <span class="lineNum">     109 </span>            : bool cparse_build_string(char **buf, const char *firstString, ...)
 <span class="lineNum">     110 </span>            : {
-<span class="lineNum">     111 </span><span class="lineCov">         69 :     const char *arg = NULL;</span>
+<span class="lineNum">     111 </span><span class="lineCov">         67 :     const char *arg = NULL;</span>
 <span class="lineNum">     112 </span>            :     va_list args;
 <span class="lineNum">     113 </span>            : 
-<span class="lineNum">     114 </span><span class="lineCov">         69 :     if (buf == NULL) {</span>
+<span class="lineNum">     114 </span><span class="lineCov">         67 :     if (buf == NULL) {</span>
 <span class="lineNum">     115 </span><span class="lineNoCov">          0 :         cparse_log_errno(EINVAL);</span>
 <span class="lineNum">     116 </span><span class="lineNoCov">          0 :         return false;</span>
 <span class="lineNum">     117 </span>            :     }
 <span class="lineNum">     118 </span>            : 
-<span class="lineNum">     119 </span><span class="lineCov">         69 :     if (!cparse_str_append(buf, firstString, strlen(firstString))) {</span>
+<span class="lineNum">     119 </span><span class="lineCov">         67 :     if (!cparse_str_append(buf, firstString, strlen(firstString))) {</span>
 <span class="lineNum">     120 </span><span class="lineNoCov">          0 :         return false;</span>
 <span class="lineNum">     121 </span>            :     }
 <span class="lineNum">     122 </span>            : 
-<span class="lineNum">     123 </span><span class="lineCov">         69 :     va_start(args, firstString);</span>
+<span class="lineNum">     123 </span><span class="lineCov">         67 :     va_start(args, firstString);</span>
 <span class="lineNum">     124 </span>            : 
-<span class="lineNum">     125 </span><span class="lineCov">       1296 :     while ((arg = va_arg(args, const char *)) != NULL) {</span>
-<span class="lineNum">     126 </span><span class="lineCov">        255 :         if (!cparse_str_append(buf, arg, strlen(arg))) {</span>
+<span class="lineNum">     125 </span><span class="lineCov">       1256 :     while ((arg = va_arg(args, const char *)) != NULL) {</span>
+<span class="lineNum">     126 </span><span class="lineCov">        247 :         if (!cparse_str_append(buf, arg, strlen(arg))) {</span>
 <span class="lineNum">     127 </span><span class="lineNoCov">          0 :             free(buf);</span>
 <span class="lineNum">     128 </span><span class="lineNoCov">          0 :             return false;</span>
 <span class="lineNum">     129 </span>            :         }
 <span class="lineNum">     130 </span>            :     }
 <span class="lineNum">     131 </span>            : 
-<span class="lineNum">     132 </span><span class="lineCov">         69 :     return true;</span>
-<a name="133"><span class="lineNum">     133 </span><span class="lineCov">         69 : }</span></a>
+<span class="lineNum">     132 </span><span class="lineCov">         67 :     return true;</span>
+<a name="133"><span class="lineNum">     133 </span><span class="lineCov">         67 : }</span></a>
 <span class="lineNum">     134 </span>            : 
 <span class="lineNum">     135 </span>            : void cparse_json_add_reference(cParseJson *data, cParseObject *ref)
 <span class="lineNum">     136 </span>            : {

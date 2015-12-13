@@ -4,7 +4,7 @@
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <title>LCOV - coverage.info.cleaned - src/log.c</title>
+  <title>LCOV - coverage.info - src/log.c</title>
   <link rel="stylesheet" type="text/css" href="../gcov.css">
 </head>
 
@@ -28,7 +28,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test:</td>
-            <td class="headerValue">coverage.info.cleaned</td>
+            <td class="headerValue">coverage.info</td>
             <td></td>
             <td class="headerItem">Lines:</td>
             <td class="headerCovTableEntry">27</td>
@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2015-12-01 21:02:57</td>
+            <td class="headerValue">2015-12-12 16:46:29</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">4</td>
@@ -165,27 +165,27 @@
 <span class="lineNum">     103 </span>            : {
 <span class="lineNum">     104 </span>            :     va_list args;
 <span class="lineNum">     105 </span>            : 
-<span class="lineNum">     106 </span><span class="lineCov">         62 :     if (cParseLogDebug &gt; cparse_current_log_level || cparse_str_empty(format)) {</span>
-<span class="lineNum">     107 </span><span class="lineCov">         62 :         return;</span>
+<span class="lineNum">     106 </span><span class="lineCov">         60 :     if (cParseLogDebug &gt; cparse_current_log_level || cparse_str_empty(format)) {</span>
+<span class="lineNum">     107 </span><span class="lineCov">         60 :         return;</span>
 <span class="lineNum">     108 </span>            :     }
 <span class="lineNum">     109 </span>            : 
 <span class="lineNum">     110 </span><span class="lineNoCov">          0 :     va_start(args, format);</span>
 <span class="lineNum">     111 </span><span class="lineNoCov">          0 :     cparse_log_vargs(cParseLogDebug, format, args);</span>
 <span class="lineNum">     112 </span><span class="lineNoCov">          0 :     va_end(args);</span>
-<a name="113"><span class="lineNum">     113 </span><span class="lineCov">         62 : }</span></a>
+<a name="113"><span class="lineNum">     113 </span><span class="lineCov">         60 : }</span></a>
 <span class="lineNum">     114 </span>            : 
 <span class="lineNum">     115 </span>            : void cparse_log_trace(const char *const format, ...)
 <span class="lineNum">     116 </span>            : {
 <span class="lineNum">     117 </span>            :     va_list args;
 <span class="lineNum">     118 </span>            : 
-<span class="lineNum">     119 </span><span class="lineCov">        157 :     if (cParseLogTrace &gt; cparse_current_log_level || cparse_str_empty(format)) {</span>
-<span class="lineNum">     120 </span><span class="lineCov">        157 :         return;</span>
+<span class="lineNum">     119 </span><span class="lineCov">        153 :     if (cParseLogTrace &gt; cparse_current_log_level || cparse_str_empty(format)) {</span>
+<span class="lineNum">     120 </span><span class="lineCov">        153 :         return;</span>
 <span class="lineNum">     121 </span>            :     }
 <span class="lineNum">     122 </span>            : 
 <span class="lineNum">     123 </span><span class="lineNoCov">          0 :     va_start(args, format);</span>
 <span class="lineNum">     124 </span><span class="lineNoCov">          0 :     cparse_log_vargs(cParseLogTrace, format, args);</span>
 <span class="lineNum">     125 </span><span class="lineNoCov">          0 :     va_end(args);</span>
-<a name="126"><span class="lineNum">     126 </span><span class="lineCov">        157 : }</span></a>
+<a name="126"><span class="lineNum">     126 </span><span class="lineCov">        153 : }</span></a>
 <span class="lineNum">     127 </span>            : 
 <span class="lineNum">     128 </span>            : void cparse_log_set_error(cParseError **error, const char *const format, ...)
 <span class="lineNum">     129 </span>            : {
