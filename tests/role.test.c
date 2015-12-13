@@ -63,7 +63,6 @@ START_TEST(test_cparse_role_add_user)
     cparse_role_free(other);
 
     cparse_role_free(role);
-
 }
 END_TEST
 
@@ -102,6 +101,7 @@ START_TEST(test_cparse_role_query)
     if (error) {
         puts(cparse_error_message(error));
         cparse_error_free(error);
+        error = NULL;
     }
 
     fail_unless(cparse_query_size(query) == 1);
@@ -115,13 +115,22 @@ START_TEST(test_cparse_role_query)
     cparse_role_set_public_acl(other, cParseAccessRead, true);
     cparse_role_set_public_acl(other, cParseAccessWrite, true);
 
-    fail_unless(cparse_role_save(other, NULL));
+    rval = cparse_role_save(other, &error);
+
+    if (error) {
+        puts(cparse_error_message(error));
+        cparse_error_free(error);
+        error = NULL;
+    }
+
+    fail_unless(rval);
 
     query = cparse_role_query_roles(other, &error);
 
     if (error) {
         puts(cparse_error_message(error));
         cparse_error_free(error);
+        error = NULL;
     }
 
     fail_unless(cparse_query_size(query) == 1);
@@ -142,9 +151,9 @@ START_TEST(test_cparse_role_query)
 }
 END_TEST
 
-Suite *cparse_role_suite (void)
+Suite *cparse_role_suite(void)
 {
-    Suite *s = suite_create ("Role");
+    Suite *s = suite_create("Role");
 
     TCase *tc = tcase_create("Assignable");
     tcase_add_checked_fixture(tc, cparse_test_setup, cparse_test_teardown);
@@ -154,4 +163,3 @@ Suite *cparse_role_suite (void)
 
     return s;
 }
-
