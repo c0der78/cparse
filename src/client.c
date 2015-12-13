@@ -208,6 +208,27 @@ void cparse_free_client()
     }
 }
 
+void cparse_client_set_session_token(const char *token)
+{
+    if (cparse_this_client != NULL) {
+        if (token != NULL) {
+            cparse_replace_str(&cparse_this_client->sessionToken, token);
+        } else if (cparse_this_client->sessionToken != NULL) {
+            free(cparse_this_client->sessionToken);
+            cparse_this_client->sessionToken = NULL;
+        }
+    }
+}
+
+const char *cparse_client_get_session_token()
+{
+    if (cparse_this_client != NULL) {
+        return cparse_this_client->sessionToken;
+    }
+
+    return NULL;
+}
+
 static size_t cparse_client_get_response(void *ptr, size_t size, size_t nmemb, void *data)
 {
     cParseResponse *s = NULL;

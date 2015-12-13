@@ -119,8 +119,6 @@ START_TEST(test_cparse_user_login)
 
     fail_unless(cparse_user_session_token(user) != NULL);
 
-    fail_unless(__cparse_current_user == NULL);
-
     /* check can still get current user */
     user = cparse_current_user(&error);
 

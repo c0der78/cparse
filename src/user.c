@@ -37,8 +37,6 @@ bool (*cparse_user_refresh)(cParseUser *obj, cParseError **error) = cparse_objec
 
 bool (*cparse_user_refresh_in_background)(cParseUser *user, cParseObjectCallback callback, void *param) = cparse_object_refresh_in_background;
 
-extern cParseClient *cparse_this_client;
-
 extern bool cparse_revocable_sessions;
 
 /* initializers */
@@ -77,16 +75,20 @@ cParseUser *cparse_user_with_name(const char *username)
 
 cParseUser *cparse_current_user(cParseError **error)
 {
+    const char *sessionToken = NULL;
+
     if (__cparse_current_user != NULL) {
         return __cparse_current_user;
     }
 
-    if (cparse_str_empty(cparse_this_client->sessionToken)) {
+    sessionToken = cparse_client_get_session_token();
+
+    if (cparse_str_empty(sessionToken)) {
         cparse_log_set_error(error, "No valid session token");
         return NULL;
     }
 
-    __cparse_current_user = cparse_user_validate(cparse_this_client->sessionToken, error);
+    __cparse_current_user = cparse_user_validate(sessionToken, error);
 
     return __cparse_current_user;
 }
@@ -203,7 +205,7 @@ static bool cparse_user_login_user(cParseUser *user, cParseError **error)
         const char *sessionToken = cparse_object_get_string(user, CPARSE_KEY_USER_SESSION_TOKEN);
 
         if (sessionToken) {
-            cparse_this_client->sessionToken = strdup(sessionToken);
+            cparse_client_set_session_token(sessionToken);
         }
 
         __cparse_current_user = user;
@@ -258,10 +260,7 @@ bool cparse_user_login_in_background(const char *username, const char *password,
 
 void cparse_user_logout()
 {
-    if (cparse_this_client->sessionToken) {
-        free(cparse_this_client->sessionToken);
-        cparse_this_client->sessionToken = NULL;
-    }
+    cparse_client_set_session_token(NULL);
     __cparse_current_user = NULL;
 }
 
@@ -329,7 +328,7 @@ static bool cparse_user_sign_up_user(cParseUser *user, cParseError **error)
             const char *sessionToken = cparse_object_get_string(user, CPARSE_KEY_USER_SESSION_TOKEN);
 
             if (sessionToken) {
-                cparse_replace_str(&cparse_this_client->sessionToken, sessionToken);
+                cparse_client_set_session_token(sessionToken);
             }
 
             __cparse_current_user = user;

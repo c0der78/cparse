@@ -22,6 +22,8 @@ BEGIN_DECL
  */
 cParseClient *cparse_get_client();
 void cparse_free_client();
+void cparse_client_set_session_token(const char *token);
+const char *cparse_client_get_session_token();
 
 END_DECL
 
