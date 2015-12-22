@@ -2,11 +2,8 @@ cParse
 ======
 
 [![Build Status](https://travis-ci.org/deadcoda/cparse.svg?branch=master)](https://travis-ci.org/deadcoda/cparse)
-
 [![Coverage Status](https://coveralls.io/repos/deadcoda/cparse/badge.svg?branch=master&service=github)](https://coveralls.io/github/deadcoda/cparse?branch=master)
-
 [![License](http://img.shields.io/:license-mit-blue.svg)](http://doge.mit-license.org)
-
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/deadcoda/cparse?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
 A C library to use the REST API at [parse.com](http://parse.com).
@@ -18,10 +15,10 @@ Setup
 
 Use cmake to generate for the build system of your choice:
 
-- mkdir debug; cd debug
-- cmake -DCMAKE_BUILD_TYPE=Debug ..
-- make
-- make test
+	- mkdir debug; cd debug
+	- cmake -DCMAKE_BUILD_TYPE=Debug ..
+	- make
+	- make test
 
 for homebrew you can add the install prefix:
 
