@@ -1,17 +1,17 @@
 cParse
 ======
 
-[![Build Status](https://travis-ci.org/c0der78/arg3json.svg?branch=master)](https://travis-ci.org/c0der78/arg3json)
+[![Build Status](https://travis-ci.org/deadcoda/cparse.svg?branch=master)](https://travis-ci.org/deadcoda/cparse)
 
 [![Coverage Status](https://coveralls.io/repos/deadcoda/cparse/badge.svg?branch=master&service=github)](https://coveralls.io/github/deadcoda/cparse?branch=master)
 
 [![License](http://img.shields.io/:license-mit-blue.svg)](http://doge.mit-license.org)
 
-[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/c0der78/cparse?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/deadcoda/cparse?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
 A C library to use the REST API at [parse.com](http://parse.com).
 
-[View Documentation](http://htmlpreview.github.com/?https://github.com/c0der78/cparse/blob/master/html/index.html)
+[View Documentation](http://htmlpreview.github.com/?https://github.com/deadcoda/cparse/blob/master/html/index.html)
 
 Setup
 -----
