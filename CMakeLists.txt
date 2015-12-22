@@ -50,3 +50,16 @@ if (MEMORY_CHECK)
 else ()
 	add_test(${PROJECT_NAME}-test ${CMAKE_BINARY_DIR}/tests/${PROJECT_NAME}_test)
 endif()
+
+find_program(HEADERDOC_FOUND headerdoc2html)
+
+if (HEADERDOC_FOUND)
+	add_custom_target(generate-docs mkdir -p ${CMAKE_SOURCE_DIR}/html COMMAND headerdoc2html -o ${CMAKE_SOURCE_DIR}/html ${CMAKE_SOURCE_DIR}/src/cparse COMMAND gatherheaderdoc ${CMAKE_SOURCE_DIR}/html COMMAND mv ${CMAKE_SOURCE_DIR}/html/masterTOC.html ${CMAKE_SOURCE_DIR}/html/index.html)
+endif()
+
+find_program(DOXYGEN_FOUND doxygen)
+
+if (DOXYGEN_FOUND)
+	add_custom_target(generate-doxygen doxygen ${CMAKE_SOURCE_DIR}/Doxyfile)
+endif()
+

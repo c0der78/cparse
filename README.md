@@ -3,40 +3,65 @@ cParse
 
 [![Build Status](https://travis-ci.org/c0der78/arg3json.svg?branch=master)](https://travis-ci.org/c0der78/arg3json)
 
+[![Coverage Status](https://coveralls.io/repos/deadcoda/cparse/badge.svg?branch=master&service=github)](https://coveralls.io/github/deadcoda/cparse?branch=master)
+
+[![License](http://img.shields.io/:license-mit-blue.svg)](http://doge.mit-license.org)
+
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/c0der78/cparse?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
-[![Coverage Status](https://coveralls.io/repos/c0der78/cparse/badge.svg?branch=master&service=github)](https://coveralls.io/github/c0der78/cparse?branch=master)
-
 A C library to use the REST API at [parse.com](http://parse.com).
-
-[View Testing Code Coverage](http://htmlpreview.github.com/?https://github.com/c0der78/cparse/blob/master/coverage/index.html)
 
 [View Documentation](http://htmlpreview.github.com/?https://github.com/c0der78/cparse/blob/master/html/index.html)
 
 Setup
-=====
-- run `configure && make` to compile the library
-- run `make test` to run the unit tests
-- use `configure $(brew diy --version=0.1.0 cparse) && make install && brew link cparse` for osx homebrew
+-----
+
+Use cmake to generate for the build system of your choice:
+
+- mkdir debug; cd debug
+- cmake -DCMAKE_BUILD_TYPE=Debug ..
+- make
+- make test
+
+for homebrew you can add the install prefix:
+
+```bash
+mkdir release; cd release
+cmake $(cd..;brew diy --version=0.1.0) -DCMAKE_BUILD_TYPE=Release ..
+make
+make install
+brew link cparse
+```
+
+options supported are:
+
+                -DCODE_COVERAGE=ON   :   enable code coverage using lcov
+                -DMEMORY_CHECK=ON    :   enable valgrind memory checking on tests
+
+Testing
+-------
 
 The **unit tests** will require a parse.test.json file or the environment variables **PARSE_APP_ID** and **PARSE_API_KEY** set.
 
 Dependencies
-============
+------------
 
 - libcurl for HTTP requests
 - libjson (json-c) for JSON parsing
 - pthreads
+
+
 - check for unit testing
 - lcov for code coverage
 
 Usage
-=====
+-----
 
 Set the parse application and api keys with `cparse_set_application_id()` and `cparse_set_api_key()` and starting parsing your objects.
 
 Examples
-========
+--------
+
 ```C
 cParseObject *obj = cparse_object_with_class_name("Wizards");
 
@@ -63,9 +88,7 @@ cparse_object_free(obj);
 ```
 
 Background Operations
-=====================
-
-It should be noted right now there is no thread safety in this library.  You should create your own if it is a concern.
+---------------------
 
 ```C
 void magical_callback(cParseObject *obj, cParseError *error, void *userInfo)
@@ -93,7 +116,7 @@ cparse_object_save_in_background(obj, magical_callback, &userInfo);
 ```
 
 Querying
-========
+--------
 ```C
 cParseQuery *query = cparse_query_with_class_name("Wizards");
 
@@ -114,7 +137,7 @@ if(cparse_query_size(query) > 1)
 ```
 
 Building more complex Queries
-=============================
+-----------------------------
 
 A query builder structure can be used to combine multiple conditions.
 
@@ -151,7 +174,7 @@ if(!cparse_query_find_objects(query, &error))
 ```
 
 Users
-=====
+-----
 
 Users are objects as well, so you can use any of the object functions, but there are special functions just for users as well.
 
@@ -209,7 +232,7 @@ if (cparse_query_size(query) > 0) {
 ```
 
 Roles
-=====
+-----
 
 Roles define access control for a group of users and can inherit from other roles.
 
@@ -251,7 +274,7 @@ if (cparse_query_size(query) > 0) {
 ```
 
 Access Control
-==============
+--------------
 
 Control read/write access for any object.  Access can for public, user or roles.
 
@@ -269,18 +292,15 @@ cparse_object_set_role_acl(obj, role, cParseAccessWrite, true);
 ```
 
 About the Author
-================
+---------------
 
 If you like the library or have improvements/questions, [drop me a line](mailto:c0der78@gmail.com) and let me know!
 
-My [blog](http://www.arg3.com) has more information.
+My [blog](http://entrobert.com) has more information about me.
 
 TODO
-====
+----
+- complete the full parse REST API
+- performance benchmarking
+- try and simplify the code for complex queries
 
-- finish query api (arrays, strings, relational, compound, geo)
-- implement batch operations
-- finish users api (linking, pwd reset, verify email)
-- sessions
-- files
-- c++ wrapper
