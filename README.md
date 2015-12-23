@@ -167,7 +167,7 @@ if(!cparse_query_find_objects(query, &error))
 	return;
 }
 
-/* etc */
+/* etc, free more resources */
 ```
 
 Users
@@ -182,6 +182,7 @@ cParseUser *user = cparse_user_with_name("Ronald");
 cparse_object_set_string(user, "last_name", "Weasley");
 cparse_object_set_number(user, "birth_year", 1980);
 
+/* TODO: obviously, this password should be encrypted already at this point */
 if(!cparse_user_sign_up(user, "Password!", &error)) {
 	puts(cparse_error_message(error));
 	cparse_error_free(error);
@@ -291,7 +292,11 @@ cparse_object_set_role_acl(obj, role, cParseAccessWrite, true);
 About the Author
 ---------------
 
+Obiously parse wrote the REST API, I'm showing off C skills.
+
 If you like the library or have improvements/questions, [drop me a line](mailto:c0der78@gmail.com) and let me know!
+
+I know my code style goes against the norms (wha? no camel case??) so you can probably save yourself the time for that comment. 
 
 My [blog](http://entrobert.com) has more information about me.
 
