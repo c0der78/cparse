@@ -270,11 +270,15 @@ function disclosure_triangle(elt) {
 <br><a name="HeaderDoc_functions"></a>
 <h2 class="h2tight">Functions</h2>
 <dl>
+<dt><tt><a href="index.html#//apple_ref/c/func/cparse_build_string" target="_top">cparse_build_string</a></tt></dt>
+<dd></dd>
 <dt><tt><a href="index.html#//apple_ref/c/func/cparse_date_time" target="_top">cparse_date_time</a></tt></dt>
 <dd></dd>
 <dt><tt><a href="index.html#//apple_ref/c/func/cparse_json_add_reference" target="_top">cparse_json_add_reference</a></tt></dt>
 <dd></dd>
 <dt><tt><a href="index.html#//apple_ref/c/func/cparse_replace_str" target="_top">cparse_replace_str</a></tt></dt>
+<dd></dd>
+<dt><tt><a href="index.html#//apple_ref/c/func/cparse_str_append" target="_top">cparse_str_append</a></tt></dt>
 <dd></dd>
 <dt><tt><a href="index.html#//apple_ref/c/func/cparse_str_cmp" target="_top">cparse_str_cmp</a></tt></dt>
 <dd></dd>
@@ -283,6 +287,36 @@ function disclosure_triangle(elt) {
 <dt><tt><a href="index.html#//apple_ref/c/func/cparse_str_prefix" target="_top">cparse_str_prefix</a></tt></dt>
 <dd></dd>
 </dl>
+<hr class="betweenAPIEntries">
+<!-- headerDoc=func;  uid=//apple_ref/c/func/cparse_build_string;   name=cparse_build_string --><a name="//apple_ref/c/func/cparse_build_string"></a>
+<h3><a name="cparse_build_string">cparse_build_string</a></h3>
+<hr class="afterName">
+<div class="declaration_indent">
+<pre><!-- headerDoc=declaration;uid=//apple_ref/c/func/cparse_build_string;name=start --><!-- a logicalPath="//apple_ref/c/cl/bool //apple_ref/c/tdef/bool //apple_ref/c/tag/bool //apple_ref/c/struct/bool //apple_ref/c/intf/bool //apple_ref/doc/anysymbol/bool" machineGenerated="true" --><span class="type">bool</span><!-- /a --> <a machinegenerated="true" href="index.html#//apple_ref/c/func/cparse_build_string" logicalPath="//apple_ref/c/instm/cparse_build_string //apple_ref/c/clm/cparse_build_string //apple_ref/c/intfcm/cparse_build_string //apple_ref/c/intfm/cparse_build_string //apple_ref/c/func/cparse_build_string" target="_top"><span class="function">cparse_build_string</span></a>(
+    <!-- a logicalPath="//apple_ref/c/cl/char //apple_ref/c/tdef/char //apple_ref/c/tag/char //apple_ref/c/struct/char //apple_ref/c/intf/char //apple_ref/doc/anysymbol/char" machineGenerated="true" --><span class="type">char</span><!-- /a --> <span class="type">*</span><span class="type">*</span><span class="param">buf</span>,
+    <span class="keyword">const</span> <!-- a logicalPath="//apple_ref/c/cl/char //apple_ref/c/tdef/char //apple_ref/c/tag/char //apple_ref/c/struct/char //apple_ref/c/intf/char //apple_ref/doc/anysymbol/char" machineGenerated="true" --><span class="type">char</span><!-- /a --> <span class="type">*</span><span class="param">firstString</span>,
+    ...);  <!-- headerDoc=declaration;uid=//apple_ref/c/func/cparse_build_string;name=end --></pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class="param_indent">
+<dl>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/cparse_build_string/buf;   name=buf -->
+<a name="//apple_ref/doc/functionparam/cparse_build_string/buf"></a>
+<code>buf</code>
+</dt>
+<dd><p>a pointer to a string to build</p></dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5>
+<p><!-- begin return value --></p>
+<p>true if successful
+
+<!-- end return value --></p>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
+<!-- begin discussion --><!-- headerDoc=discussion;uid=//apple_ref/c/func/cparse_build_string;name=start --><p>builds a dynamic string
+<!-- headerDoc=discussion;uid=//apple_ref/c/func/cparse_build_string;name=end --><!-- end discussion -->
+</p>
 <hr class="betweenAPIEntries">
 <!-- headerDoc=func;  uid=//apple_ref/c/func/cparse_date_time;   name=cparse_date_time --><a name="//apple_ref/c/func/cparse_date_time"></a>
 <h3><a name="cparse_date_time">cparse_date_time</a></h3>
@@ -370,6 +404,50 @@ function disclosure_triangle(elt) {
 <h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
 <!-- begin discussion --><!-- headerDoc=discussion;uid=//apple_ref/c/func/cparse_replace_str;name=start --><p>replaces an allocated string
 <!-- headerDoc=discussion;uid=//apple_ref/c/func/cparse_replace_str;name=end --><!-- end discussion -->
+</p>
+<hr class="betweenAPIEntries">
+<!-- headerDoc=func;  uid=//apple_ref/c/func/cparse_str_append;   name=cparse_str_append --><a name="//apple_ref/c/func/cparse_str_append"></a>
+<h3><a name="cparse_str_append">cparse_str_append</a></h3>
+<hr class="afterName">
+<div class="declaration_indent">
+<pre><!-- headerDoc=declaration;uid=//apple_ref/c/func/cparse_str_append;name=start --><!-- a logicalPath="//apple_ref/c/cl/bool //apple_ref/c/tdef/bool //apple_ref/c/tag/bool //apple_ref/c/struct/bool //apple_ref/c/intf/bool //apple_ref/doc/anysymbol/bool" machineGenerated="true" --><span class="type">bool</span><!-- /a --> <a machinegenerated="true" href="index.html#//apple_ref/c/func/cparse_str_append" logicalPath="//apple_ref/c/instm/cparse_str_append //apple_ref/c/clm/cparse_str_append //apple_ref/c/intfcm/cparse_str_append //apple_ref/c/intfm/cparse_str_append //apple_ref/c/func/cparse_str_append" target="_top"><span class="function">cparse_str_append</span></a>(
+    <!-- a logicalPath="//apple_ref/c/cl/char //apple_ref/c/tdef/char //apple_ref/c/tag/char //apple_ref/c/struct/char //apple_ref/c/intf/char //apple_ref/doc/anysymbol/char" machineGenerated="true" --><span class="type">char</span><!-- /a --> <span class="type">*</span><span class="type">*</span><span class="param">pstr</span>,
+    <span class="keyword">const</span> <!-- a logicalPath="//apple_ref/c/cl/char //apple_ref/c/tdef/char //apple_ref/c/tag/char //apple_ref/c/struct/char //apple_ref/c/intf/char //apple_ref/doc/anysymbol/char" machineGenerated="true" --><span class="type">char</span><!-- /a --> <span class="type">*</span><span class="param">append</span>,
+    <!-- a logicalPath="//apple_ref/c/cl/size_t //apple_ref/c/tdef/size_t //apple_ref/c/tag/size_t //apple_ref/c/struct/size_t //apple_ref/c/intf/size_t //apple_ref/doc/anysymbol/size_t" machineGenerated="true" --><span class="type">size_t</span><!-- /a --> <span class="param">size</span>);  <!-- headerDoc=declaration;uid=//apple_ref/c/func/cparse_str_append;name=end --></pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class="param_indent">
+<dl>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/cparse_str_append/pstr;   name=pstr -->
+<a name="//apple_ref/doc/functionparam/cparse_str_append/pstr"></a>
+<code>pstr</code>
+</dt>
+<dd><p>a pointer to the string to append to</p></dd>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/cparse_str_append/size;   name=size -->
+<a name="//apple_ref/doc/functionparam/cparse_str_append/size"></a>
+<code>size</code>
+</dt>
+<dd><p>the size of string to append to</p></dd>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/cparse_str_append/append;   name=append -->
+<a name="//apple_ref/doc/functionparam/cparse_str_append/append"></a>
+<code>append</code>
+</dt>
+<dd><p>the string to append</p></dd>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/cparse_str_append/appendSize;   name=appendSize -->
+<a name="//apple_ref/doc/functionparam/cparse_str_append/appendSize"></a>
+<code>appendSize</code>
+</dt>
+<dd><p>the size of the append string</p></dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
+<!-- begin discussion --><!-- headerDoc=discussion;uid=//apple_ref/c/func/cparse_str_append;name=start --><p>appends a string to another
+Note: this function deals with allocated strings only
+<!-- headerDoc=discussion;uid=//apple_ref/c/func/cparse_str_append;name=end --><!-- end discussion -->
 </p>
 <hr class="betweenAPIEntries">
 <!-- headerDoc=func;  uid=//apple_ref/c/func/cparse_str_cmp;   name=cparse_str_cmp --><a name="//apple_ref/c/func/cparse_str_cmp"></a>
@@ -472,7 +550,7 @@ function disclosure_triangle(elt) {
 <p class="gapBeforeFooter">&nbsp;</p>
 <hr class="afterFooter">
 <div class="hd_copyright_and_timestamp">
-<p class="hd_timestamp">Last Updated: Monday, November 02, 2015
+<p class="hd_timestamp">Last Updated: Tuesday, December 22, 2015
 </p>
 </div>
 </td>

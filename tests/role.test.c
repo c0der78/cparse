@@ -93,7 +93,7 @@ START_TEST(test_cparse_role_query)
     }
 
     fail_unless(rval);
-
+	
     error = NULL;
 
     query = cparse_role_query_users(role, &error);
@@ -133,7 +133,7 @@ START_TEST(test_cparse_role_query)
         error = NULL;
     }
 
-    fail_unless(cparse_query_size(query) == 1);
+    fail_unless(cparse_query_size(query) > 0);
 
     cparse_query_free(query);
 
