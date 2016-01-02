@@ -17,13 +17,6 @@ include(FindCURL)
 
 if (NOT JSON_C_FOUND)
 	message(FATAL_ERROR "Json-C library is required")
-else()
-	if (JSON_C_EXTENDED)
-		set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DHAVE_JSON_EXTENDED=1")
-	endif()
-	if (HAVE_JSON_TOKENER_GET_ERROR)
-		set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DHAVE_JSON_TOKENER_GET_ERROR=1")
-	endif()
 endif()
 
 if (NOT CURL_FOUND)
@@ -32,6 +25,7 @@ endif()
 
 # add target for code coverage
 if(CODE_COVERAGE)
+	message(STATUS "Setting up for code coverage")
 	include(CodeCoverage)
 	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${CMAKE_C_FLAGS_COVERAGE}")
 	setup_target_for_coverage(${PROJECT_NAME}-coverage ${CMAKE_BINARY_DIR}/tests/${PROJECT_NAME}_test ${CMAKE_SOURCE_DIR}/coverage)
@@ -42,11 +36,7 @@ add_subdirectory(src)
 add_subdirectory(tests)
 
 # Setup testing
+message(STATUS "Setting up testing")
 enable_testing()
-
-if (MEMORY_CHECK)
-	include(MemCheck)
-	add_memcheck_test(${PROJECT_NAME}-test ${CMAKE_BINARY_DIR}/tests/${PROJECT_NAME}_test  "--suppressions=${CMAKE_SOURCE_DIR}/suppression.map")
-else ()
-	add_test(${PROJECT_NAME}-test ${CMAKE_BINARY_DIR}/tests/${PROJECT_NAME}_test)
-endif()
+include(MemCheck)
+add_memcheck_test(${PROJECT_NAME}-test ${CMAKE_BINARY_DIR}/tests/${PROJECT_NAME}-test  "--suppressions=${CMAKE_SOURCE_DIR}/suppression.map")

@@ -25,3 +25,4 @@ CTestTestfile.cmake
 Testing
 cmake_install.cmake
 debug
+*.swp
