@@ -1,0 +1,5 @@
+mykey = 123.456
+mykey == 123.456
+rem mykey
+mykey != 123.456
+

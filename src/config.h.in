@@ -1,0 +1,11 @@
+#cmakedefine JSON_C_EXTENDED  1
+#cmakedefine JSON_TOKENER_GET_ERROR 1
+
+/* legacy from autotools */
+#ifdef JSON_C_EXTENDED
+  #define HAVE_JSON_EXTENDED  1
+#endif
+
+#ifdef JSON_TOKENER_GET_ERROR
+  #define HAVE_JSON_TOKENER_GET_ERROR 1
+#endif

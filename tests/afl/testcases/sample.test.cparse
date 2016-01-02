@@ -1,0 +1,5 @@
+mykey = some string value
+mykey == some string value
+mykey = 1234
+mykey != some string value
+
