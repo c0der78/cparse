@@ -28,7 +28,7 @@ if(CODE_COVERAGE)
 	message(STATUS "Setting up for code coverage")
 	include(CodeCoverage)
 	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${CMAKE_C_FLAGS_COVERAGE}")
-	setup_target_for_coverage(${PROJECT_NAME}-coverage ${CMAKE_BINARY_DIR}/tests/${PROJECT_NAME}_test ${CMAKE_SOURCE_DIR}/coverage)
+	setup_target_for_coverage(${PROJECT_NAME}-coverage ${CMAKE_BINARY_DIR}/tests/${PROJECT_NAME}-test ${CMAKE_SOURCE_DIR}/coverage)
 endif()
 
 # add directories
@@ -39,7 +39,7 @@ add_subdirectory(tests)
 message(STATUS "Setting up testing")
 enable_testing()
 include(MemCheck)
-add_memcheck_test(${PROJECT_NAME}-test ${CMAKE_BINARY_DIR}/tests/${PROJECT_NAME}-test  "--suppressions=${CMAKE_SOURCE_DIR}/suppression.map")
+add_memcheck_test(MEMORY_CHECK ${PROJECT_NAME}-test ${CMAKE_BINARY_DIR}/tests/${PROJECT_NAME}-test  "--suppressions=${CMAKE_SOURCE_DIR}/suppression.map")
 
 find_program(HEADERDOC_FOUND headerdoc2html)
 
