@@ -359,7 +359,7 @@ static bool cparse_client_set_request_url(cParseClient *client, cParseRequest *r
             }
 
             if (!cparse_build_string(&buf, "?", request->body, NULL)) {
-                // don't free buf here, cparse_build_string() will do that
+                /* don't free buf here, cparse_build_string() will do that */
                 return false;
             }
 

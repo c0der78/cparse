@@ -15,8 +15,4 @@ install(DIRECTORY ${PROJECT_NAME} DESTINATION "${CMAKE_INSTALL_PREFIX}/include")
 
 install(TARGETS ${PROJECT_NAME} LIBRARY DESTINATION lib ARCHIVE DESTINATION lib)
 
-message(STATUS "Creating config.h for ${PROJECT_NAME}")
 
-configure_file(${CMAKE_SOURCE_DIR}/src/config.h.in ${CMAKE_SOURCE_DIR}/src/config.h)
-
-add_definitions(-DHAVE_CONFIG_H)

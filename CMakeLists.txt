@@ -31,6 +31,13 @@ if(CODE_COVERAGE)
 	setup_target_for_coverage(${PROJECT_NAME}-coverage ${CMAKE_BINARY_DIR}/tests/${PROJECT_NAME}-test ${CMAKE_SOURCE_DIR}/coverage)
 endif()
 
+message(STATUS "Creating config.h for ${PROJECT_NAME}")
+
+configure_file(${CMAKE_SOURCE_DIR}/src/config.h.in ${CMAKE_SOURCE_DIR}/src/config.h)
+
+add_definitions(-DHAVE_CONFIG_H)
+
+
 # add directories
 add_subdirectory(src)
 add_subdirectory(tests)

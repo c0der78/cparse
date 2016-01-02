@@ -1,3 +1,6 @@
+#ifndef CPARSE_CONFIG_H_
+#define CPARSE_CONFIG_H_
+
 #cmakedefine JSON_C_EXTENDED  1
 #cmakedefine JSON_TOKENER_GET_ERROR 1
 
@@ -9,3 +12,6 @@
 #ifdef JSON_TOKENER_GET_ERROR
   #define HAVE_JSON_TOKENER_GET_ERROR 1
 #endif
+
+#endif
+

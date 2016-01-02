@@ -21,4 +21,4 @@ script:
   - make
   - make cparse-coverage-info
 after_success:
-  - coveralls-lcov coverage.info
+  - coveralls-lcov $TRAVIS_BUILD_DIR/coverage.info
