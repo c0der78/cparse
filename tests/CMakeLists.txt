@@ -3,7 +3,7 @@ add_executable(${PROJECT_NAME}-test acl.test.c client.test.c config.test.c cpars
 
 include(FindCheck)
 
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DROOT_PATH=\\\"${CMAKE_SOURCE_DIR}/tests\\\"")
+add_definitions(-DROOT_PATH="${CMAKE_SOURCE_DIR}/tests")
 
 include_directories(${CMAKE_SOURCE_DIR}/src ${CHECK_INCLUDE_DIRS})
 

@@ -22,10 +22,8 @@ void read_test_config()
     cParseJson *config;
 
     file = fopen(ROOT_PATH "/tests/parse.test.json", "rb");
-
     if (!file) {
         file = fopen(ROOT_PATH "/parse.test.json", "rb");
-
         if (!file) {
             puts("parse.test.json not found");
             return;
