@@ -1,3 +1,5 @@
 html/* linguist-vendored
 m4/* linguist-vendored
+man/* linguist-vendored
 cmake/* linguist-vendored
+cpp/* linguist-vendored
